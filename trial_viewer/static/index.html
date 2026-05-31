@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gurung Trial Viewer</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Gurung stimuli</p>
+        <h1>Experimental trial viewer</h1>
+      </div>
+      <div class="toolbar" aria-label="Viewer controls">
+        <label class="search">
+          <span>Search</span>
+          <input id="search" type="search" autocomplete="off" placeholder="Dataset, verb, object">
+        </label>
+        <label class="filter">
+          <span>Filter</span>
+          <select id="filter">
+            <option value="all">All datasets</option>
+            <option value="has-draft">Has folder 2</option>
+            <option value="draft-incomplete">Draft incomplete</option>
+            <option value="needs-endings">Needs endings</option>
+            <option value="no-draft">No draft yet</option>
+            <option value="existing-problems">Existing problems</option>
+            <option value="extras">Extra images</option>
+          </select>
+        </label>
+        <button id="refresh" class="primary" type="button">Refresh</button>
+      </div>
+    </header>
+
+    <section id="status" class="status" aria-live="polite"></section>
+
+    <div class="workspace">
+      <nav id="dataset-nav" class="dataset-nav" aria-label="Datasets"></nav>
+      <main id="datasets" class="datasets" aria-live="polite">
+        <div class="empty-state">Loading trials...</div>
+      </main>
+    </div>
+
+    <div id="lightbox" class="lightbox" hidden>
+      <button class="lightbox-backdrop" type="button" aria-label="Close image preview"></button>
+      <figure class="lightbox-panel">
+        <img id="lightbox-image" alt="">
+        <figcaption id="lightbox-caption"></figcaption>
+      </figure>
+    </div>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
