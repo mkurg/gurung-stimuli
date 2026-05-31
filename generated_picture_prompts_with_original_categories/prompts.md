@@ -268,6 +268,10 @@ regenerated it and done
 ---
 сказал
 
+ещё ic_1
+tr_target тоже переделать
+как и it_target
+
 # 15
 сделать другую гору, без радуги
 

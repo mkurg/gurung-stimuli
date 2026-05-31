@@ -9,6 +9,7 @@ const state = {
 };
 
 const els = {};
+let activePreviewButton = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   els.status = document.querySelector("#status");
@@ -34,11 +35,28 @@ document.addEventListener("DOMContentLoaded", () => {
   els.refresh.addEventListener("click", loadData);
   els.datasets.addEventListener("click", handleDatasetClick);
   els.nav.addEventListener("click", handleNavClick);
-  els.lightbox.addEventListener("click", closeLightbox);
+  els.lightbox.addEventListener("click", handleLightboxClick);
 
   document.addEventListener("keydown", (event) => {
+    if (els.lightbox.hidden) {
+      return;
+    }
+
     if (event.key === "Escape") {
+      event.preventDefault();
       closeLightbox();
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      navigateLightboxByPlacement("right");
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      navigateLightboxByPlacement("left");
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+      navigateLightboxByPlacement("down");
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      navigateLightboxByPlacement("up");
     }
   });
 
@@ -279,7 +297,7 @@ function handleDatasetClick(event) {
   if (!button) {
     return;
   }
-  openLightbox(button.dataset.image, button.dataset.caption);
+  openLightbox(button);
 }
 
 function handleNavClick(event) {
@@ -293,11 +311,18 @@ function handleNavClick(event) {
   }
 }
 
-function openLightbox(src, caption) {
-  els.lightboxImage.src = src;
-  els.lightboxImage.alt = caption;
-  els.lightboxCaption.textContent = caption;
+function openLightbox(button) {
+  activePreviewButton = button;
+  els.lightboxImage.src = button.dataset.image;
+  els.lightboxImage.alt = button.dataset.caption;
+  els.lightboxCaption.textContent = button.dataset.caption;
   els.lightbox.hidden = false;
+}
+
+function handleLightboxClick(event) {
+  if (event.target === els.lightbox || event.target.classList.contains("lightbox-backdrop")) {
+    closeLightbox();
+  }
 }
 
 function closeLightbox() {
@@ -306,6 +331,112 @@ function closeLightbox() {
   }
   els.lightbox.hidden = true;
   els.lightboxImage.src = "";
+}
+
+function getPreviewItems() {
+  return Array.from(els.datasets.querySelectorAll(".thumb[data-image]")).flatMap((button) => {
+    const rect = button.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) {
+      return [];
+    }
+    return [{ button, rect, center: centerOf(rect) }];
+  });
+}
+
+function getActivePreviewItem(items) {
+  const directMatch = items.find((item) => item.button === activePreviewButton);
+  if (directMatch) {
+    return directMatch;
+  }
+
+  const src = els.lightboxImage.getAttribute("src");
+  const caption = els.lightboxCaption.textContent;
+  return items.find(
+    (item) => item.button.dataset.image === src && item.button.dataset.caption === caption,
+  );
+}
+
+function navigateLightboxByPlacement(direction) {
+  const items = getPreviewItems();
+  if (!items.length) {
+    return;
+  }
+
+  const current = getActivePreviewItem(items) ?? items[0];
+  const next =
+    direction === "left" || direction === "right"
+      ? findHorizontalNeighbor(items, current, direction)
+      : findVerticalNeighbor(items, current, direction);
+
+  if (next) {
+    openLightboxAt(next.button);
+  }
+}
+
+function findHorizontalNeighbor(items, current, direction) {
+  const sign = direction === "right" ? 1 : -1;
+
+  return items
+    .filter((item) => item.button !== current.button)
+    .map((item) => ({
+      ...item,
+      primaryDistance: sign * (item.center.x - current.center.x),
+      secondaryDistance: Math.abs(item.center.y - current.center.y),
+      overlap: verticalOverlap(current.rect, item.rect),
+    }))
+    .filter((item) => item.primaryDistance > 8 && item.overlap > 0)
+    .sort((a, b) => {
+      const rowDifference = a.secondaryDistance - b.secondaryDistance;
+      if (rowDifference !== 0) {
+        return rowDifference;
+      }
+      return a.primaryDistance - b.primaryDistance;
+    })[0];
+}
+
+function findVerticalNeighbor(items, current, direction) {
+  const sign = direction === "down" ? 1 : -1;
+
+  return items
+    .filter((button) => button !== current)
+    .map((item) => ({
+      ...item,
+      primaryDistance: sign * (item.center.y - current.center.y),
+      secondaryDistance: Math.abs(item.center.x - current.center.x),
+      overlap: horizontalOverlap(current.rect, item.rect),
+    }))
+    .filter((item) => item.primaryDistance > 8)
+    .sort((a, b) => {
+      const rowDifference = a.primaryDistance - b.primaryDistance;
+      if (rowDifference !== 0) {
+        return rowDifference;
+      }
+      const columnDifference = a.secondaryDistance - b.secondaryDistance;
+      if (columnDifference !== 0) {
+        return columnDifference;
+      }
+      return b.overlap - a.overlap;
+    })[0];
+}
+
+function centerOf(rect) {
+  return {
+    x: rect.left + rect.width / 2,
+    y: rect.top + rect.height / 2,
+  };
+}
+
+function verticalOverlap(a, b) {
+  return Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+}
+
+function horizontalOverlap(a, b) {
+  return Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
+}
+
+function openLightboxAt(button) {
+  button.scrollIntoView({ block: "nearest", inline: "nearest" });
+  openLightbox(button);
 }
 
 function escapeHtml(value) {
