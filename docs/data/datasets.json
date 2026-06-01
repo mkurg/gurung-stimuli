@@ -91,7 +91,7 @@
       }
     }
   },
-  "scannedAt": "2026-06-02T00:06:49",
+  "scannedAt": "2026-06-02T01:25:06",
   "datasets": [
     {
       "number": 1,
@@ -6473,21 +6473,53 @@
       "draft": {
         "exists": true,
         "path": "assets/22_come_push_chest/draft",
-        "fileCount": 1,
+        "fileCount": 5,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
             "originalFilename": "ic_1.png",
             "stem": "ic_1",
             "url": "assets/22_come_push_chest/draft/ic_1.webp",
-            "bytes": 48904,
-            "sourceBytes": 2625889,
-            "modified": "2026-06-01T00:43:16"
+            "bytes": 38170,
+            "sourceBytes": 2507999,
+            "modified": "2026-06-02T01:10:57"
           },
-          "coh_1": null,
-          "coh_2": null,
-          "tr_target": null,
-          "it_target": null,
+          "coh_1": {
+            "filename": "coh_1.webp",
+            "originalFilename": "coh_1.png",
+            "stem": "coh_1",
+            "url": "assets/22_come_push_chest/draft/coh_1.webp",
+            "bytes": 45468,
+            "sourceBytes": 2643302,
+            "modified": "2026-06-02T01:19:49"
+          },
+          "coh_2": {
+            "filename": "coh_2.webp",
+            "originalFilename": "coh_2.png",
+            "stem": "coh_2",
+            "url": "assets/22_come_push_chest/draft/coh_2.webp",
+            "bytes": 43996,
+            "sourceBytes": 2636374,
+            "modified": "2026-06-02T01:23:21"
+          },
+          "tr_target": {
+            "filename": "tr_target.webp",
+            "originalFilename": "tr_target.png",
+            "stem": "tr_target",
+            "url": "assets/22_come_push_chest/draft/tr_target.webp",
+            "bytes": 33708,
+            "sourceBytes": 2496593,
+            "modified": "2026-06-02T01:22:53"
+          },
+          "it_target": {
+            "filename": "it_target.webp",
+            "originalFilename": "it_target.png",
+            "stem": "it_target",
+            "url": "assets/22_come_push_chest/draft/it_target.webp",
+            "bytes": 29352,
+            "sourceBytes": 2330995,
+            "modified": "2026-06-02T01:22:24"
+          },
           "end_coh_it": null,
           "end_ic_tr": null,
           "end_ic_it": null
@@ -6498,14 +6530,46 @@
             "originalFilename": "ic_1.png",
             "stem": "ic_1",
             "url": "assets/22_come_push_chest/draft/ic_1.webp",
-            "bytes": 48904,
-            "sourceBytes": 2625889,
-            "modified": "2026-06-01T00:43:16"
+            "bytes": 38170,
+            "sourceBytes": 2507999,
+            "modified": "2026-06-02T01:10:57"
           },
-          "coh_1": null,
-          "coh_2": null,
-          "tr_target": null,
-          "it_target": null
+          "coh_1": {
+            "filename": "coh_1.webp",
+            "originalFilename": "coh_1.png",
+            "stem": "coh_1",
+            "url": "assets/22_come_push_chest/draft/coh_1.webp",
+            "bytes": 45468,
+            "sourceBytes": 2643302,
+            "modified": "2026-06-02T01:19:49"
+          },
+          "coh_2": {
+            "filename": "coh_2.webp",
+            "originalFilename": "coh_2.png",
+            "stem": "coh_2",
+            "url": "assets/22_come_push_chest/draft/coh_2.webp",
+            "bytes": 43996,
+            "sourceBytes": 2636374,
+            "modified": "2026-06-02T01:23:21"
+          },
+          "tr_target": {
+            "filename": "tr_target.webp",
+            "originalFilename": "tr_target.png",
+            "stem": "tr_target",
+            "url": "assets/22_come_push_chest/draft/tr_target.webp",
+            "bytes": 33708,
+            "sourceBytes": 2496593,
+            "modified": "2026-06-02T01:22:53"
+          },
+          "it_target": {
+            "filename": "it_target.webp",
+            "originalFilename": "it_target.png",
+            "stem": "it_target",
+            "url": "assets/22_come_push_chest/draft/it_target.webp",
+            "bytes": 29352,
+            "sourceBytes": 2330995,
+            "modified": "2026-06-02T01:22:24"
+          }
         },
         "endings": {
           "end_coh_it": null,
@@ -6513,10 +6577,6 @@
           "end_ic_it": null
         },
         "missing": [
-          "coh_1",
-          "coh_2",
-          "tr_target",
-          "it_target",
           "end_coh_it",
           "end_ic_tr",
           "end_ic_it"
@@ -8857,7 +8917,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-02T00:06:49",
+  "exportedAt": "2026-06-02T01:25:06",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
