@@ -91,7 +91,7 @@
       }
     }
   },
-  "scannedAt": "2026-06-01T22:46:58",
+  "scannedAt": "2026-06-01T23:04:17",
   "datasets": [
     {
       "number": 1,
@@ -3044,9 +3044,17 @@
       "draft": {
         "exists": true,
         "path": "assets/10_run_cook_pancakes/draft",
-        "fileCount": 4,
+        "fileCount": 5,
         "images": {
-          "ic_1": null,
+          "ic_1": {
+            "filename": "ic_1.webp",
+            "originalFilename": "ic_1.png",
+            "stem": "ic_1",
+            "url": "assets/10_run_cook_pancakes/draft/ic_1.webp",
+            "bytes": 114034,
+            "sourceBytes": 3580174,
+            "modified": "2026-06-01T23:03:48"
+          },
           "coh_1": {
             "filename": "coh_1.webp",
             "originalFilename": "coh_1.png",
@@ -3088,7 +3096,15 @@
           "end_ic_it": null
         },
         "core": {
-          "ic_1": null,
+          "ic_1": {
+            "filename": "ic_1.webp",
+            "originalFilename": "ic_1.png",
+            "stem": "ic_1",
+            "url": "assets/10_run_cook_pancakes/draft/ic_1.webp",
+            "bytes": 114034,
+            "sourceBytes": 3580174,
+            "modified": "2026-06-01T23:03:48"
+          },
           "coh_1": {
             "filename": "coh_1.webp",
             "originalFilename": "coh_1.png",
@@ -3132,7 +3148,6 @@
           "end_ic_it": null
         },
         "missing": [
-          "ic_1",
           "end_coh_it",
           "end_ic_tr",
           "end_ic_it"
@@ -8737,7 +8752,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-01T22:46:58",
+  "exportedAt": "2026-06-01T23:04:17",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
