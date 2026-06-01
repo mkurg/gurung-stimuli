@@ -91,7 +91,7 @@
       }
     }
   },
-  "scannedAt": "2026-06-01T23:23:43",
+  "scannedAt": "2026-06-01T23:29:56",
   "datasets": [
     {
       "number": 1,
@@ -7214,7 +7214,7 @@
       "draft": {
         "exists": true,
         "path": "assets/25_yawn_lock_door/draft",
-        "fileCount": 4,
+        "fileCount": 5,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -7234,7 +7234,15 @@
             "sourceBytes": 2905928,
             "modified": "2026-06-01T00:51:44"
           },
-          "coh_2": null,
+          "coh_2": {
+            "filename": "coh_2.webp",
+            "originalFilename": "coh_2.png",
+            "stem": "coh_2",
+            "url": "assets/25_yawn_lock_door/draft/coh_2.webp",
+            "bytes": 36026,
+            "sourceBytes": 2810830,
+            "modified": "2026-06-01T23:28:35"
+          },
           "tr_target": {
             "filename": "tr_target.webp",
             "originalFilename": "tr_target.png",
@@ -7276,7 +7284,15 @@
             "sourceBytes": 2905928,
             "modified": "2026-06-01T00:51:44"
           },
-          "coh_2": null,
+          "coh_2": {
+            "filename": "coh_2.webp",
+            "originalFilename": "coh_2.png",
+            "stem": "coh_2",
+            "url": "assets/25_yawn_lock_door/draft/coh_2.webp",
+            "bytes": 36026,
+            "sourceBytes": 2810830,
+            "modified": "2026-06-01T23:28:35"
+          },
           "tr_target": {
             "filename": "tr_target.webp",
             "originalFilename": "tr_target.png",
@@ -7302,7 +7318,6 @@
           "end_ic_it": null
         },
         "missing": [
-          "coh_2",
           "end_coh_it",
           "end_ic_tr",
           "end_ic_it"
@@ -8782,7 +8797,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-01T23:23:43",
+  "exportedAt": "2026-06-01T23:29:56",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
