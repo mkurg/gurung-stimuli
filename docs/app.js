@@ -122,6 +122,7 @@ function renderStatus(visibleCount) {
     chip("Existing problems", summary.existingWithProblems ?? 0, summary.existingWithProblems ? "bad" : "ok"),
     chip("Folder 2", summary.draftFolders ?? 0, "warn"),
     chip("Draft complete", summary.draftComplete ?? 0, "ok"),
+    progressChip("Endings", summary.endings?.draft, progressTone(summary.endings?.draft)),
     chip("Need endings", summary.draftNeedsEndings ?? 0, summary.draftNeedsEndings ? "warn" : "ok"),
     chip("Extra images", summary.extraImages ?? 0, summary.extraImages ? "warn" : "ok"),
     chip("Scanned", state.scannedAt ? state.scannedAt.replace("T", " ") : ""),
@@ -130,6 +131,32 @@ function renderStatus(visibleCount) {
 
 function chip(label, value, tone = "") {
   return `<span class="chip ${tone}">${escapeHtml(label)} <strong>${escapeHtml(String(value))}</strong></span>`;
+}
+
+function progressChip(label, progress, tone = "") {
+  if (!progress || !progress.total) {
+    return chip(label, "0/0 0%", tone);
+  }
+  return chip(
+    label,
+    `${progress.present}/${progress.total} ${formatPercent(progress.percent)}`,
+    tone,
+  );
+}
+
+function formatPercent(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) {
+    return "0%";
+  }
+  return `${Number.isInteger(number) ? number : number.toFixed(1)}%`;
+}
+
+function progressTone(progress) {
+  if (!progress || !progress.total) {
+    return "warn";
+  }
+  return progress.present >= progress.total ? "ok" : "warn";
 }
 
 function renderNav(datasets) {

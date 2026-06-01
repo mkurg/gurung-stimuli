@@ -198,6 +198,10 @@ def scan_datasets(root: Path) -> dict[str, object]:
             }
         )
 
+    ending_slot_count = len(datasets) * len(ENDING_IMAGES)
+    existing_ending_count = count_present_endings(datasets, "existing")
+    draft_ending_count = count_present_endings(datasets, "draft")
+
     summary = {
         "datasetCount": len(datasets),
         "existingComplete": sum(1 for item in datasets if item["existing"]["complete"]),
@@ -213,6 +217,14 @@ def scan_datasets(root: Path) -> dict[str, object]:
         "extraImages": sum(
             len(item["existing"]["extra"]) + len(item["draft"]["extra"]) for item in datasets
         ),
+        "endings": {
+            "existing": progress_summary(existing_ending_count, ending_slot_count),
+            "draft": progress_summary(draft_ending_count, ending_slot_count),
+            "all": progress_summary(
+                existing_ending_count + draft_ending_count,
+                ending_slot_count * 2,
+            ),
+        },
     }
 
     return {
@@ -224,6 +236,25 @@ def scan_datasets(root: Path) -> dict[str, object]:
         "summary": summary,
         "scannedAt": datetime.now().isoformat(timespec="seconds"),
         "datasets": datasets,
+    }
+
+
+def count_present_endings(datasets: list[dict[str, object]], variant: str) -> int:
+    return sum(
+        1
+        for dataset in datasets
+        for stem in ENDING_IMAGES
+        if dataset[variant]["images"].get(stem) is not None
+    )
+
+
+def progress_summary(present: int, total: int) -> dict[str, object]:
+    percent = round((present / total * 100), 1) if total else 0
+    return {
+        "present": present,
+        "total": total,
+        "missing": total - present,
+        "percent": percent,
     }
 
 
