@@ -237,7 +237,7 @@ function renderTrial(trial, index, variant, dataset, key) {
     .join('<span class="arrow" aria-hidden="true">&rarr;</span>');
   return `
     <section class="trial">
-      <h4 class="trial-title"><span>${index + 1}.</span>${escapeHtml(trial.name)}</h4>
+      <h4 class="trial-title"><span>${dataset.number}.${index + 1}.</span>${escapeHtml(trial.name)}</h4>
       <div class="path-row">${steps}</div>
     </section>
   `;
