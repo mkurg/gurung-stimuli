@@ -321,6 +321,8 @@ function matchesFilters(dataset) {
       return dataset.draft.exists;
     case "draft-incomplete":
       return dataset.draft.exists && !dataset.draft.complete;
+    case "core-incomplete":
+      return draftCoreImagesIncomplete(dataset);
     case "needs-endings":
       return dataset.issueTags.includes("draft-needs-endings");
     case "no-draft":
@@ -332,6 +334,12 @@ function matchesFilters(dataset) {
     default:
       return true;
   }
+}
+
+function draftCoreImagesIncomplete(dataset) {
+  return ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"].some(
+    (stem) => !dataset.draft.images[stem],
+  );
 }
 
 function handleDatasetClick(event) {
