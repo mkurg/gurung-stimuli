@@ -20,6 +20,14 @@ The server scans the Google Drive local cache directly. If the stimuli folder mo
 GURUNG_STIMULI_ROOT="/path/to/Gurung stimuli" ./start.sh
 ```
 
+Export a GitHub Pages-ready static site into `docs/`:
+
+```sh
+python3 trial_viewer/export_static.py
+```
+
+The exporter keeps the local viewer intact, writes `docs/data/datasets.json`, and creates lightweight WebP copies under `docs/assets/`. Re-run the export whenever new images appear in Google Drive; unchanged WebP files are skipped.
+
 Expected image names:
 
 ```text
