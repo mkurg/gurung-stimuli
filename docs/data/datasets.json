@@ -91,7 +91,7 @@
       }
     }
   },
-  "scannedAt": "2026-06-01T23:43:21",
+  "scannedAt": "2026-06-02T00:06:49",
   "datasets": [
     {
       "number": 1,
@@ -4202,9 +4202,17 @@
       "draft": {
         "exists": true,
         "path": "assets/14_ascend_weave_raincoat/draft",
-        "fileCount": 2,
+        "fileCount": 5,
         "images": {
-          "ic_1": null,
+          "ic_1": {
+            "filename": "ic_1.webp",
+            "originalFilename": "ic_1.png",
+            "stem": "ic_1",
+            "url": "assets/14_ascend_weave_raincoat/draft/ic_1.webp",
+            "bytes": 122076,
+            "sourceBytes": 3359832,
+            "modified": "2026-06-01T23:57:22"
+          },
           "coh_1": {
             "filename": "coh_1.webp",
             "originalFilename": "coh_1.png",
@@ -4219,18 +4227,42 @@
             "originalFilename": "coh_2.png",
             "stem": "coh_2",
             "url": "assets/14_ascend_weave_raincoat/draft/coh_2.webp",
-            "bytes": 58212,
-            "sourceBytes": 2671739,
-            "modified": "2026-06-01T00:24:07"
+            "bytes": 60548,
+            "sourceBytes": 2642741,
+            "modified": "2026-06-02T00:01:02"
           },
-          "tr_target": null,
-          "it_target": null,
+          "tr_target": {
+            "filename": "tr_target.webp",
+            "originalFilename": "tr_target.png",
+            "stem": "tr_target",
+            "url": "assets/14_ascend_weave_raincoat/draft/tr_target.webp",
+            "bytes": 74680,
+            "sourceBytes": 2971980,
+            "modified": "2026-06-02T00:04:49"
+          },
+          "it_target": {
+            "filename": "it_target.webp",
+            "originalFilename": "it_target.png",
+            "stem": "it_target",
+            "url": "assets/14_ascend_weave_raincoat/draft/it_target.webp",
+            "bytes": 65996,
+            "sourceBytes": 2659992,
+            "modified": "2026-06-02T00:03:13"
+          },
           "end_coh_it": null,
           "end_ic_tr": null,
           "end_ic_it": null
         },
         "core": {
-          "ic_1": null,
+          "ic_1": {
+            "filename": "ic_1.webp",
+            "originalFilename": "ic_1.png",
+            "stem": "ic_1",
+            "url": "assets/14_ascend_weave_raincoat/draft/ic_1.webp",
+            "bytes": 122076,
+            "sourceBytes": 3359832,
+            "modified": "2026-06-01T23:57:22"
+          },
           "coh_1": {
             "filename": "coh_1.webp",
             "originalFilename": "coh_1.png",
@@ -4245,12 +4277,28 @@
             "originalFilename": "coh_2.png",
             "stem": "coh_2",
             "url": "assets/14_ascend_weave_raincoat/draft/coh_2.webp",
-            "bytes": 58212,
-            "sourceBytes": 2671739,
-            "modified": "2026-06-01T00:24:07"
+            "bytes": 60548,
+            "sourceBytes": 2642741,
+            "modified": "2026-06-02T00:01:02"
           },
-          "tr_target": null,
-          "it_target": null
+          "tr_target": {
+            "filename": "tr_target.webp",
+            "originalFilename": "tr_target.png",
+            "stem": "tr_target",
+            "url": "assets/14_ascend_weave_raincoat/draft/tr_target.webp",
+            "bytes": 74680,
+            "sourceBytes": 2971980,
+            "modified": "2026-06-02T00:04:49"
+          },
+          "it_target": {
+            "filename": "it_target.webp",
+            "originalFilename": "it_target.png",
+            "stem": "it_target",
+            "url": "assets/14_ascend_weave_raincoat/draft/it_target.webp",
+            "bytes": 65996,
+            "sourceBytes": 2659992,
+            "modified": "2026-06-02T00:03:13"
+          }
         },
         "endings": {
           "end_coh_it": null,
@@ -4258,9 +4306,6 @@
           "end_ic_it": null
         },
         "missing": [
-          "ic_1",
-          "tr_target",
-          "it_target",
           "end_coh_it",
           "end_ic_tr",
           "end_ic_it"
@@ -8812,7 +8857,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-01T23:43:21",
+  "exportedAt": "2026-06-02T00:06:49",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
