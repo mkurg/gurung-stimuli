@@ -78,20 +78,20 @@
         "percent": 100.0
       },
       "draft": {
-        "present": 24,
+        "present": 25,
         "total": 90,
-        "missing": 66,
-        "percent": 26.7
+        "missing": 65,
+        "percent": 27.8
       },
       "all": {
-        "present": 114,
+        "present": 115,
         "total": 180,
-        "missing": 66,
-        "percent": 63.3
+        "missing": 65,
+        "percent": 63.9
       }
     }
   },
-  "scannedAt": "2026-06-01T23:29:56",
+  "scannedAt": "2026-06-01T23:43:21",
   "datasets": [
     {
       "number": 1,
@@ -3905,7 +3905,7 @@
       "draft": {
         "exists": true,
         "path": "assets/13_stand_wash_clothes/draft",
-        "fileCount": 5,
+        "fileCount": 6,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -3954,7 +3954,15 @@
           },
           "end_coh_it": null,
           "end_ic_tr": null,
-          "end_ic_it": null
+          "end_ic_it": {
+            "filename": "end_ic_it.webp",
+            "originalFilename": "end_ic_it.png",
+            "stem": "end_ic_it",
+            "url": "assets/13_stand_wash_clothes/draft/end_ic_it.webp",
+            "bytes": 64834,
+            "sourceBytes": 2762290,
+            "modified": "2026-06-01T23:42:55"
+          }
         },
         "core": {
           "ic_1": {
@@ -4006,12 +4014,19 @@
         "endings": {
           "end_coh_it": null,
           "end_ic_tr": null,
-          "end_ic_it": null
+          "end_ic_it": {
+            "filename": "end_ic_it.webp",
+            "originalFilename": "end_ic_it.png",
+            "stem": "end_ic_it",
+            "url": "assets/13_stand_wash_clothes/draft/end_ic_it.webp",
+            "bytes": 64834,
+            "sourceBytes": 2762290,
+            "modified": "2026-06-01T23:42:55"
+          }
         },
         "missing": [
           "end_coh_it",
-          "end_ic_tr",
-          "end_ic_it"
+          "end_ic_tr"
         ],
         "extra": [],
         "complete": false
@@ -8797,7 +8812,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-01T23:29:56",
+  "exportedAt": "2026-06-01T23:43:21",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
