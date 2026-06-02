@@ -6,10 +6,12 @@ const state = {
   scannedAt: "",
   search: "",
   filter: "all",
+  canSaveIdeas: false,
 };
 
 const els = {};
 let activePreviewButton = null;
+let activeIdeaTarget = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   els.status = document.querySelector("#status");
@@ -21,6 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
   els.lightbox = document.querySelector("#lightbox");
   els.lightboxImage = document.querySelector("#lightbox-image");
   els.lightboxCaption = document.querySelector("#lightbox-caption");
+  els.ideaModal = document.querySelector("#idea-modal");
+  els.ideaTitle = document.querySelector("#idea-title");
+  els.ideaText = document.querySelector("#idea-text");
+  els.ideaStatus = document.querySelector("#idea-status");
+  els.ideaClose = document.querySelector("#idea-close");
+  els.ideaCancel = document.querySelector("#idea-cancel");
+  els.ideaClear = document.querySelector("#idea-clear");
+  els.ideaSave = document.querySelector("#idea-save");
 
   els.search.addEventListener("input", () => {
     state.search = els.search.value.trim().toLowerCase();
@@ -36,8 +46,21 @@ document.addEventListener("DOMContentLoaded", () => {
   els.datasets.addEventListener("click", handleDatasetClick);
   els.nav.addEventListener("click", handleNavClick);
   els.lightbox.addEventListener("click", handleLightboxClick);
+  els.ideaModal.addEventListener("click", handleIdeaModalClick);
+  els.ideaClose.addEventListener("click", closeIdeaModal);
+  els.ideaCancel.addEventListener("click", closeIdeaModal);
+  els.ideaClear.addEventListener("click", clearIdeaText);
+  els.ideaSave.addEventListener("click", saveIdea);
 
   document.addEventListener("keydown", (event) => {
+    if (!els.ideaModal.hidden) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeIdeaModal();
+      }
+      return;
+    }
+
     if (els.lightbox.hidden) {
       return;
     }
@@ -67,12 +90,13 @@ async function loadData() {
   els.refresh.disabled = true;
   els.refresh.textContent = "Refreshing";
   try {
-    const data = await fetchDatasetData();
+    const { data, canSaveIdeas } = await fetchDatasetData();
     state.datasets = data.datasets;
     state.paths = data.paths;
     state.summary = data.summary;
     state.root = data.root;
     state.scannedAt = data.scannedAt;
+    state.canSaveIdeas = canSaveIdeas;
     render();
   } catch (error) {
     els.datasets.innerHTML = `<div class="empty-state">${escapeHtml(error.message)}</div>`;
@@ -92,7 +116,10 @@ async function fetchDatasetData() {
       if (!response.ok) {
         throw new Error(`${source} returned HTTP ${response.status}`);
       }
-      return await response.json();
+      return {
+        data: await response.json(),
+        canSaveIdeas: source === "/api/datasets",
+      };
     } catch (error) {
       lastError = error;
     }
@@ -231,7 +258,7 @@ function renderVariant(dataset, key, title) {
       <p class="section-label">Core images</p>
       <div class="core-grid">
         ${["ic_1", "coh_1", "coh_2", "tr_target", "it_target"]
-          .map((stem) => renderThumb(variant.images[stem], stem, dataset, key))
+          .map((stem) => renderThumb(variant.images[stem], stem, dataset, key, false, variant.ideas?.[stem]))
           .join("")}
       </div>
 
@@ -260,7 +287,7 @@ function variantStatus(variant, key) {
 
 function renderTrial(trial, index, variant, dataset, key) {
   const steps = trial.steps
-    .map((stem) => renderThumb(variant.images[stem], stem, dataset, key))
+    .map((stem) => renderThumb(variant.images[stem], stem, dataset, key, false, variant.ideas?.[stem]))
     .join('<span class="arrow" aria-hidden="true">&rarr;</span>');
   return `
     <section class="trial">
@@ -282,13 +309,26 @@ function renderExtraImages(images, dataset, key) {
   `;
 }
 
-function renderThumb(image, stem, dataset, variant, extra = false) {
+function renderThumb(image, stem, dataset, variant, extra = false, idea = null) {
   if (!image) {
+    const ideaText = idea?.text ?? "";
     return `
-      <div class="thumb placeholder">
-        <div class="placeholder-art">Missing</div>
+      <button
+        class="thumb placeholder missing-thumb ${ideaText ? "has-idea" : ""}"
+        type="button"
+        data-missing="true"
+        data-dataset-number="${dataset.number}"
+        data-dataset-name="${escapeAttr(dataset.displayName)}"
+        data-variant="${escapeAttr(variant)}"
+        data-stem="${escapeAttr(stem)}"
+        data-idea="${escapeAttr(ideaText)}"
+      >
+        <div class="placeholder-art">
+          <strong>Missing</strong>
+          ${ideaText ? `<span>${escapeHtml(ideaText)}</span>` : "<em>Add idea</em>"}
+        </div>
         <div class="thumb-label"><span>${escapeHtml(stem)}</span></div>
-      </div>
+      </button>
     `;
   }
 
@@ -343,11 +383,87 @@ function draftCoreImagesIncomplete(dataset) {
 }
 
 function handleDatasetClick(event) {
+  const missingButton = event.target.closest("[data-missing]");
+  if (missingButton) {
+    openIdeaModal(missingButton);
+    return;
+  }
+
   const button = event.target.closest("[data-image]");
   if (!button) {
     return;
   }
   openLightbox(button);
+}
+
+function openIdeaModal(button) {
+  activeIdeaTarget = {
+    button,
+    datasetNumber: Number(button.dataset.datasetNumber),
+    datasetName: button.dataset.datasetName,
+    variant: button.dataset.variant,
+    stem: button.dataset.stem,
+  };
+
+  els.ideaTitle.textContent = `Dataset ${activeIdeaTarget.datasetNumber}: ${activeIdeaTarget.datasetName} / ${activeIdeaTarget.variant} / ${activeIdeaTarget.stem}`;
+  els.ideaText.value = button.dataset.idea ?? "";
+  els.ideaStatus.textContent = state.canSaveIdeas
+    ? ""
+    : "Static export: edit this idea in the local viewer, then export again.";
+  els.ideaText.disabled = !state.canSaveIdeas;
+  els.ideaSave.disabled = !state.canSaveIdeas;
+  els.ideaClear.disabled = !state.canSaveIdeas;
+  els.ideaModal.hidden = false;
+  els.ideaText.focus();
+}
+
+function handleIdeaModalClick(event) {
+  if (event.target === els.ideaModal || event.target.classList.contains("modal-backdrop")) {
+    closeIdeaModal();
+  }
+}
+
+function closeIdeaModal() {
+  els.ideaModal.hidden = true;
+  activeIdeaTarget = null;
+}
+
+function clearIdeaText() {
+  els.ideaText.value = "";
+  els.ideaText.focus();
+}
+
+async function saveIdea() {
+  if (!activeIdeaTarget || !state.canSaveIdeas) {
+    return;
+  }
+
+  els.ideaSave.disabled = true;
+  els.ideaStatus.textContent = "Saving...";
+
+  try {
+    const response = await fetch("/api/ideas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        datasetNumber: activeIdeaTarget.datasetNumber,
+        variant: activeIdeaTarget.variant,
+        stem: activeIdeaTarget.stem,
+        text: els.ideaText.value,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error ?? `Save failed with HTTP ${response.status}`);
+    }
+
+    closeIdeaModal();
+    await loadData();
+  } catch (error) {
+    els.ideaSave.disabled = false;
+    els.ideaStatus.textContent = error.message;
+  }
 }
 
 function handleNavClick(event) {

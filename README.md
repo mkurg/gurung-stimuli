@@ -35,6 +35,14 @@ The export writes:
 
 Re-run the export whenever new pictures are added or changed. Existing WebP files are skipped when they are already current.
 
+Missing-picture ideas are saved locally in:
+
+```text
+trial_viewer/missing_picture_ideas.json
+```
+
+Use the local viewer to edit those notes. The next static export bakes them into `docs/data/datasets.json`, so they appear on GitHub Pages after commit and push.
+
 ## Publish on GitHub
 
 Commit the repository, push it to GitHub, then enable Pages from:

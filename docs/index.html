@@ -51,6 +51,26 @@
       </figure>
     </div>
 
+    <div id="idea-modal" class="idea-modal" hidden>
+      <button class="modal-backdrop" type="button" aria-label="Close idea editor"></button>
+      <section class="idea-panel" aria-labelledby="idea-title">
+        <div class="idea-header">
+          <div>
+            <p class="eyebrow">Missing picture idea</p>
+            <h2 id="idea-title">Dataset</h2>
+          </div>
+          <button id="idea-close" class="icon-button" type="button" aria-label="Close idea editor">x</button>
+        </div>
+        <textarea id="idea-text" rows="9" maxlength="5000" placeholder="Write a prompt, scene note, or visual idea for this missing picture."></textarea>
+        <p id="idea-status" class="idea-status" aria-live="polite"></p>
+        <div class="idea-actions">
+          <button id="idea-clear" class="secondary" type="button">Clear</button>
+          <button id="idea-cancel" class="secondary" type="button">Cancel</button>
+          <button id="idea-save" class="primary" type="button">Save</button>
+        </div>
+      </section>
+    </div>
+
     <script src="app.js" defer></script>
   </body>
 </html>

@@ -66,9 +66,9 @@
     "existingComplete": 30,
     "existingWithProblems": 0,
     "draftFolders": 30,
-    "draftComplete": 3,
+    "draftComplete": 4,
     "draftEmpty": 0,
-    "draftNeedsEndings": 27,
+    "draftNeedsEndings": 26,
     "extraImages": 0,
     "endings": {
       "existing": {
@@ -78,20 +78,20 @@
         "percent": 100.0
       },
       "draft": {
-        "present": 25,
+        "present": 34,
         "total": 90,
-        "missing": 65,
-        "percent": 27.8
+        "missing": 56,
+        "percent": 37.8
       },
       "all": {
-        "present": 115,
+        "present": 124,
         "total": 180,
-        "missing": 65,
-        "percent": 63.9
+        "missing": 56,
+        "percent": 68.9
       }
     }
   },
-  "scannedAt": "2026-06-02T01:25:06",
+  "scannedAt": "2026-06-02T18:05:42",
   "datasets": [
     {
       "number": 1,
@@ -254,7 +254,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -383,7 +393,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -551,7 +571,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -695,7 +725,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -863,7 +903,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -1007,7 +1057,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -1175,7 +1235,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -1333,7 +1403,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": []
     },
@@ -1498,7 +1578,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -1656,7 +1746,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": []
     },
@@ -1821,7 +1921,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -1950,7 +2060,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -2118,7 +2238,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -2262,7 +2392,17 @@
           "end_ic_tr"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -2430,7 +2570,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -2574,7 +2724,17 @@
           "end_coh_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -2742,7 +2902,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -2871,7 +3041,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -3039,7 +3219,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -3153,7 +3343,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -3321,7 +3521,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -3450,7 +3660,17 @@
           "end_ic_tr"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -3618,7 +3838,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -3732,7 +3962,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -3900,12 +4140,22 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
         "path": "assets/13_stand_wash_clothes/draft",
-        "fileCount": 6,
+        "fileCount": 7,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -3952,7 +4202,15 @@
             "sourceBytes": 2840344,
             "modified": "2026-06-01T00:11:40"
           },
-          "end_coh_it": null,
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/13_stand_wash_clothes/draft/end_coh_it.webp",
+            "bytes": 64834,
+            "sourceBytes": 2762290,
+            "modified": "2026-06-02T15:24:50"
+          },
           "end_ic_tr": null,
           "end_ic_it": {
             "filename": "end_ic_it.webp",
@@ -4012,7 +4270,15 @@
           }
         },
         "endings": {
-          "end_coh_it": null,
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/13_stand_wash_clothes/draft/end_coh_it.webp",
+            "bytes": 64834,
+            "sourceBytes": 2762290,
+            "modified": "2026-06-02T15:24:50"
+          },
           "end_ic_tr": null,
           "end_ic_it": {
             "filename": "end_ic_it.webp",
@@ -4025,11 +4291,20 @@
           }
         },
         "missing": [
-          "end_coh_it",
           "end_ic_tr"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -4197,7 +4472,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -4311,7 +4596,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -4479,7 +4774,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -4593,7 +4898,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -4761,7 +5076,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -4890,7 +5215,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -5058,7 +5393,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -5172,7 +5517,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -5340,7 +5695,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -5454,7 +5819,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -5622,7 +5997,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -5736,7 +6121,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -5794,9 +6189,9 @@
             "originalFilename": "it_target.png",
             "stem": "it_target",
             "url": "assets/20_come_plant_sapling/existing/it_target.webp",
-            "bytes": 65752,
-            "sourceBytes": 2833367,
-            "modified": "2026-05-25T21:08:42"
+            "bytes": 65772,
+            "sourceBytes": 2731147,
+            "modified": "2026-06-02T14:24:12"
           },
           "end_coh_it": {
             "filename": "end_coh_it.webp",
@@ -5868,9 +6263,9 @@
             "originalFilename": "it_target.png",
             "stem": "it_target",
             "url": "assets/20_come_plant_sapling/existing/it_target.webp",
-            "bytes": 65752,
-            "sourceBytes": 2833367,
-            "modified": "2026-05-25T21:08:42"
+            "bytes": 65772,
+            "sourceBytes": 2731147,
+            "modified": "2026-06-02T14:24:12"
           }
         },
         "endings": {
@@ -5904,7 +6299,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -5954,7 +6359,7 @@
             "url": "assets/20_come_plant_sapling/draft/it_target.webp",
             "bytes": 73116,
             "sourceBytes": 3009910,
-            "modified": "2026-06-01T00:38:35"
+            "modified": "2026-06-02T14:26:48"
           },
           "end_coh_it": null,
           "end_ic_tr": null,
@@ -6004,7 +6409,7 @@
             "url": "assets/20_come_plant_sapling/draft/it_target.webp",
             "bytes": 73116,
             "sourceBytes": 3009910,
-            "modified": "2026-06-01T00:38:35"
+            "modified": "2026-06-02T14:26:48"
           }
         },
         "endings": {
@@ -6018,7 +6423,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -6186,7 +6601,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -6300,7 +6725,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -6468,7 +6903,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -6582,7 +7027,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -6750,7 +7205,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -6864,7 +7329,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -7032,7 +7507,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -7161,7 +7646,17 @@
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -7329,12 +7824,22 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
         "path": "assets/25_yawn_lock_door/draft",
-        "fileCount": 5,
+        "fileCount": 8,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -7381,9 +7886,33 @@
             "sourceBytes": 2819692,
             "modified": "2026-06-01T00:52:35"
           },
-          "end_coh_it": null,
-          "end_ic_tr": null,
-          "end_ic_it": null
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/25_yawn_lock_door/draft/end_coh_it.webp",
+            "bytes": 52118,
+            "sourceBytes": 2542134,
+            "modified": "2026-06-02T17:39:41"
+          },
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/25_yawn_lock_door/draft/end_ic_tr.webp",
+            "bytes": 43106,
+            "sourceBytes": 2361913,
+            "modified": "2026-06-02T17:50:06"
+          },
+          "end_ic_it": {
+            "filename": "end_ic_it.webp",
+            "originalFilename": "end_ic_it.png",
+            "stem": "end_ic_it",
+            "url": "assets/25_yawn_lock_door/draft/end_ic_it.webp",
+            "bytes": 52996,
+            "sourceBytes": 2578783,
+            "modified": "2026-06-02T17:48:33"
+          }
         },
         "core": {
           "ic_1": {
@@ -7433,22 +7962,49 @@
           }
         },
         "endings": {
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/25_yawn_lock_door/draft/end_coh_it.webp",
+            "bytes": 52118,
+            "sourceBytes": 2542134,
+            "modified": "2026-06-02T17:39:41"
+          },
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/25_yawn_lock_door/draft/end_ic_tr.webp",
+            "bytes": 43106,
+            "sourceBytes": 2361913,
+            "modified": "2026-06-02T17:50:06"
+          },
+          "end_ic_it": {
+            "filename": "end_ic_it.webp",
+            "originalFilename": "end_ic_it.png",
+            "stem": "end_ic_it",
+            "url": "assets/25_yawn_lock_door/draft/end_ic_it.webp",
+            "bytes": 52996,
+            "sourceBytes": 2578783,
+            "modified": "2026-06-02T17:48:33"
+          }
+        },
+        "missing": [],
+        "extra": [],
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
           "end_coh_it": null,
           "end_ic_tr": null,
           "end_ic_it": null
-        },
-        "missing": [
-          "end_coh_it",
-          "end_ic_tr",
-          "end_ic_it"
-        ],
-        "extra": [],
-        "complete": false
+        }
       },
-      "issueTags": [
-        "draft-incomplete",
-        "draft-needs-endings"
-      ]
+      "issueTags": []
     },
     {
       "number": 26,
@@ -7611,12 +8167,22 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
         "path": "assets/26_sleep_drag_log/draft",
-        "fileCount": 6,
+        "fileCount": 7,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -7673,7 +8239,15 @@
             "sourceBytes": 2621096,
             "modified": "2026-06-01T00:57:38"
           },
-          "end_ic_it": null
+          "end_ic_it": {
+            "filename": "end_ic_it.webp",
+            "originalFilename": "end_ic_it.png",
+            "stem": "end_ic_it",
+            "url": "assets/26_sleep_drag_log/draft/end_ic_it.webp",
+            "bytes": 30830,
+            "sourceBytes": 2300573,
+            "modified": "2026-06-02T17:25:38"
+          }
         },
         "core": {
           "ic_1": {
@@ -7733,14 +8307,31 @@
             "sourceBytes": 2621096,
             "modified": "2026-06-01T00:57:38"
           },
-          "end_ic_it": null
+          "end_ic_it": {
+            "filename": "end_ic_it.webp",
+            "originalFilename": "end_ic_it.png",
+            "stem": "end_ic_it",
+            "url": "assets/26_sleep_drag_log/draft/end_ic_it.webp",
+            "bytes": 30830,
+            "sourceBytes": 2300573,
+            "modified": "2026-06-02T17:25:38"
+          }
         },
         "missing": [
-          "end_coh_it",
-          "end_ic_it"
+          "end_coh_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -7908,12 +8499,22 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
         "path": "assets/27_jump_pull_blanket/draft",
-        "fileCount": 5,
+        "fileCount": 6,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -7961,7 +8562,15 @@
             "modified": "2026-06-01T00:55:02"
           },
           "end_coh_it": null,
-          "end_ic_tr": null,
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/27_jump_pull_blanket/draft/end_ic_tr.webp",
+            "bytes": 115900,
+            "sourceBytes": 3066704,
+            "modified": "2026-06-02T17:28:33"
+          },
           "end_ic_it": null
         },
         "core": {
@@ -8013,16 +8622,33 @@
         },
         "endings": {
           "end_coh_it": null,
-          "end_ic_tr": null,
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/27_jump_pull_blanket/draft/end_ic_tr.webp",
+            "bytes": 115900,
+            "sourceBytes": 3066704,
+            "modified": "2026-06-02T17:28:33"
+          },
           "end_ic_it": null
         },
         "missing": [
           "end_coh_it",
-          "end_ic_tr",
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -8190,7 +8816,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
@@ -8348,7 +8984,17 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": []
     },
@@ -8513,12 +9159,22 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
         "path": "assets/29_sit_cut_potato/draft",
-        "fileCount": 5,
+        "fileCount": 6,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -8565,7 +9221,15 @@
             "sourceBytes": 2195469,
             "modified": "2026-06-01T01:07:47"
           },
-          "end_coh_it": null,
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/29_sit_cut_potato/draft/end_coh_it.webp",
+            "bytes": 51986,
+            "sourceBytes": 2603708,
+            "modified": "2026-06-02T17:00:42"
+          },
           "end_ic_tr": null,
           "end_ic_it": null
         },
@@ -8617,17 +9281,34 @@
           }
         },
         "endings": {
-          "end_coh_it": null,
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/29_sit_cut_potato/draft/end_coh_it.webp",
+            "bytes": 51986,
+            "sourceBytes": 2603708,
+            "modified": "2026-06-02T17:00:42"
+          },
           "end_ic_tr": null,
           "end_ic_it": null
         },
         "missing": [
-          "end_coh_it",
           "end_ic_tr",
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -8795,12 +9476,22 @@
         },
         "missing": [],
         "extra": [],
-        "complete": true
+        "complete": true,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "draft": {
         "exists": true,
         "path": "assets/30_smile_make_momos/draft",
-        "fileCount": 5,
+        "fileCount": 7,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -8843,12 +9534,28 @@
             "originalFilename": "it_target.png",
             "stem": "it_target",
             "url": "assets/30_smile_make_momos/draft/it_target.webp",
-            "bytes": 32824,
-            "sourceBytes": 2324358,
-            "modified": "2026-06-01T01:05:40"
+            "bytes": 27654,
+            "sourceBytes": 2256138,
+            "modified": "2026-06-02T11:44:29"
           },
-          "end_coh_it": null,
-          "end_ic_tr": null,
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/30_smile_make_momos/draft/end_coh_it.webp",
+            "bytes": 65702,
+            "sourceBytes": 2645573,
+            "modified": "2026-06-02T16:49:45"
+          },
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/30_smile_make_momos/draft/end_ic_tr.webp",
+            "bytes": 70832,
+            "sourceBytes": 2860964,
+            "modified": "2026-06-02T16:48:33"
+          },
           "end_ic_it": null
         },
         "core": {
@@ -8893,23 +9600,47 @@
             "originalFilename": "it_target.png",
             "stem": "it_target",
             "url": "assets/30_smile_make_momos/draft/it_target.webp",
-            "bytes": 32824,
-            "sourceBytes": 2324358,
-            "modified": "2026-06-01T01:05:40"
+            "bytes": 27654,
+            "sourceBytes": 2256138,
+            "modified": "2026-06-02T11:44:29"
           }
         },
         "endings": {
-          "end_coh_it": null,
-          "end_ic_tr": null,
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/30_smile_make_momos/draft/end_coh_it.webp",
+            "bytes": 65702,
+            "sourceBytes": 2645573,
+            "modified": "2026-06-02T16:49:45"
+          },
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/30_smile_make_momos/draft/end_ic_tr.webp",
+            "bytes": 70832,
+            "sourceBytes": 2860964,
+            "modified": "2026-06-02T16:48:33"
+          },
           "end_ic_it": null
         },
         "missing": [
-          "end_coh_it",
-          "end_ic_tr",
           "end_ic_it"
         ],
         "extra": [],
-        "complete": false
+        "complete": false,
+        "ideas": {
+          "ic_1": null,
+          "coh_1": null,
+          "coh_2": null,
+          "tr_target": null,
+          "it_target": null,
+          "end_coh_it": null,
+          "end_ic_tr": null,
+          "end_ic_it": null
+        }
       },
       "issueTags": [
         "draft-incomplete",
@@ -8917,7 +9648,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-02T01:25:06",
+  "exportedAt": "2026-06-02T18:05:42",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,

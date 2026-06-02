@@ -18,6 +18,8 @@ from urllib.parse import quote, unquote, urlparse
 APP_DIR = Path(__file__).resolve().parent
 STATIC_DIR = APP_DIR / "static"
 WORKSPACE_DIR = APP_DIR.parent
+IDEAS_FILE = APP_DIR / "missing_picture_ideas.json"
+MAX_IDEA_LENGTH = 5000
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
 CORE_IMAGES = ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"]
@@ -154,7 +156,10 @@ def scan_image_dir(folder: Path, dataset_number: int, variant: str) -> dict[str,
     }
 
 
-def scan_datasets(root: Path) -> dict[str, object]:
+def scan_datasets(root: Path, ideas: dict[str, dict[str, str]] | None = None) -> dict[str, object]:
+    if ideas is None:
+        ideas = load_ideas()
+
     datasets: list[dict[str, object]] = []
 
     for folder in sorted(root.iterdir(), key=lambda p: natural_key(p.name)):
@@ -167,6 +172,8 @@ def scan_datasets(root: Path) -> dict[str, object]:
         dataset_number, label = parsed
         existing = scan_image_dir(folder, dataset_number, "existing")
         draft = scan_image_dir(folder / "2", dataset_number, "draft")
+        add_ideas_to_variant(existing, dataset_number, "existing", ideas)
+        add_ideas_to_variant(draft, dataset_number, "draft", ideas)
 
         issue_tags: list[str] = []
         if not existing["complete"]:
@@ -258,6 +265,55 @@ def progress_summary(present: int, total: int) -> dict[str, object]:
     }
 
 
+def idea_key(dataset_number: int, variant: str, stem: str) -> str:
+    return f"{dataset_number}:{variant}:{stem}"
+
+
+def load_ideas(path: Path = IDEAS_FILE) -> dict[str, dict[str, str]]:
+    if not path.exists():
+        return {}
+
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+    if not isinstance(raw, dict):
+        return {}
+
+    ideas: dict[str, dict[str, str]] = {}
+    for key, value in raw.items():
+        if not isinstance(key, str) or not isinstance(value, dict):
+            continue
+        text = value.get("text")
+        updated_at = value.get("updatedAt")
+        if not isinstance(text, str) or not text.strip():
+            continue
+        ideas[key] = {
+            "text": text.strip(),
+            "updatedAt": updated_at if isinstance(updated_at, str) else "",
+        }
+    return ideas
+
+
+def write_ideas(ideas: dict[str, dict[str, str]], path: Path = IDEAS_FILE) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = path.with_suffix(f"{path.suffix}.tmp")
+    tmp_path.write_text(json.dumps(ideas, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    tmp_path.replace(path)
+
+
+def add_ideas_to_variant(
+    variant: dict[str, object],
+    dataset_number: int,
+    variant_name: str,
+    ideas: dict[str, dict[str, str]],
+) -> None:
+    variant["ideas"] = {
+        stem: ideas.get(idea_key(dataset_number, variant_name, stem)) for stem in EXPECTED_IMAGES
+    }
+
+
 class TrialViewerHandler(SimpleHTTPRequestHandler):
     data_root: Path
 
@@ -279,6 +335,13 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             return
         super().do_GET()
 
+    def do_POST(self) -> None:
+        parsed = urlparse(self.path)
+        if parsed.path == "/api/ideas":
+            self.save_idea()
+            return
+        self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
+
     def send_json(self, payload: object) -> None:
         body = json.dumps(payload, indent=2).encode("utf-8")
         self.send_response(HTTPStatus.OK)
@@ -295,6 +358,85 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def read_json_body(self) -> dict[str, object] | None:
+        try:
+            content_length = int(self.headers.get("Content-Length", "0"))
+        except ValueError:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Invalid content length.")
+            return None
+
+        if content_length <= 0 or content_length > 20000:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Invalid request body size.")
+            return None
+
+        try:
+            body = self.rfile.read(content_length).decode("utf-8")
+            payload = json.loads(body)
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Request body must be valid JSON.")
+            return None
+
+        if not isinstance(payload, dict):
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Request body must be an object.")
+            return None
+        return payload
+
+    def save_idea(self) -> None:
+        payload = self.read_json_body()
+        if payload is None:
+            return
+
+        try:
+            dataset_number = int(payload.get("datasetNumber", ""))
+        except (TypeError, ValueError):
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Dataset number is invalid.")
+            return
+
+        variant = payload.get("variant")
+        stem = payload.get("stem")
+        text = payload.get("text", "")
+
+        if variant not in {"existing", "draft"}:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Variant is invalid.")
+            return
+        if stem not in EXPECTED_IMAGES:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Image stem is invalid.")
+            return
+        if not isinstance(text, str):
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Idea text is invalid.")
+            return
+
+        dataset_exists = any(
+            folder.is_dir()
+            and (parsed := parse_dataset_folder(folder))
+            and parsed[0] == dataset_number
+            for folder in self.data_root.iterdir()
+        )
+        if not dataset_exists:
+            self.send_error_json(HTTPStatus.NOT_FOUND, "Dataset not found.")
+            return
+
+        clean_text = text.strip()
+        if len(clean_text) > MAX_IDEA_LENGTH:
+            self.send_error_json(
+                HTTPStatus.BAD_REQUEST,
+                f"Idea text is too long. Use {MAX_IDEA_LENGTH} characters or fewer.",
+            )
+            return
+
+        ideas = load_ideas()
+        key = idea_key(dataset_number, variant, stem)
+        if clean_text:
+            ideas[key] = {
+                "text": clean_text,
+                "updatedAt": datetime.now().isoformat(timespec="seconds"),
+            }
+        else:
+            ideas.pop(key, None)
+
+        write_ideas(ideas)
+        self.send_json({"ok": True, "idea": ideas.get(key), "key": key})
 
     def send_image(self, request_path: str) -> None:
         parts = request_path.split("/", 4)

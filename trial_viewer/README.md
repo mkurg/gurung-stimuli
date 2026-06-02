@@ -28,6 +28,8 @@ python3 trial_viewer/export_static.py
 
 The exporter keeps the local viewer intact, writes `docs/data/datasets.json`, and creates lightweight WebP copies under `docs/assets/`. Re-run the export whenever new images appear in Google Drive; unchanged WebP files are skipped.
 
+Missing-picture ideas entered in the local viewer are saved in `trial_viewer/missing_picture_ideas.json` and included in the next static export.
+
 Expected image names:
 
 ```text
