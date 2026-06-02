@@ -66,9 +66,9 @@
     "existingComplete": 30,
     "existingWithProblems": 0,
     "draftFolders": 30,
-    "draftComplete": 6,
+    "draftComplete": 5,
     "draftEmpty": 0,
-    "draftNeedsEndings": 24,
+    "draftNeedsEndings": 25,
     "extraImages": 0,
     "endings": {
       "existing": {
@@ -78,20 +78,20 @@
         "percent": 100.0
       },
       "draft": {
-        "present": 40,
+        "present": 39,
         "total": 90,
-        "missing": 50,
-        "percent": 44.4
+        "missing": 51,
+        "percent": 43.3
       },
       "all": {
-        "present": 130,
+        "present": 129,
         "total": 180,
-        "missing": 50,
-        "percent": 72.2
+        "missing": 51,
+        "percent": 71.7
       }
     }
   },
-  "scannedAt": "2026-06-02T19:08:58",
+  "scannedAt": "2026-06-02T21:28:11",
   "datasets": [
     {
       "number": 1,
@@ -1073,8 +1073,8 @@
           "end_coh_it": null,
           "end_ic_tr": null,
           "end_ic_it": {
-            "text": "\u0434\u0435\u0442\u0438 \u043f\u044b\u0442\u0430\u044e\u0442\u0441\u044f \u0441 \u043d\u0435\u0439 \u043d\u0430\u0447\u0430\u0442\u044c \u0438\u0433\u0440\u0430\u0442\u044c?",
-            "updatedAt": "2026-06-02T19:02:45"
+            "text": "\u0434\u0435\u0442\u0438 \u043f\u044b\u0442\u0430\u044e\u0442\u0441\u044f \u0441 \u043d\u0435\u0439 \u043d\u0430\u0447\u0430\u0442\u044c \u0438\u0433\u0440\u0430\u0442\u044c? \u043d\u0435\u0442, \u0441\u043e\u0431\u0430\u043a\u0430 \u043e\u0442\u0440\u044f\u0445\u0438\u0432\u0430\u0435\u0442\u0441\u044f",
+            "updatedAt": "2026-06-02T20:53:44"
           }
         }
       },
@@ -1259,7 +1259,7 @@
       "draft": {
         "exists": true,
         "path": "assets/4_run_drink_tea/draft",
-        "fileCount": 8,
+        "fileCount": 7,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -1315,15 +1315,7 @@
             "sourceBytes": 2774884,
             "modified": "2026-06-01T19:56:31"
           },
-          "end_ic_tr": {
-            "filename": "end_ic_tr.webp",
-            "originalFilename": "end_ic_tr.png",
-            "stem": "end_ic_tr",
-            "url": "assets/4_run_drink_tea/draft/end_ic_tr.webp",
-            "bytes": 56364,
-            "sourceBytes": 2444503,
-            "modified": "2026-06-01T19:36:06"
-          },
+          "end_ic_tr": null,
           "end_ic_it": {
             "filename": "end_ic_it.webp",
             "originalFilename": "end_ic_it.png",
@@ -1391,15 +1383,7 @@
             "sourceBytes": 2774884,
             "modified": "2026-06-01T19:56:31"
           },
-          "end_ic_tr": {
-            "filename": "end_ic_tr.webp",
-            "originalFilename": "end_ic_tr.png",
-            "stem": "end_ic_tr",
-            "url": "assets/4_run_drink_tea/draft/end_ic_tr.webp",
-            "bytes": 56364,
-            "sourceBytes": 2444503,
-            "modified": "2026-06-01T19:36:06"
-          },
+          "end_ic_tr": null,
           "end_ic_it": {
             "filename": "end_ic_it.webp",
             "originalFilename": "end_ic_it.png",
@@ -1410,9 +1394,11 @@
             "modified": "2026-06-01T19:36:41"
           }
         },
-        "missing": [],
+        "missing": [
+          "end_ic_tr"
+        ],
         "extra": [],
-        "complete": true,
+        "complete": false,
         "ideas": {
           "ic_1": null,
           "coh_1": null,
@@ -1420,11 +1406,17 @@
           "tr_target": null,
           "it_target": null,
           "end_coh_it": null,
-          "end_ic_tr": null,
+          "end_ic_tr": {
+            "text": "\u043a\u0443\u0437\u043d\u0435\u0447\u0438\u043a \u043f\u0440\u044b\u0433\u0430\u0435\u0442 \u043d\u0430 \u043d\u0435\u0451 \u0438 \u043e\u043d\u0430 \u043f\u0440\u043e\u043b\u0438\u0432\u0430\u0435\u0442 \u0447\u0430\u0439",
+            "updatedAt": "2026-06-02T21:22:01"
+          },
           "end_ic_it": null
         }
       },
-      "issueTags": []
+      "issueTags": [
+        "draft-incomplete",
+        "draft-needs-endings"
+      ]
     },
     {
       "number": 5,
@@ -2077,13 +2069,13 @@
           "tr_target": null,
           "it_target": null,
           "end_coh_it": {
-            "text": "\u043c\u0443\u0436\u0438\u043a \u043f\u0440\u0438\u043d\u0451\u0441 \u043f\u043e\u043c\u0438\u0434\u043e\u0440 \u0441\u0430\u0436\u0430\u0442\u044c \u0430 \u043e\u043d\u0430 \u043d\u0430 \u044d\u0442\u043e\u043c \u043c\u0435\u0441\u0442\u0435 \u0441\u043f\u0438\u0442",
-            "updatedAt": "2026-06-02T19:04:06"
+            "text": "\u043e\u043d \u043f\u043e\u043b\u044c\u0451\u0442 \u0435\u0451",
+            "updatedAt": "2026-06-02T20:59:06"
           },
           "end_ic_tr": null,
           "end_ic_it": {
-            "text": "\u0435\u0451 \u0435\u0431\u0443\u0442",
-            "updatedAt": "2026-06-02T19:04:15"
+            "text": "\u0440\u0435\u0431\u0451\u043d\u043e\u043a \u0441 \u0434\u0435\u0440\u0435\u0432\u0430 \u0437\u0430\u043f\u0443\u0441\u043a\u0430\u0435\u0442 \u043d\u0430 \u043d\u0435\u0451 \u0441\u0430\u043c\u043e\u043b\u0451\u0442\u0438\u043a",
+            "updatedAt": "2026-06-02T21:03:30"
           }
         }
       },
@@ -2416,8 +2408,8 @@
           "it_target": null,
           "end_coh_it": null,
           "end_ic_tr": {
-            "text": "\u043f\u0440\u0438\u043d\u0435\u0441\u043b\u0430 \u0435\u0449\u0451 \u0434\u0440\u043e\u0432, \u0440\u044f\u0434\u043e\u043c \u043f\u043e\u043b\u043e\u0436\u0438\u043b\u0430?",
-            "updatedAt": "2026-06-02T19:04:51"
+            "text": "\u0441 \u0443\u043b\u0438\u0446\u044b \u043a\u0442\u043e-\u0442\u043e \u043f\u0440\u0438\u0448\u0451\u043b \u0433\u0440\u0435\u0442\u044c\u0441\u044f \u043c\u043e\u043a\u0440\u044b\u0439",
+            "updatedAt": "2026-06-02T21:05:08"
           },
           "end_ic_it": null
         }
@@ -2603,7 +2595,7 @@
       "draft": {
         "exists": true,
         "path": "assets/8_smile_weave_garland/draft",
-        "fileCount": 7,
+        "fileCount": 6,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -2651,15 +2643,7 @@
             "modified": "2026-05-31T23:51:28"
           },
           "end_coh_it": null,
-          "end_ic_tr": {
-            "filename": "end_ic_tr.webp",
-            "originalFilename": "end_ic_tr.png",
-            "stem": "end_ic_tr",
-            "url": "assets/8_smile_weave_garland/draft/end_ic_tr.webp",
-            "bytes": 45512,
-            "sourceBytes": 2474457,
-            "modified": "2026-06-01T21:18:57"
-          },
+          "end_ic_tr": null,
           "end_ic_it": {
             "filename": "end_ic_it.webp",
             "originalFilename": "end_ic_it.png",
@@ -2719,15 +2703,7 @@
         },
         "endings": {
           "end_coh_it": null,
-          "end_ic_tr": {
-            "filename": "end_ic_tr.webp",
-            "originalFilename": "end_ic_tr.png",
-            "stem": "end_ic_tr",
-            "url": "assets/8_smile_weave_garland/draft/end_ic_tr.webp",
-            "bytes": 45512,
-            "sourceBytes": 2474457,
-            "modified": "2026-06-01T21:18:57"
-          },
+          "end_ic_tr": null,
           "end_ic_it": {
             "filename": "end_ic_it.webp",
             "originalFilename": "end_ic_it.png",
@@ -2739,7 +2715,8 @@
           }
         },
         "missing": [
-          "end_coh_it"
+          "end_coh_it",
+          "end_ic_tr"
         ],
         "extra": [],
         "complete": false,
@@ -2753,7 +2730,10 @@
             "text": "\u043d\u0435 \u0437\u043d\u0430\u044e, \u0431\u0430\u0431\u043a\u0430 \u043f\u043b\u0435\u0442\u0451\u0442 \u0430 \u0434\u0435\u0432\u043e\u0447\u043a\u0430 \u0441\u043c\u043e\u0442\u0440\u0438\u0442?",
             "updatedAt": "2026-06-02T19:05:53"
           },
-          "end_ic_tr": null,
+          "end_ic_tr": {
+            "text": "\u043f\u0440\u043e\u0432\u043e\u0436\u0430\u0435\u0442 \u0431\u0435\u043b\u044b\u0445 \u0442\u0443\u0440\u0438\u0441\u0442\u043e\u0432, \u043d\u0430\u0434\u0435\u0432\u0430\u0435\u0442 \u043d\u0430 \u043a\u043e\u0433\u043e-\u0442\u043e, \u0430 \u043a\u0442\u043e-\u0442\u043e \u0444\u043e\u0442\u043a\u0430\u0435\u0442 \u0440\u0430\u0434\u0443\u0433\u0443 \u0438\u0437 \u044d\u0442\u0438\u0445 \u0442\u0443\u0440\u0438\u0441\u0442\u043e\u0432. \u043e\u043d\u0438 \u0442\u0440\u0435\u043a\u0435\u0440\u044b",
+            "updatedAt": "2026-06-02T21:09:26"
+          },
           "end_ic_it": null
         }
       },
@@ -3071,12 +3051,12 @@
           "it_target": null,
           "end_coh_it": null,
           "end_ic_tr": {
-            "text": "\u043d\u0435\u0441\u0451\u0442 / \u0432\u0435\u0437\u0451\u0442 \u0434\u043e\u043c\u043e\u0439 \u0440\u0438\u0441, \u043f\u043e\u0433\u0443\u0433\u043b\u0438\u0442\u044c \u043a\u0430\u043a \u043e\u043d\u0438 \u044d\u0442\u043e \u0434\u0435\u043b\u0430\u044e\u0442",
-            "updatedAt": "2026-06-02T19:07:27"
+            "text": "\u043d\u0435\u0441\u0451\u0442 / \u0432\u0435\u0437\u0451\u0442 \u0434\u043e\u043c\u043e\u0439 \u0440\u0438\u0441, \u043f\u043e\u0433\u0443\u0433\u043b\u0438\u0442\u044c \u043a\u0430\u043a \u043e\u043d\u0438 \u044d\u0442\u043e \u0434\u0435\u043b\u0430\u044e\u0442. \u043c\u043e\u0436\u0435\u0442 \u043e\u0442\u0431\u0438\u0432\u0430\u044e\u0442?",
+            "updatedAt": "2026-06-02T21:10:46"
           },
           "end_ic_it": {
-            "text": "\u0441\u0435\u043b\u0430 \u043d\u0430 \u043b\u0435\u0441\u0442\u043d\u0438\u0446\u0443 \u0441\u043c\u043e\u0442\u0440\u0438\u0442 \u043d\u0430 \u043a\u0440\u0430\u0441\u0438\u0432\u044b\u0439 \u043f\u0435\u0439\u0437\u0430\u0436?",
-            "updatedAt": "2026-06-02T19:07:47"
+            "text": "\u043f\u0440\u0438\u0448\u043b\u0430 \u043a \u0432\u043e\u0434\u043e\u043f\u0430\u0434\u0443",
+            "updatedAt": "2026-06-02T21:15:42"
           }
         }
       },
@@ -3377,7 +3357,10 @@
           "coh_2": null,
           "tr_target": null,
           "it_target": null,
-          "end_coh_it": null,
+          "end_coh_it": {
+            "text": "\u043f\u0435\u0440\u0435\u043f\u0440\u044b\u0433\u043d\u0443\u043b \u0447\u0435\u0440\u0435\u0437 \u0434\u0435\u0432\u043e\u0447\u043a\u0438\u043d\u043e \u0431\u043b\u044e\u0434\u043e",
+            "updatedAt": "2026-06-02T21:17:42"
+          },
           "end_ic_tr": null,
           "end_ic_it": null
         }
@@ -6989,7 +6972,7 @@
       "draft": {
         "exists": true,
         "path": "assets/22_come_push_chest/draft",
-        "fileCount": 5,
+        "fileCount": 6,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -7037,7 +7020,15 @@
             "modified": "2026-06-02T01:22:24"
           },
           "end_coh_it": null,
-          "end_ic_tr": null,
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/22_come_push_chest/draft/end_ic_tr.webp",
+            "bytes": 45962,
+            "sourceBytes": 2601385,
+            "modified": "2026-06-02T19:13:43"
+          },
           "end_ic_it": null
         },
         "core": {
@@ -7089,12 +7080,19 @@
         },
         "endings": {
           "end_coh_it": null,
-          "end_ic_tr": null,
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/22_come_push_chest/draft/end_ic_tr.webp",
+            "bytes": 45962,
+            "sourceBytes": 2601385,
+            "modified": "2026-06-02T19:13:43"
+          },
           "end_ic_it": null
         },
         "missing": [
           "end_coh_it",
-          "end_ic_tr",
           "end_ic_it"
         ],
         "extra": [],
@@ -9760,7 +9758,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-02T19:08:58",
+  "exportedAt": "2026-06-02T21:28:11",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
