@@ -145,8 +145,8 @@ function renderStatus(visibleCount) {
   const summary = state.summary;
   els.status.innerHTML = [
     chip("Datasets", `${visibleCount}/${summary.datasetCount ?? 0}`),
-    chip("Existing complete", summary.existingComplete ?? 0, "ok"),
-    chip("Existing problems", summary.existingWithProblems ?? 0, summary.existingWithProblems ? "bad" : "ok"),
+    chip("Set 1 complete", summary.existingComplete ?? 0, "ok"),
+    chip("Set 1 problems", summary.existingWithProblems ?? 0, summary.existingWithProblems ? "bad" : "ok"),
     chip("Folder 2", summary.draftFolders ?? 0, "warn"),
     chip("Draft complete", summary.draftComplete ?? 0, "ok"),
     progressChip("Endings", summary.endings?.draft, progressTone(summary.endings?.draft)),
@@ -217,8 +217,8 @@ function renderDataset(dataset) {
         <div class="dataset-tags">${tags}</div>
       </header>
       <div class="variant-grid">
-        ${renderVariant(dataset, "existing", "Existing")}
-        ${renderVariant(dataset, "draft", "Draft / folder 2")}
+        ${renderVariant(dataset, "existing", "Set 1")}
+        ${renderVariant(dataset, "draft", "Set 2 / folder 2")}
       </div>
     </article>
   `;
@@ -226,7 +226,7 @@ function renderDataset(dataset) {
 
 function tagChips(dataset) {
   const chips = [];
-  chips.push(dataset.existing.complete ? chip("Existing", "8/8", "ok") : chip("Existing", `${8 - dataset.existing.missing.length}/8`, "bad"));
+  chips.push(dataset.existing.complete ? chip("Set 1", "8/8", "ok") : chip("Set 1", `${8 - dataset.existing.missing.length}/8`, "bad"));
 
   if (!dataset.draft.exists) {
     chips.push(chip("Folder 2", "missing", "warn"));

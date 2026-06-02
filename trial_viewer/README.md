@@ -1,6 +1,6 @@
 # Gurung Trial Viewer
 
-A local web interface for reviewing the existing experimental trials and the draft trials in each dataset's `2` folder.
+A local web interface for reviewing set `1` and set `2` experimental trials.
 
 Run it from the workspace root:
 

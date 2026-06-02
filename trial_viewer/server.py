@@ -112,6 +112,15 @@ def parse_dataset_folder(path: Path) -> tuple[int, str] | None:
     return int(match.group(1)), match.group(2)
 
 
+def set_folder(dataset_folder: Path, set_number: int) -> Path:
+    candidate = dataset_folder / str(set_number)
+    if candidate.is_dir():
+        return candidate
+    if set_number == 1:
+        return dataset_folder
+    return candidate
+
+
 def file_info(path: Path, dataset_number: int, variant: str) -> dict[str, object]:
     stat = path.stat()
     return {
@@ -170,8 +179,8 @@ def scan_datasets(root: Path, ideas: dict[str, dict[str, str]] | None = None) ->
             continue
 
         dataset_number, label = parsed
-        existing = scan_image_dir(folder, dataset_number, "existing")
-        draft = scan_image_dir(folder / "2", dataset_number, "draft")
+        existing = scan_image_dir(set_folder(folder, 1), dataset_number, "existing")
+        draft = scan_image_dir(set_folder(folder, 2), dataset_number, "draft")
         add_ideas_to_variant(existing, dataset_number, "existing", ideas)
         add_ideas_to_variant(draft, dataset_number, "draft", ideas)
 
@@ -475,7 +484,7 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             self.send_error_json(HTTPStatus.NOT_FOUND, "Dataset not found.")
             return
 
-        image_dir = dataset_folder if variant == "existing" else dataset_folder / "2"
+        image_dir = set_folder(dataset_folder, 1 if variant == "existing" else 2)
         image_path = (image_dir / filename).resolve()
         try:
             image_path.relative_to(image_dir.resolve())
