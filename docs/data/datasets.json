@@ -66,9 +66,9 @@
     "existingComplete": 30,
     "existingWithProblems": 0,
     "draftFolders": 30,
-    "draftComplete": 21,
+    "draftComplete": 22,
     "draftEmpty": 0,
-    "draftNeedsEndings": 9,
+    "draftNeedsEndings": 8,
     "extraImages": 0,
     "endings": {
       "existing": {
@@ -78,20 +78,20 @@
         "percent": 100.0
       },
       "draft": {
-        "present": 78,
+        "present": 80,
         "total": 90,
-        "missing": 12,
-        "percent": 86.7
+        "missing": 10,
+        "percent": 88.9
       },
       "all": {
-        "present": 168,
+        "present": 170,
         "total": 180,
-        "missing": 12,
-        "percent": 93.3
+        "missing": 10,
+        "percent": 94.4
       }
     }
   },
-  "scannedAt": "2026-06-04T01:31:50",
+  "scannedAt": "2026-06-04T01:43:07",
   "datasets": [
     {
       "number": 1,
@@ -7109,7 +7109,7 @@
       "draft": {
         "exists": true,
         "path": "assets/21_cough_burn_bottles/draft",
-        "fileCount": 6,
+        "fileCount": 7,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -7166,7 +7166,15 @@
             "sourceBytes": 2907800,
             "modified": "2026-06-04T01:27:48"
           },
-          "end_ic_it": null
+          "end_ic_it": {
+            "filename": "end_ic_it.webp",
+            "originalFilename": "end_ic_it.png",
+            "stem": "end_ic_it",
+            "url": "assets/21_cough_burn_bottles/draft/end_ic_it.webp",
+            "bytes": 46806,
+            "sourceBytes": 2600372,
+            "modified": "2026-06-04T01:41:56"
+          }
         },
         "core": {
           "ic_1": {
@@ -7226,11 +7234,18 @@
             "sourceBytes": 2907800,
             "modified": "2026-06-04T01:27:48"
           },
-          "end_ic_it": null
+          "end_ic_it": {
+            "filename": "end_ic_it.webp",
+            "originalFilename": "end_ic_it.png",
+            "stem": "end_ic_it",
+            "url": "assets/21_cough_burn_bottles/draft/end_ic_it.webp",
+            "bytes": 46806,
+            "sourceBytes": 2600372,
+            "modified": "2026-06-04T01:41:56"
+          }
         },
         "missing": [
-          "end_coh_it",
-          "end_ic_it"
+          "end_coh_it"
         ],
         "extra": [],
         "complete": false,
@@ -9808,7 +9823,7 @@
       "draft": {
         "exists": true,
         "path": "assets/29_sit_cut_potato/draft",
-        "fileCount": 7,
+        "fileCount": 8,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -9873,7 +9888,15 @@
             "sourceBytes": 3324947,
             "modified": "2026-06-03T14:58:38"
           },
-          "end_ic_it": null
+          "end_ic_it": {
+            "filename": "end_ic_it.webp",
+            "originalFilename": "end_ic_it.png",
+            "stem": "end_ic_it",
+            "url": "assets/29_sit_cut_potato/draft/end_ic_it.webp",
+            "bytes": 113060,
+            "sourceBytes": 3380008,
+            "modified": "2026-06-04T01:33:51"
+          }
         },
         "core": {
           "ic_1": {
@@ -9941,13 +9964,19 @@
             "sourceBytes": 3324947,
             "modified": "2026-06-03T14:58:38"
           },
-          "end_ic_it": null
+          "end_ic_it": {
+            "filename": "end_ic_it.webp",
+            "originalFilename": "end_ic_it.png",
+            "stem": "end_ic_it",
+            "url": "assets/29_sit_cut_potato/draft/end_ic_it.webp",
+            "bytes": 113060,
+            "sourceBytes": 3380008,
+            "modified": "2026-06-04T01:33:51"
+          }
         },
-        "missing": [
-          "end_ic_it"
-        ],
+        "missing": [],
         "extra": [],
-        "complete": false,
+        "complete": true,
         "ideas": {
           "ic_1": null,
           "coh_1": null,
@@ -9962,10 +9991,7 @@
           "end_ic_it": null
         }
       },
-      "issueTags": [
-        "draft-incomplete",
-        "draft-needs-endings"
-      ]
+      "issueTags": []
     },
     {
       "number": 30,
@@ -10300,7 +10326,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-04T01:31:50",
+  "exportedAt": "2026-06-04T01:43:07",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
