@@ -66,9 +66,9 @@
     "existingComplete": 30,
     "existingWithProblems": 0,
     "draftFolders": 30,
-    "draftComplete": 20,
+    "draftComplete": 21,
     "draftEmpty": 0,
-    "draftNeedsEndings": 10,
+    "draftNeedsEndings": 9,
     "extraImages": 0,
     "endings": {
       "existing": {
@@ -78,20 +78,20 @@
         "percent": 100.0
       },
       "draft": {
-        "present": 75,
+        "present": 78,
         "total": 90,
-        "missing": 15,
-        "percent": 83.3
+        "missing": 12,
+        "percent": 86.7
       },
       "all": {
-        "present": 165,
+        "present": 168,
         "total": 180,
-        "missing": 15,
-        "percent": 91.7
+        "missing": 12,
+        "percent": 93.3
       }
     }
   },
-  "scannedAt": "2026-06-04T01:09:15",
+  "scannedAt": "2026-06-04T01:31:50",
   "datasets": [
     {
       "number": 1,
@@ -6088,7 +6088,7 @@
       "draft": {
         "exists": true,
         "path": "assets/18_yawn_put_on_cap/draft",
-        "fileCount": 7,
+        "fileCount": 8,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -6135,7 +6135,15 @@
             "sourceBytes": 2162763,
             "modified": "2026-06-01T00:34:23"
           },
-          "end_coh_it": null,
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/18_yawn_put_on_cap/draft/end_coh_it.webp",
+            "bytes": 44582,
+            "sourceBytes": 2357421,
+            "modified": "2026-06-04T01:29:21"
+          },
           "end_ic_tr": {
             "filename": "end_ic_tr.webp",
             "originalFilename": "end_ic_tr.png",
@@ -6203,7 +6211,15 @@
           }
         },
         "endings": {
-          "end_coh_it": null,
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/18_yawn_put_on_cap/draft/end_coh_it.webp",
+            "bytes": 44582,
+            "sourceBytes": 2357421,
+            "modified": "2026-06-04T01:29:21"
+          },
           "end_ic_tr": {
             "filename": "end_ic_tr.webp",
             "originalFilename": "end_ic_tr.png",
@@ -6223,11 +6239,9 @@
             "modified": "2026-06-03T21:34:34"
           }
         },
-        "missing": [
-          "end_coh_it"
-        ],
+        "missing": [],
         "extra": [],
-        "complete": false,
+        "complete": true,
         "ideas": {
           "ic_1": null,
           "coh_1": null,
@@ -6239,10 +6253,7 @@
           "end_ic_it": null
         }
       },
-      "issueTags": [
-        "draft-incomplete",
-        "draft-needs-endings"
-      ]
+      "issueTags": []
     },
     {
       "number": 19,
@@ -6420,7 +6431,7 @@
       "draft": {
         "exists": true,
         "path": "assets/19_sit_crack_egg/draft",
-        "fileCount": 6,
+        "fileCount": 7,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -6476,7 +6487,15 @@
             "sourceBytes": 2407566,
             "modified": "2026-06-04T01:05:28"
           },
-          "end_ic_tr": null,
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/19_sit_crack_egg/draft/end_ic_tr.webp",
+            "bytes": 44294,
+            "sourceBytes": 2495216,
+            "modified": "2026-06-04T01:19:42"
+          },
           "end_ic_it": null
         },
         "core": {
@@ -6536,11 +6555,18 @@
             "sourceBytes": 2407566,
             "modified": "2026-06-04T01:05:28"
           },
-          "end_ic_tr": null,
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/19_sit_crack_egg/draft/end_ic_tr.webp",
+            "bytes": 44294,
+            "sourceBytes": 2495216,
+            "modified": "2026-06-04T01:19:42"
+          },
           "end_ic_it": null
         },
         "missing": [
-          "end_ic_tr",
           "end_ic_it"
         ],
         "extra": [],
@@ -7083,7 +7109,7 @@
       "draft": {
         "exists": true,
         "path": "assets/21_cough_burn_bottles/draft",
-        "fileCount": 5,
+        "fileCount": 6,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -7131,7 +7157,15 @@
             "modified": "2026-06-01T00:42:17"
           },
           "end_coh_it": null,
-          "end_ic_tr": null,
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/21_cough_burn_bottles/draft/end_ic_tr.webp",
+            "bytes": 69406,
+            "sourceBytes": 2907800,
+            "modified": "2026-06-04T01:27:48"
+          },
           "end_ic_it": null
         },
         "core": {
@@ -7183,12 +7217,19 @@
         },
         "endings": {
           "end_coh_it": null,
-          "end_ic_tr": null,
+          "end_ic_tr": {
+            "filename": "end_ic_tr.webp",
+            "originalFilename": "end_ic_tr.png",
+            "stem": "end_ic_tr",
+            "url": "assets/21_cough_burn_bottles/draft/end_ic_tr.webp",
+            "bytes": 69406,
+            "sourceBytes": 2907800,
+            "modified": "2026-06-04T01:27:48"
+          },
           "end_ic_it": null
         },
         "missing": [
           "end_coh_it",
-          "end_ic_tr",
           "end_ic_it"
         ],
         "extra": [],
@@ -10259,7 +10300,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-04T01:09:15",
+  "exportedAt": "2026-06-04T01:31:50",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
