@@ -66,9 +66,9 @@
     "existingComplete": 30,
     "existingWithProblems": 0,
     "draftFolders": 30,
-    "draftComplete": 21,
+    "draftComplete": 20,
     "draftEmpty": 0,
-    "draftNeedsEndings": 9,
+    "draftNeedsEndings": 10,
     "extraImages": 0,
     "endings": {
       "existing": {
@@ -91,7 +91,7 @@
       }
     }
   },
-  "scannedAt": "2026-06-04T00:46:49",
+  "scannedAt": "2026-06-04T01:09:15",
   "datasets": [
     {
       "number": 1,
@@ -6420,7 +6420,7 @@
       "draft": {
         "exists": true,
         "path": "assets/19_sit_crack_egg/draft",
-        "fileCount": 5,
+        "fileCount": 6,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -6467,7 +6467,15 @@
             "sourceBytes": 2361724,
             "modified": "2026-06-01T00:35:14"
           },
-          "end_coh_it": null,
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/19_sit_crack_egg/draft/end_coh_it.webp",
+            "bytes": 39706,
+            "sourceBytes": 2407566,
+            "modified": "2026-06-04T01:05:28"
+          },
           "end_ic_tr": null,
           "end_ic_it": null
         },
@@ -6519,12 +6527,19 @@
           }
         },
         "endings": {
-          "end_coh_it": null,
+          "end_coh_it": {
+            "filename": "end_coh_it.webp",
+            "originalFilename": "end_coh_it.png",
+            "stem": "end_coh_it",
+            "url": "assets/19_sit_crack_egg/draft/end_coh_it.webp",
+            "bytes": 39706,
+            "sourceBytes": 2407566,
+            "modified": "2026-06-04T01:05:28"
+          },
           "end_ic_tr": null,
           "end_ic_it": null
         },
         "missing": [
-          "end_coh_it",
           "end_ic_tr",
           "end_ic_it"
         ],
@@ -9752,7 +9767,7 @@
       "draft": {
         "exists": true,
         "path": "assets/29_sit_cut_potato/draft",
-        "fileCount": 8,
+        "fileCount": 7,
         "images": {
           "ic_1": {
             "filename": "ic_1.webp",
@@ -9817,15 +9832,7 @@
             "sourceBytes": 3324947,
             "modified": "2026-06-03T14:58:38"
           },
-          "end_ic_it": {
-            "filename": "end_ic_it.webp",
-            "originalFilename": "end_ic_it.png",
-            "stem": "end_ic_it",
-            "url": "assets/29_sit_cut_potato/draft/end_ic_it.webp",
-            "bytes": 102592,
-            "sourceBytes": 3253536,
-            "modified": "2026-06-03T15:04:01"
-          }
+          "end_ic_it": null
         },
         "core": {
           "ic_1": {
@@ -9893,19 +9900,13 @@
             "sourceBytes": 3324947,
             "modified": "2026-06-03T14:58:38"
           },
-          "end_ic_it": {
-            "filename": "end_ic_it.webp",
-            "originalFilename": "end_ic_it.png",
-            "stem": "end_ic_it",
-            "url": "assets/29_sit_cut_potato/draft/end_ic_it.webp",
-            "bytes": 102592,
-            "sourceBytes": 3253536,
-            "modified": "2026-06-03T15:04:01"
-          }
+          "end_ic_it": null
         },
-        "missing": [],
+        "missing": [
+          "end_ic_it"
+        ],
         "extra": [],
-        "complete": true,
+        "complete": false,
         "ideas": {
           "ic_1": null,
           "coh_1": null,
@@ -9920,7 +9921,10 @@
           "end_ic_it": null
         }
       },
-      "issueTags": []
+      "issueTags": [
+        "draft-incomplete",
+        "draft-needs-endings"
+      ]
     },
     {
       "number": 30,
@@ -10255,7 +10259,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-04T00:46:49",
+  "exportedAt": "2026-06-04T01:09:15",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
