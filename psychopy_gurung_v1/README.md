@@ -6,9 +6,12 @@ This is a first Builder-compatible draft based on the design described on 2026-0
 - Main trials: 30 datasets x 4 conditions = 120 trials.
 - Trial order: fixed random order, seed `20260606`.
 - Breaks: after trials 40 and 80.
-- Between-trial placeholder images: `Placeholders/between_001.png` ... `between_120.png`.
-- Between-trial audio probes: 12 rows marked in `Conds/main_all_120.csv`; placeholder audio is `Audio/probe_placeholder.wav`; lockout is 30 seconds.
-- Practice uses old practice images and old audio files from `old/`.
+- Between-trial images: random images copied from `between_trials/` into `BetweenTrials/`.
+- Between-trial audio probes: 12 rows marked in `Conds/main_all_120.csv`; audio is `Audio/tsakyali.wav`; lockout is 10 seconds.
+- Practice uses old practice images/audio, starts each trial with a random between-trial image, and plays `Audio/tsakyali.wav` before the last picture.
+- Breaks show `Stimuli/break.png`; space is locked for 30 seconds.
+- Main recordings are named with image set, condition, and picture identifier.
+- Practice recordings are named with practice trial number and picture number.
 
 Open `gurung_120_v1.psyexp` in PsychoPy Builder.
 

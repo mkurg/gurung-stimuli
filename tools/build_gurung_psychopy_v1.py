@@ -7,6 +7,7 @@ import json
 import random
 import re
 import shutil
+import tempfile
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from pathlib import Path
@@ -72,7 +73,10 @@ PRACTICE_FIELDS = [
     "img3_role",
     "img4",
     "img4_role",
+    "between_image",
 ]
+
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 
 
 def natural_key(value: str) -> list[object]:
@@ -146,9 +150,11 @@ def copy_assets(out_dir: Path, old_dir: Path) -> None:
     audio_dir = out_dir / "Audio"
     stim_dir = out_dir / "Stimuli"
     placeholder_dir = out_dir / "Placeholders"
+    between_dir = out_dir / "BetweenTrials"
     audio_dir.mkdir(parents=True, exist_ok=True)
     stim_dir.mkdir(parents=True, exist_ok=True)
     placeholder_dir.mkdir(parents=True, exist_ok=True)
+    between_dir.mkdir(parents=True, exist_ok=True)
 
     for path in sorted((old_dir / "Audio").iterdir(), key=lambda item: item.name):
         if path.is_file():
@@ -158,7 +164,7 @@ def copy_assets(out_dir: Path, old_dir: Path) -> None:
         if path.is_file():
             shutil.copy2(path, stim_dir / path.name)
 
-    probe_source = audio_dir / "isolated_instr.wav"
+    probe_source = audio_dir / "tsakyali.wav"
     if probe_source.is_file():
         shutil.copy2(probe_source, audio_dir / "probe_placeholder.wav")
 
@@ -166,8 +172,27 @@ def copy_assets(out_dir: Path, old_dir: Path) -> None:
     for index in range(1, 121):
         shutil.copy2(placeholder_source, placeholder_dir / f"between_{index:03d}.png")
 
+    source_between = Path("between_trials")
+    if source_between.is_dir():
+        for path in sorted(source_between.iterdir(), key=lambda item: natural_key(item.name)):
+            if path.is_file() and path.suffix.lower() in IMAGE_EXTENSIONS:
+                target = between_dir / f"{slugify(path.stem)}{path.suffix.lower()}"
+                shutil.copy2(path, target)
 
-def build_main_rows(datasets: list[dict[str, object]]) -> list[dict[str, str]]:
+
+def list_between_images(out_dir: Path) -> list[str]:
+    between_dir = out_dir / "BetweenTrials"
+    images = [
+        f"BetweenTrials/{path.name}"
+        for path in sorted(between_dir.iterdir(), key=lambda item: natural_key(item.name))
+        if path.is_file() and path.suffix.lower() in IMAGE_EXTENSIONS
+    ]
+    if not images:
+        return [f"Placeholders/between_{index:03d}.png" for index in range(1, 121)]
+    return images
+
+
+def build_main_rows(datasets: list[dict[str, object]], between_images: list[str]) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     for dataset in datasets:
         number = int(dataset["number"])
@@ -204,15 +229,16 @@ def build_main_rows(datasets: list[dict[str, object]]) -> list[dict[str, str]]:
     probe_indices = set(rng.sample(range(len(rows)), 12))
     for index, row in enumerate(rows, start=1):
         row["random_order"] = str(index)
-        row["between_image"] = f"Placeholders/between_{index:03d}.png"
+        row["between_image"] = rng.choice(between_images)
         if index - 1 in probe_indices:
             row["audio_probe"] = "1"
-            row["between_audio"] = "Audio/probe_placeholder.wav"
-            row["between_audio_lock_sec"] = "30"
+            row["between_audio"] = "Audio/tsakyali.wav"
+            row["between_audio_lock_sec"] = "10"
     return rows
 
 
-def build_practice_rows() -> list[dict[str, str]]:
+def build_practice_rows(between_images: list[str]) -> list[dict[str, str]]:
+    rng = random.Random(RANDOM_SEED + 1)
     rows: list[dict[str, str]] = []
     for index in range(1, 9):
         row = {
@@ -226,6 +252,7 @@ def build_practice_rows() -> list[dict[str, str]]:
             "img3_role": "practice_3",
             "img4": "",
             "img4_role": "",
+            "between_image": rng.choice(between_images),
         }
         rows.append(row)
     return rows
@@ -262,10 +289,9 @@ G_DATA_DIR = G_ROOT / "data"
 G_RECORDINGS_DIR = G_ROOT / "recordings"
 G_DATA_DIR.mkdir(exist_ok=True)
 G_RECORDINGS_DIR.mkdir(exist_ok=True)
-G_IMAGE_SIZE = (0.30, 0.45)
-G_PLACEHOLDER_SIZE = (0.48, 0.48)
-G_ARROW_SIZE = (0.065, 0.065)
-G_STEP = 0.34
+G_IMAGE_SIZE = (0.22, 0.35)
+G_ARROW_SIZE = (0.035, 0.035)
+G_STEP = 0.27
 G_MAIN_TRIAL_INDEX = 0
 G_PRACTICE_TRIAL_INDEX = 0
 G_SPEAKER = None
@@ -298,6 +324,15 @@ def g_float(value, default=0.0):
         return default
 
 
+def g_int(value, default=0):
+    if g_is_blank(value):
+        return default
+    try:
+        return int(float(value))
+    except Exception:
+        return default
+
+
 def g_path(value):
     value = g_text(value)
     if not value:
@@ -306,6 +341,23 @@ def g_path(value):
     if path.is_absolute():
         return str(path)
     return str(G_ROOT / path)
+
+
+def g_fullscreen_size(win):
+    try:
+        return (float(win.size[0]) / float(win.size[1]), 1.0)
+    except Exception:
+        return (1.5, 1.0)
+
+
+def g_fullscreen_image(win, image_value):
+    return visual.ImageStim(
+        win,
+        image=g_path(image_value),
+        pos=(0, 0),
+        size=g_fullscreen_size(win),
+        interpolate=True,
+    )
 
 
 def g_choose_speaker():
@@ -445,8 +497,18 @@ class GRecorder:
     def stop(self):
         if self.stream is None:
             return ""
-        self.stream.stop()
-        self.stream.close()
+        try:
+            self.stream.stop()
+        except Exception as err:
+            print("Recorder stop failed; aborting stream:", err)
+            try:
+                self.stream.abort()
+            except Exception:
+                pass
+        try:
+            self.stream.close()
+        except Exception as err:
+            print("Recorder close failed:", err)
         self.stream = None
         if self.path and self.frames:
             audio = _gurung_np.concatenate(self.frames, axis=0)
@@ -459,6 +521,18 @@ class GRecorder:
             self.stream.abort()
             self.stream.close()
             self.stream = None
+
+
+def g_cleanup():
+    try:
+        G_RECORDER.abort()
+    except Exception as err:
+        print("Recorder cleanup failed:", err)
+    try:
+        if G_SPEAKER is not None:
+            G_SPEAKER.close()
+    except Exception as err:
+        print("Speaker cleanup failed:", err)
 
 
 G_RECORDER = GRecorder(G_RECORDINGS_DIR)
@@ -493,18 +567,31 @@ win.color = "white"
 practice_roles, practice_paths = g_roles_and_paths()
 practice_images, practice_arrows = g_make_sequence(win, practice_roles, practice_paths)
 practice_segment = 0
-practice_phase = "segment"
+practice_phase = "between"
+practice_placeholder = g_fullscreen_image(win, between_image)
+practice_between_clock = core.Clock()
 practice_audio = None
 practice_audio_clock = core.Clock()
 practice_audio_duration = 0
-practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_seg{practice_segment + 1}_{practice_roles[practice_segment]}"
-practice_audio_file = G_RECORDER.start(practice_stem)
 thisExp.addData("practice_trial_index", G_PRACTICE_TRIAL_INDEX)
+thisExp.addData("practice_between_image", g_path(between_image))
 event.clearEvents()
 '''
 
 PRACTICE_EACH = r'''
-if practice_phase == "segment":
+if practice_phase == "between":
+    practice_placeholder.draw()
+    keys = event.getKeys(keyList=["space", "escape"])
+    if "escape" in keys:
+        G_RECORDER.abort()
+        core.quit()
+    if "space" in keys:
+        thisExp.addData("practice_between_rt", practice_between_clock.getTime())
+        practice_phase = "segment"
+        practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
+        G_RECORDER.start(practice_stem)
+        event.clearEvents()
+elif practice_phase == "segment":
     g_draw_sequence(practice_images, practice_arrows, practice_segment + 1)
     keys = event.getKeys(keyList=["space", "escape"])
     if "escape" in keys:
@@ -525,14 +612,14 @@ if practice_phase == "segment":
                 practice_audio_clock.reset()
                 practice_audio_duration = practice_audio.getDuration() if practice_audio else 0
             else:
-                practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_seg{practice_segment + 1}_{practice_roles[practice_segment]}"
+                practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
                 G_RECORDER.start(practice_stem)
         event.clearEvents()
 elif practice_phase == "practice_audio":
     g_draw_sequence(practice_images, practice_arrows, 2)
     if practice_audio_clock.getTime() >= practice_audio_duration:
         practice_phase = "segment"
-        practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_seg{practice_segment + 1}_{practice_roles[practice_segment]}"
+        practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
         G_RECORDER.start(practice_stem)
         event.clearEvents()
 '''
@@ -572,13 +659,9 @@ main_between_clock = core.Clock()
 main_between_audio = None
 main_between_audio_value = g_text(globals().get("between_audio", ""))
 main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
-main_placeholder = visual.ImageStim(
-    win,
-    image=g_path(between_image),
-    pos=(0, 0),
-    size=G_PLACEHOLDER_SIZE,
-    interpolate=True,
-)
+main_placeholder = g_fullscreen_image(win, between_image)
+main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
+main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
 if main_between_audio_value:
     main_between_audio = g_play_audio(main_between_audio_value)
 main_between_clock.reset()
@@ -601,7 +684,7 @@ if main_phase == "between":
             main_between_audio.stop()
         thisExp.addData("between_rt", main_between_clock.getTime())
         main_phase = "segment"
-        main_stem = f"{expInfo['participant']}_main_{G_MAIN_TRIAL_INDEX:03d}_{trial_id}_seg{main_segment + 1}_{main_roles[main_segment]}"
+        main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
         G_RECORDER.start(main_stem)
         event.clearEvents()
 elif main_phase == "segment":
@@ -619,7 +702,7 @@ elif main_phase == "segment":
             continueRoutine = False
         else:
             main_segment += 1
-            main_stem = f"{expInfo['participant']}_main_{G_MAIN_TRIAL_INDEX:03d}_{trial_id}_seg{main_segment + 1}_{main_roles[main_segment]}"
+            main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
             G_RECORDER.start(main_stem)
         event.clearEvents()
 '''
@@ -633,6 +716,7 @@ if main_between_audio:
 BREAK_BEGIN = r'''
 win.color = "white"
 break_image = visual.ImageStim(win, image=g_path("Stimuli/break.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
+break_clock = core.Clock()
 event.clearEvents()
 '''
 
@@ -641,20 +725,22 @@ break_image.draw()
 keys = event.getKeys(keyList=["space", "escape"])
 if "escape" in keys:
     core.quit()
-if "space" in keys:
+if "space" in keys and break_clock.getTime() >= 30:
     continueRoutine = False
 '''
 
 END_BEGIN = r'''
 win.color = "white"
 finish_image = visual.ImageStim(win, image=g_path("Stimuli/finish.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
+finish_clock = core.Clock()
 event.clearEvents()
 '''
 
 END_EACH = r'''
 finish_image.draw()
 keys = event.getKeys(keyList=["space", "escape"])
-if "escape" in keys or "space" in keys:
+if "escape" in keys or "space" in keys or finish_clock.getTime() >= 10:
+    g_cleanup()
     continueRoutine = False
 '''
 
@@ -890,9 +976,12 @@ This is a first Builder-compatible draft based on the design described on 2026-0
 - Main trials: 30 datasets x 4 conditions = 120 trials.
 - Trial order: fixed random order, seed `{RANDOM_SEED}`.
 - Breaks: after trials 40 and 80.
-- Between-trial placeholder images: `Placeholders/between_001.png` ... `between_120.png`.
-- Between-trial audio probes: 12 rows marked in `Conds/main_all_120.csv`; placeholder audio is `Audio/probe_placeholder.wav`; lockout is 30 seconds.
-- Practice uses old practice images and old audio files from `old/`.
+- Between-trial images: random images copied from `between_trials/` into `BetweenTrials/`.
+- Between-trial audio probes: 12 rows marked in `Conds/main_all_120.csv`; audio is `Audio/tsakyali.wav`; lockout is 10 seconds.
+- Practice uses old practice images/audio, starts each trial with a random between-trial image, and plays `Audio/tsakyali.wav` before the last picture.
+- Breaks show `Stimuli/break.png`; space is locked for 30 seconds.
+- Main recordings are named with image set, condition, and picture identifier.
+- Practice recordings are named with practice trial number and picture number.
 
 Open `gurung_120_v1.psyexp` in PsychoPy Builder.
 
@@ -913,14 +1002,25 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     old_dir = Path(args.old_dir).expanduser().resolve()
     template = Path(args.template).expanduser().resolve()
 
+    preserved_dirs: dict[str, Path] = {}
     if out_dir.exists() and args.clean:
+        preserve_root = Path(tempfile.mkdtemp(prefix="gurung_psychopy_preserve_"))
+        for dirname in ("data", "recordings"):
+            source = out_dir / dirname
+            if source.exists():
+                target = preserve_root / dirname
+                shutil.move(str(source), str(target))
+                preserved_dirs[dirname] = target
         shutil.rmtree(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+    for dirname, source in preserved_dirs.items():
+        shutil.move(str(source), str(out_dir / dirname))
     datasets = scan_dataset_set1(source_root)
     copy_assets(out_dir, old_dir)
 
-    main_rows = build_main_rows(datasets)
-    practice_rows = build_practice_rows()
+    between_images = list_between_images(out_dir)
+    main_rows = build_main_rows(datasets, between_images)
+    practice_rows = build_practice_rows(between_images)
     conds = out_dir / "Conds"
     write_csv(conds / "main_all_120.csv", main_rows, MAIN_FIELDS)
     for block_index in range(3):
@@ -939,6 +1039,7 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         "main_trials": len(main_rows),
         "practice_trials": len(practice_rows),
         "audio_probe_trials": sum(1 for row in main_rows if row["audio_probe"] == "1"),
+        "between_trial_images": len(between_images),
         "blocks": [40, 40, 40],
     }
     (out_dir / "package_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

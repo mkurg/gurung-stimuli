@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2026.1.3),
-    on Sat Jun  6 20:38:04 2026
+    on Sat Jun  6 21:10:23 2026
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -406,10 +406,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     G_RECORDINGS_DIR = G_ROOT / "recordings"
     G_DATA_DIR.mkdir(exist_ok=True)
     G_RECORDINGS_DIR.mkdir(exist_ok=True)
-    G_IMAGE_SIZE = (0.30, 0.45)
-    G_PLACEHOLDER_SIZE = (0.48, 0.48)
-    G_ARROW_SIZE = (0.065, 0.065)
-    G_STEP = 0.34
+    G_IMAGE_SIZE = (0.22, 0.35)
+    G_ARROW_SIZE = (0.035, 0.035)
+    G_STEP = 0.27
     G_MAIN_TRIAL_INDEX = 0
     G_PRACTICE_TRIAL_INDEX = 0
     G_SPEAKER = None
@@ -442,6 +441,15 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             return default
     
     
+    def g_int(value, default=0):
+        if g_is_blank(value):
+            return default
+        try:
+            return int(float(value))
+        except Exception:
+            return default
+    
+    
     def g_path(value):
         value = g_text(value)
         if not value:
@@ -450,6 +458,23 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if path.is_absolute():
             return str(path)
         return str(G_ROOT / path)
+    
+    
+    def g_fullscreen_size(win):
+        try:
+            return (float(win.size[0]) / float(win.size[1]), 1.0)
+        except Exception:
+            return (1.5, 1.0)
+    
+    
+    def g_fullscreen_image(win, image_value):
+        return visual.ImageStim(
+            win,
+            image=g_path(image_value),
+            pos=(0, 0),
+            size=g_fullscreen_size(win),
+            interpolate=True,
+        )
     
     
     def g_choose_speaker():
@@ -589,8 +614,18 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         def stop(self):
             if self.stream is None:
                 return ""
-            self.stream.stop()
-            self.stream.close()
+            try:
+                self.stream.stop()
+            except Exception as err:
+                print("Recorder stop failed; aborting stream:", err)
+                try:
+                    self.stream.abort()
+                except Exception:
+                    pass
+            try:
+                self.stream.close()
+            except Exception as err:
+                print("Recorder close failed:", err)
             self.stream = None
             if self.path and self.frames:
                 audio = _gurung_np.concatenate(self.frames, axis=0)
@@ -603,6 +638,18 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 self.stream.abort()
                 self.stream.close()
                 self.stream = None
+    
+    
+    def g_cleanup():
+        try:
+            G_RECORDER.abort()
+        except Exception as err:
+            print("Recorder cleanup failed:", err)
+        try:
+            if G_SPEAKER is not None:
+                G_SPEAKER.close()
+        except Exception as err:
+            print("Speaker cleanup failed:", err)
     
     
     G_RECORDER = GRecorder(G_RECORDINGS_DIR)
@@ -897,13 +944,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         practice_roles, practice_paths = g_roles_and_paths()
         practice_images, practice_arrows = g_make_sequence(win, practice_roles, practice_paths)
         practice_segment = 0
-        practice_phase = "segment"
+        practice_phase = "between"
+        practice_placeholder = g_fullscreen_image(win, between_image)
+        practice_between_clock = core.Clock()
         practice_audio = None
         practice_audio_clock = core.Clock()
         practice_audio_duration = 0
-        practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_seg{practice_segment + 1}_{practice_roles[practice_segment]}"
-        practice_audio_file = G_RECORDER.start(practice_stem)
         thisExp.addData("practice_trial_index", G_PRACTICE_TRIAL_INDEX)
+        thisExp.addData("practice_between_image", g_path(between_image))
         event.clearEvents()
         
         # store start times for PracticeTrial
@@ -961,7 +1009,19 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 pass
             # Run 'Each Frame' code from practice_trial_code
             
-            if practice_phase == "segment":
+            if practice_phase == "between":
+                practice_placeholder.draw()
+                keys = event.getKeys(keyList=["space", "escape"])
+                if "escape" in keys:
+                    G_RECORDER.abort()
+                    core.quit()
+                if "space" in keys:
+                    thisExp.addData("practice_between_rt", practice_between_clock.getTime())
+                    practice_phase = "segment"
+                    practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
+                    G_RECORDER.start(practice_stem)
+                    event.clearEvents()
+            elif practice_phase == "segment":
                 g_draw_sequence(practice_images, practice_arrows, practice_segment + 1)
                 keys = event.getKeys(keyList=["space", "escape"])
                 if "escape" in keys:
@@ -982,14 +1042,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             practice_audio_clock.reset()
                             practice_audio_duration = practice_audio.getDuration() if practice_audio else 0
                         else:
-                            practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_seg{practice_segment + 1}_{practice_roles[practice_segment]}"
+                            practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
                             G_RECORDER.start(practice_stem)
                     event.clearEvents()
             elif practice_phase == "practice_audio":
                 g_draw_sequence(practice_images, practice_arrows, 2)
                 if practice_audio_clock.getTime() >= practice_audio_duration:
                     practice_phase = "segment"
-                    practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_seg{practice_segment + 1}_{practice_roles[practice_segment]}"
+                    practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
                     G_RECORDER.start(practice_stem)
                     event.clearEvents()
             
@@ -1246,13 +1306,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         main_between_audio = None
         main_between_audio_value = g_text(globals().get("between_audio", ""))
         main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
-        main_placeholder = visual.ImageStim(
-            win,
-            image=g_path(between_image),
-            pos=(0, 0),
-            size=G_PLACEHOLDER_SIZE,
-            interpolate=True,
-        )
+        main_placeholder = g_fullscreen_image(win, between_image)
+        main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
+        main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
         if main_between_audio_value:
             main_between_audio = g_play_audio(main_between_audio_value)
         main_between_clock.reset()
@@ -1328,7 +1384,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         main_between_audio.stop()
                     thisExp.addData("between_rt", main_between_clock.getTime())
                     main_phase = "segment"
-                    main_stem = f"{expInfo['participant']}_main_{G_MAIN_TRIAL_INDEX:03d}_{trial_id}_seg{main_segment + 1}_{main_roles[main_segment]}"
+                    main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                     G_RECORDER.start(main_stem)
                     event.clearEvents()
             elif main_phase == "segment":
@@ -1346,7 +1402,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         continueRoutine = False
                     else:
                         main_segment += 1
-                        main_stem = f"{expInfo['participant']}_main_{G_MAIN_TRIAL_INDEX:03d}_{trial_id}_seg{main_segment + 1}_{main_roles[main_segment]}"
+                        main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                         G_RECORDER.start(main_stem)
                     event.clearEvents()
             
@@ -1436,6 +1492,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     break_image = visual.ImageStim(win, image=g_path("Stimuli/break.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
+    break_clock = core.Clock()
     event.clearEvents()
     
     # store start times for Break
@@ -1494,7 +1551,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         keys = event.getKeys(keyList=["space", "escape"])
         if "escape" in keys:
             core.quit()
-        if "space" in keys:
+        if "space" in keys and break_clock.getTime() >= 30:
             continueRoutine = False
         
         
@@ -1600,13 +1657,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         main_between_audio = None
         main_between_audio_value = g_text(globals().get("between_audio", ""))
         main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
-        main_placeholder = visual.ImageStim(
-            win,
-            image=g_path(between_image),
-            pos=(0, 0),
-            size=G_PLACEHOLDER_SIZE,
-            interpolate=True,
-        )
+        main_placeholder = g_fullscreen_image(win, between_image)
+        main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
+        main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
         if main_between_audio_value:
             main_between_audio = g_play_audio(main_between_audio_value)
         main_between_clock.reset()
@@ -1682,7 +1735,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         main_between_audio.stop()
                     thisExp.addData("between_rt", main_between_clock.getTime())
                     main_phase = "segment"
-                    main_stem = f"{expInfo['participant']}_main_{G_MAIN_TRIAL_INDEX:03d}_{trial_id}_seg{main_segment + 1}_{main_roles[main_segment]}"
+                    main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                     G_RECORDER.start(main_stem)
                     event.clearEvents()
             elif main_phase == "segment":
@@ -1700,7 +1753,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         continueRoutine = False
                     else:
                         main_segment += 1
-                        main_stem = f"{expInfo['participant']}_main_{G_MAIN_TRIAL_INDEX:03d}_{trial_id}_seg{main_segment + 1}_{main_roles[main_segment]}"
+                        main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                         G_RECORDER.start(main_stem)
                     event.clearEvents()
             
@@ -1790,6 +1843,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     break_image = visual.ImageStim(win, image=g_path("Stimuli/break.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
+    break_clock = core.Clock()
     event.clearEvents()
     
     # store start times for Break
@@ -1848,7 +1902,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         keys = event.getKeys(keyList=["space", "escape"])
         if "escape" in keys:
             core.quit()
-        if "space" in keys:
+        if "space" in keys and break_clock.getTime() >= 30:
             continueRoutine = False
         
         
@@ -1954,13 +2008,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         main_between_audio = None
         main_between_audio_value = g_text(globals().get("between_audio", ""))
         main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
-        main_placeholder = visual.ImageStim(
-            win,
-            image=g_path(between_image),
-            pos=(0, 0),
-            size=G_PLACEHOLDER_SIZE,
-            interpolate=True,
-        )
+        main_placeholder = g_fullscreen_image(win, between_image)
+        main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
+        main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
         if main_between_audio_value:
             main_between_audio = g_play_audio(main_between_audio_value)
         main_between_clock.reset()
@@ -2036,7 +2086,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         main_between_audio.stop()
                     thisExp.addData("between_rt", main_between_clock.getTime())
                     main_phase = "segment"
-                    main_stem = f"{expInfo['participant']}_main_{G_MAIN_TRIAL_INDEX:03d}_{trial_id}_seg{main_segment + 1}_{main_roles[main_segment]}"
+                    main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                     G_RECORDER.start(main_stem)
                     event.clearEvents()
             elif main_phase == "segment":
@@ -2054,7 +2104,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         continueRoutine = False
                     else:
                         main_segment += 1
-                        main_stem = f"{expInfo['participant']}_main_{G_MAIN_TRIAL_INDEX:03d}_{trial_id}_seg{main_segment + 1}_{main_roles[main_segment]}"
+                        main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                         G_RECORDER.start(main_stem)
                     event.clearEvents()
             
@@ -2144,6 +2194,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     finish_image = visual.ImageStim(win, image=g_path("Stimuli/finish.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
+    finish_clock = core.Clock()
     event.clearEvents()
     
     # store start times for EndExperiment
@@ -2200,7 +2251,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         
         finish_image.draw()
         keys = event.getKeys(keyList=["space", "escape"])
-        if "escape" in keys or "space" in keys:
+        if "escape" in keys or "space" in keys or finish_clock.getTime() >= 10:
+            g_cleanup()
             continueRoutine = False
         
         
