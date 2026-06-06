@@ -112,7 +112,8 @@ async function fetchDatasetData() {
 
   for (const source of sources) {
     try {
-      const response = await fetch(source, { cache: "no-store" });
+      const url = source === "/api/datasets" ? source : versionedDataUrl(source);
+      const response = await fetch(url, { cache: "no-store" });
       if (!response.ok) {
         throw new Error(`${source} returned HTTP ${response.status}`);
       }
@@ -126,6 +127,11 @@ async function fetchDatasetData() {
   }
 
   throw new Error(`Could not load dataset data. ${lastError?.message ?? ""}`.trim());
+}
+
+function versionedDataUrl(source) {
+  const separator = source.includes("?") ? "&" : "?";
+  return `${source}${separator}v=${Date.now()}`;
 }
 
 function render() {
@@ -332,15 +338,29 @@ function renderThumb(image, stem, dataset, variant, extra = false, idea = null) 
     `;
   }
 
+  const url = versionedImageUrl(image);
   const caption = `Dataset ${dataset.number}: ${dataset.displayName} / ${variant} / ${image.filename}`;
   return `
-    <button class="thumb" type="button" data-image="${escapeAttr(image.url)}" data-caption="${escapeAttr(caption)}">
-      <img loading="lazy" src="${escapeAttr(image.url)}" alt="${escapeAttr(stem)}">
+    <button class="thumb" type="button" data-image="${escapeAttr(url)}" data-caption="${escapeAttr(caption)}">
+      <img loading="lazy" src="${escapeAttr(url)}" alt="${escapeAttr(stem)}">
       <div class="thumb-label">
         <span>${escapeHtml(extra ? image.filename : stem)}</span>
       </div>
     </button>
   `;
+}
+
+function versionedImageUrl(image) {
+  const key = [image.modified, image.sourceBytes, image.bytes]
+    .filter((value) => value !== undefined && value !== null && value !== "")
+    .join("-");
+
+  if (!key) {
+    return image.url;
+  }
+
+  const separator = image.url.includes("?") ? "&" : "?";
+  return `${image.url}${separator}v=${encodeURIComponent(key)}`;
 }
 
 function matchesFilters(dataset) {
