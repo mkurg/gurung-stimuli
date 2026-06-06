@@ -43,6 +43,28 @@ trial_viewer/missing_picture_ideas.json
 
 Use the local viewer to edit those notes. The next static export bakes them into `docs/data/datasets.json`, so they appear on GitHub Pages after commit and push.
 
+## PsychoPy experiment
+
+The runnable PsychoPy package is generated in:
+
+```text
+psychopy_gurung/
+```
+
+The workspace package keeps condition tables and the runner script in Git, while the image columns point at the Google Drive PNG source. To rebuild it:
+
+```sh
+python3 tools/build_psychopy_package.py --out psychopy_gurung
+```
+
+A normalized image-copy package for running from Google Drive was also generated under the Gurung stimuli folder:
+
+```text
+Gurung stimuli/PsychoPy package 2026-06-06/
+```
+
+It contains `Stimuli/set1/...`, `Stimuli/set2/...`, the same condition tables, and `gurung_experiment.py` with relative image paths.
+
 ## Publish on GitHub
 
 Commit the repository, push it to GitHub, then enable Pages from:

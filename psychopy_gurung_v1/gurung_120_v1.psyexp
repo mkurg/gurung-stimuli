@@ -1,0 +1,493 @@
+<?xml version='1.0' encoding='utf-8'?>
+<PsychoPy2experiment encoding="utf-8" version="2026.1.3">
+  <Settings>
+    <Param val="ptb" valType="str" updates="None" name="Audio lib" />
+    <Param val="" valType="str" updates="None" name="Completed URL" />
+    <Param val="auto" valType="str" updates="None" name="Data file delimiter" />
+    <Param val="u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])" valType="code" updates="None" name="Data filename" />
+    <Param val="True" valType="bool" updates="None" name="Enable Escape" />
+    <Param val="Thank you for your patience." valType="str" updates="None" name="End Message" />
+    <Param val="{'participant': 'f&quot;{randint(0, 999999):06.0f}&quot;', 'session': '001'}" valType="code" updates="None" name="Experiment info" />
+    <Param val="True" valType="bool" updates="None" name="Force stereo" />
+    <Param val="False" valType="bool" updates="None" name="Full-screen window" />
+    <Param val="" valType="str" updates="None" name="HTML path" />
+    <Param val="" valType="str" updates="None" name="Incomplete URL" />
+    <Param val="testMonitor" valType="str" updates="None" name="Monitor" />
+    <Param val="[]" valType="list" updates="None" name="Resources" />
+    <Param val="False" valType="bool" updates="None" name="Save csv file" />
+    <Param val="False" valType="bool" updates="None" name="Save excel file" />
+    <Param val="False" valType="bool" updates="None" name="Save hdf5 file" />
+    <Param val="True" valType="bool" updates="None" name="Save log file" />
+    <Param val="True" valType="bool" updates="None" name="Save psydat file" />
+    <Param val="True" valType="bool" updates="None" name="Save wide csv file" />
+    <Param val="0" valType="num" updates="None" name="Screen" />
+    <Param val="True" valType="bool" updates="None" name="Show info dlg" />
+    <Param val="False" valType="bool" updates="None" name="Show mouse" />
+    <Param val="height" valType="str" updates="None" name="Units" />
+    <Param val="" valType="str" updates="None" name="Use version" />
+    <Param val="(1200, 800)" valType="list" updates="None" name="Window size (pixels)" />
+    <Param val="none" valType="str" updates="None" name="backgroundFit" />
+    <Param val="" valType="str" updates="None" name="backgroundImg" />
+    <Param val="avg" valType="str" updates="None" name="blendMode" />
+    <Param val="float" valType="str" updates="None" name="clockFormat" />
+    <Param val="{'thisRow.t': 'priority.CRITICAL', 'expName': 'priority.LOW'}" valType="dict" updates="None" name="colPriority" />
+    <Param val="$(1.0000, 1.0000, 1.0000)" valType="color" updates="None" name="color" />
+    <Param val="rgb" valType="str" updates="None" name="colorSpace" />
+    <Param val="warning" valType="code" updates="None" name="consoleLoggingLevel" />
+    <Param val="gurung_120_v1" valType="str" updates="None" name="expName" />
+    <Param val="" valType="str" updates="None" name="expVersion" />
+    <Param val="on Sync" valType="str" updates="None" name="exportHTML" />
+    <Param val="None" valType="str" updates="None" name="eyetracker" />
+    <Param val="" valType="code" updates="None" name="frameRate" />
+    <Param val="Attempting to measure frame rate of screen, please wait..." valType="str" updates="None" name="frameRateMsg" />
+    <Param val="PsychToolbox" valType="str" updates="None" name="keyboardBackend" />
+    <Param val="info" valType="code" updates="None" name="logging level" />
+    <Param val="True" valType="bool" updates="None" name="measureFrameRate" />
+    <Param val="['MIDDLE_BUTTON']" valType="list" updates="None" name="mgBlink" />
+    <Param val="CONTINUOUS" valType="str" updates="None" name="mgMove" />
+    <Param val="0.5" valType="num" updates="None" name="mgSaccade" />
+    <Param val="1" valType="code" updates="None" name="runMode" />
+    <Param val="False" valType="bool" updates="None" name="rush" />
+    <Param val="time" valType="str" updates="None" name="sortColumns" />
+    <Param val="pyglet" valType="str" updates="None" name="winBackend" />
+  </Settings>
+  <Routines>
+    <Routine name="Instructions">
+      <RoutineSettingsComponent name="Instructions" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="Instructions" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="Instructions_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="Instructions_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="instructions_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="&#10;from pathlib import Path&#10;&#10;try:&#10;    from psychopy.hardware.speaker import SpeakerDevice&#10;except Exception as _gurung_speaker_import_error:&#10;    SpeakerDevice = None&#10;    print(&quot;SpeakerDevice import failed:&quot;, _gurung_speaker_import_error)&#10;&#10;try:&#10;    import numpy as _gurung_np&#10;    import sounddevice as _gurung_sd&#10;    import soundfile as _gurung_sf&#10;    G_RECORDING_AVAILABLE = True&#10;except Exception as _gurung_recording_error:&#10;    G_RECORDING_AVAILABLE = False&#10;    print(&quot;Audio recording is unavailable:&quot;, _gurung_recording_error)&#10;&#10;G_ROOT = Path(_thisDir)&#10;G_DATA_DIR = G_ROOT / &quot;data&quot;&#10;G_RECORDINGS_DIR = G_ROOT / &quot;recordings&quot;&#10;G_DATA_DIR.mkdir(exist_ok=True)&#10;G_RECORDINGS_DIR.mkdir(exist_ok=True)&#10;G_IMAGE_SIZE = (0.30, 0.45)&#10;G_PLACEHOLDER_SIZE = (0.48, 0.48)&#10;G_ARROW_SIZE = (0.065, 0.065)&#10;G_STEP = 0.34&#10;G_MAIN_TRIAL_INDEX = 0&#10;G_PRACTICE_TRIAL_INDEX = 0&#10;G_SPEAKER = None&#10;&#10;try:&#10;    event.globalKeys.add(key=&quot;escape&quot;, func=core.quit, name=&quot;gurung_escape_quit&quot;)&#10;except Exception as _gurung_global_key_error:&#10;    print(&quot;Global escape key was not registered:&quot;, _gurung_global_key_error)&#10;&#10;&#10;def g_is_blank(value):&#10;    if value is None:&#10;        return True&#10;    text = str(value).strip()&#10;    return text == &quot;&quot; or text.lower() in {&quot;none&quot;, &quot;nan&quot;, &quot;null&quot;}&#10;&#10;&#10;def g_text(value):&#10;    if g_is_blank(value):&#10;        return &quot;&quot;&#10;    return str(value).strip()&#10;&#10;&#10;def g_float(value, default=0.0):&#10;    if g_is_blank(value):&#10;        return default&#10;    try:&#10;        return float(value)&#10;    except Exception:&#10;        return default&#10;&#10;&#10;def g_path(value):&#10;    value = g_text(value)&#10;    if not value:&#10;        return &quot;&quot;&#10;    path = Path(value)&#10;    if path.is_absolute():&#10;        return str(path)&#10;    return str(G_ROOT / path)&#10;&#10;&#10;def g_choose_speaker():&#10;    if SpeakerDevice is None:&#10;        return None&#10;    try:&#10;        devices = SpeakerDevice.getAvailableDevices()&#10;    except Exception as err:&#10;        print(&quot;Could not list speaker devices:&quot;, err)&#10;        return None&#10;    names = [g_text(device.get(&quot;deviceName&quot;) or device.get(&quot;name&quot;)) for device in devices]&#10;    print(&quot;Available speaker devices:&quot;, names)&#10;    virtual_terms = (&quot;blackhole&quot;, &quot;soundflower&quot;, &quot;loopback&quot;, &quot;aggregate&quot;, &quot;zoom&quot;, &quot;teams&quot;)&#10;    preferred = []&#10;    fallback = []&#10;    for device in devices:&#10;        name = g_text(device.get(&quot;deviceName&quot;) or device.get(&quot;name&quot;))&#10;        if not name:&#10;            continue&#10;        if any(term in name.lower() for term in virtual_terms):&#10;            fallback.append(name)&#10;        else:&#10;            preferred.append(name)&#10;    for name in preferred + fallback:&#10;        try:&#10;            speaker = SpeakerDevice(name=name, latencyClass=0)&#10;            print(&quot;Using speaker device:&quot;, speaker.name)&#10;            return speaker&#10;        except Exception as err:&#10;            print(f&quot;Could not open speaker {name!r}:&quot;, err)&#10;    print(&quot;No usable speaker found; PsychoPy will use its default audio device.&quot;)&#10;    return None&#10;&#10;&#10;G_SPEAKER = g_choose_speaker()&#10;&#10;&#10;def g_safe(value):&#10;    text = &quot;&quot;.join(ch if ch.isalnum() or ch in &quot;._-&quot; else &quot;_&quot; for ch in str(value))&#10;    while &quot;__&quot; in text:&#10;        text = text.replace(&quot;__&quot;, &quot;_&quot;)&#10;    return text.strip(&quot;._&quot;) or &quot;item&quot;&#10;&#10;&#10;def g_roles_and_paths():&#10;    roles = []&#10;    paths = []&#10;    for idx in range(1, 5):&#10;        image_value = globals().get(f&quot;img{idx}&quot;, &quot;&quot;)&#10;        role_value = globals().get(f&quot;img{idx}_role&quot;, f&quot;img{idx}&quot;)&#10;        if not g_is_blank(image_value):&#10;            paths.append(g_path(image_value))&#10;            roles.append(g_text(role_value) or f&quot;img{idx}&quot;)&#10;    return roles, paths&#10;&#10;&#10;def g_positions_for_roles(roles):&#10;    target_index = None&#10;    for target_role in (&quot;tr_target&quot;, &quot;it_target&quot;):&#10;        if target_role in roles:&#10;            target_index = roles.index(target_role)&#10;            break&#10;    if target_index is None:&#10;        target_index = (len(roles) - 1) / 2&#10;    return [((idx - target_index) * G_STEP, 0) for idx in range(len(roles))]&#10;&#10;&#10;def g_make_sequence(win, roles, paths):&#10;    positions = g_positions_for_roles(roles)&#10;    images = []&#10;    for path, pos in zip(paths, positions):&#10;        images.append(visual.ImageStim(win, image=path, pos=pos, size=G_IMAGE_SIZE, interpolate=True))&#10;    arrows = []&#10;    arrow_path = g_path(&quot;Stimuli/arrow.png&quot;)&#10;    for left, right in zip(positions, positions[1:]):&#10;        arrows.append(&#10;            visual.ImageStim(&#10;                win,&#10;                image=arrow_path,&#10;                pos=((left[0] + right[0]) / 2, 0),&#10;                size=G_ARROW_SIZE,&#10;                interpolate=True,&#10;            )&#10;        )&#10;    return images, arrows&#10;&#10;&#10;def g_draw_sequence(images, arrows, reveal_count):&#10;    win.color = &quot;white&quot;&#10;    for idx in range(reveal_count):&#10;        images[idx].draw()&#10;    for idx in range(max(0, reveal_count - 1)):&#10;        arrows[idx].draw()&#10;&#10;&#10;def g_play_audio(path_value):&#10;    path = g_path(path_value)&#10;    if not path:&#10;        return None&#10;    if G_SPEAKER is not None:&#10;        audio = sound.Sound(path, speaker=G_SPEAKER)&#10;    else:&#10;        audio = sound.Sound(path)&#10;    audio.play()&#10;    return audio&#10;&#10;&#10;class GRecorder:&#10;    def __init__(self, root):&#10;        self.root = Path(root)&#10;        self.root.mkdir(exist_ok=True)&#10;        self.stream = None&#10;        self.frames = []&#10;        self.path = None&#10;&#10;    def start(self, stem):&#10;        self.stop()&#10;        if not G_RECORDING_AVAILABLE:&#10;            return &quot;&quot;&#10;        self.frames = []&#10;        self.path = self.root / f&quot;{g_safe(stem)}.wav&quot;&#10;&#10;        def callback(indata, frames, time_info, status):&#10;            if status:&#10;                print(status)&#10;            self.frames.append(indata.copy())&#10;&#10;        self.stream = _gurung_sd.InputStream(&#10;            samplerate=48000,&#10;            channels=1,&#10;            dtype=&quot;float32&quot;,&#10;            callback=callback,&#10;        )&#10;        self.stream.start()&#10;        return str(self.path)&#10;&#10;    def stop(self):&#10;        if self.stream is None:&#10;            return &quot;&quot;&#10;        self.stream.stop()&#10;        self.stream.close()&#10;        self.stream = None&#10;        if self.path and self.frames:&#10;            audio = _gurung_np.concatenate(self.frames, axis=0)&#10;            _gurung_sf.write(str(self.path), audio, 48000)&#10;            return str(self.path)&#10;        return &quot;&quot;&#10;&#10;    def abort(self):&#10;        if self.stream is not None:&#10;            self.stream.abort()&#10;            self.stream.close()&#10;            self.stream = None&#10;&#10;&#10;G_RECORDER = GRecorder(G_RECORDINGS_DIR)&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;instruction_icon = visual.ImageStim(win, image=g_path(&quot;Stimuli/sound.png&quot;), pos=(0, 0), size=(0.22, 0.22), interpolate=True)&#10;instruction_audio = g_play_audio(&quot;Audio/sequence_instr.wav&quot;)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;instruction_icon.draw()&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;return&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    core.quit()&#10;if &quot;return&quot; in keys:&#10;    if instruction_audio:&#10;        instruction_audio.stop()&#10;    instruction_audio = g_play_audio(&quot;Audio/sequence_instr.wav&quot;)&#10;if &quot;space&quot; in keys:&#10;    if instruction_audio:&#10;        instruction_audio.stop()&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="instructions_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+    <Routine name="PracticeTrial">
+      <RoutineSettingsComponent name="PracticeTrial" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="PracticeTrial" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="PracticeTrial_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="PracticeTrial_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="practice_trial_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;G_PRACTICE_TRIAL_INDEX += 1&#10;win.color = &quot;white&quot;&#10;practice_roles, practice_paths = g_roles_and_paths()&#10;practice_images, practice_arrows = g_make_sequence(win, practice_roles, practice_paths)&#10;practice_segment = 0&#10;practice_phase = &quot;segment&quot;&#10;practice_audio = None&#10;practice_audio_clock = core.Clock()&#10;practice_audio_duration = 0&#10;practice_stem = f&quot;{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_seg{practice_segment + 1}_{practice_roles[practice_segment]}&quot;&#10;practice_audio_file = G_RECORDER.start(practice_stem)&#10;thisExp.addData(&quot;practice_trial_index&quot;, G_PRACTICE_TRIAL_INDEX)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;if practice_phase == &quot;segment&quot;:&#10;    g_draw_sequence(practice_images, practice_arrows, practice_segment + 1)&#10;    keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;    if &quot;escape&quot; in keys:&#10;        G_RECORDER.abort()&#10;        core.quit()&#10;    if &quot;space&quot; in keys:&#10;        audio_file = G_RECORDER.stop()&#10;        seg = practice_segment + 1&#10;        thisExp.addData(f&quot;practice_seg{seg}_role&quot;, practice_roles[practice_segment])&#10;        thisExp.addData(f&quot;practice_seg{seg}_audio&quot;, audio_file)&#10;        if practice_segment &gt;= len(practice_images) - 1:&#10;            continueRoutine = False&#10;        else:&#10;            practice_segment += 1&#10;            if practice_segment == 2:&#10;                practice_phase = &quot;practice_audio&quot;&#10;                practice_audio = g_play_audio(&quot;Audio/tsakyali.wav&quot;)&#10;                practice_audio_clock.reset()&#10;                practice_audio_duration = practice_audio.getDuration() if practice_audio else 0&#10;            else:&#10;                practice_stem = f&quot;{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_seg{practice_segment + 1}_{practice_roles[practice_segment]}&quot;&#10;                G_RECORDER.start(practice_stem)&#10;        event.clearEvents()&#10;elif practice_phase == &quot;practice_audio&quot;:&#10;    g_draw_sequence(practice_images, practice_arrows, 2)&#10;    if practice_audio_clock.getTime() &gt;= practice_audio_duration:&#10;        practice_phase = &quot;segment&quot;&#10;        practice_stem = f&quot;{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_seg{practice_segment + 1}_{practice_roles[practice_segment]}&quot;&#10;        G_RECORDER.start(practice_stem)&#10;        event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="&#10;G_RECORDER.stop()&#10;if practice_audio:&#10;    practice_audio.stop()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="practice_trial_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+    <Routine name="PracticeEnd">
+      <RoutineSettingsComponent name="PracticeEnd" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="PracticeEnd" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="PracticeEnd_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="PracticeEnd_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="practice_end_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;practice_done_icon = visual.ImageStim(win, image=g_path(&quot;Stimuli/sound.png&quot;), pos=(0, 0), size=(0.22, 0.22), interpolate=True)&#10;practice_done_audio = g_play_audio(&quot;Audio/practice_end.wav&quot;)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;practice_done_icon.draw()&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    core.quit()&#10;if &quot;space&quot; in keys:&#10;    if practice_done_audio:&#10;        practice_done_audio.stop()&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="practice_end_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+    <Routine name="MainTrial">
+      <RoutineSettingsComponent name="MainTrial" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="MainTrial" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="MainTrial_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="MainTrial_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="main_trial_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;G_MAIN_TRIAL_INDEX += 1&#10;win.color = &quot;white&quot;&#10;main_roles, main_paths = g_roles_and_paths()&#10;main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)&#10;main_segment = 0&#10;main_phase = &quot;between&quot;&#10;main_between_clock = core.Clock()&#10;main_between_audio = None&#10;main_between_audio_value = g_text(globals().get(&quot;between_audio&quot;, &quot;&quot;))&#10;main_audio_lock = g_float(globals().get(&quot;between_audio_lock_sec&quot;, 0), 0.0)&#10;main_placeholder = visual.ImageStim(&#10;    win,&#10;    image=g_path(between_image),&#10;    pos=(0, 0),&#10;    size=G_PLACEHOLDER_SIZE,&#10;    interpolate=True,&#10;)&#10;if main_between_audio_value:&#10;    main_between_audio = g_play_audio(main_between_audio_value)&#10;main_between_clock.reset()&#10;thisExp.addData(&quot;main_trial_index&quot;, G_MAIN_TRIAL_INDEX)&#10;thisExp.addData(&quot;between_image&quot;, g_path(between_image))&#10;thisExp.addData(&quot;audio_probe&quot;, audio_probe)&#10;thisExp.addData(&quot;between_audio&quot;, g_path(main_between_audio_value) if main_between_audio_value else &quot;&quot;)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;if main_phase == &quot;between&quot;:&#10;    main_placeholder.draw()&#10;    keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;    if &quot;escape&quot; in keys:&#10;        G_RECORDER.abort()&#10;        core.quit()&#10;    if &quot;space&quot; in keys and main_between_clock.getTime() &gt;= main_audio_lock:&#10;        if main_between_audio:&#10;            main_between_audio.stop()&#10;        thisExp.addData(&quot;between_rt&quot;, main_between_clock.getTime())&#10;        main_phase = &quot;segment&quot;&#10;        main_stem = f&quot;{expInfo['participant']}_main_{G_MAIN_TRIAL_INDEX:03d}_{trial_id}_seg{main_segment + 1}_{main_roles[main_segment]}&quot;&#10;        G_RECORDER.start(main_stem)&#10;        event.clearEvents()&#10;elif main_phase == &quot;segment&quot;:&#10;    g_draw_sequence(main_images, main_arrows, main_segment + 1)&#10;    keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;    if &quot;escape&quot; in keys:&#10;        G_RECORDER.abort()&#10;        core.quit()&#10;    if &quot;space&quot; in keys:&#10;        audio_file = G_RECORDER.stop()&#10;        seg = main_segment + 1&#10;        thisExp.addData(f&quot;seg{seg}_role&quot;, main_roles[main_segment])&#10;        thisExp.addData(f&quot;seg{seg}_audio&quot;, audio_file)&#10;        if main_segment &gt;= len(main_images) - 1:&#10;            continueRoutine = False&#10;        else:&#10;            main_segment += 1&#10;            main_stem = f&quot;{expInfo['participant']}_main_{G_MAIN_TRIAL_INDEX:03d}_{trial_id}_seg{main_segment + 1}_{main_roles[main_segment]}&quot;&#10;            G_RECORDER.start(main_stem)&#10;        event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="&#10;G_RECORDER.stop()&#10;if main_between_audio:&#10;    main_between_audio.stop()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="main_trial_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+    <Routine name="Break">
+      <RoutineSettingsComponent name="Break" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="Break" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="Break_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="Break_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="break_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;break_image = visual.ImageStim(win, image=g_path(&quot;Stimuli/break.png&quot;), pos=(0, 0), size=(0.55, 0.55), interpolate=True)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;break_image.draw()&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    core.quit()&#10;if &quot;space&quot; in keys:&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="break_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+    <Routine name="EndExperiment">
+      <RoutineSettingsComponent name="EndExperiment" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="EndExperiment" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="EndExperiment_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="EndExperiment_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="end_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;finish_image = visual.ImageStim(win, image=g_path(&quot;Stimuli/finish.png&quot;), pos=(0, 0), size=(0.55, 0.55), interpolate=True)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;finish_image.draw()&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys or &quot;space&quot; in keys:&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="end_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+  </Routines>
+  <Flow>
+    <Routine name="Instructions" />
+    <LoopInitiator loopType="TrialHandler" name="PracticeLoop">
+      <Param name="Selected rows" val="" valType="str" updates="None" />
+      <Param name="conditions" val="None" valType="str" updates="None" />
+      <Param name="conditionsFile" val="Conds/practice.csv" valType="file" updates="None" />
+      <Param name="endPoints" val="[0, 1]" valType="num" updates="None" />
+      <Param name="isTrials" val="True" valType="bool" updates="None" />
+      <Param name="loopType" val="sequential" valType="str" updates="None" />
+      <Param name="nReps" val="1" valType="num" updates="None" />
+      <Param name="name" val="PracticeLoop" valType="code" updates="None" />
+      <Param name="random seed" val="" valType="code" updates="None" />
+    </LoopInitiator>
+    <Routine name="PracticeTrial" />
+    <LoopTerminator name="PracticeLoop" />
+    <Routine name="PracticeEnd" />
+    <LoopInitiator loopType="TrialHandler" name="MainBlock1">
+      <Param name="Selected rows" val="" valType="str" updates="None" />
+      <Param name="conditions" val="None" valType="str" updates="None" />
+      <Param name="conditionsFile" val="Conds/main_block1.csv" valType="file" updates="None" />
+      <Param name="endPoints" val="[0, 1]" valType="num" updates="None" />
+      <Param name="isTrials" val="True" valType="bool" updates="None" />
+      <Param name="loopType" val="sequential" valType="str" updates="None" />
+      <Param name="nReps" val="1" valType="num" updates="None" />
+      <Param name="name" val="MainBlock1" valType="code" updates="None" />
+      <Param name="random seed" val="" valType="code" updates="None" />
+    </LoopInitiator>
+    <Routine name="MainTrial" />
+    <LoopTerminator name="MainBlock1" />
+    <Routine name="Break" />
+    <LoopInitiator loopType="TrialHandler" name="MainBlock2">
+      <Param name="Selected rows" val="" valType="str" updates="None" />
+      <Param name="conditions" val="None" valType="str" updates="None" />
+      <Param name="conditionsFile" val="Conds/main_block2.csv" valType="file" updates="None" />
+      <Param name="endPoints" val="[0, 1]" valType="num" updates="None" />
+      <Param name="isTrials" val="True" valType="bool" updates="None" />
+      <Param name="loopType" val="sequential" valType="str" updates="None" />
+      <Param name="nReps" val="1" valType="num" updates="None" />
+      <Param name="name" val="MainBlock2" valType="code" updates="None" />
+      <Param name="random seed" val="" valType="code" updates="None" />
+    </LoopInitiator>
+    <Routine name="MainTrial" />
+    <LoopTerminator name="MainBlock2" />
+    <Routine name="Break" />
+    <LoopInitiator loopType="TrialHandler" name="MainBlock3">
+      <Param name="Selected rows" val="" valType="str" updates="None" />
+      <Param name="conditions" val="None" valType="str" updates="None" />
+      <Param name="conditionsFile" val="Conds/main_block3.csv" valType="file" updates="None" />
+      <Param name="endPoints" val="[0, 1]" valType="num" updates="None" />
+      <Param name="isTrials" val="True" valType="bool" updates="None" />
+      <Param name="loopType" val="sequential" valType="str" updates="None" />
+      <Param name="nReps" val="1" valType="num" updates="None" />
+      <Param name="name" val="MainBlock3" valType="code" updates="None" />
+      <Param name="random seed" val="" valType="code" updates="None" />
+    </LoopInitiator>
+    <Routine name="MainTrial" />
+    <LoopTerminator name="MainBlock3" />
+    <Routine name="EndExperiment" />
+  </Flow>
+</PsychoPy2experiment>
