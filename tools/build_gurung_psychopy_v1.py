@@ -7,6 +7,7 @@ import json
 import random
 import re
 import shutil
+import subprocess
 import tempfile
 import xml.etree.ElementTree as ET
 from datetime import datetime
@@ -77,6 +78,7 @@ PRACTICE_FIELDS = [
 ]
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
+MAIN_STIMULI_MAX_DIMENSION = 900
 
 
 def natural_key(value: str) -> list[object]:
@@ -177,7 +179,75 @@ def copy_assets(out_dir: Path, old_dir: Path) -> None:
         for path in sorted(source_between.iterdir(), key=lambda item: natural_key(item.name)):
             if path.is_file() and path.suffix.lower() in IMAGE_EXTENSIONS:
                 target = between_dir / f"{slugify(path.stem)}{path.suffix.lower()}"
-                shutil.copy2(path, target)
+                try:
+                    subprocess.run(
+                        ["sips", "-Z", "1920", str(path), "--out", str(target)],
+                        check=True,
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                    )
+                except Exception:
+                    shutil.copy2(path, target)
+
+
+def copy_or_downsample_image(source: Path, target: Path, max_dimension: int) -> None:
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists() and target.stat().st_mtime >= source.stat().st_mtime:
+        return
+    try:
+        subprocess.run(
+            ["sips", "-Z", str(max_dimension), str(source), "--out", str(target)],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except Exception:
+        shutil.copy2(source, target)
+
+
+def copy_main_stimuli(out_dir: Path, datasets: list[dict[str, object]]) -> dict[tuple[int, str], str]:
+    main_dir = out_dir / "MainStimuli"
+    manifest_rows: list[dict[str, str]] = []
+    relative_paths: dict[tuple[int, str], str] = {}
+    for dataset in datasets:
+        number = int(dataset["number"])
+        slug = str(dataset["slug"])
+        label = str(dataset["label"])
+        set_folder = Path(dataset["set_folder"])
+        target_dir = main_dir / slug
+        for stem in EXPECTED_IMAGES:
+            source = set_folder / f"{stem}.png"
+            target = target_dir / f"{stem}.png"
+            copy_or_downsample_image(source, target, MAIN_STIMULI_MAX_DIMENSION)
+            relative_path = f"MainStimuli/{slug}/{stem}.png"
+            relative_paths[(number, stem)] = relative_path
+            manifest_rows.append(
+                {
+                    "dataset_number": str(number),
+                    "dataset_slug": slug,
+                    "dataset_label": label,
+                    "image_role": stem,
+                    "package_path": relative_path,
+                    "source_path": str(source),
+                }
+            )
+
+    manifest_path = main_dir / "main_stimuli_manifest.csv"
+    with manifest_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=[
+                "dataset_number",
+                "dataset_slug",
+                "dataset_label",
+                "image_role",
+                "package_path",
+                "source_path",
+            ],
+        )
+        writer.writeheader()
+        writer.writerows(manifest_rows)
+    return relative_paths
 
 
 def list_between_images(out_dir: Path) -> list[str]:
@@ -192,7 +262,11 @@ def list_between_images(out_dir: Path) -> list[str]:
     return images
 
 
-def build_main_rows(datasets: list[dict[str, object]], between_images: list[str]) -> list[dict[str, str]]:
+def build_main_rows(
+    datasets: list[dict[str, object]],
+    between_images: list[str],
+    main_stimuli: dict[tuple[int, str], str],
+) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     for dataset in datasets:
         number = int(dataset["number"])
@@ -220,7 +294,7 @@ def build_main_rows(datasets: list[dict[str, object]], between_images: list[str]
                 row[f"img{index}"] = ""
                 row[f"img{index}_role"] = ""
             for index, stem in enumerate(steps, start=1):
-                row[f"img{index}"] = str(Path(dataset["set_folder"]) / f"{stem}.png")
+                row[f"img{index}"] = main_stimuli[(number, stem)]
                 row[f"img{index}_role"] = stem
             rows.append(row)
 
@@ -268,6 +342,9 @@ def write_csv(path: Path, rows: list[dict[str, str]], fields: list[str]) -> None
 
 SHARED_CODE = r'''
 from pathlib import Path
+import gc
+import queue
+import threading
 
 try:
     from psychopy.hardware.speaker import SpeakerDevice
@@ -287,6 +364,7 @@ except Exception as _gurung_recording_error:
 G_ROOT = Path(_thisDir)
 G_DATA_DIR = G_ROOT / "data"
 G_RECORDINGS_DIR = G_ROOT / "recordings"
+G_DEBUG_LOG = G_ROOT / "debug_gurung_runtime.log"
 G_DATA_DIR.mkdir(exist_ok=True)
 G_RECORDINGS_DIR.mkdir(exist_ok=True)
 G_IMAGE_SIZE = (0.22, 0.35)
@@ -295,11 +373,22 @@ G_STEP = 0.27
 G_MAIN_TRIAL_INDEX = 0
 G_PRACTICE_TRIAL_INDEX = 0
 G_SPEAKER = None
+G_FULLSCREEN_CACHE = {}
+
+
+def g_log(message):
+    text = f"{core.getTime():.3f} {message}"
+    print(text)
+    try:
+        with G_DEBUG_LOG.open("a", encoding="utf-8") as handle:
+            handle.write(text + "\n")
+    except Exception:
+        pass
 
 try:
     event.globalKeys.add(key="escape", func=core.quit, name="gurung_escape_quit")
 except Exception as _gurung_global_key_error:
-    print("Global escape key was not registered:", _gurung_global_key_error)
+    g_log(f"Global escape key was not registered: {_gurung_global_key_error}")
 
 
 def g_is_blank(value):
@@ -351,13 +440,19 @@ def g_fullscreen_size(win):
 
 
 def g_fullscreen_image(win, image_value):
-    return visual.ImageStim(
-        win,
-        image=g_path(image_value),
-        pos=(0, 0),
-        size=g_fullscreen_size(win),
-        interpolate=True,
-    )
+    path = g_path(image_value)
+    stim = G_FULLSCREEN_CACHE.get(path)
+    if stim is None:
+        g_log(f"load_fullscreen_image {path}")
+        stim = visual.ImageStim(
+            win,
+            image=path,
+            pos=(0, 0),
+            size=g_fullscreen_size(win),
+            interpolate=True,
+        )
+        G_FULLSCREEN_CACHE[path] = stim
+    return stim
 
 
 def g_choose_speaker():
@@ -366,10 +461,10 @@ def g_choose_speaker():
     try:
         devices = SpeakerDevice.getAvailableDevices()
     except Exception as err:
-        print("Could not list speaker devices:", err)
+        g_log(f"Could not list speaker devices: {err}")
         return None
     names = [g_text(device.get("deviceName") or device.get("name")) for device in devices]
-    print("Available speaker devices:", names)
+    g_log(f"Available speaker devices: {names}")
     virtual_terms = ("blackhole", "soundflower", "loopback", "aggregate", "zoom", "teams")
     preferred = []
     fallback = []
@@ -384,11 +479,11 @@ def g_choose_speaker():
     for name in preferred + fallback:
         try:
             speaker = SpeakerDevice(name=name, latencyClass=0)
-            print("Using speaker device:", speaker.name)
+            g_log(f"Using speaker device: {speaker.name}")
             return speaker
         except Exception as err:
-            print(f"Could not open speaker {name!r}:", err)
-    print("No usable speaker found; PsychoPy will use its default audio device.")
+            g_log(f"Could not open speaker {name!r}: {err}")
+    g_log("No usable speaker found; PsychoPy will use its default audio device.")
     return None
 
 
@@ -426,6 +521,7 @@ def g_positions_for_roles(roles):
 
 
 def g_make_sequence(win, roles, paths):
+    g_log(f"make_sequence roles={roles} paths={paths}")
     positions = g_positions_for_roles(roles)
     images = []
     for path, pos in zip(paths, positions):
@@ -445,6 +541,20 @@ def g_make_sequence(win, roles, paths):
     return images, arrows
 
 
+def g_release_stims(*groups):
+    for group in groups:
+        if not group:
+            continue
+        for stim in group:
+            try:
+                clear_textures = getattr(stim, "clearTextures", None)
+                if clear_textures is not None:
+                    clear_textures()
+            except Exception as err:
+                g_log(f"stim_release_warning {err}")
+    gc.collect()
+
+
 def g_draw_sequence(images, arrows, reveal_count):
     win.color = "white"
     for idx in range(reveal_count):
@@ -457,6 +567,7 @@ def g_play_audio(path_value):
     path = g_path(path_value)
     if not path:
         return None
+    g_log(f"play_audio {path}")
     if G_SPEAKER is not None:
         audio = sound.Sound(path, speaker=G_SPEAKER)
     else:
@@ -472,19 +583,31 @@ class GRecorder:
         self.stream = None
         self.frames = []
         self.path = None
+        self.write_queue = queue.Queue()
+        self.writer = threading.Thread(target=self._writer_loop, daemon=True)
+        self.writer.start()
 
     def start(self, stem):
         self.stop()
         if not G_RECORDING_AVAILABLE:
             return ""
+        self._ensure_stream()
         self.frames = []
         self.path = self.root / f"{g_safe(stem)}.wav"
+        g_log(f"rec_segment_start {self.path}")
+        return str(self.path)
+
+    def _ensure_stream(self):
+        if self.stream is not None:
+            return
 
         def callback(indata, frames, time_info, status):
             if status:
-                print(status)
-            self.frames.append(indata.copy())
+                g_log(f"rec_callback_status {status}")
+            if self.path is not None:
+                self.frames.append(indata.copy())
 
+        g_log("rec_stream_open_start")
         self.stream = _gurung_sd.InputStream(
             samplerate=48000,
             channels=1,
@@ -492,47 +615,63 @@ class GRecorder:
             callback=callback,
         )
         self.stream.start()
-        return str(self.path)
+        g_log("rec_stream_open_done")
 
     def stop(self):
-        if self.stream is None:
-            return ""
-        try:
-            self.stream.stop()
-        except Exception as err:
-            print("Recorder stop failed; aborting stream:", err)
-            try:
-                self.stream.abort()
-            except Exception:
-                pass
-        try:
-            self.stream.close()
-        except Exception as err:
-            print("Recorder close failed:", err)
-        self.stream = None
-        if self.path and self.frames:
-            audio = _gurung_np.concatenate(self.frames, axis=0)
-            _gurung_sf.write(str(self.path), audio, 48000)
-            return str(self.path)
+        path = self.path
+        frames = self.frames
+        self.path = None
+        self.frames = []
+        if path and frames:
+            g_log(f"rec_segment_queue_write {path} frames={len(frames)}")
+            self.write_queue.put((str(path), frames))
+            return str(path)
         return ""
 
+    def _writer_loop(self):
+        while True:
+            item = self.write_queue.get()
+            if item is None:
+                return
+            path, frames = item
+            try:
+                audio = _gurung_np.concatenate(frames, axis=0)
+                _gurung_sf.write(path, audio, 48000)
+                g_log(f"rec_segment_written {path}")
+            except Exception as err:
+                g_log(f"rec_segment_write_failed {path}: {err}")
+
     def abort(self):
-        if self.stream is not None:
-            self.stream.abort()
-            self.stream.close()
-            self.stream = None
+        self.stop()
+        stream = self.stream
+        self.stream = None
+        if stream is not None:
+            def close_stream():
+                try:
+                    g_log("rec_stream_abort_start")
+                    stream.abort()
+                    g_log("rec_stream_abort_done")
+                except Exception as err:
+                    g_log(f"rec_stream_abort_failed {err}")
+                try:
+                    stream.close()
+                    g_log("rec_stream_close_done")
+                except Exception as err:
+                    g_log(f"rec_stream_close_failed {err}")
+
+            threading.Thread(target=close_stream, daemon=True).start()
 
 
 def g_cleanup():
     try:
         G_RECORDER.abort()
     except Exception as err:
-        print("Recorder cleanup failed:", err)
+        g_log(f"Recorder cleanup failed: {err}")
     try:
         if G_SPEAKER is not None:
             G_SPEAKER.close()
     except Exception as err:
-        print("Speaker cleanup failed:", err)
+        g_log(f"Speaker cleanup failed: {err}")
 
 
 G_RECORDER = GRecorder(G_RECORDINGS_DIR)
@@ -628,6 +767,9 @@ PRACTICE_END = r'''
 G_RECORDER.stop()
 if practice_audio:
     practice_audio.stop()
+g_release_stims(practice_images, practice_arrows)
+practice_images = []
+practice_arrows = []
 '''
 
 PRACTICE_DONE_BEGIN = r'''
@@ -711,6 +853,9 @@ MAIN_END = r'''
 G_RECORDER.stop()
 if main_between_audio:
     main_between_audio.stop()
+g_release_stims(main_images, main_arrows)
+main_images = []
+main_arrows = []
 '''
 
 BREAK_BEGIN = r'''
@@ -982,6 +1127,7 @@ This is a first Builder-compatible draft based on the design described on 2026-0
 - Breaks show `Stimuli/break.png`; space is locked for 30 seconds.
 - Main recordings are named with image set, condition, and picture identifier.
 - Practice recordings are named with practice trial number and picture number.
+- Main PNGs are local packaged copies in `MainStimuli/`, downsampled to max `{MAIN_STIMULI_MAX_DIMENSION}px on the long edge. This avoids loading trial textures from the Google Drive cloud-storage mount during the run.
 
 Open `gurung_120_v1.psyexp` in PsychoPy Builder.
 
@@ -1017,9 +1163,10 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         shutil.move(str(source), str(out_dir / dirname))
     datasets = scan_dataset_set1(source_root)
     copy_assets(out_dir, old_dir)
+    main_stimuli = copy_main_stimuli(out_dir, datasets)
 
     between_images = list_between_images(out_dir)
-    main_rows = build_main_rows(datasets, between_images)
+    main_rows = build_main_rows(datasets, between_images, main_stimuli)
     practice_rows = build_practice_rows(between_images)
     conds = out_dir / "Conds"
     write_csv(conds / "main_all_120.csv", main_rows, MAIN_FIELDS)
@@ -1040,6 +1187,8 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         "practice_trials": len(practice_rows),
         "audio_probe_trials": sum(1 for row in main_rows if row["audio_probe"] == "1"),
         "between_trial_images": len(between_images),
+        "main_stimuli_images": len(main_stimuli),
+        "main_stimuli_max_dimension": MAIN_STIMULI_MAX_DIMENSION,
         "blocks": [40, 40, 40],
     }
     (out_dir / "package_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

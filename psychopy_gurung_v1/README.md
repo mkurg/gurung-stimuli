@@ -12,6 +12,7 @@ This is a first Builder-compatible draft based on the design described on 2026-0
 - Breaks show `Stimuli/break.png`; space is locked for 30 seconds.
 - Main recordings are named with image set, condition, and picture identifier.
 - Practice recordings are named with practice trial number and picture number.
+- Main PNGs are local packaged copies in `MainStimuli/`, downsampled to max `900px on the long edge. This avoids loading trial textures from the Google Drive cloud-storage mount during the run.
 
 Open `gurung_120_v1.psyexp` in PsychoPy Builder.
 
