@@ -79,6 +79,24 @@ PRACTICE_FIELDS = [
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 MAIN_STIMULI_MAX_DIMENSION = 900
+BETWEEN_TRIALS_SOURCE = Path("between_trials") / "Nepal 2025"
+BETWEEN_TRIALS_MAX_DIMENSION = 1920
+PRACTICE_TRIAL_COUNT = 8
+JPEG_SOF_MARKERS = {
+    0xC0,
+    0xC1,
+    0xC2,
+    0xC3,
+    0xC5,
+    0xC6,
+    0xC7,
+    0xC9,
+    0xCA,
+    0xCB,
+    0xCD,
+    0xCE,
+    0xCF,
+}
 
 
 def natural_key(value: str) -> list[object]:
@@ -93,6 +111,104 @@ def slugify(value: str) -> str:
     while "__" in slug:
         slug = slug.replace("__", "_")
     return slug.strip("._") or "item"
+
+
+def _read_uint(data: bytes, offset: int, size: int, endian: str) -> int:
+    return int.from_bytes(data[offset : offset + size], endian)
+
+
+def parse_exif_orientation(exif_data: bytes) -> int:
+    if len(exif_data) < 8:
+        return 1
+    if exif_data[:2] == b"II":
+        endian = "little"
+    elif exif_data[:2] == b"MM":
+        endian = "big"
+    else:
+        return 1
+    try:
+        if _read_uint(exif_data, 2, 2, endian) != 42:
+            return 1
+        ifd_offset = _read_uint(exif_data, 4, 4, endian)
+        if ifd_offset + 2 > len(exif_data):
+            return 1
+        entry_count = _read_uint(exif_data, ifd_offset, 2, endian)
+        base = ifd_offset + 2
+        for index in range(entry_count):
+            entry = base + (index * 12)
+            if entry + 12 > len(exif_data):
+                break
+            tag = _read_uint(exif_data, entry, 2, endian)
+            if tag != 0x0112:
+                continue
+            value_type = _read_uint(exif_data, entry + 2, 2, endian)
+            if value_type == 3:
+                return _read_uint(exif_data, entry + 8, 2, endian)
+            return _read_uint(exif_data, entry + 8, 4, endian)
+    except Exception:
+        return 1
+    return 1
+
+
+def read_jpeg_metadata(path: Path) -> tuple[int, int, int]:
+    width = 0
+    height = 0
+    orientation = 1
+    with path.open("rb") as handle:
+        if handle.read(2) != b"\xff\xd8":
+            raise ValueError(f"Not a JPEG file: {path}")
+        while True:
+            marker_prefix = handle.read(1)
+            if not marker_prefix:
+                break
+            if marker_prefix != b"\xff":
+                continue
+            marker_byte = handle.read(1)
+            while marker_byte == b"\xff":
+                marker_byte = handle.read(1)
+            if not marker_byte:
+                break
+            marker = marker_byte[0]
+            if marker == 0xD9:
+                break
+            if marker == 0xDA:
+                break
+            if marker in {0x01, *range(0xD0, 0xD8)}:
+                continue
+            raw_length = handle.read(2)
+            if len(raw_length) != 2:
+                break
+            length = int.from_bytes(raw_length, "big")
+            data = handle.read(max(0, length - 2))
+            if marker == 0xE1 and data.startswith(b"Exif\x00\x00"):
+                orientation = parse_exif_orientation(data[6:])
+            if marker in JPEG_SOF_MARKERS and len(data) >= 5:
+                height = int.from_bytes(data[1:3], "big")
+                width = int.from_bytes(data[3:5], "big")
+    if width <= 0 or height <= 0:
+        raise ValueError(f"Could not read JPEG dimensions: {path}")
+    return width, height, orientation
+
+
+def read_png_metadata(path: Path) -> tuple[int, int, int]:
+    with path.open("rb") as handle:
+        header = handle.read(24)
+    if not header.startswith(b"\x89PNG\r\n\x1a\n") or header[12:16] != b"IHDR":
+        raise ValueError(f"Could not read PNG dimensions: {path}")
+    return int.from_bytes(header[16:20], "big"), int.from_bytes(header[20:24], "big"), 1
+
+
+def displayed_image_size(path: Path) -> tuple[int, int]:
+    suffix = path.suffix.lower()
+    if suffix in {".jpg", ".jpeg"}:
+        width, height, orientation = read_jpeg_metadata(path)
+    elif suffix == ".png":
+        width, height, orientation = read_png_metadata(path)
+    else:
+        raise ValueError(f"Unsupported image extension: {path}")
+    if orientation in {5, 6, 7, 8}:
+        width, height = height, width
+    return width, height
 
 
 def parse_dataset_folder(path: Path) -> tuple[int, str] | None:
@@ -152,11 +268,9 @@ def copy_assets(out_dir: Path, old_dir: Path) -> None:
     audio_dir = out_dir / "Audio"
     stim_dir = out_dir / "Stimuli"
     placeholder_dir = out_dir / "Placeholders"
-    between_dir = out_dir / "BetweenTrials"
     audio_dir.mkdir(parents=True, exist_ok=True)
     stim_dir.mkdir(parents=True, exist_ok=True)
     placeholder_dir.mkdir(parents=True, exist_ok=True)
-    between_dir.mkdir(parents=True, exist_ok=True)
 
     for path in sorted((old_dir / "Audio").iterdir(), key=lambda item: item.name):
         if path.is_file():
@@ -174,20 +288,49 @@ def copy_assets(out_dir: Path, old_dir: Path) -> None:
     for index in range(1, 121):
         shutil.copy2(placeholder_source, placeholder_dir / f"between_{index:03d}.png")
 
-    source_between = Path("between_trials")
-    if source_between.is_dir():
-        for path in sorted(source_between.iterdir(), key=lambda item: natural_key(item.name)):
-            if path.is_file() and path.suffix.lower() in IMAGE_EXTENSIONS:
-                target = between_dir / f"{slugify(path.stem)}{path.suffix.lower()}"
-                try:
-                    subprocess.run(
-                        ["sips", "-Z", "1920", str(path), "--out", str(target)],
-                        check=True,
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL,
-                    )
-                except Exception:
-                    shutil.copy2(path, target)
+
+def resize_image_with_powershell(source: Path, target: Path, max_dimension: int) -> None:
+    script = r'''
+Add-Type -AssemblyName System.Drawing
+$source = __SOURCE__
+$target = __TARGET__
+$maxDimension = __MAX_DIMENSION__
+$image = [System.Drawing.Image]::FromFile($source)
+try {
+    $scale = [Math]::Min(1.0, $maxDimension / [double]([Math]::Max($image.Width, $image.Height)))
+    $width = [Math]::Max(1, [int][Math]::Round($image.Width * $scale))
+    $height = [Math]::Max(1, [int][Math]::Round($image.Height * $scale))
+    $bitmap = New-Object System.Drawing.Bitmap($width, $height)
+    $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+    try {
+        $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+        $graphics.DrawImage($image, 0, 0, $width, $height)
+    } finally {
+        $graphics.Dispose()
+    }
+    $lowerTarget = $target.ToLowerInvariant()
+    if ($lowerTarget.EndsWith(".jpg") -or $lowerTarget.EndsWith(".jpeg")) {
+        $codec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq "image/jpeg" }
+        $encoderParams = New-Object System.Drawing.Imaging.EncoderParameters(1)
+        $encoderParams.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, [int64]90)
+        $bitmap.Save($target, $codec, $encoderParams)
+        $encoderParams.Dispose()
+    } else {
+        $bitmap.Save($target)
+    }
+    $bitmap.Dispose()
+} finally {
+    $image.Dispose()
+}
+'''.replace("__SOURCE__", json.dumps(str(source))).replace("__TARGET__", json.dumps(str(target))).replace(
+        "__MAX_DIMENSION__", str(int(max_dimension))
+    )
+    subprocess.run(
+        ["powershell", "-NoProfile", "-Command", script],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
 
 
 def copy_or_downsample_image(source: Path, target: Path, max_dimension: int) -> None:
@@ -202,7 +345,10 @@ def copy_or_downsample_image(source: Path, target: Path, max_dimension: int) -> 
             stderr=subprocess.DEVNULL,
         )
     except Exception:
-        shutil.copy2(source, target)
+        try:
+            resize_image_with_powershell(source, target, max_dimension)
+        except Exception:
+            shutil.copy2(source, target)
 
 
 def copy_main_stimuli(out_dir: Path, datasets: list[dict[str, object]]) -> dict[tuple[int, str], str]:
@@ -244,21 +390,50 @@ def copy_main_stimuli(out_dir: Path, datasets: list[dict[str, object]]) -> dict[
                 "package_path",
                 "source_path",
             ],
+            lineterminator="\n",
         )
         writer.writeheader()
         writer.writerows(manifest_rows)
     return relative_paths
 
 
-def list_between_images(out_dir: Path) -> list[str]:
+def list_landscape_between_sources(source_dir: Path) -> list[Path]:
+    if not source_dir.is_dir():
+        raise FileNotFoundError(f"Between-trial source folder not found: {source_dir}")
+    images: list[Path] = []
+    for path in sorted(source_dir.rglob("*"), key=lambda item: natural_key(str(item.relative_to(source_dir)))):
+        if not path.is_file() or path.suffix.lower() not in IMAGE_EXTENSIONS:
+            continue
+        try:
+            width, height = displayed_image_size(path)
+        except Exception as err:
+            print(f"Skipping unreadable between-trial image {path}: {err}")
+            continue
+        if width > height:
+            images.append(path)
+    return images
+
+
+def prepare_between_images(out_dir: Path, required_count: int) -> list[str]:
     between_dir = out_dir / "BetweenTrials"
-    images = [
-        f"BetweenTrials/{path.name}"
-        for path in sorted(between_dir.iterdir(), key=lambda item: natural_key(item.name))
-        if path.is_file() and path.suffix.lower() in IMAGE_EXTENSIONS
-    ]
-    if not images:
-        return [f"Placeholders/between_{index:03d}.png" for index in range(1, 121)]
+    candidates = list_landscape_between_sources(BETWEEN_TRIALS_SOURCE)
+    if len(candidates) < required_count:
+        raise ValueError(
+            f"Need {required_count} unique landscape between-trial images, "
+            f"but found {len(candidates)} in {BETWEEN_TRIALS_SOURCE}"
+        )
+    if between_dir.exists():
+        shutil.rmtree(between_dir)
+    between_dir.mkdir(parents=True, exist_ok=True)
+
+    rng = random.Random(RANDOM_SEED + 2)
+    rng.shuffle(candidates)
+    selected = candidates[:required_count]
+    images: list[str] = []
+    for index, source in enumerate(selected, start=1):
+        target = between_dir / f"nepal_2025_{index:03d}_{slugify(source.stem)}{source.suffix.lower()}"
+        copy_or_downsample_image(source, target, BETWEEN_TRIALS_MAX_DIMENSION)
+        images.append(f"BetweenTrials/{target.name}")
     return images
 
 
@@ -300,10 +475,12 @@ def build_main_rows(
 
     rng = random.Random(RANDOM_SEED)
     rng.shuffle(rows)
+    if len(between_images) < len(rows):
+        raise ValueError(f"Need {len(rows)} unique main between-trial images, got {len(between_images)}")
     probe_indices = set(rng.sample(range(len(rows)), 12))
-    for index, row in enumerate(rows, start=1):
+    for index, (row, between_image) in enumerate(zip(rows, between_images), start=1):
         row["random_order"] = str(index)
-        row["between_image"] = rng.choice(between_images)
+        row["between_image"] = between_image
         if index - 1 in probe_indices:
             row["audio_probe"] = "1"
             row["between_audio"] = "Audio/tsakyali.wav"
@@ -312,9 +489,10 @@ def build_main_rows(
 
 
 def build_practice_rows(between_images: list[str]) -> list[dict[str, str]]:
-    rng = random.Random(RANDOM_SEED + 1)
+    if len(between_images) < PRACTICE_TRIAL_COUNT:
+        raise ValueError(f"Need {PRACTICE_TRIAL_COUNT} unique practice between-trial images, got {len(between_images)}")
     rows: list[dict[str, str]] = []
-    for index in range(1, 9):
+    for index in range(1, PRACTICE_TRIAL_COUNT + 1):
         row = {
             "trial_id": f"practice_{index:02d}",
             "n_images": "3",
@@ -326,7 +504,7 @@ def build_practice_rows(between_images: list[str]) -> list[dict[str, str]]:
             "img3_role": "practice_3",
             "img4": "",
             "img4_role": "",
-            "between_image": rng.choice(between_images),
+            "between_image": between_images[index - 1],
         }
         rows.append(row)
     return rows
@@ -335,7 +513,7 @@ def build_practice_rows(between_images: list[str]) -> list[dict[str, str]]:
 def write_csv(path: Path, rows: list[dict[str, str]], fields: list[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -344,6 +522,7 @@ SHARED_CODE = r'''
 from pathlib import Path
 import gc
 import queue
+import random as _gurung_random
 import threading
 
 try:
@@ -361,19 +540,32 @@ except Exception as _gurung_recording_error:
     G_RECORDING_AVAILABLE = False
     print("Audio recording is unavailable:", _gurung_recording_error)
 
+try:
+    from PIL import Image as _gurung_Image
+    from PIL import ImageOps as _gurung_ImageOps
+except Exception as _gurung_image_import_error:
+    _gurung_Image = None
+    _gurung_ImageOps = None
+    print("Image metadata reading is unavailable:", _gurung_image_import_error)
+
 G_ROOT = Path(_thisDir)
 G_DATA_DIR = G_ROOT / "data"
 G_RECORDINGS_DIR = G_ROOT / "recordings"
 G_DEBUG_LOG = G_ROOT / "debug_gurung_runtime.log"
 G_DATA_DIR.mkdir(exist_ok=True)
 G_RECORDINGS_DIR.mkdir(exist_ok=True)
-G_IMAGE_SIZE = (0.2333333333, 0.35)
-G_ARROW_SIZE = (0.035, 0.035)
-G_STEP = 0.27
+G_IMAGE_ASPECT = 2.0 / 3.0
+G_SEQUENCE_SIDE_STEPS = 2
+G_SEQUENCE_X_MARGIN = 0.02
+G_SEQUENCE_Y_MARGIN = 0.05
+G_SEQUENCE_GAP_RATIO = 0.12
+G_ARROW_MAX_SIZE = 0.045
 G_MAIN_TRIAL_INDEX = 0
 G_PRACTICE_TRIAL_INDEX = 0
 G_SPEAKER = None
-G_FULLSCREEN_CACHE = {}
+G_FULLSCREEN_CACHE = {"stim": None}
+G_BETWEEN_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
+G_BETWEEN_STATE = {"images": [], "index": 0}
 
 
 def g_log(message):
@@ -432,27 +624,90 @@ def g_path(value):
     return str(G_ROOT / path)
 
 
-def g_fullscreen_size(win):
+def g_window_aspect(win):
     try:
-        return (float(win.size[0]) / float(win.size[1]), 1.0)
+        return max(float(win.size[0]) / float(win.size[1]), 1.0)
     except Exception:
-        return (1.5, 1.0)
+        return 1.5
+
+
+def g_image_aspect(path):
+    if _gurung_Image is None:
+        return None
+    try:
+        with _gurung_Image.open(path) as image:
+            if _gurung_ImageOps is not None:
+                image = _gurung_ImageOps.exif_transpose(image)
+            width, height = image.size
+        if width > 0 and height > 0:
+            return float(width) / float(height)
+    except Exception as err:
+        g_log(f"image_aspect_warning {path}: {err}")
+    return None
+
+
+def g_fullscreen_size(win, image_path):
+    screen_aspect = g_window_aspect(win)
+    image_aspect = g_image_aspect(image_path)
+    if not image_aspect:
+        return (screen_aspect, 1.0)
+    if image_aspect >= screen_aspect:
+        return (screen_aspect, screen_aspect / image_aspect)
+    return (image_aspect, 1.0)
 
 
 def g_fullscreen_image(win, image_value):
     path = g_path(image_value)
-    stim = G_FULLSCREEN_CACHE.get(path)
-    if stim is None:
-        g_log(f"load_fullscreen_image {path}")
-        stim = visual.ImageStim(
-            win,
-            image=path,
-            pos=(0, 0),
-            size=g_fullscreen_size(win),
-            interpolate=True,
-        )
-        G_FULLSCREEN_CACHE[path] = stim
+    old_stim = G_FULLSCREEN_CACHE.get("stim")
+    if old_stim is not None:
+        try:
+            old_stim.clearTextures()
+        except Exception:
+            pass
+    g_log(f"load_fullscreen_image {path}")
+    stim = visual.ImageStim(
+        win,
+        image=path,
+        pos=(0, 0),
+        size=g_fullscreen_size(win, path),
+        interpolate=True,
+    )
+    G_FULLSCREEN_CACHE["stim"] = stim
     return stim
+
+
+def g_release_fullscreen_image(stim):
+    g_release_stims([stim])
+    if G_FULLSCREEN_CACHE.get("stim") is stim:
+        G_FULLSCREEN_CACHE["stim"] = None
+
+
+def g_init_between_images():
+    between_dir = G_ROOT / "BetweenTrials"
+    images = []
+    try:
+        for path in sorted(between_dir.iterdir()):
+            if path.is_file() and path.suffix.lower() in G_BETWEEN_IMAGE_EXTS:
+                images.append(f"BetweenTrials/{path.name}")
+    except Exception as err:
+        raise RuntimeError(f"Could not list between-trial images in {between_dir}: {err}")
+    if not images:
+        raise RuntimeError(f"No between-trial images found in {between_dir}")
+    _gurung_random.shuffle(images)
+    G_BETWEEN_STATE["images"] = images
+    G_BETWEEN_STATE["index"] = 0
+    g_log(f"runtime_between_images_shuffled count={len(images)}")
+
+
+def g_next_between_image():
+    images = G_BETWEEN_STATE.get("images") or []
+    index = int(G_BETWEEN_STATE.get("index") or 0)
+    if index >= len(images):
+        raise RuntimeError(f"No unused between-trial images remain: used {index}, available {len(images)}")
+    image_value = images[index]
+    G_BETWEEN_STATE["index"] = index + 1
+    g_log(f"runtime_between_image {index + 1}/{len(images)} {image_value}")
+    return image_value
 
 
 def g_choose_speaker():
@@ -488,6 +743,7 @@ def g_choose_speaker():
 
 
 G_SPEAKER = g_choose_speaker()
+g_init_between_images()
 
 
 def g_safe(value):
@@ -509,36 +765,66 @@ def g_roles_and_paths():
     return roles, paths
 
 
-def g_positions_for_roles(roles):
-    target_index = None
+def g_target_index(roles):
     for target_role in ("tr_target", "it_target"):
         if target_role in roles:
-            target_index = roles.index(target_role)
-            break
-    if target_index is None:
-        target_index = (len(roles) - 1) / 2
-    return [((idx - target_index) * G_STEP, 0) for idx in range(len(roles))]
+            return roles.index(target_role)
+    return (len(roles) - 1) / 2
+
+
+def g_sequence_layout(win, roles):
+    target_index = g_target_index(roles)
+    right_steps = max(0, len(roles) - target_index - 1)
+    side_steps = max(G_SEQUENCE_SIDE_STEPS, target_index, right_steps)
+    horizontal_room = max(0.1, (g_window_aspect(win) / 2) - G_SEQUENCE_X_MARGIN)
+    vertical_room = max(0.1, 1.0 - (2 * G_SEQUENCE_Y_MARGIN))
+    width_from_horizontal = horizontal_room / (side_steps * (1.0 + G_SEQUENCE_GAP_RATIO) + 0.5)
+    image_height = min(vertical_room, width_from_horizontal / G_IMAGE_ASPECT)
+    image_width = image_height * G_IMAGE_ASPECT
+    gap = image_width * G_SEQUENCE_GAP_RATIO
+    step = image_width + gap
+    positions = [((idx - target_index) * step, 0) for idx in range(len(roles))]
+    arrow_size = min(G_ARROW_MAX_SIZE, max(0.02, gap * 0.9))
+    return (image_width, image_height), positions, (arrow_size, arrow_size)
 
 
 def g_make_sequence(win, roles, paths):
     g_log(f"make_sequence roles={roles} paths={paths}")
-    positions = g_positions_for_roles(roles)
+    image_size, positions, arrow_size = g_sequence_layout(win, roles)
     images = []
     for path, pos in zip(paths, positions):
-        images.append(visual.ImageStim(win, image=path, pos=pos, size=G_IMAGE_SIZE, interpolate=True))
+        images.append(visual.ImageStim(win, image=path, pos=pos, size=image_size, interpolate=True))
     arrows = []
-    arrow_path = g_path("Stimuli/arrow.png")
     for left, right in zip(positions, positions[1:]):
-        arrows.append(
-            visual.ImageStim(
-                win,
-                image=arrow_path,
-                pos=((left[0] + right[0]) / 2, 0),
-                size=G_ARROW_SIZE,
-                interpolate=True,
-            )
-        )
+        arrows.append(g_make_arrow(win, ((left[0] + right[0]) / 2, 0), arrow_size))
     return images, arrows
+
+
+def g_make_arrow(win, pos, size):
+    arrow_width = float(size[0])
+    arrow_height = float(size[1])
+    shaft_half_height = arrow_height * 0.16
+    head_back_x = arrow_width * 0.08
+    left_x = -arrow_width / 2.0
+    right_x = arrow_width / 2.0
+    arrow_color = (-0.25, -0.25, -0.25)
+    vertices = [
+        (left_x, -shaft_half_height),
+        (head_back_x, -shaft_half_height),
+        (head_back_x, -arrow_height / 2.0),
+        (right_x, 0),
+        (head_back_x, arrow_height / 2.0),
+        (head_back_x, shaft_half_height),
+        (left_x, shaft_half_height),
+    ]
+    return visual.ShapeStim(
+        win,
+        vertices=vertices,
+        pos=pos,
+        fillColor=arrow_color,
+        lineColor=arrow_color,
+        closeShape=True,
+    )
 
 
 def g_release_stims(*groups):
@@ -703,17 +989,19 @@ if "space" in keys:
 PRACTICE_BEGIN = r'''
 G_PRACTICE_TRIAL_INDEX += 1
 win.color = "white"
+practice_between_image = g_next_between_image()
+practice_placeholder = g_fullscreen_image(win, practice_between_image)
 practice_roles, practice_paths = g_roles_and_paths()
-practice_images, practice_arrows = g_make_sequence(win, practice_roles, practice_paths)
+practice_images = []
+practice_arrows = []
 practice_segment = 0
 practice_phase = "between"
-practice_placeholder = g_fullscreen_image(win, between_image)
 practice_between_clock = core.Clock()
 practice_audio = None
 practice_audio_clock = core.Clock()
 practice_audio_duration = 0
 thisExp.addData("practice_trial_index", G_PRACTICE_TRIAL_INDEX)
-thisExp.addData("practice_between_image", g_path(between_image))
+thisExp.addData("practice_between_image", g_path(practice_between_image))
 event.clearEvents()
 '''
 
@@ -726,6 +1014,9 @@ if practice_phase == "between":
         core.quit()
     if "space" in keys:
         thisExp.addData("practice_between_rt", practice_between_clock.getTime())
+        g_release_fullscreen_image(practice_placeholder)
+        practice_placeholder = None
+        practice_images, practice_arrows = g_make_sequence(win, practice_roles, practice_paths)
         practice_phase = "segment"
         practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
         G_RECORDER.start(practice_stem)
@@ -768,8 +1059,10 @@ G_RECORDER.stop()
 if practice_audio:
     practice_audio.stop()
 g_release_stims(practice_images, practice_arrows)
+g_release_fullscreen_image(practice_placeholder)
 practice_images = []
 practice_arrows = []
+practice_placeholder = None
 '''
 
 PRACTICE_DONE_BEGIN = r'''
@@ -793,22 +1086,24 @@ if "space" in keys:
 MAIN_BEGIN = r'''
 G_MAIN_TRIAL_INDEX += 1
 win.color = "white"
+main_between_image = g_next_between_image()
+main_placeholder = g_fullscreen_image(win, main_between_image)
 main_roles, main_paths = g_roles_and_paths()
-main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
+main_images = []
+main_arrows = []
 main_segment = 0
 main_phase = "between"
 main_between_clock = core.Clock()
 main_between_audio = None
 main_between_audio_value = g_text(globals().get("between_audio", ""))
 main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
-main_placeholder = g_fullscreen_image(win, between_image)
 main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
 main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
 if main_between_audio_value:
     main_between_audio = g_play_audio(main_between_audio_value)
 main_between_clock.reset()
 thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
-thisExp.addData("between_image", g_path(between_image))
+thisExp.addData("between_image", g_path(main_between_image))
 thisExp.addData("audio_probe", audio_probe)
 thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
 event.clearEvents()
@@ -825,6 +1120,9 @@ if main_phase == "between":
         if main_between_audio:
             main_between_audio.stop()
         thisExp.addData("between_rt", main_between_clock.getTime())
+        g_release_fullscreen_image(main_placeholder)
+        main_placeholder = None
+        main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
         main_phase = "segment"
         main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
         G_RECORDER.start(main_stem)
@@ -854,8 +1152,10 @@ G_RECORDER.stop()
 if main_between_audio:
     main_between_audio.stop()
 g_release_stims(main_images, main_arrows)
+g_release_fullscreen_image(main_placeholder)
 main_images = []
 main_arrows = []
+main_placeholder = None
 '''
 
 BREAK_BEGIN = r'''
@@ -1033,7 +1333,7 @@ def patch_settings(settings: ET.Element) -> None:
         elif name == "Data filename":
             param.set("val", "u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])")
         elif name == "Full-screen window":
-            param.set("val", "False")
+            param.set("val", "True")
             param.set("valType", "bool")
         elif name == "Screen":
             param.set("val", "0")
@@ -1121,7 +1421,7 @@ This is a first Builder-compatible draft based on the design described on 2026-0
 - Main trials: 30 datasets x 4 conditions = 120 trials.
 - Trial order: fixed random order, seed `{RANDOM_SEED}`.
 - Breaks: after trials 40 and 80.
-- Between-trial images: random images copied from `between_trials/` into `BetweenTrials/`.
+- Between-trial images: 128 unique landscape photos sampled from `{BETWEEN_TRIALS_SOURCE}` and copied into `BetweenTrials/`; these are shuffled again at runtime, and practice/main never repeat a between-trial image within one experiment.
 - Between-trial audio probes: 12 rows marked in `Conds/main_all_120.csv`; audio is `Audio/tsakyali.wav`; lockout is 10 seconds.
 - Practice uses old practice images/audio, starts each trial with a random between-trial image, and plays `Audio/tsakyali.wav` before the last picture.
 - Breaks show `Stimuli/break.png`; space is locked for 30 seconds.
@@ -1165,9 +1465,12 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     copy_assets(out_dir, old_dir)
     main_stimuli = copy_main_stimuli(out_dir, datasets)
 
-    between_images = list_between_images(out_dir)
-    main_rows = build_main_rows(datasets, between_images, main_stimuli)
-    practice_rows = build_practice_rows(between_images)
+    required_between_count = PRACTICE_TRIAL_COUNT + (len(datasets) * len(TRIAL_PATHS))
+    between_images = prepare_between_images(out_dir, required_between_count)
+    practice_between_images = between_images[:PRACTICE_TRIAL_COUNT]
+    main_between_images = between_images[PRACTICE_TRIAL_COUNT:]
+    main_rows = build_main_rows(datasets, main_between_images, main_stimuli)
+    practice_rows = build_practice_rows(practice_between_images)
     conds = out_dir / "Conds"
     write_csv(conds / "main_all_120.csv", main_rows, MAIN_FIELDS)
     for block_index in range(3):
@@ -1187,6 +1490,8 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         "practice_trials": len(practice_rows),
         "audio_probe_trials": sum(1 for row in main_rows if row["audio_probe"] == "1"),
         "between_trial_images": len(between_images),
+        "between_trial_source": str(BETWEEN_TRIALS_SOURCE),
+        "between_trial_max_dimension": BETWEEN_TRIALS_MAX_DIMENSION,
         "main_stimuli_images": len(main_stimuli),
         "main_stimuli_max_dimension": MAIN_STIMULI_MAX_DIMENSION,
         "blocks": [40, 40, 40],

@@ -7,7 +7,9 @@
   "main_trials": 120,
   "practice_trials": 8,
   "audio_probe_trials": 12,
-  "between_trial_images": 4,
+  "between_trial_images": 128,
+  "between_trial_source": "between_trials/Nepal 2025",
+  "between_trial_max_dimension": 1920,
   "main_stimuli_images": 240,
   "main_stimuli_max_dimension": 900,
   "blocks": [

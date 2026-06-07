@@ -6,7 +6,7 @@ This is a first Builder-compatible draft based on the design described on 2026-0
 - Main trials: 30 datasets x 4 conditions = 120 trials.
 - Trial order: fixed random order, seed `20260606`.
 - Breaks: after trials 40 and 80.
-- Between-trial images: random images copied from `between_trials/` into `BetweenTrials/`.
+- Between-trial images: 128 unique landscape photos sampled from `between_trials/Nepal 2025` and copied into `BetweenTrials/`; these are shuffled again at runtime, and practice/main never repeat a between-trial image within one experiment.
 - Between-trial audio probes: 12 rows marked in `Conds/main_all_120.csv`; audio is `Audio/tsakyali.wav`; lockout is 10 seconds.
 - Practice uses old practice images/audio, starts each trial with a random between-trial image, and plays `Audio/tsakyali.wav` before the last picture.
 - Breaks show `Stimuli/break.png`; space is locked for 30 seconds.

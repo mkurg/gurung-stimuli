@@ -1,12 +1,12 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2026.1.3),
-    on Sat Jun  6 22:03:02 2026
+This experiment was created using PsychoPy3 Experiment Builder (v2025.2.4),
+    on June 07, 2026, at 15:38
 If you publish work using this script the most relevant publication is:
 
-    Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
-        PsychoPy2: Experiments in behavior made easy Behav Res 51: 195. 
+    Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019)
+        PsychoPy2: Experiments in behavior made easy Behav Res 51: 195.
         https://doi.org/10.3758/s13428-018-01193-y
 
 """
@@ -19,7 +19,7 @@ plugins.activatePlugins()
 from psychopy import sound, gui, visual, core, data, event, logging, clock, colors, layout, hardware
 from psychopy.tools import environmenttools
 from psychopy.constants import (
-    NOT_STARTED, STARTED, PLAYING, PAUSED, STOPPED, STOPPING, FINISHED, PRESSED, 
+    NOT_STARTED, STARTED, PLAYING, PAUSED, STOPPED, STOPPING, FINISHED, PRESSED,
     RELEASED, FOREVER, priority
 )
 
@@ -38,7 +38,7 @@ deviceManager = hardware.DeviceManager()
 # ensure that relative paths start from the same directory as this script
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 # store info about the experiment session
-psychopyVersion = '2026.1.3'
+psychopyVersion = '2025.2.4'
 expName = 'gurung_120_v1'  # from the Builder filename that created this script
 expVersion = ''
 # a list of functions to run when the experiment ends (starts off blank)
@@ -55,14 +55,14 @@ expInfo = {
 
 # --- Define some variables which will change depending on pilot mode ---
 '''
-To run in pilot mode, either use the run/pilot toggle in Builder, Coder and Runner, 
-or run the experiment with `--pilot` as an argument. To change what pilot 
+To run in pilot mode, either use the run/pilot toggle in Builder, Coder and Runner,
+or run the experiment with `--pilot` as an argument. To change what pilot
 #mode does, check out the 'Pilot mode' tab in preferences.
 '''
 # work out from system args whether we are running in pilot mode
 PILOTING = core.setPilotModeFromArgs()
 # start off with values from experiment settings
-_fullScr = False
+_fullScr = True
 _winSize = (1200, 800)
 # if in pilot mode, apply overrides according to preferences
 if PILOTING:
@@ -82,7 +82,7 @@ def showExpInfoDlg(expInfo):
     ==========
     expInfo : dict
         Information about this experiment.
-    
+
     Returns
     ==========
     dict
@@ -101,24 +101,24 @@ def showExpInfoDlg(expInfo):
 def setupData(expInfo, dataDir=None):
     """
     Make an ExperimentHandler to handle trials and saving.
-    
+
     Parameters
     ==========
     expInfo : dict
         Information about this experiment, created by the `setupExpInfo` function.
     dataDir : Path, str or None
-        Folder to save the data to, leave as None to create a folder in the current directory.    
+        Folder to save the data to, leave as None to create a folder in the current directory.
     Returns
     ==========
     psychopy.data.ExperimentHandler
-        Handler object for this experiment, contains the data to save and information about 
+        Handler object for this experiment, contains the data to save and information about
         where to save it to.
     """
     # remove dialog-specific syntax from expInfo
     for key, val in expInfo.copy().items():
         newKey, _ = data.utils.parsePipeSyntax(key)
         expInfo[newKey] = expInfo.pop(key)
-    
+
     # data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
     if dataDir is None:
         dataDir = _thisDir
@@ -127,17 +127,15 @@ def setupData(expInfo, dataDir=None):
     if os.path.isabs(filename):
         dataDir = os.path.commonprefix([dataDir, filename])
         filename = os.path.relpath(filename, dataDir)
-    
+
     # an ExperimentHandler isn't essential but helps with data saving
     thisExp = data.ExperimentHandler(
         name=expName, version=expVersion,
         extraInfo=expInfo, runtimeInfo=None,
-        originPath='/Users/matveikurzukov/gurung/psychopy_gurung_v1/gurung_120_v1_lastrun.py',
+        originPath='C:\\Users\\Sofya\\Documents\\Discourse part\\gurung-stimuli\\psychopy_gurung_v1\\gurung_120_v1_lastrun.py',
         savePickle=True, saveWideText=True,
         dataFileName=dataDir + os.sep + filename, sortColumns='time'
     )
-    # store pilot mode in data file
-    thisExp.addData('piloting', PILOTING, priority=priority.LOW)
     thisExp.setPriority('thisRow.t', priority.CRITICAL)
     thisExp.setPriority('expName', priority.LOW)
     # return experiment handler
@@ -147,12 +145,12 @@ def setupData(expInfo, dataDir=None):
 def setupLogging(filename):
     """
     Setup a log file and tell it what level to log at.
-    
+
     Parameters
     ==========
     filename : str or pathlib.Path
         Filename to save log file and data files as, doesn't need an extension.
-    
+
     Returns
     ==========
     psychopy.logging.LogFile
@@ -175,31 +173,34 @@ def setupLogging(filename):
         logFile.setLevel(
             logging.getLevel('info')
         )
-    
+
     return logFile
 
 
 def setupWindow(expInfo=None, win=None):
     """
     Setup the Window
-    
+
     Parameters
     ==========
     expInfo : dict
         Information about this experiment, created by the `setupExpInfo` function.
     win : psychopy.visual.Window
         Window to setup - leave as None to create a new window.
-    
+
     Returns
     ==========
     psychopy.visual.Window
         Window in which to run this experiment.
     """
+    if PILOTING:
+        logging.debug('Fullscreen settings ignored as running in pilot mode.')
+
     if win is None:
         # if not given a window to setup, make one
         win = visual.Window(
             size=_winSize, fullscr=_fullScr, screen=-1,
-            winType='pyglet', allowGUI=True, allowStencil=False,
+            winType='pyglet', allowGUI=False, allowStencil=False,
             monitor='testMonitor', color=(1.0000, 1.0000, 1.0000), colorSpace='rgb',
             backgroundImage='', backgroundFit='none',
             blendMode='avg', useFBO=True,
@@ -226,21 +227,21 @@ def setupWindow(expInfo=None, win=None):
         # always show the mouse in piloting mode
         if prefs.piloting['forceMouseVisible']:
             win.mouseVisible = True
-    
+
     return win
 
 
 def setupDevices(expInfo, thisExp, win):
     """
-    Setup whatever devices are available (mouse, keyboard, speaker, eyetracker, etc.) and add them to 
+    Setup whatever devices are available (mouse, keyboard, speaker, eyetracker, etc.) and add them to
     the device manager (deviceManager)
-    
+
     Parameters
     ==========
     expInfo : dict
         Information about this experiment, created by the `setupExpInfo` function.
     thisExp : psychopy.data.ExperimentHandler
-        Handler object for this experiment, contains the data to save and information about 
+        Handler object for this experiment, contains the data to save and information about
         where to save it to.
     win : psychopy.visual.Window
         Window in which to run this experiment.
@@ -252,10 +253,10 @@ def setupDevices(expInfo, thisExp, win):
     # --- Setup input devices ---
     ioConfig = {}
     ioSession = ioServer = eyetracker = None
-    
+
     # store ioServer object in the device manager
     deviceManager.ioServer = ioServer
-    
+
     # create a default keyboard (e.g. to check for escape)
     if deviceManager.getDevice('defaultKeyboard') is None:
         deviceManager.addDevice(
@@ -267,11 +268,11 @@ def setupDevices(expInfo, thisExp, win):
 def pauseExperiment(thisExp, win=None, timers=[], currentRoutine=None):
     """
     Pause this experiment, preventing the flow from advancing to the next routine until resumed.
-    
+
     Parameters
     ==========
     thisExp : psychopy.data.ExperimentHandler
-        Handler object for this experiment, contains the data to save and information about 
+        Handler object for this experiment, contains the data to save and information about
         where to save it to.
     win : psychopy.visual.Window
         Window for this experiment.
@@ -283,7 +284,7 @@ def pauseExperiment(thisExp, win=None, timers=[], currentRoutine=None):
     # if we are not paused, do nothing
     if thisExp.status != PAUSED:
         return
-    
+
     # start a timer to figure out how long we're paused for
     pauseTimer = core.Clock()
     # pause any playback components
@@ -324,13 +325,13 @@ def pauseExperiment(thisExp, win=None, timers=[], currentRoutine=None):
 def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     """
     Run the experiment flow.
-    
+
     Parameters
     ==========
     expInfo : dict
         Information about this experiment, created by the `setupExpInfo` function.
     thisExp : psychopy.data.ExperimentHandler
-        Handler object for this experiment, contains the data to save and information about 
+        Handler object for this experiment, contains the data to save and information about
         where to save it to.
     psychopy.visual.Window
         Window in which to run this experiment.
@@ -370,31 +371,32 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         frameDur = 1.0 / round(expInfo['frameRate'])
     else:
         frameDur = 1.0 / 60.0  # could not measure, so guess
-    
+
     # Start Code - component code to be run after the window creation
-    
+
     # --- Initialize components for Routine "Instructions" ---
     Instructions_keep_alive = visual.ImageStim(
         win=win,
-        name='Instructions_keep_alive', 
+        name='Instructions_keep_alive',
         image='Stimuli/sound.png', mask=None, anchor='center',
         ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
         color=[1,1,1], colorSpace='rgb', opacity=0.0,
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
     # Run 'Begin Experiment' code from instructions_code
-    
+
     from pathlib import Path
     import gc
     import queue
+    import random as _gurung_random
     import threading
-    
+
     try:
         from psychopy.hardware.speaker import SpeakerDevice
     except Exception as _gurung_speaker_import_error:
         SpeakerDevice = None
         print("SpeakerDevice import failed:", _gurung_speaker_import_error)
-    
+
     try:
         import numpy as _gurung_np
         import sounddevice as _gurung_sd
@@ -403,22 +405,35 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     except Exception as _gurung_recording_error:
         G_RECORDING_AVAILABLE = False
         print("Audio recording is unavailable:", _gurung_recording_error)
-    
+
+    try:
+        from PIL import Image as _gurung_Image
+        from PIL import ImageOps as _gurung_ImageOps
+    except Exception as _gurung_image_import_error:
+        _gurung_Image = None
+        _gurung_ImageOps = None
+        print("Image metadata reading is unavailable:", _gurung_image_import_error)
+
     G_ROOT = Path(_thisDir)
     G_DATA_DIR = G_ROOT / "data"
     G_RECORDINGS_DIR = G_ROOT / "recordings"
     G_DEBUG_LOG = G_ROOT / "debug_gurung_runtime.log"
     G_DATA_DIR.mkdir(exist_ok=True)
     G_RECORDINGS_DIR.mkdir(exist_ok=True)
-    G_IMAGE_SIZE = (0.2333333333, 0.35)
-    G_ARROW_SIZE = (0.035, 0.035)
-    G_STEP = 0.27
+    G_IMAGE_ASPECT = 2.0 / 3.0
+    G_SEQUENCE_SIDE_STEPS = 2
+    G_SEQUENCE_X_MARGIN = 0.02
+    G_SEQUENCE_Y_MARGIN = 0.05
+    G_SEQUENCE_GAP_RATIO = 0.12
+    G_ARROW_MAX_SIZE = 0.045
     G_MAIN_TRIAL_INDEX = 0
     G_PRACTICE_TRIAL_INDEX = 0
     G_SPEAKER = None
-    G_FULLSCREEN_CACHE = {}
-    
-    
+    G_FULLSCREEN_CACHE = {"stim": None}
+    G_BETWEEN_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
+    G_BETWEEN_STATE = {"images": [], "index": 0}
+
+
     def g_log(message):
         text = f"{core.getTime():.3f} {message}"
         print(text)
@@ -427,26 +442,26 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 handle.write(text + "\n")
         except Exception:
             pass
-    
+
     try:
         event.globalKeys.add(key="escape", func=core.quit, name="gurung_escape_quit")
     except Exception as _gurung_global_key_error:
         g_log(f"Global escape key was not registered: {_gurung_global_key_error}")
-    
-    
+
+
     def g_is_blank(value):
         if value is None:
             return True
         text = str(value).strip()
         return text == "" or text.lower() in {"none", "nan", "null"}
-    
-    
+
+
     def g_text(value):
         if g_is_blank(value):
             return ""
         return str(value).strip()
-    
-    
+
+
     def g_float(value, default=0.0):
         if g_is_blank(value):
             return default
@@ -454,8 +469,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             return float(value)
         except Exception:
             return default
-    
-    
+
+
     def g_int(value, default=0):
         if g_is_blank(value):
             return default
@@ -463,8 +478,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             return int(float(value))
         except Exception:
             return default
-    
-    
+
+
     def g_path(value):
         value = g_text(value)
         if not value:
@@ -473,31 +488,94 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if path.is_absolute():
             return str(path)
         return str(G_ROOT / path)
-    
-    
-    def g_fullscreen_size(win):
+
+
+    def g_window_aspect(win):
         try:
-            return (float(win.size[0]) / float(win.size[1]), 1.0)
+            return max(float(win.size[0]) / float(win.size[1]), 1.0)
         except Exception:
-            return (1.5, 1.0)
-    
-    
+            return 1.5
+
+
+    def g_image_aspect(path):
+        if _gurung_Image is None:
+            return None
+        try:
+            with _gurung_Image.open(path) as image:
+                if _gurung_ImageOps is not None:
+                    image = _gurung_ImageOps.exif_transpose(image)
+                width, height = image.size
+            if width > 0 and height > 0:
+                return float(width) / float(height)
+        except Exception as err:
+            g_log(f"image_aspect_warning {path}: {err}")
+        return None
+
+
+    def g_fullscreen_size(win, image_path):
+        screen_aspect = g_window_aspect(win)
+        image_aspect = g_image_aspect(image_path)
+        if not image_aspect:
+            return (screen_aspect, 1.0)
+        if image_aspect >= screen_aspect:
+            return (screen_aspect, screen_aspect / image_aspect)
+        return (image_aspect, 1.0)
+
+
     def g_fullscreen_image(win, image_value):
         path = g_path(image_value)
-        stim = G_FULLSCREEN_CACHE.get(path)
-        if stim is None:
-            g_log(f"load_fullscreen_image {path}")
-            stim = visual.ImageStim(
-                win,
-                image=path,
-                pos=(0, 0),
-                size=g_fullscreen_size(win),
-                interpolate=True,
-            )
-            G_FULLSCREEN_CACHE[path] = stim
+        old_stim = G_FULLSCREEN_CACHE.get("stim")
+        if old_stim is not None:
+            try:
+                old_stim.clearTextures()
+            except Exception:
+                pass
+        g_log(f"load_fullscreen_image {path}")
+        stim = visual.ImageStim(
+            win,
+            image=path,
+            pos=(0, 0),
+            size=g_fullscreen_size(win, path),
+            interpolate=True,
+        )
+        G_FULLSCREEN_CACHE["stim"] = stim
         return stim
-    
-    
+
+
+    def g_release_fullscreen_image(stim):
+        g_release_stims([stim])
+        if G_FULLSCREEN_CACHE.get("stim") is stim:
+            G_FULLSCREEN_CACHE["stim"] = None
+
+
+    def g_init_between_images():
+        between_dir = G_ROOT / "BetweenTrials"
+        images = []
+        try:
+            for path in sorted(between_dir.iterdir()):
+                if path.is_file() and path.suffix.lower() in G_BETWEEN_IMAGE_EXTS:
+                    images.append(f"BetweenTrials/{path.name}")
+        except Exception as err:
+            raise RuntimeError(f"Could not list between-trial images in {between_dir}: {err}")
+        if not images:
+            raise RuntimeError(f"No between-trial images found in {between_dir}")
+        _gurung_random.shuffle(images)
+        G_BETWEEN_STATE["images"] = images
+        G_BETWEEN_STATE["index"] = 0
+        g_log(f"runtime_between_images_shuffled count={len(images)}")
+
+
+    def g_next_between_image():
+        images = G_BETWEEN_STATE.get("images") or []
+        index = int(G_BETWEEN_STATE.get("index") or 0)
+        if index >= len(images):
+            raise RuntimeError(f"No unused between-trial images remain: used {index}, available {len(images)}")
+        image_value = images[index]
+        G_BETWEEN_STATE["index"] = index + 1
+        g_log(f"runtime_between_image {index + 1}/{len(images)} {image_value}")
+        return image_value
+
+
     def g_choose_speaker():
         if SpeakerDevice is None:
             return None
@@ -528,18 +606,19 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 g_log(f"Could not open speaker {name!r}: {err}")
         g_log("No usable speaker found; PsychoPy will use its default audio device.")
         return None
-    
-    
+
+
     G_SPEAKER = g_choose_speaker()
-    
-    
+    g_init_between_images()
+
+
     def g_safe(value):
         text = "".join(ch if ch.isalnum() or ch in "._-" else "_" for ch in str(value))
         while "__" in text:
             text = text.replace("__", "_")
         return text.strip("._") or "item"
-    
-    
+
+
     def g_roles_and_paths():
         roles = []
         paths = []
@@ -550,40 +629,70 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 paths.append(g_path(image_value))
                 roles.append(g_text(role_value) or f"img{idx}")
         return roles, paths
-    
-    
-    def g_positions_for_roles(roles):
-        target_index = None
+
+
+    def g_target_index(roles):
         for target_role in ("tr_target", "it_target"):
             if target_role in roles:
-                target_index = roles.index(target_role)
-                break
-        if target_index is None:
-            target_index = (len(roles) - 1) / 2
-        return [((idx - target_index) * G_STEP, 0) for idx in range(len(roles))]
-    
-    
+                return roles.index(target_role)
+        return (len(roles) - 1) / 2
+
+
+    def g_sequence_layout(win, roles):
+        target_index = g_target_index(roles)
+        right_steps = max(0, len(roles) - target_index - 1)
+        side_steps = max(G_SEQUENCE_SIDE_STEPS, target_index, right_steps)
+        horizontal_room = max(0.1, (g_window_aspect(win) / 2) - G_SEQUENCE_X_MARGIN)
+        vertical_room = max(0.1, 1.0 - (2 * G_SEQUENCE_Y_MARGIN))
+        width_from_horizontal = horizontal_room / (side_steps * (1.0 + G_SEQUENCE_GAP_RATIO) + 0.5)
+        image_height = min(vertical_room, width_from_horizontal / G_IMAGE_ASPECT)
+        image_width = image_height * G_IMAGE_ASPECT
+        gap = image_width * G_SEQUENCE_GAP_RATIO
+        step = image_width + gap
+        positions = [((idx - target_index) * step, 0) for idx in range(len(roles))]
+        arrow_size = min(G_ARROW_MAX_SIZE, max(0.02, gap * 0.9))
+        return (image_width, image_height), positions, (arrow_size, arrow_size)
+
+
     def g_make_sequence(win, roles, paths):
         g_log(f"make_sequence roles={roles} paths={paths}")
-        positions = g_positions_for_roles(roles)
+        image_size, positions, arrow_size = g_sequence_layout(win, roles)
         images = []
         for path, pos in zip(paths, positions):
-            images.append(visual.ImageStim(win, image=path, pos=pos, size=G_IMAGE_SIZE, interpolate=True))
+            images.append(visual.ImageStim(win, image=path, pos=pos, size=image_size, interpolate=True))
         arrows = []
-        arrow_path = g_path("Stimuli/arrow.png")
         for left, right in zip(positions, positions[1:]):
-            arrows.append(
-                visual.ImageStim(
-                    win,
-                    image=arrow_path,
-                    pos=((left[0] + right[0]) / 2, 0),
-                    size=G_ARROW_SIZE,
-                    interpolate=True,
-                )
-            )
+            arrows.append(g_make_arrow(win, ((left[0] + right[0]) / 2, 0), arrow_size))
         return images, arrows
-    
-    
+
+
+    def g_make_arrow(win, pos, size):
+        arrow_width = float(size[0])
+        arrow_height = float(size[1])
+        shaft_half_height = arrow_height * 0.16
+        head_back_x = arrow_width * 0.08
+        left_x = -arrow_width / 2.0
+        right_x = arrow_width / 2.0
+        arrow_color = (-0.25, -0.25, -0.25)
+        vertices = [
+            (left_x, -shaft_half_height),
+            (head_back_x, -shaft_half_height),
+            (head_back_x, -arrow_height / 2.0),
+            (right_x, 0),
+            (head_back_x, arrow_height / 2.0),
+            (head_back_x, shaft_half_height),
+            (left_x, shaft_half_height),
+        ]
+        return visual.ShapeStim(
+            win,
+            vertices=vertices,
+            pos=pos,
+            fillColor=arrow_color,
+            lineColor=arrow_color,
+            closeShape=True,
+        )
+
+
     def g_release_stims(*groups):
         for group in groups:
             if not group:
@@ -596,16 +705,16 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 except Exception as err:
                     g_log(f"stim_release_warning {err}")
         gc.collect()
-    
-    
+
+
     def g_draw_sequence(images, arrows, reveal_count):
         win.color = "white"
         for idx in range(reveal_count):
             images[idx].draw()
         for idx in range(max(0, reveal_count - 1)):
             arrows[idx].draw()
-    
-    
+
+
     def g_play_audio(path_value):
         path = g_path(path_value)
         if not path:
@@ -617,8 +726,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             audio = sound.Sound(path)
         audio.play()
         return audio
-    
-    
+
+
     class GRecorder:
         def __init__(self, root):
             self.root = Path(root)
@@ -629,7 +738,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             self.write_queue = queue.Queue()
             self.writer = threading.Thread(target=self._writer_loop, daemon=True)
             self.writer.start()
-    
+
         def start(self, stem):
             self.stop()
             if not G_RECORDING_AVAILABLE:
@@ -639,17 +748,17 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             self.path = self.root / f"{g_safe(stem)}.wav"
             g_log(f"rec_segment_start {self.path}")
             return str(self.path)
-    
+
         def _ensure_stream(self):
             if self.stream is not None:
                 return
-    
+
             def callback(indata, frames, time_info, status):
                 if status:
                     g_log(f"rec_callback_status {status}")
                 if self.path is not None:
                     self.frames.append(indata.copy())
-    
+
             g_log("rec_stream_open_start")
             self.stream = _gurung_sd.InputStream(
                 samplerate=48000,
@@ -659,7 +768,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             )
             self.stream.start()
             g_log("rec_stream_open_done")
-    
+
         def stop(self):
             path = self.path
             frames = self.frames
@@ -670,7 +779,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 self.write_queue.put((str(path), frames))
                 return str(path)
             return ""
-    
+
         def _writer_loop(self):
             while True:
                 item = self.write_queue.get()
@@ -683,7 +792,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     g_log(f"rec_segment_written {path}")
                 except Exception as err:
                     g_log(f"rec_segment_write_failed {path}: {err}")
-    
+
         def abort(self):
             self.stop()
             stream = self.stream
@@ -701,10 +810,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         g_log("rec_stream_close_done")
                     except Exception as err:
                         g_log(f"rec_stream_close_failed {err}")
-    
+
                 threading.Thread(target=close_stream, daemon=True).start()
-    
-    
+
+
     def g_cleanup():
         try:
             G_RECORDER.abort()
@@ -715,93 +824,93 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 G_SPEAKER.close()
         except Exception as err:
             g_log(f"Speaker cleanup failed: {err}")
-    
-    
+
+
     G_RECORDER = GRecorder(G_RECORDINGS_DIR)
-    
-    
+
+
     # --- Initialize components for Routine "PracticeTrial" ---
     PracticeTrial_keep_alive = visual.ImageStim(
         win=win,
-        name='PracticeTrial_keep_alive', 
+        name='PracticeTrial_keep_alive',
         image='Stimuli/sound.png', mask=None, anchor='center',
         ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
         color=[1,1,1], colorSpace='rgb', opacity=0.0,
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
-    
+
     # --- Initialize components for Routine "PracticeEnd" ---
     PracticeEnd_keep_alive = visual.ImageStim(
         win=win,
-        name='PracticeEnd_keep_alive', 
+        name='PracticeEnd_keep_alive',
         image='Stimuli/sound.png', mask=None, anchor='center',
         ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
         color=[1,1,1], colorSpace='rgb', opacity=0.0,
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
-    
+
     # --- Initialize components for Routine "MainTrial" ---
     MainTrial_keep_alive = visual.ImageStim(
         win=win,
-        name='MainTrial_keep_alive', 
+        name='MainTrial_keep_alive',
         image='Stimuli/sound.png', mask=None, anchor='center',
         ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
         color=[1,1,1], colorSpace='rgb', opacity=0.0,
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
-    
+
     # --- Initialize components for Routine "Break" ---
     Break_keep_alive = visual.ImageStim(
         win=win,
-        name='Break_keep_alive', 
+        name='Break_keep_alive',
         image='Stimuli/sound.png', mask=None, anchor='center',
         ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
         color=[1,1,1], colorSpace='rgb', opacity=0.0,
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
-    
+
     # --- Initialize components for Routine "MainTrial" ---
     MainTrial_keep_alive = visual.ImageStim(
         win=win,
-        name='MainTrial_keep_alive', 
+        name='MainTrial_keep_alive',
         image='Stimuli/sound.png', mask=None, anchor='center',
         ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
         color=[1,1,1], colorSpace='rgb', opacity=0.0,
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
-    
+
     # --- Initialize components for Routine "Break" ---
     Break_keep_alive = visual.ImageStim(
         win=win,
-        name='Break_keep_alive', 
+        name='Break_keep_alive',
         image='Stimuli/sound.png', mask=None, anchor='center',
         ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
         color=[1,1,1], colorSpace='rgb', opacity=0.0,
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
-    
+
     # --- Initialize components for Routine "MainTrial" ---
     MainTrial_keep_alive = visual.ImageStim(
         win=win,
-        name='MainTrial_keep_alive', 
+        name='MainTrial_keep_alive',
         image='Stimuli/sound.png', mask=None, anchor='center',
         ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
         color=[1,1,1], colorSpace='rgb', opacity=0.0,
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
-    
+
     # --- Initialize components for Routine "EndExperiment" ---
     EndExperiment_keep_alive = visual.ImageStim(
         win=win,
-        name='EndExperiment_keep_alive', 
+        name='EndExperiment_keep_alive',
         image='Stimuli/sound.png', mask=None, anchor='center',
         ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
         color=[1,1,1], colorSpace='rgb', opacity=0.0,
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
-    
+
     # create some handy timers
-    
+
     # global clock to track the time since experiment started
     if globalClock is None:
         # create a clock if not given one
@@ -829,7 +938,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     expInfo['expStart'] = data.getDateStr(
         format='%Y-%m-%d %Hh%M.%S.%f %z', fractionalSecondDigits=6
     )
-    
+
     # --- Prepare to start Routine "Instructions" ---
     # create an object to store info about Routine Instructions
     Instructions = data.Routine(
@@ -840,12 +949,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     continueRoutine = True
     # update component parameters for each repeat
     # Run 'Begin Routine' code from instructions_code
-    
+
     win.color = "white"
     instruction_icon = visual.ImageStim(win, image=g_path("Stimuli/sound.png"), pos=(0, 0), size=(0.22, 0.22), interpolate=True)
     instruction_audio = g_play_audio("Audio/sequence_instr.wav")
     event.clearEvents()
-    
+
     # store start times for Instructions
     Instructions.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
     Instructions.tStart = globalClock.getTime(format='float')
@@ -865,7 +974,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     t = 0
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
     frameN = -1
-    
+
     # --- Run Routine "Instructions" ---
     thisExp.currentRoutine = Instructions
     Instructions.forceEnded = routineForceEnded = not continueRoutine
@@ -876,9 +985,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
-        
+
         # *Instructions_keep_alive* updates
-        
+
         # if Instructions_keep_alive is starting this frame...
         if Instructions_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
@@ -891,13 +1000,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # update status
             Instructions_keep_alive.status = STARTED
             Instructions_keep_alive.setAutoDraw(True)
-        
+
         # if Instructions_keep_alive is active this frame...
         if Instructions_keep_alive.status == STARTED:
             # update params
             pass
         # Run 'Each Frame' code from instructions_code
-        
+
         instruction_icon.draw()
         keys = event.getKeys(keyList=["space", "return", "escape"])
         if "escape" in keys:
@@ -910,8 +1019,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if instruction_audio:
                 instruction_audio.stop()
             continueRoutine = False
-        
-        
+
+
         # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
             thisExp.status = FINISHED
@@ -921,14 +1030,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # pause experiment here if requested
         if thisExp.status == PAUSED:
             pauseExperiment(
-                thisExp=thisExp, 
-                win=win, 
-                timers=[routineTimer, globalClock], 
+                thisExp=thisExp,
+                win=win,
+                timers=[routineTimer, globalClock],
                 currentRoutine=Instructions,
             )
             # skip the frame we paused on
             continue
-        
+
         # has a Component requested the Routine to end?
         if not continueRoutine:
             Instructions.forceEnded = routineForceEnded = True
@@ -941,11 +1050,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                 continueRoutine = True
                 break  # at least one component has not yet finished
-        
+
         # refresh the screen
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
-    
+
     # --- Ending Routine "Instructions" ---
     for thisComponent in Instructions.components:
         if hasattr(thisComponent, "setAutoDraw"):
@@ -957,17 +1066,17 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     thisExp.nextEntry()
     # the Routine "Instructions" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
-    
+
     # set up handler to look after randomisation of conditions etc
     PracticeLoop = data.TrialHandler2(
         name='PracticeLoop',
-        nReps=1.0, 
-        method='sequential', 
-        extraInfo=expInfo, 
-        originPath=-1, 
-        trialList=data.importConditions('Conds/practice.csv'), 
-        seed=None, 
-        isTrials=True, 
+        nReps=1.0,
+        method='sequential',
+        extraInfo=expInfo,
+        originPath=-1,
+        trialList=data.importConditions('Conds/practice.csv'),
+        seed=None,
+        isTrials=True,
     )
     thisExp.addLoop(PracticeLoop)  # add the loop to the experiment
     thisPracticeLoop = PracticeLoop.trialList[0]  # so we can initialise stimuli with some values
@@ -978,7 +1087,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now
         thisSession.sendExperimentData()
-    
+
     for thisPracticeLoop in PracticeLoop:
         PracticeLoop.status = STARTED
         if hasattr(thisPracticeLoop, 'status'):
@@ -992,7 +1101,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if thisPracticeLoop != None:
             for paramName in thisPracticeLoop:
                 globals()[paramName] = thisPracticeLoop[paramName]
-        
+
         # --- Prepare to start Routine "PracticeTrial" ---
         # create an object to store info about Routine PracticeTrial
         PracticeTrial = data.Routine(
@@ -1003,22 +1112,24 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         continueRoutine = True
         # update component parameters for each repeat
         # Run 'Begin Routine' code from practice_trial_code
-        
+
         G_PRACTICE_TRIAL_INDEX += 1
         win.color = "white"
+        practice_between_image = g_next_between_image()
+        practice_placeholder = g_fullscreen_image(win, practice_between_image)
         practice_roles, practice_paths = g_roles_and_paths()
-        practice_images, practice_arrows = g_make_sequence(win, practice_roles, practice_paths)
+        practice_images = []
+        practice_arrows = []
         practice_segment = 0
         practice_phase = "between"
-        practice_placeholder = g_fullscreen_image(win, between_image)
         practice_between_clock = core.Clock()
         practice_audio = None
         practice_audio_clock = core.Clock()
         practice_audio_duration = 0
         thisExp.addData("practice_trial_index", G_PRACTICE_TRIAL_INDEX)
-        thisExp.addData("practice_between_image", g_path(between_image))
+        thisExp.addData("practice_between_image", g_path(practice_between_image))
         event.clearEvents()
-        
+
         # store start times for PracticeTrial
         PracticeTrial.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
         PracticeTrial.tStart = globalClock.getTime(format='float')
@@ -1038,7 +1149,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+
         # --- Run Routine "PracticeTrial" ---
         thisExp.currentRoutine = PracticeTrial
         PracticeTrial.forceEnded = routineForceEnded = not continueRoutine
@@ -1052,9 +1163,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             tThisFlipGlobal = win.getFutureFlipTime(clock=None)
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
-            
+
             # *PracticeTrial_keep_alive* updates
-            
+
             # if PracticeTrial_keep_alive is starting this frame...
             if PracticeTrial_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
@@ -1067,13 +1178,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # update status
                 PracticeTrial_keep_alive.status = STARTED
                 PracticeTrial_keep_alive.setAutoDraw(True)
-            
+
             # if PracticeTrial_keep_alive is active this frame...
             if PracticeTrial_keep_alive.status == STARTED:
                 # update params
                 pass
             # Run 'Each Frame' code from practice_trial_code
-            
+
             if practice_phase == "between":
                 practice_placeholder.draw()
                 keys = event.getKeys(keyList=["space", "escape"])
@@ -1082,6 +1193,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     core.quit()
                 if "space" in keys:
                     thisExp.addData("practice_between_rt", practice_between_clock.getTime())
+                    g_release_fullscreen_image(practice_placeholder)
+                    practice_placeholder = None
+                    practice_images, practice_arrows = g_make_sequence(win, practice_roles, practice_paths)
                     practice_phase = "segment"
                     practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
                     G_RECORDER.start(practice_stem)
@@ -1117,8 +1231,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
                     G_RECORDER.start(practice_stem)
                     event.clearEvents()
-            
-            
+
+
             # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
                 thisExp.status = FINISHED
@@ -1128,14 +1242,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # pause experiment here if requested
             if thisExp.status == PAUSED:
                 pauseExperiment(
-                    thisExp=thisExp, 
-                    win=win, 
-                    timers=[routineTimer, globalClock], 
+                    thisExp=thisExp,
+                    win=win,
+                    timers=[routineTimer, globalClock],
                     currentRoutine=PracticeTrial,
                 )
                 # skip the frame we paused on
                 continue
-            
+
             # has a Component requested the Routine to end?
             if not continueRoutine:
                 PracticeTrial.forceEnded = routineForceEnded = True
@@ -1148,11 +1262,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                     continueRoutine = True
                     break  # at least one component has not yet finished
-            
+
             # refresh the screen
             if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
                 win.flip()
-        
+
         # --- Ending Routine "PracticeTrial" ---
         for thisComponent in PracticeTrial.components:
             if hasattr(thisComponent, "setAutoDraw"):
@@ -1162,14 +1276,16 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         PracticeTrial.tStopRefresh = tThisFlipGlobal
         thisExp.addData('PracticeTrial.stopped', PracticeTrial.tStop)
         # Run 'End Routine' code from practice_trial_code
-        
+
         G_RECORDER.stop()
         if practice_audio:
             practice_audio.stop()
         g_release_stims(practice_images, practice_arrows)
+        g_release_fullscreen_image(practice_placeholder)
         practice_images = []
         practice_arrows = []
-        
+        practice_placeholder = None
+
         # the Routine "PracticeTrial" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         # mark thisPracticeLoop as finished
@@ -1179,21 +1295,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if PracticeLoop.status == PAUSED:
             thisExp.status = PAUSED
             pauseExperiment(
-                thisExp=thisExp, 
-                win=win, 
-                timers=[globalClock], 
+                thisExp=thisExp,
+                win=win,
+                timers=[globalClock],
             )
             # once done pausing, restore running status
             PracticeLoop.status = STARTED
         thisExp.nextEntry()
-        
+
     # completed 1.0 repeats of 'PracticeLoop'
     PracticeLoop.status = FINISHED
-    
+
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now
         thisSession.sendExperimentData()
-    
+
     # --- Prepare to start Routine "PracticeEnd" ---
     # create an object to store info about Routine PracticeEnd
     PracticeEnd = data.Routine(
@@ -1204,12 +1320,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     continueRoutine = True
     # update component parameters for each repeat
     # Run 'Begin Routine' code from practice_end_code
-    
+
     win.color = "white"
     practice_done_icon = visual.ImageStim(win, image=g_path("Stimuli/sound.png"), pos=(0, 0), size=(0.22, 0.22), interpolate=True)
     practice_done_audio = g_play_audio("Audio/practice_end.wav")
     event.clearEvents()
-    
+
     # store start times for PracticeEnd
     PracticeEnd.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
     PracticeEnd.tStart = globalClock.getTime(format='float')
@@ -1229,7 +1345,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     t = 0
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
     frameN = -1
-    
+
     # --- Run Routine "PracticeEnd" ---
     thisExp.currentRoutine = PracticeEnd
     PracticeEnd.forceEnded = routineForceEnded = not continueRoutine
@@ -1240,9 +1356,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
-        
+
         # *PracticeEnd_keep_alive* updates
-        
+
         # if PracticeEnd_keep_alive is starting this frame...
         if PracticeEnd_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
@@ -1255,13 +1371,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # update status
             PracticeEnd_keep_alive.status = STARTED
             PracticeEnd_keep_alive.setAutoDraw(True)
-        
+
         # if PracticeEnd_keep_alive is active this frame...
         if PracticeEnd_keep_alive.status == STARTED:
             # update params
             pass
         # Run 'Each Frame' code from practice_end_code
-        
+
         practice_done_icon.draw()
         keys = event.getKeys(keyList=["space", "escape"])
         if "escape" in keys:
@@ -1270,8 +1386,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if practice_done_audio:
                 practice_done_audio.stop()
             continueRoutine = False
-        
-        
+
+
         # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
             thisExp.status = FINISHED
@@ -1281,14 +1397,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # pause experiment here if requested
         if thisExp.status == PAUSED:
             pauseExperiment(
-                thisExp=thisExp, 
-                win=win, 
-                timers=[routineTimer, globalClock], 
+                thisExp=thisExp,
+                win=win,
+                timers=[routineTimer, globalClock],
                 currentRoutine=PracticeEnd,
             )
             # skip the frame we paused on
             continue
-        
+
         # has a Component requested the Routine to end?
         if not continueRoutine:
             PracticeEnd.forceEnded = routineForceEnded = True
@@ -1301,11 +1417,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                 continueRoutine = True
                 break  # at least one component has not yet finished
-        
+
         # refresh the screen
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
-    
+
     # --- Ending Routine "PracticeEnd" ---
     for thisComponent in PracticeEnd.components:
         if hasattr(thisComponent, "setAutoDraw"):
@@ -1317,17 +1433,17 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     thisExp.nextEntry()
     # the Routine "PracticeEnd" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
-    
+
     # set up handler to look after randomisation of conditions etc
     MainBlock1 = data.TrialHandler2(
         name='MainBlock1',
-        nReps=1.0, 
-        method='sequential', 
-        extraInfo=expInfo, 
-        originPath=-1, 
-        trialList=data.importConditions('Conds/main_block1.csv'), 
-        seed=None, 
-        isTrials=True, 
+        nReps=1.0,
+        method='sequential',
+        extraInfo=expInfo,
+        originPath=-1,
+        trialList=data.importConditions('Conds/main_block1.csv'),
+        seed=None,
+        isTrials=True,
     )
     thisExp.addLoop(MainBlock1)  # add the loop to the experiment
     thisMainBlock1 = MainBlock1.trialList[0]  # so we can initialise stimuli with some values
@@ -1338,7 +1454,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now
         thisSession.sendExperimentData()
-    
+
     for thisMainBlock1 in MainBlock1:
         MainBlock1.status = STARTED
         if hasattr(thisMainBlock1, 'status'):
@@ -1352,7 +1468,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if thisMainBlock1 != None:
             for paramName in thisMainBlock1:
                 globals()[paramName] = thisMainBlock1[paramName]
-        
+
         # --- Prepare to start Routine "MainTrial" ---
         # create an object to store info about Routine MainTrial
         MainTrial = data.Routine(
@@ -1363,29 +1479,31 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         continueRoutine = True
         # update component parameters for each repeat
         # Run 'Begin Routine' code from main_trial_code
-        
+
         G_MAIN_TRIAL_INDEX += 1
         win.color = "white"
+        main_between_image = g_next_between_image()
+        main_placeholder = g_fullscreen_image(win, main_between_image)
         main_roles, main_paths = g_roles_and_paths()
-        main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
+        main_images = []
+        main_arrows = []
         main_segment = 0
         main_phase = "between"
         main_between_clock = core.Clock()
         main_between_audio = None
         main_between_audio_value = g_text(globals().get("between_audio", ""))
         main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
-        main_placeholder = g_fullscreen_image(win, between_image)
         main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
         main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
         if main_between_audio_value:
             main_between_audio = g_play_audio(main_between_audio_value)
         main_between_clock.reset()
         thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
-        thisExp.addData("between_image", g_path(between_image))
+        thisExp.addData("between_image", g_path(main_between_image))
         thisExp.addData("audio_probe", audio_probe)
         thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
         event.clearEvents()
-        
+
         # store start times for MainTrial
         MainTrial.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
         MainTrial.tStart = globalClock.getTime(format='float')
@@ -1405,7 +1523,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+
         # --- Run Routine "MainTrial" ---
         thisExp.currentRoutine = MainTrial
         MainTrial.forceEnded = routineForceEnded = not continueRoutine
@@ -1419,9 +1537,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             tThisFlipGlobal = win.getFutureFlipTime(clock=None)
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
-            
+
             # *MainTrial_keep_alive* updates
-            
+
             # if MainTrial_keep_alive is starting this frame...
             if MainTrial_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
@@ -1434,13 +1552,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # update status
                 MainTrial_keep_alive.status = STARTED
                 MainTrial_keep_alive.setAutoDraw(True)
-            
+
             # if MainTrial_keep_alive is active this frame...
             if MainTrial_keep_alive.status == STARTED:
                 # update params
                 pass
             # Run 'Each Frame' code from main_trial_code
-            
+
             if main_phase == "between":
                 main_placeholder.draw()
                 keys = event.getKeys(keyList=["space", "escape"])
@@ -1451,6 +1569,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     if main_between_audio:
                         main_between_audio.stop()
                     thisExp.addData("between_rt", main_between_clock.getTime())
+                    g_release_fullscreen_image(main_placeholder)
+                    main_placeholder = None
+                    main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
                     main_phase = "segment"
                     main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                     G_RECORDER.start(main_stem)
@@ -1473,8 +1594,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                         G_RECORDER.start(main_stem)
                     event.clearEvents()
-            
-            
+
+
             # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
                 thisExp.status = FINISHED
@@ -1484,14 +1605,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # pause experiment here if requested
             if thisExp.status == PAUSED:
                 pauseExperiment(
-                    thisExp=thisExp, 
-                    win=win, 
-                    timers=[routineTimer, globalClock], 
+                    thisExp=thisExp,
+                    win=win,
+                    timers=[routineTimer, globalClock],
                     currentRoutine=MainTrial,
                 )
                 # skip the frame we paused on
                 continue
-            
+
             # has a Component requested the Routine to end?
             if not continueRoutine:
                 MainTrial.forceEnded = routineForceEnded = True
@@ -1504,11 +1625,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                     continueRoutine = True
                     break  # at least one component has not yet finished
-            
+
             # refresh the screen
             if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
                 win.flip()
-        
+
         # --- Ending Routine "MainTrial" ---
         for thisComponent in MainTrial.components:
             if hasattr(thisComponent, "setAutoDraw"):
@@ -1518,14 +1639,16 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         MainTrial.tStopRefresh = tThisFlipGlobal
         thisExp.addData('MainTrial.stopped', MainTrial.tStop)
         # Run 'End Routine' code from main_trial_code
-        
+
         G_RECORDER.stop()
         if main_between_audio:
             main_between_audio.stop()
         g_release_stims(main_images, main_arrows)
+        g_release_fullscreen_image(main_placeholder)
         main_images = []
         main_arrows = []
-        
+        main_placeholder = None
+
         # the Routine "MainTrial" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         # mark thisMainBlock1 as finished
@@ -1535,21 +1658,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if MainBlock1.status == PAUSED:
             thisExp.status = PAUSED
             pauseExperiment(
-                thisExp=thisExp, 
-                win=win, 
-                timers=[globalClock], 
+                thisExp=thisExp,
+                win=win,
+                timers=[globalClock],
             )
             # once done pausing, restore running status
             MainBlock1.status = STARTED
         thisExp.nextEntry()
-        
+
     # completed 1.0 repeats of 'MainBlock1'
     MainBlock1.status = FINISHED
-    
+
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now
         thisSession.sendExperimentData()
-    
+
     # --- Prepare to start Routine "Break" ---
     # create an object to store info about Routine Break
     Break = data.Routine(
@@ -1560,12 +1683,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     continueRoutine = True
     # update component parameters for each repeat
     # Run 'Begin Routine' code from break_code
-    
+
     win.color = "white"
     break_image = visual.ImageStim(win, image=g_path("Stimuli/break.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
     break_clock = core.Clock()
     event.clearEvents()
-    
+
     # store start times for Break
     Break.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
     Break.tStart = globalClock.getTime(format='float')
@@ -1585,7 +1708,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     t = 0
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
     frameN = -1
-    
+
     # --- Run Routine "Break" ---
     thisExp.currentRoutine = Break
     Break.forceEnded = routineForceEnded = not continueRoutine
@@ -1596,9 +1719,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
-        
+
         # *Break_keep_alive* updates
-        
+
         # if Break_keep_alive is starting this frame...
         if Break_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
@@ -1611,21 +1734,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # update status
             Break_keep_alive.status = STARTED
             Break_keep_alive.setAutoDraw(True)
-        
+
         # if Break_keep_alive is active this frame...
         if Break_keep_alive.status == STARTED:
             # update params
             pass
         # Run 'Each Frame' code from break_code
-        
+
         break_image.draw()
         keys = event.getKeys(keyList=["space", "escape"])
         if "escape" in keys:
             core.quit()
         if "space" in keys and break_clock.getTime() >= 30:
             continueRoutine = False
-        
-        
+
+
         # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
             thisExp.status = FINISHED
@@ -1635,14 +1758,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # pause experiment here if requested
         if thisExp.status == PAUSED:
             pauseExperiment(
-                thisExp=thisExp, 
-                win=win, 
-                timers=[routineTimer, globalClock], 
+                thisExp=thisExp,
+                win=win,
+                timers=[routineTimer, globalClock],
                 currentRoutine=Break,
             )
             # skip the frame we paused on
             continue
-        
+
         # has a Component requested the Routine to end?
         if not continueRoutine:
             Break.forceEnded = routineForceEnded = True
@@ -1655,11 +1778,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                 continueRoutine = True
                 break  # at least one component has not yet finished
-        
+
         # refresh the screen
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
-    
+
     # --- Ending Routine "Break" ---
     for thisComponent in Break.components:
         if hasattr(thisComponent, "setAutoDraw"):
@@ -1671,17 +1794,17 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     thisExp.nextEntry()
     # the Routine "Break" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
-    
+
     # set up handler to look after randomisation of conditions etc
     MainBlock2 = data.TrialHandler2(
         name='MainBlock2',
-        nReps=1.0, 
-        method='sequential', 
-        extraInfo=expInfo, 
-        originPath=-1, 
-        trialList=data.importConditions('Conds/main_block2.csv'), 
-        seed=None, 
-        isTrials=True, 
+        nReps=1.0,
+        method='sequential',
+        extraInfo=expInfo,
+        originPath=-1,
+        trialList=data.importConditions('Conds/main_block2.csv'),
+        seed=None,
+        isTrials=True,
     )
     thisExp.addLoop(MainBlock2)  # add the loop to the experiment
     thisMainBlock2 = MainBlock2.trialList[0]  # so we can initialise stimuli with some values
@@ -1692,7 +1815,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now
         thisSession.sendExperimentData()
-    
+
     for thisMainBlock2 in MainBlock2:
         MainBlock2.status = STARTED
         if hasattr(thisMainBlock2, 'status'):
@@ -1706,7 +1829,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if thisMainBlock2 != None:
             for paramName in thisMainBlock2:
                 globals()[paramName] = thisMainBlock2[paramName]
-        
+
         # --- Prepare to start Routine "MainTrial" ---
         # create an object to store info about Routine MainTrial
         MainTrial = data.Routine(
@@ -1717,29 +1840,31 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         continueRoutine = True
         # update component parameters for each repeat
         # Run 'Begin Routine' code from main_trial_code
-        
+
         G_MAIN_TRIAL_INDEX += 1
         win.color = "white"
+        main_between_image = g_next_between_image()
+        main_placeholder = g_fullscreen_image(win, main_between_image)
         main_roles, main_paths = g_roles_and_paths()
-        main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
+        main_images = []
+        main_arrows = []
         main_segment = 0
         main_phase = "between"
         main_between_clock = core.Clock()
         main_between_audio = None
         main_between_audio_value = g_text(globals().get("between_audio", ""))
         main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
-        main_placeholder = g_fullscreen_image(win, between_image)
         main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
         main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
         if main_between_audio_value:
             main_between_audio = g_play_audio(main_between_audio_value)
         main_between_clock.reset()
         thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
-        thisExp.addData("between_image", g_path(between_image))
+        thisExp.addData("between_image", g_path(main_between_image))
         thisExp.addData("audio_probe", audio_probe)
         thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
         event.clearEvents()
-        
+
         # store start times for MainTrial
         MainTrial.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
         MainTrial.tStart = globalClock.getTime(format='float')
@@ -1759,7 +1884,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+
         # --- Run Routine "MainTrial" ---
         thisExp.currentRoutine = MainTrial
         MainTrial.forceEnded = routineForceEnded = not continueRoutine
@@ -1773,9 +1898,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             tThisFlipGlobal = win.getFutureFlipTime(clock=None)
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
-            
+
             # *MainTrial_keep_alive* updates
-            
+
             # if MainTrial_keep_alive is starting this frame...
             if MainTrial_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
@@ -1788,13 +1913,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # update status
                 MainTrial_keep_alive.status = STARTED
                 MainTrial_keep_alive.setAutoDraw(True)
-            
+
             # if MainTrial_keep_alive is active this frame...
             if MainTrial_keep_alive.status == STARTED:
                 # update params
                 pass
             # Run 'Each Frame' code from main_trial_code
-            
+
             if main_phase == "between":
                 main_placeholder.draw()
                 keys = event.getKeys(keyList=["space", "escape"])
@@ -1805,6 +1930,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     if main_between_audio:
                         main_between_audio.stop()
                     thisExp.addData("between_rt", main_between_clock.getTime())
+                    g_release_fullscreen_image(main_placeholder)
+                    main_placeholder = None
+                    main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
                     main_phase = "segment"
                     main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                     G_RECORDER.start(main_stem)
@@ -1827,8 +1955,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                         G_RECORDER.start(main_stem)
                     event.clearEvents()
-            
-            
+
+
             # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
                 thisExp.status = FINISHED
@@ -1838,14 +1966,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # pause experiment here if requested
             if thisExp.status == PAUSED:
                 pauseExperiment(
-                    thisExp=thisExp, 
-                    win=win, 
-                    timers=[routineTimer, globalClock], 
+                    thisExp=thisExp,
+                    win=win,
+                    timers=[routineTimer, globalClock],
                     currentRoutine=MainTrial,
                 )
                 # skip the frame we paused on
                 continue
-            
+
             # has a Component requested the Routine to end?
             if not continueRoutine:
                 MainTrial.forceEnded = routineForceEnded = True
@@ -1858,11 +1986,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                     continueRoutine = True
                     break  # at least one component has not yet finished
-            
+
             # refresh the screen
             if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
                 win.flip()
-        
+
         # --- Ending Routine "MainTrial" ---
         for thisComponent in MainTrial.components:
             if hasattr(thisComponent, "setAutoDraw"):
@@ -1872,14 +2000,16 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         MainTrial.tStopRefresh = tThisFlipGlobal
         thisExp.addData('MainTrial.stopped', MainTrial.tStop)
         # Run 'End Routine' code from main_trial_code
-        
+
         G_RECORDER.stop()
         if main_between_audio:
             main_between_audio.stop()
         g_release_stims(main_images, main_arrows)
+        g_release_fullscreen_image(main_placeholder)
         main_images = []
         main_arrows = []
-        
+        main_placeholder = None
+
         # the Routine "MainTrial" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         # mark thisMainBlock2 as finished
@@ -1889,21 +2019,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if MainBlock2.status == PAUSED:
             thisExp.status = PAUSED
             pauseExperiment(
-                thisExp=thisExp, 
-                win=win, 
-                timers=[globalClock], 
+                thisExp=thisExp,
+                win=win,
+                timers=[globalClock],
             )
             # once done pausing, restore running status
             MainBlock2.status = STARTED
         thisExp.nextEntry()
-        
+
     # completed 1.0 repeats of 'MainBlock2'
     MainBlock2.status = FINISHED
-    
+
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now
         thisSession.sendExperimentData()
-    
+
     # --- Prepare to start Routine "Break" ---
     # create an object to store info about Routine Break
     Break = data.Routine(
@@ -1914,12 +2044,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     continueRoutine = True
     # update component parameters for each repeat
     # Run 'Begin Routine' code from break_code
-    
+
     win.color = "white"
     break_image = visual.ImageStim(win, image=g_path("Stimuli/break.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
     break_clock = core.Clock()
     event.clearEvents()
-    
+
     # store start times for Break
     Break.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
     Break.tStart = globalClock.getTime(format='float')
@@ -1939,7 +2069,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     t = 0
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
     frameN = -1
-    
+
     # --- Run Routine "Break" ---
     thisExp.currentRoutine = Break
     Break.forceEnded = routineForceEnded = not continueRoutine
@@ -1950,9 +2080,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
-        
+
         # *Break_keep_alive* updates
-        
+
         # if Break_keep_alive is starting this frame...
         if Break_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
@@ -1965,21 +2095,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # update status
             Break_keep_alive.status = STARTED
             Break_keep_alive.setAutoDraw(True)
-        
+
         # if Break_keep_alive is active this frame...
         if Break_keep_alive.status == STARTED:
             # update params
             pass
         # Run 'Each Frame' code from break_code
-        
+
         break_image.draw()
         keys = event.getKeys(keyList=["space", "escape"])
         if "escape" in keys:
             core.quit()
         if "space" in keys and break_clock.getTime() >= 30:
             continueRoutine = False
-        
-        
+
+
         # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
             thisExp.status = FINISHED
@@ -1989,14 +2119,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # pause experiment here if requested
         if thisExp.status == PAUSED:
             pauseExperiment(
-                thisExp=thisExp, 
-                win=win, 
-                timers=[routineTimer, globalClock], 
+                thisExp=thisExp,
+                win=win,
+                timers=[routineTimer, globalClock],
                 currentRoutine=Break,
             )
             # skip the frame we paused on
             continue
-        
+
         # has a Component requested the Routine to end?
         if not continueRoutine:
             Break.forceEnded = routineForceEnded = True
@@ -2009,11 +2139,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                 continueRoutine = True
                 break  # at least one component has not yet finished
-        
+
         # refresh the screen
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
-    
+
     # --- Ending Routine "Break" ---
     for thisComponent in Break.components:
         if hasattr(thisComponent, "setAutoDraw"):
@@ -2025,17 +2155,17 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     thisExp.nextEntry()
     # the Routine "Break" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
-    
+
     # set up handler to look after randomisation of conditions etc
     MainBlock3 = data.TrialHandler2(
         name='MainBlock3',
-        nReps=1.0, 
-        method='sequential', 
-        extraInfo=expInfo, 
-        originPath=-1, 
-        trialList=data.importConditions('Conds/main_block3.csv'), 
-        seed=None, 
-        isTrials=True, 
+        nReps=1.0,
+        method='sequential',
+        extraInfo=expInfo,
+        originPath=-1,
+        trialList=data.importConditions('Conds/main_block3.csv'),
+        seed=None,
+        isTrials=True,
     )
     thisExp.addLoop(MainBlock3)  # add the loop to the experiment
     thisMainBlock3 = MainBlock3.trialList[0]  # so we can initialise stimuli with some values
@@ -2046,7 +2176,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now
         thisSession.sendExperimentData()
-    
+
     for thisMainBlock3 in MainBlock3:
         MainBlock3.status = STARTED
         if hasattr(thisMainBlock3, 'status'):
@@ -2060,7 +2190,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if thisMainBlock3 != None:
             for paramName in thisMainBlock3:
                 globals()[paramName] = thisMainBlock3[paramName]
-        
+
         # --- Prepare to start Routine "MainTrial" ---
         # create an object to store info about Routine MainTrial
         MainTrial = data.Routine(
@@ -2071,29 +2201,31 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         continueRoutine = True
         # update component parameters for each repeat
         # Run 'Begin Routine' code from main_trial_code
-        
+
         G_MAIN_TRIAL_INDEX += 1
         win.color = "white"
+        main_between_image = g_next_between_image()
+        main_placeholder = g_fullscreen_image(win, main_between_image)
         main_roles, main_paths = g_roles_and_paths()
-        main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
+        main_images = []
+        main_arrows = []
         main_segment = 0
         main_phase = "between"
         main_between_clock = core.Clock()
         main_between_audio = None
         main_between_audio_value = g_text(globals().get("between_audio", ""))
         main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
-        main_placeholder = g_fullscreen_image(win, between_image)
         main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
         main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
         if main_between_audio_value:
             main_between_audio = g_play_audio(main_between_audio_value)
         main_between_clock.reset()
         thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
-        thisExp.addData("between_image", g_path(between_image))
+        thisExp.addData("between_image", g_path(main_between_image))
         thisExp.addData("audio_probe", audio_probe)
         thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
         event.clearEvents()
-        
+
         # store start times for MainTrial
         MainTrial.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
         MainTrial.tStart = globalClock.getTime(format='float')
@@ -2113,7 +2245,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+
         # --- Run Routine "MainTrial" ---
         thisExp.currentRoutine = MainTrial
         MainTrial.forceEnded = routineForceEnded = not continueRoutine
@@ -2127,9 +2259,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             tThisFlipGlobal = win.getFutureFlipTime(clock=None)
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
-            
+
             # *MainTrial_keep_alive* updates
-            
+
             # if MainTrial_keep_alive is starting this frame...
             if MainTrial_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                 # keep track of start time/frame for later
@@ -2142,13 +2274,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # update status
                 MainTrial_keep_alive.status = STARTED
                 MainTrial_keep_alive.setAutoDraw(True)
-            
+
             # if MainTrial_keep_alive is active this frame...
             if MainTrial_keep_alive.status == STARTED:
                 # update params
                 pass
             # Run 'Each Frame' code from main_trial_code
-            
+
             if main_phase == "between":
                 main_placeholder.draw()
                 keys = event.getKeys(keyList=["space", "escape"])
@@ -2159,6 +2291,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     if main_between_audio:
                         main_between_audio.stop()
                     thisExp.addData("between_rt", main_between_clock.getTime())
+                    g_release_fullscreen_image(main_placeholder)
+                    main_placeholder = None
+                    main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
                     main_phase = "segment"
                     main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                     G_RECORDER.start(main_stem)
@@ -2181,8 +2316,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
                         G_RECORDER.start(main_stem)
                     event.clearEvents()
-            
-            
+
+
             # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
                 thisExp.status = FINISHED
@@ -2192,14 +2327,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # pause experiment here if requested
             if thisExp.status == PAUSED:
                 pauseExperiment(
-                    thisExp=thisExp, 
-                    win=win, 
-                    timers=[routineTimer, globalClock], 
+                    thisExp=thisExp,
+                    win=win,
+                    timers=[routineTimer, globalClock],
                     currentRoutine=MainTrial,
                 )
                 # skip the frame we paused on
                 continue
-            
+
             # has a Component requested the Routine to end?
             if not continueRoutine:
                 MainTrial.forceEnded = routineForceEnded = True
@@ -2212,11 +2347,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                     continueRoutine = True
                     break  # at least one component has not yet finished
-            
+
             # refresh the screen
             if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
                 win.flip()
-        
+
         # --- Ending Routine "MainTrial" ---
         for thisComponent in MainTrial.components:
             if hasattr(thisComponent, "setAutoDraw"):
@@ -2226,14 +2361,16 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         MainTrial.tStopRefresh = tThisFlipGlobal
         thisExp.addData('MainTrial.stopped', MainTrial.tStop)
         # Run 'End Routine' code from main_trial_code
-        
+
         G_RECORDER.stop()
         if main_between_audio:
             main_between_audio.stop()
         g_release_stims(main_images, main_arrows)
+        g_release_fullscreen_image(main_placeholder)
         main_images = []
         main_arrows = []
-        
+        main_placeholder = None
+
         # the Routine "MainTrial" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         # mark thisMainBlock3 as finished
@@ -2243,21 +2380,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if MainBlock3.status == PAUSED:
             thisExp.status = PAUSED
             pauseExperiment(
-                thisExp=thisExp, 
-                win=win, 
-                timers=[globalClock], 
+                thisExp=thisExp,
+                win=win,
+                timers=[globalClock],
             )
             # once done pausing, restore running status
             MainBlock3.status = STARTED
         thisExp.nextEntry()
-        
+
     # completed 1.0 repeats of 'MainBlock3'
     MainBlock3.status = FINISHED
-    
+
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now
         thisSession.sendExperimentData()
-    
+
     # --- Prepare to start Routine "EndExperiment" ---
     # create an object to store info about Routine EndExperiment
     EndExperiment = data.Routine(
@@ -2268,12 +2405,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     continueRoutine = True
     # update component parameters for each repeat
     # Run 'Begin Routine' code from end_code
-    
+
     win.color = "white"
     finish_image = visual.ImageStim(win, image=g_path("Stimuli/finish.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
     finish_clock = core.Clock()
     event.clearEvents()
-    
+
     # store start times for EndExperiment
     EndExperiment.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
     EndExperiment.tStart = globalClock.getTime(format='float')
@@ -2293,7 +2430,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     t = 0
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
     frameN = -1
-    
+
     # --- Run Routine "EndExperiment" ---
     thisExp.currentRoutine = EndExperiment
     EndExperiment.forceEnded = routineForceEnded = not continueRoutine
@@ -2304,9 +2441,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
-        
+
         # *EndExperiment_keep_alive* updates
-        
+
         # if EndExperiment_keep_alive is starting this frame...
         if EndExperiment_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             # keep track of start time/frame for later
@@ -2319,20 +2456,20 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # update status
             EndExperiment_keep_alive.status = STARTED
             EndExperiment_keep_alive.setAutoDraw(True)
-        
+
         # if EndExperiment_keep_alive is active this frame...
         if EndExperiment_keep_alive.status == STARTED:
             # update params
             pass
         # Run 'Each Frame' code from end_code
-        
+
         finish_image.draw()
         keys = event.getKeys(keyList=["space", "escape"])
         if "escape" in keys or "space" in keys or finish_clock.getTime() >= 10:
             g_cleanup()
             continueRoutine = False
-        
-        
+
+
         # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
             thisExp.status = FINISHED
@@ -2342,14 +2479,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # pause experiment here if requested
         if thisExp.status == PAUSED:
             pauseExperiment(
-                thisExp=thisExp, 
-                win=win, 
-                timers=[routineTimer, globalClock], 
+                thisExp=thisExp,
+                win=win,
+                timers=[routineTimer, globalClock],
                 currentRoutine=EndExperiment,
             )
             # skip the frame we paused on
             continue
-        
+
         # has a Component requested the Routine to end?
         if not continueRoutine:
             EndExperiment.forceEnded = routineForceEnded = True
@@ -2362,11 +2499,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                 continueRoutine = True
                 break  # at least one component has not yet finished
-        
+
         # refresh the screen
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
-    
+
     # --- Ending Routine "EndExperiment" ---
     for thisComponent in EndExperiment.components:
         if hasattr(thisComponent, "setAutoDraw"):
@@ -2378,7 +2515,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     thisExp.nextEntry()
     # the Routine "EndExperiment" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
-    
+
     # mark experiment as finished
     endExperiment(thisExp, win=win)
 
@@ -2386,11 +2523,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
 def saveData(thisExp):
     """
     Save data from this experiment
-    
+
     Parameters
     ==========
     thisExp : psychopy.data.ExperimentHandler
-        Handler object for this experiment, contains the data to save and information about 
+        Handler object for this experiment, contains the data to save and information about
         where to save it to.
     """
     filename = thisExp.dataFileName
@@ -2402,25 +2539,21 @@ def saveData(thisExp):
 def endExperiment(thisExp, win=None):
     """
     End this experiment, performing final shut down operations.
-    
+
     This function does NOT close the window or end the Python process - use `quit` for this.
-    
+
     Parameters
     ==========
     thisExp : psychopy.data.ExperimentHandler
-        Handler object for this experiment, contains the data to save and information about 
+        Handler object for this experiment, contains the data to save and information about
         where to save it to.
     win : psychopy.visual.Window
         Window for this experiment.
     """
-    # stop any playback components
-    if thisExp.currentRoutine is not None:
-        for comp in thisExp.currentRoutine.getPlaybackComponents():
-            comp.stop()
     if win is not None:
         # remove autodraw from all current components
         win.clearAutoDraw()
-        # Flip one final time so any remaining win.callOnFlip() 
+        # Flip one final time so any remaining win.callOnFlip()
         # and win.timeOnFlip() tasks get executed
         win.flip()
     # return console logger level to WARNING
@@ -2436,7 +2569,7 @@ def endExperiment(thisExp, win=None):
 def quit(thisExp, win=None, thisSession=None):
     """
     Fully quit, closing the window and ending the Python process.
-    
+
     Parameters
     ==========
     win : psychopy.visual.Window
@@ -2447,7 +2580,7 @@ def quit(thisExp, win=None, thisSession=None):
     thisExp.abort()  # or data files will save again on exit
     # make sure everything is closed down
     if win is not None:
-        # Flip one final time so any remaining win.callOnFlip() 
+        # Flip one final time so any remaining win.callOnFlip()
         # and win.timeOnFlip() tasks get executed before quitting
         win.flip()
         win.close()
@@ -2467,8 +2600,8 @@ if __name__ == '__main__':
     win = setupWindow(expInfo=expInfo)
     setupDevices(expInfo=expInfo, thisExp=thisExp, win=win)
     run(
-        expInfo=expInfo, 
-        thisExp=thisExp, 
+        expInfo=expInfo,
+        thisExp=thisExp,
         win=win,
         globalClock='float'
     )
