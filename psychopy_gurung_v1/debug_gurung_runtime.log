@@ -2546,3 +2546,165 @@
 530.647 rec_stream_abort_start
 530.869 rec_stream_abort_done
 530.880 rec_stream_close_done
+12.531 Available speaker devices: ['BlackHole 2ch', 'MacBook Air Speakers', 'Microsoft Teams Audio', 'ZoomAudioDevice']
+13.264 Using speaker device: MacBook Air Speakers
+13.345 play_audio /Users/matveikurzukov/gurung/psychopy_gurung_v1/Audio/sequence_instr.wav
+31.643 make_sequence roles=['practice_1', 'practice_2', 'practice_3'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr1_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr1_2.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr1_3.png']
+31.900 load_fullscreen_image /Users/matveikurzukov/gurung/psychopy_gurung_v1/BetweenTrials/img_20260522_165652.jpg
+33.089 rec_stream_open_start
+33.164 rec_stream_open_done
+33.165 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_01_pic01_practice_1.wav
+33.257 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_01_pic01_practice_1.wav frames=8
+33.257 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_01_pic02_practice_2.wav
+33.261 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_01_pic01_practice_1.wav
+38.473 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_01_pic02_practice_2.wav frames=489
+38.473 play_audio /Users/matveikurzukov/gurung/psychopy_gurung_v1/Audio/tsakyali.wav
+38.482 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_01_pic02_practice_2.wav
+39.673 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_01_pic03_practice_3.wav
+39.873 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_01_pic03_practice_3.wav frames=18
+39.915 make_sequence roles=['practice_1', 'practice_2', 'practice_3'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr2_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr2_2.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr2_3.png']
+39.917 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_01_pic03_practice_3.wav
+40.135 load_fullscreen_image /Users/matveikurzukov/gurung/psychopy_gurung_v1/BetweenTrials/1752221806065.jpg
+40.473 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_02_pic01_practice_1.wav
+40.823 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_02_pic01_practice_1.wav frames=33
+40.823 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_02_pic02_practice_2.wav
+40.824 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_02_pic01_practice_1.wav
+41.140 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_02_pic02_practice_2.wav frames=29
+41.140 play_audio /Users/matveikurzukov/gurung/psychopy_gurung_v1/Audio/tsakyali.wav
+41.152 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_02_pic02_practice_2.wav
+42.340 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_02_pic03_practice_3.wav
+42.639 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_02_pic03_practice_3.wav frames=28
+42.685 make_sequence roles=['practice_1', 'practice_2', 'practice_3'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr3_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr3_2.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr3_3.png']
+42.685 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_02_pic03_practice_3.wav
+43.173 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_03_pic01_practice_1.wav
+43.539 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_03_pic01_practice_1.wav frames=35
+43.540 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_03_pic02_practice_2.wav
+43.540 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_03_pic01_practice_1.wav
+43.874 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_03_pic02_practice_2.wav frames=31
+43.874 play_audio /Users/matveikurzukov/gurung/psychopy_gurung_v1/Audio/tsakyali.wav
+43.876 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_03_pic02_practice_2.wav
+45.073 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_03_pic03_practice_3.wav
+45.373 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_03_pic03_practice_3.wav frames=29
+45.417 make_sequence roles=['practice_1', 'practice_2', 'practice_3'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr4_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr4_2.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr4_3.png']
+45.417 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_03_pic03_practice_3.wav
+45.939 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_04_pic01_practice_1.wav
+46.340 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_04_pic01_practice_1.wav frames=37
+46.340 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_04_pic02_practice_2.wav
+46.341 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_04_pic01_practice_1.wav
+46.740 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_04_pic02_practice_2.wav frames=38
+46.740 play_audio /Users/matveikurzukov/gurung/psychopy_gurung_v1/Audio/tsakyali.wav
+46.742 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_04_pic02_practice_2.wav
+47.939 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_04_pic03_practice_3.wav
+48.123 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_04_pic03_practice_3.wav frames=17
+48.165 make_sequence roles=['practice_1', 'practice_2', 'practice_3'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr5_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr5_2.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr5_3.png']
+48.166 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_04_pic03_practice_3.wav
+48.573 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_05_pic01_practice_1.wav
+49.023 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_05_pic01_practice_1.wav frames=42
+49.023 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_05_pic02_practice_2.wav
+49.024 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_05_pic01_practice_1.wav
+49.424 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_05_pic02_practice_2.wav frames=37
+49.424 play_audio /Users/matveikurzukov/gurung/psychopy_gurung_v1/Audio/tsakyali.wav
+49.432 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_05_pic02_practice_2.wav
+50.623 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_05_pic03_practice_3.wav
+50.857 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_05_pic03_practice_3.wav frames=22
+50.904 make_sequence roles=['practice_1', 'practice_2', 'practice_3'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr6_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr6_2.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr6_3.png']
+50.904 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_05_pic03_practice_3.wav
+51.145 load_fullscreen_image /Users/matveikurzukov/gurung/psychopy_gurung_v1/BetweenTrials/1752221802086.jpg
+51.239 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_06_pic01_practice_1.wav
+51.723 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_06_pic01_practice_1.wav frames=45
+51.723 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_06_pic02_practice_2.wav
+51.724 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_06_pic01_practice_1.wav
+52.140 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_06_pic02_practice_2.wav frames=39
+52.140 play_audio /Users/matveikurzukov/gurung/psychopy_gurung_v1/Audio/tsakyali.wav
+52.145 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_06_pic02_practice_2.wav
+53.340 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_06_pic03_practice_3.wav
+53.673 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_06_pic03_practice_3.wav frames=31
+53.714 make_sequence roles=['practice_1', 'practice_2', 'practice_3'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr7_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr7_2.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr7_3.png']
+53.715 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_06_pic03_practice_3.wav
+54.189 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_07_pic01_practice_1.wav
+54.740 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_07_pic01_practice_1.wav frames=52
+54.741 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_07_pic02_practice_2.wav
+54.745 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_07_pic01_practice_1.wav
+55.123 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_07_pic02_practice_2.wav frames=36
+55.123 play_audio /Users/matveikurzukov/gurung/psychopy_gurung_v1/Audio/tsakyali.wav
+55.128 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_07_pic02_practice_2.wav
+56.323 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_07_pic03_practice_3.wav
+56.623 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_07_pic03_practice_3.wav frames=28
+56.665 make_sequence roles=['practice_1', 'practice_2', 'practice_3'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr8_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr8_2.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/Stimuli/pr8_3.png']
+56.666 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_07_pic03_practice_3.wav
+57.157 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_08_pic01_practice_1.wav
+57.590 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_08_pic01_practice_1.wav frames=40
+57.590 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_08_pic02_practice_2.wav
+57.591 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_08_pic01_practice_1.wav
+57.990 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_08_pic02_practice_2.wav frames=38
+57.990 play_audio /Users/matveikurzukov/gurung/psychopy_gurung_v1/Audio/tsakyali.wav
+57.992 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_08_pic02_practice_2.wav
+59.190 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_08_pic03_practice_3.wav
+59.390 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_08_pic03_practice_3.wav frames=19
+59.434 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_practice_08_pic03_practice_3.wav
+59.438 play_audio /Users/matveikurzukov/gurung/psychopy_gurung_v1/Audio/practice_end.wav
+59.857 make_sequence roles=['ic_1', 'tr_target', 'end_ic_tr'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/025_yawn_lock_door/ic_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/025_yawn_lock_door/tr_target.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/025_yawn_lock_door/end_ic_tr.png']
+60.607 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset25_condition_tr_ic_pic01_ic_1.wav
+61.056 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset25_condition_tr_ic_pic01_ic_1.wav frames=42
+61.057 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset25_condition_tr_ic_pic02_tr_target.wav
+61.058 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset25_condition_tr_ic_pic01_ic_1.wav
+61.423 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset25_condition_tr_ic_pic02_tr_target.wav frames=34
+61.423 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset25_condition_tr_ic_pic03_end_ic_tr.wav
+61.424 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset25_condition_tr_ic_pic02_tr_target.wav
+61.823 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset25_condition_tr_ic_pic03_end_ic_tr.wav frames=38
+61.864 make_sequence roles=['coh_1', 'coh_2', 'it_target', 'end_coh_it'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/010_run_cook_pancakes/coh_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/010_run_cook_pancakes/coh_2.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/010_run_cook_pancakes/it_target.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/010_run_cook_pancakes/end_coh_it.png']
+61.864 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset25_condition_tr_ic_pic03_end_ic_tr.wav
+62.009 load_fullscreen_image /Users/matveikurzukov/gurung/psychopy_gurung_v1/BetweenTrials/img-20250813-wa0011.jpg
+62.306 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic01_coh_1.wav
+62.673 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic01_coh_1.wav frames=34
+62.674 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic02_coh_2.wav
+62.676 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic01_coh_1.wav
+63.040 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic02_coh_2.wav frames=34
+63.040 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic03_it_target.wav
+63.040 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic02_coh_2.wav
+63.473 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic03_it_target.wav frames=40
+63.473 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic04_end_coh_it.wav
+63.474 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic03_it_target.wav
+63.873 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic04_end_coh_it.wav frames=38
+63.914 make_sequence roles=['ic_1', 'tr_target', 'end_ic_tr'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/009_descend_harvest_rice/ic_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/009_descend_harvest_rice/tr_target.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/009_descend_harvest_rice/end_ic_tr.png']
+63.914 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset10_condition_it_coh_pic04_end_coh_it.wav
+64.273 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset09_condition_tr_ic_pic01_ic_1.wav
+64.606 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset09_condition_tr_ic_pic01_ic_1.wav frames=31
+64.606 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset09_condition_tr_ic_pic02_tr_target.wav
+64.607 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset09_condition_tr_ic_pic01_ic_1.wav
+64.873 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset09_condition_tr_ic_pic02_tr_target.wav frames=25
+64.873 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset09_condition_tr_ic_pic03_end_ic_tr.wav
+64.874 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset09_condition_tr_ic_pic02_tr_target.wav
+65.056 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset09_condition_tr_ic_pic03_end_ic_tr.wav frames=18
+65.097 make_sequence roles=['ic_1', 'tr_target', 'end_ic_tr'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/021_cough_burn_bottles/ic_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/021_cough_burn_bottles/tr_target.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/021_cough_burn_bottles/end_ic_tr.png']
+65.097 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset09_condition_tr_ic_pic03_end_ic_tr.wav
+65.223 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset21_condition_tr_ic_pic01_ic_1.wav
+65.473 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset21_condition_tr_ic_pic01_ic_1.wav frames=24
+65.473 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset21_condition_tr_ic_pic02_tr_target.wav
+65.474 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset21_condition_tr_ic_pic01_ic_1.wav
+65.656 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset21_condition_tr_ic_pic02_tr_target.wav frames=17
+65.657 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset21_condition_tr_ic_pic03_end_ic_tr.wav
+65.657 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset21_condition_tr_ic_pic02_tr_target.wav
+65.839 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset21_condition_tr_ic_pic03_end_ic_tr.wav frames=17
+65.880 make_sequence roles=['ic_1', 'it_target', 'end_ic_it'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/007_sit_make_fire/ic_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/007_sit_make_fire/it_target.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/007_sit_make_fire/end_ic_it.png']
+65.880 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset21_condition_tr_ic_pic03_end_ic_tr.wav
+68.372 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset07_condition_it_ic_pic01_ic_1.wav
+68.524 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset07_condition_it_ic_pic01_ic_1.wav frames=14
+68.524 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset07_condition_it_ic_pic02_it_target.wav
+68.526 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset07_condition_it_ic_pic01_ic_1.wav
+68.690 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset07_condition_it_ic_pic02_it_target.wav frames=16
+68.690 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset07_condition_it_ic_pic03_end_ic_it.wav
+68.691 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset07_condition_it_ic_pic02_it_target.wav
+68.840 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset07_condition_it_ic_pic03_end_ic_it.wav frames=14
+68.885 make_sequence roles=['ic_1', 'it_target', 'end_ic_it'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/024_descend_paint_bench/ic_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/024_descend_paint_bench/it_target.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/024_descend_paint_bench/end_ic_it.png']
+68.885 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset07_condition_it_ic_pic03_end_ic_it.wav
+69.139 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset24_condition_it_ic_pic01_ic_1.wav
+69.640 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset24_condition_it_ic_pic01_ic_1.wav frames=47
+69.640 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset24_condition_it_ic_pic02_it_target.wav
+69.641 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset24_condition_it_ic_pic01_ic_1.wav
+69.790 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset24_condition_it_ic_pic02_it_target.wav frames=14
+69.790 rec_segment_start /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset24_condition_it_ic_pic03_end_ic_it.wav
+69.790 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset24_condition_it_ic_pic02_it_target.wav
+69.923 rec_segment_queue_write /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset24_condition_it_ic_pic03_end_ic_it.wav frames=13
+69.965 make_sequence roles=['coh_1', 'coh_2', 'tr_target'] paths=['/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/029_sit_cut_potato/coh_1.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/029_sit_cut_potato/coh_2.png', '/Users/matveikurzukov/gurung/psychopy_gurung_v1/MainStimuli/029_sit_cut_potato/tr_target.png']
+69.965 rec_segment_written /Users/matveikurzukov/gurung/psychopy_gurung_v1/recordings/736816_main_imageset24_condition_it_ic_pic03_end_ic_it.wav

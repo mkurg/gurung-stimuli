@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2026.1.3),
-    on Sat Jun  6 21:40:32 2026
+    on Sat Jun  6 22:03:02 2026
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -410,7 +410,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     G_DEBUG_LOG = G_ROOT / "debug_gurung_runtime.log"
     G_DATA_DIR.mkdir(exist_ok=True)
     G_RECORDINGS_DIR.mkdir(exist_ok=True)
-    G_IMAGE_SIZE = (0.22, 0.35)
+    G_IMAGE_SIZE = (0.2333333333, 0.35)
     G_ARROW_SIZE = (0.035, 0.035)
     G_STEP = 0.27
     G_MAIN_TRIAL_INDEX = 0
