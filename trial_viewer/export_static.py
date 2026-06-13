@@ -9,13 +9,12 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from server import WORKSPACE_DIR, resolve_data_root, scan_datasets
+from server import SET_NUMBERS, WORKSPACE_DIR, resolve_data_root, scan_datasets
 
 
 APP_DIR = Path(__file__).resolve().parent
 STATIC_DIR = APP_DIR / "static"
 DEFAULT_DOCS_DIR = WORKSPACE_DIR / "docs"
-VARIANTS = ("existing", "draft")
 
 
 def safe_slug(value: str) -> str:
@@ -91,7 +90,7 @@ def exported_image_info(
 def replace_image_metadata(
     folder_slug: str,
     source_dir: Path,
-    variant_key: str,
+    set_key: str,
     image: dict[str, object] | None,
     docs_dir: Path,
     cwebp: str,
@@ -107,8 +106,8 @@ def replace_image_metadata(
     source = source_dir / str(image["filename"])
     stem = str(image["stem"])
     output_name = f"{safe_slug(stem)}.webp"
-    output = docs_dir / "assets" / folder_slug / variant_key / output_name
-    url = f"assets/{folder_slug}/{variant_key}/{output_name}"
+    output = docs_dir / "assets" / folder_slug / set_key / output_name
+    url = f"assets/{folder_slug}/{set_key}/{output_name}"
 
     converted = convert_image(source, output, cwebp, max_width, quality, force)
     expected_assets.add(output.resolve())
@@ -117,9 +116,9 @@ def replace_image_metadata(
     return exported_image_info(source, output, url, stem, str(image["filename"]))
 
 
-def convert_variant(
+def convert_set(
     dataset: dict[str, object],
-    variant_key: str,
+    set_key: str,
     docs_dir: Path,
     cwebp: str,
     max_width: int,
@@ -128,20 +127,22 @@ def convert_variant(
     expected_assets: set[Path],
     counters: dict[str, int],
 ) -> None:
-    variant = dataset[variant_key]
-    assert isinstance(variant, dict)
+    sets = dataset["sets"]
+    assert isinstance(sets, dict)
+    set_data = sets[set_key]
+    assert isinstance(set_data, dict)
 
     folder_slug = safe_slug(str(dataset["folderName"]))
-    source_dir = Path(str(variant["path"]))
-    variant["path"] = f"assets/{folder_slug}/{variant_key}"
+    source_dir = Path(str(set_data["path"]))
+    set_data["path"] = f"assets/{folder_slug}/{set_key}"
 
-    images = variant["images"]
+    images = set_data["images"]
     assert isinstance(images, dict)
     for stem, image in list(images.items()):
         images[stem] = replace_image_metadata(
             folder_slug,
             source_dir,
-            variant_key,
+            set_key,
             image,
             docs_dir,
             cwebp,
@@ -152,16 +153,16 @@ def convert_variant(
             counters,
         )
 
-    variant["core"] = {stem: images[stem] for stem in variant["core"]}
-    variant["endings"] = {stem: images[stem] for stem in variant["endings"]}
+    set_data["core"] = {stem: images[stem] for stem in set_data["core"]}
+    set_data["endings"] = {stem: images[stem] for stem in set_data["endings"]}
 
-    extra = variant["extra"]
+    extra = set_data["extra"]
     assert isinstance(extra, list)
-    variant["extra"] = [
+    set_data["extra"] = [
         replace_image_metadata(
             folder_slug,
             source_dir,
-            variant_key,
+            set_key,
             image,
             docs_dir,
             cwebp,
@@ -231,10 +232,10 @@ def export_static(args: argparse.Namespace) -> dict[str, int | str]:
     for dataset in data["datasets"]:
         assert isinstance(dataset, dict)
         dataset["folderPath"] = f"assets/{safe_slug(str(dataset['folderName']))}"
-        for variant_key in VARIANTS:
-            convert_variant(
+        for set_number in SET_NUMBERS:
+            convert_set(
                 dataset,
-                variant_key,
+                str(set_number),
                 docs_dir,
                 cwebp,
                 args.max_width,
@@ -257,6 +258,7 @@ def export_static(args: argparse.Namespace) -> dict[str, int | str]:
             "skipped": counters["skipped"],
             "removedStaleAssets": removed,
             "datasetCount": data["summary"]["datasetCount"],
+            "sets": SET_NUMBERS,
         },
     )
 

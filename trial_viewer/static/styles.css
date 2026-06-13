@@ -101,6 +101,39 @@ h1 {
   padding: 0 34px 0 10px;
 }
 
+.set-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  margin: 0;
+  padding: 4px 8px 5px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+}
+
+.set-controls legend {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.set-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.set-controls input {
+  width: 16px;
+  min-height: 0;
+}
+
 .primary {
   min-height: 38px;
   padding: 0 14px;
@@ -272,22 +305,23 @@ h1 {
   gap: 6px;
 }
 
-.variant-grid {
+.set-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--visible-set-count, 2), minmax(330px, 1fr));
   gap: 0;
+  overflow-x: auto;
 }
 
-.variant {
-  min-width: 0;
+.set-panel {
+  min-width: 330px;
   padding: 16px 18px 18px;
 }
 
-.variant + .variant {
+.set-panel + .set-panel {
   border-left: 1px solid var(--line);
 }
 
-.variant-header {
+.set-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -295,7 +329,7 @@ h1 {
   margin-bottom: 12px;
 }
 
-.variant h3 {
+.set-panel h3 {
   margin: 0;
   font-size: 16px;
 }
@@ -671,8 +705,13 @@ button.thumb:hover {
   .toolbar label,
   .toolbar input,
   .toolbar select,
+  .set-controls,
   .primary {
     width: 100%;
+  }
+
+  .set-controls {
+    justify-content: flex-start;
   }
 
   .workspace,
@@ -682,11 +721,12 @@ button.thumb:hover {
     padding-right: 14px;
   }
 
-  .variant-grid {
+  .set-grid {
     grid-template-columns: 1fr;
+    overflow-x: visible;
   }
 
-  .variant + .variant {
+  .set-panel + .set-panel {
     border-top: 1px solid var(--line);
     border-left: 0;
   }

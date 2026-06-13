@@ -21,15 +21,21 @@
           <span>Filter</span>
           <select id="filter">
             <option value="all">All datasets</option>
-            <option value="has-draft">Has folder 2</option>
-            <option value="draft-incomplete">Draft incomplete</option>
-            <option value="core-incomplete">Core images set incomplete</option>
+            <option value="set-incomplete">Visible set incomplete</option>
+            <option value="core-incomplete">Core images incomplete</option>
             <option value="needs-endings">Needs endings</option>
-            <option value="no-draft">No draft yet</option>
+            <option value="empty-set">Empty visible set</option>
             <option value="existing-problems">Set 1 problems</option>
             <option value="extras">Extra images</option>
           </select>
         </label>
+        <fieldset class="set-controls" aria-label="Visible sets">
+          <legend>Sets</legend>
+          <label><input type="checkbox" data-set-toggle value="1" checked> 1</label>
+          <label><input type="checkbox" data-set-toggle value="2" checked> 2</label>
+          <label><input type="checkbox" data-set-toggle value="3"> 3</label>
+          <label><input type="checkbox" data-set-toggle value="4"> 4</label>
+        </fieldset>
         <button id="refresh" class="primary" type="button">Refresh</button>
       </div>
     </header>

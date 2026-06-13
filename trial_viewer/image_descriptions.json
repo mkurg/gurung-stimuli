@@ -8,7 +8,7 @@
   },
   "order": "set 1 dataset 1 -> set 2 dataset 1 -> set 1 dataset 2 -> set 2 dataset 2 -> ...",
   "createdAt": "2026-06-13T02:00:02",
-  "updatedAt": "2026-06-13T02:47:21",
+  "updatedAt": "2026-06-13T17:53:05",
   "status": {
     "completedGroups": 60,
     "totalGroups": 60,
@@ -21,55 +21,55 @@
       "dataset_name": "cough_throw_bones",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/1_cough_throw_bones/existing",
+      "source_dir": "assets/1_cough_throw_bones/1",
       "completedAt": "2026-06-13T02:01:15",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/1_cough_throw_bones/existing/ic_1.webp",
+          "source_path": "assets/1_cough_throw_bones/1/ic_1.webp",
           "description": "A smoky traditional kitchen interior with a low clay hearth, glowing firewood, ash, shelves of metal pots, and no people visible."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/1_cough_throw_bones/existing/coh_1.webp",
+          "source_path": "assets/1_cough_throw_bones/1/coh_1.webp",
           "description": "An older man stands in shallow river water holding a freshly caught fish in both hands, with green hills and water behind him."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/1_cough_throw_bones/existing/coh_2.webp",
+          "source_path": "assets/1_cough_throw_bones/1/coh_2.webp",
           "description": "The older man cooks a whole fish in a black pan over an open fire, holding a spatula while smoke rises around him."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/1_cough_throw_bones/existing/tr_target.webp",
+          "source_path": "assets/1_cough_throw_bones/1/tr_target.webp",
           "description": "An older woman stands inside the kitchen and extends her hand toward a falling fish skeleton, as if throwing or dropping the bones away."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/1_cough_throw_bones/existing/it_target.webp",
+          "source_path": "assets/1_cough_throw_bones/1/it_target.webp",
           "description": "An older woman sits indoors with her eyes closed, coughing into her fist."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/1_cough_throw_bones/existing/end_coh_it.webp",
+          "source_path": "assets/1_cough_throw_bones/1/end_coh_it.webp",
           "description": "The older woman reaches up to turn on or adjust a wall-mounted ventilation fan, likely to clear smoke from the room."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/1_cough_throw_bones/existing/end_ic_tr.webp",
+          "source_path": "assets/1_cough_throw_bones/1/end_ic_tr.webp",
           "description": "A cat crouches beside the clay hearth and grips a discarded fish skeleton in its mouth near the glowing fire."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/1_cough_throw_bones/existing/end_ic_it.webp",
+          "source_path": "assets/1_cough_throw_bones/1/end_ic_it.webp",
           "description": "The older woman opens a small kitchen window while smoke drifts through the room, letting in light and fresh air."
         }
       ]
@@ -79,55 +79,55 @@
       "dataset_name": "cough_throw_bones",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/1_cough_throw_bones/draft",
+      "source_dir": "assets/1_cough_throw_bones/2",
       "completedAt": "2026-06-13T02:01:15",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/1_cough_throw_bones/draft/ic_1.webp",
+          "source_path": "assets/1_cough_throw_bones/2/ic_1.webp",
           "description": "A smoky traditional clay hearth burns indoors, with firewood glowing in the opening and smoke rising through the kitchen."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/1_cough_throw_bones/draft/coh_1.webp",
+          "source_path": "assets/1_cough_throw_bones/2/coh_1.webp",
           "description": "A woman stands knee-deep in a river, holding a freshly caught fish with both hands against a green mountain background."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/1_cough_throw_bones/draft/coh_2.webp",
+          "source_path": "assets/1_cough_throw_bones/2/coh_2.webp",
           "description": "The woman cooks the fish in a black pan over an open fire inside a smoky kitchen."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/1_cough_throw_bones/draft/tr_target.webp",
+          "source_path": "assets/1_cough_throw_bones/2/tr_target.webp",
           "description": "A man indoors extends his hand toward a hanging fish skeleton, as if throwing or dropping the bones away."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/1_cough_throw_bones/draft/it_target.webp",
+          "source_path": "assets/1_cough_throw_bones/2/it_target.webp",
           "description": "The man sits in a smoky kitchen and coughs into his fist."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/1_cough_throw_bones/draft/end_coh_it.webp",
+          "source_path": "assets/1_cough_throw_bones/2/end_coh_it.webp",
           "description": "The woman hands the seated man a glass of water after he has been coughing."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/1_cough_throw_bones/draft/end_ic_tr.webp",
+          "source_path": "assets/1_cough_throw_bones/2/end_ic_tr.webp",
           "description": "The woman sweeps a fish skeleton on the kitchen floor with a broom while the man sits nearby watching."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/1_cough_throw_bones/draft/end_ic_it.webp",
+          "source_path": "assets/1_cough_throw_bones/2/end_ic_it.webp",
           "description": "The man stands outside in the doorway of a stone house with his eyes closed, appearing to breathe fresh air after leaving the smoky room."
         }
       ]
@@ -137,55 +137,55 @@
       "dataset_name": "stand_weave_basket",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/2_stand_weave_basket/existing",
+      "source_dir": "assets/2_stand_weave_basket/1",
       "completedAt": "2026-06-13T02:07:58",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/2_stand_weave_basket/existing/ic_1.webp",
+          "source_path": "assets/2_stand_weave_basket/1/ic_1.webp",
           "description": "A quiet rural yard and house at sunrise, with trees and mountains in the background and no people visible."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/2_stand_weave_basket/existing/coh_1.webp",
+          "source_path": "assets/2_stand_weave_basket/1/coh_1.webp",
           "description": "A man in a traditional cap cuts a standing bamboo stalk with a machete outdoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/2_stand_weave_basket/existing/coh_2.webp",
+          "source_path": "assets/2_stand_weave_basket/1/coh_2.webp",
           "description": "The man squats outside and cuts green bamboo poles into sections with a machete."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/2_stand_weave_basket/existing/tr_target.webp",
+          "source_path": "assets/2_stand_weave_basket/1/tr_target.webp",
           "description": "An older man sits outside weaving a round bamboo basket with both hands."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/2_stand_weave_basket/existing/it_target.webp",
+          "source_path": "assets/2_stand_weave_basket/1/it_target.webp",
           "description": "The older man stands alone outside near a rural house and trees."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/2_stand_weave_basket/existing/end_coh_it.webp",
+          "source_path": "assets/2_stand_weave_basket/1/end_coh_it.webp",
           "description": "Two men work together on a small bamboo frame or ladder made from cut bamboo poles."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/2_stand_weave_basket/existing/end_ic_tr.webp",
+          "source_path": "assets/2_stand_weave_basket/1/end_ic_tr.webp",
           "description": "A child runs nearby while an older man crouches beside a woven basket with a colorful ball inside."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/2_stand_weave_basket/existing/end_ic_it.webp",
+          "source_path": "assets/2_stand_weave_basket/1/end_ic_it.webp",
           "description": "The older man walks down stone steps outdoors while carrying a woven basket on his back."
         }
       ]
@@ -195,55 +195,55 @@
       "dataset_name": "stand_weave_basket",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/2_stand_weave_basket/draft",
+      "source_dir": "assets/2_stand_weave_basket/2",
       "completedAt": "2026-06-13T02:07:58",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/2_stand_weave_basket/draft/ic_1.webp",
+          "source_path": "assets/2_stand_weave_basket/2/ic_1.webp",
           "description": "A sunlit village path leads past a small rural house and trees at sunrise, with no people present."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/2_stand_weave_basket/draft/coh_1.webp",
+          "source_path": "assets/2_stand_weave_basket/2/coh_1.webp",
           "description": "An older man cuts a standing bamboo stalk with a machete outdoors in a green hillside setting."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/2_stand_weave_basket/draft/coh_2.webp",
+          "source_path": "assets/2_stand_weave_basket/2/coh_2.webp",
           "description": "The older man squats on a path and cuts bamboo poles into shorter pieces with a machete."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/2_stand_weave_basket/draft/tr_target.webp",
+          "source_path": "assets/2_stand_weave_basket/2/tr_target.webp",
           "description": "A man sits outdoors weaving a round bamboo basket."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/2_stand_weave_basket/draft/it_target.webp",
+          "source_path": "assets/2_stand_weave_basket/2/it_target.webp",
           "description": "The man stands alone on a village path with a fence and greenery behind him."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/2_stand_weave_basket/draft/end_coh_it.webp",
+          "source_path": "assets/2_stand_weave_basket/2/end_coh_it.webp",
           "description": "Two men carry bundles of cut bamboo poles together along an outdoor path."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/2_stand_weave_basket/draft/end_ic_tr.webp",
+          "source_path": "assets/2_stand_weave_basket/2/end_ic_tr.webp",
           "description": "The man smiles while handing a woven bamboo basket to a woman outdoors."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/2_stand_weave_basket/draft/end_ic_it.webp",
+          "source_path": "assets/2_stand_weave_basket/2/end_ic_it.webp",
           "description": "The man helps a small child at the threshold of a house or shop doorway."
         }
       ]
@@ -253,55 +253,55 @@
       "dataset_name": "rest_cook_fish",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/3_rest_cook_fish/existing",
+      "source_dir": "assets/3_rest_cook_fish/1",
       "completedAt": "2026-06-13T02:07:58",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/3_rest_cook_fish/existing/ic_1.webp",
+          "source_path": "assets/3_rest_cook_fish/1/ic_1.webp",
           "description": "A wide riverbank with stones and a fishing net lying near the water, with forested hills in the distance and no people visible."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/3_rest_cook_fish/existing/coh_1.webp",
+          "source_path": "assets/3_rest_cook_fish/1/coh_1.webp",
           "description": "A man stands by the river holding a large fishing net over his shoulder."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/3_rest_cook_fish/existing/coh_2.webp",
+          "source_path": "assets/3_rest_cook_fish/1/coh_2.webp",
           "description": "The man stands in shallow river water and casts a large fishing net outward."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/3_rest_cook_fish/existing/tr_target.webp",
+          "source_path": "assets/3_rest_cook_fish/1/tr_target.webp",
           "description": "A woman cooks a fish in a pan over an indoor open fire."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/3_rest_cook_fish/existing/it_target.webp",
+          "source_path": "assets/3_rest_cook_fish/1/it_target.webp",
           "description": "A woman reclines and rests on a woven mat on a rocky riverbank."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/3_rest_cook_fish/existing/end_coh_it.webp",
+          "source_path": "assets/3_rest_cook_fish/1/end_coh_it.webp",
           "description": "The man handles a fishing net beside the woman on the riverbank while a basket sits nearby."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/3_rest_cook_fish/existing/end_ic_tr.webp",
+          "source_path": "assets/3_rest_cook_fish/1/end_ic_tr.webp",
           "description": "The woman serves a plate with cooked fish to an older seated man inside a kitchen."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/3_rest_cook_fish/existing/end_ic_it.webp",
+          "source_path": "assets/3_rest_cook_fish/1/end_ic_it.webp",
           "description": "The woman walks up a stone path carrying a fishing net and a bucket near a rural house."
         }
       ]
@@ -311,55 +311,55 @@
       "dataset_name": "rest_cook_fish",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/3_rest_cook_fish/draft",
+      "source_dir": "assets/3_rest_cook_fish/2",
       "completedAt": "2026-06-13T02:07:58",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/3_rest_cook_fish/draft/ic_1.webp",
+          "source_path": "assets/3_rest_cook_fish/2/ic_1.webp",
           "description": "An empty rocky riverbank beside calm water, with a fishing net lying on the stones under a cloudy sky."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/3_rest_cook_fish/draft/coh_1.webp",
+          "source_path": "assets/3_rest_cook_fish/2/coh_1.webp",
           "description": "A boy stands on the riverbank carrying a fishing net over his shoulder and holding part of it in his hand."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/3_rest_cook_fish/draft/coh_2.webp",
+          "source_path": "assets/3_rest_cook_fish/2/coh_2.webp",
           "description": "The boy stands in shallow water and casts a fishing net across the river surface."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/3_rest_cook_fish/draft/tr_target.webp",
+          "source_path": "assets/3_rest_cook_fish/2/tr_target.webp",
           "description": "An elderly woman cooks a fish in a pan over an open fire inside a rustic kitchen."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/3_rest_cook_fish/draft/it_target.webp",
+          "source_path": "assets/3_rest_cook_fish/2/it_target.webp",
           "description": "An elderly woman reclines and rests on a woven mat on the rocky riverbank."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/3_rest_cook_fish/draft/end_coh_it.webp",
+          "source_path": "assets/3_rest_cook_fish/2/end_coh_it.webp",
           "description": "The elderly woman stands on the riverbank mat with one hand raised near her mouth, looking across the open river stones."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/3_rest_cook_fish/draft/end_ic_tr.webp",
+          "source_path": "assets/3_rest_cook_fish/2/end_ic_tr.webp",
           "description": "A dog reaches toward a fish in a pan over the fire while the elderly woman reacts nearby."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/3_rest_cook_fish/draft/end_ic_it.webp",
+          "source_path": "assets/3_rest_cook_fish/2/end_ic_it.webp",
           "description": "A wet dog shakes water beside the resting woman on the riverbank mat."
         }
       ]
@@ -369,55 +369,55 @@
       "dataset_name": "run_drink_tea",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/4_run_drink_tea/existing",
+      "source_dir": "assets/4_run_drink_tea/1",
       "completedAt": "2026-06-13T02:10:14",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/4_run_drink_tea/existing/ic_1.webp",
+          "source_path": "assets/4_run_drink_tea/1/ic_1.webp",
           "description": "A quiet mountain village path at sunset, with houses, fences, and warm light over the hills."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/4_run_drink_tea/existing/coh_1.webp",
+          "source_path": "assets/4_run_drink_tea/1/coh_1.webp",
           "description": "A woman stands in a tea field and picks tea leaves by hand."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/4_run_drink_tea/existing/coh_2.webp",
+          "source_path": "assets/4_run_drink_tea/1/coh_2.webp",
           "description": "The woman sits by a house and sorts or dries tea leaves on a large round tray."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/4_run_drink_tea/existing/tr_target.webp",
+          "source_path": "assets/4_run_drink_tea/1/tr_target.webp",
           "description": "A boy sits indoors and drinks tea from a metal cup."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/4_run_drink_tea/existing/it_target.webp",
+          "source_path": "assets/4_run_drink_tea/1/it_target.webp",
           "description": "The boy runs barefoot outside along a house porch or yard."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/4_run_drink_tea/existing/end_coh_it.webp",
+          "source_path": "assets/4_run_drink_tea/1/end_coh_it.webp",
           "description": "The woman and the boy work together with tea leaves, filling or holding a bag over a large round tray."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/4_run_drink_tea/existing/end_ic_tr.webp",
+          "source_path": "assets/4_run_drink_tea/1/end_ic_tr.webp",
           "description": "The boy, now in school clothes with a backpack, steps out through a doorway."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/4_run_drink_tea/existing/end_ic_it.webp",
+          "source_path": "assets/4_run_drink_tea/1/end_ic_it.webp",
           "description": "The boy writes in a notebook at a classroom desk while other children study behind him."
         }
       ]
@@ -427,55 +427,55 @@
       "dataset_name": "run_drink_tea",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/4_run_drink_tea/draft",
+      "source_dir": "assets/4_run_drink_tea/2",
       "completedAt": "2026-06-13T02:10:14",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/4_run_drink_tea/draft/ic_1.webp",
+          "source_path": "assets/4_run_drink_tea/2/ic_1.webp",
           "description": "A sunlit village path at sunrise with houses, trees, and mountains in the background."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/4_run_drink_tea/draft/coh_1.webp",
+          "source_path": "assets/4_run_drink_tea/2/coh_1.webp",
           "description": "An older man picks fresh tea leaves from a green tea bush outdoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/4_run_drink_tea/draft/coh_2.webp",
+          "source_path": "assets/4_run_drink_tea/2/coh_2.webp",
           "description": "The older man sits outside and sorts tea leaves on a large round tray."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/4_run_drink_tea/draft/tr_target.webp",
+          "source_path": "assets/4_run_drink_tea/2/tr_target.webp",
           "description": "A young girl sits outdoors and drinks tea from a glass."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/4_run_drink_tea/draft/it_target.webp",
+          "source_path": "assets/4_run_drink_tea/2/it_target.webp",
           "description": "The young girl runs along an outdoor village path."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/4_run_drink_tea/draft/end_coh_it.webp",
+          "source_path": "assets/4_run_drink_tea/2/end_coh_it.webp",
           "description": "The girl stands behind the older man and playfully covers his eyes while he sorts tea leaves."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/4_run_drink_tea/draft/end_ic_tr.webp",
+          "source_path": "assets/4_run_drink_tea/2/end_ic_tr.webp",
           "description": "The girl reacts in surprise while holding a glass of tea, with liquid appearing to spill or splash."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/4_run_drink_tea/draft/end_ic_it.webp",
+          "source_path": "assets/4_run_drink_tea/2/end_ic_it.webp",
           "description": "The girl runs toward a woman beside a parked vehicle on a village road at sunset."
         }
       ]
@@ -485,55 +485,55 @@
       "dataset_name": "rest_build_wall",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/5_rest_build_wall/existing",
+      "source_dir": "assets/5_rest_build_wall/1",
       "completedAt": "2026-06-13T02:10:14",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/5_rest_build_wall/existing/ic_1.webp",
+          "source_path": "assets/5_rest_build_wall/1/ic_1.webp",
           "description": "A bright stone-paved village lane with houses, walls, and mountains under strong sunlight."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/5_rest_build_wall/existing/coh_1.webp",
+          "source_path": "assets/5_rest_build_wall/1/coh_1.webp",
           "description": "An older man carries a heavy load of stones on his back along a village path."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/5_rest_build_wall/existing/coh_2.webp",
+          "source_path": "assets/5_rest_build_wall/1/coh_2.webp",
           "description": "The older man squats near a stone wall and breaks or shapes a rock with a hammer."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/5_rest_build_wall/existing/tr_target.webp",
+          "source_path": "assets/5_rest_build_wall/1/tr_target.webp",
           "description": "A young man places stones carefully while building a dry stone wall."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/5_rest_build_wall/existing/it_target.webp",
+          "source_path": "assets/5_rest_build_wall/1/it_target.webp",
           "description": "The young man reclines on the ground by a stone wall, resting among scattered rocks."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/5_rest_build_wall/existing/end_coh_it.webp",
+          "source_path": "assets/5_rest_build_wall/1/end_coh_it.webp",
           "description": "The young man offers water from a kettle or cup to the older man seated beside stones."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/5_rest_build_wall/existing/end_ic_tr.webp",
+          "source_path": "assets/5_rest_build_wall/1/end_ic_tr.webp",
           "description": "The young man wipes sweat from his face with a cloth while leaning on the stone wall."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/5_rest_build_wall/existing/end_ic_it.webp",
+          "source_path": "assets/5_rest_build_wall/1/end_ic_it.webp",
           "description": "The young man bends over an outdoor tap and splashes water onto his head and face."
         }
       ]
@@ -543,55 +543,55 @@
       "dataset_name": "rest_build_wall",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/5_rest_build_wall/draft",
+      "source_dir": "assets/5_rest_build_wall/2",
       "completedAt": "2026-06-13T02:10:14",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/5_rest_build_wall/draft/ic_1.webp",
+          "source_path": "assets/5_rest_build_wall/2/ic_1.webp",
           "description": "A sunny stone village lane with houses and mountain scenery, empty of people."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/5_rest_build_wall/draft/coh_1.webp",
+          "source_path": "assets/5_rest_build_wall/2/coh_1.webp",
           "description": "A man carries a large load of stones on his back up a village path."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/5_rest_build_wall/draft/coh_2.webp",
+          "source_path": "assets/5_rest_build_wall/2/coh_2.webp",
           "description": "The man squats outdoors and breaks a stone with a hammer."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/5_rest_build_wall/draft/tr_target.webp",
+          "source_path": "assets/5_rest_build_wall/2/tr_target.webp",
           "description": "A boy places stones into a wall, building or repairing the dry stone structure."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/5_rest_build_wall/draft/it_target.webp",
+          "source_path": "assets/5_rest_build_wall/2/it_target.webp",
           "description": "The boy reclines on the ground beside a stone wall, resting among scattered rocks."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/5_rest_build_wall/draft/end_coh_it.webp",
+          "source_path": "assets/5_rest_build_wall/2/end_coh_it.webp",
           "description": "The man and the boy sit together among stones and tools as they work on breaking or arranging rocks."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/5_rest_build_wall/draft/end_ic_tr.webp",
+          "source_path": "assets/5_rest_build_wall/2/end_ic_tr.webp",
           "description": "A woman stands in front of the seated boy and hands him something small while he rests near the stones."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/5_rest_build_wall/draft/end_ic_it.webp",
+          "source_path": "assets/5_rest_build_wall/2/end_ic_it.webp",
           "description": "A chicken walks near the boy as he lies resting on the ground beside a stone wall."
         }
       ]
@@ -601,55 +601,55 @@
       "dataset_name": "sleep_pluck_tomatoes",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/6_sleep_pluck_tomatoes/existing",
+      "source_dir": "assets/6_sleep_pluck_tomatoes/1",
       "completedAt": "2026-06-13T02:11:58",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/existing/ic_1.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/1/ic_1.webp",
           "description": "A foggy farm path runs between green fields, with a small house barely visible in the mist."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/existing/coh_1.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/1/coh_1.webp",
           "description": "An older woman kneels in a field and plants a young tomato seedling in the soil."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/existing/coh_2.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/1/coh_2.webp",
           "description": "The older woman waters a tomato plant with a metal watering can."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/existing/tr_target.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/1/tr_target.webp",
           "description": "An older man picks ripe red tomatoes from a plant into a basket."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/existing/it_target.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/1/it_target.webp",
           "description": "The older man sits in the field with his head resting on his hand, appearing sleepy or tired."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/existing/end_coh_it.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/1/end_coh_it.webp",
           "description": "The older woman stands beside the tired seated man and holds out a shovel or tool near him."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/existing/end_ic_tr.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/1/end_ic_tr.webp",
           "description": "The older man holds tomatoes beside a full basket while a woman approaches through the fog behind him."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/existing/end_ic_it.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/1/end_ic_it.webp",
           "description": "The older man dozes beside a foggy path while a buffalo walks behind him."
         }
       ]
@@ -659,55 +659,55 @@
       "dataset_name": "sleep_pluck_tomatoes",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/6_sleep_pluck_tomatoes/draft",
+      "source_dir": "assets/6_sleep_pluck_tomatoes/2",
       "completedAt": "2026-06-13T02:11:58",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/draft/ic_1.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/2/ic_1.webp",
           "description": "A narrow path leads through misty green fields toward a faint house and trees."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/draft/coh_1.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/2/coh_1.webp",
           "description": "An older man kneels in a field and plants a small tomato seedling."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/draft/coh_2.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/2/coh_2.webp",
           "description": "The older man waters tomato plants with a watering can in the field."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/draft/tr_target.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/2/tr_target.webp",
           "description": "A woman picks ripe red tomatoes from a plant into a basket."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/draft/it_target.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/2/it_target.webp",
           "description": "The woman sits in the tomato field with her head resting on her hand, looking sleepy or tired."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/draft/end_coh_it.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/2/end_coh_it.webp",
           "description": "The older man waters a tomato plant while the tired woman sits nearby in the field."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/draft/end_ic_tr.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/2/end_ic_tr.webp",
           "description": "The woman slices tomatoes and cucumbers on a tray indoors."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/6_sleep_pluck_tomatoes/draft/end_ic_it.webp",
+          "source_path": "assets/6_sleep_pluck_tomatoes/2/end_ic_it.webp",
           "description": "The woman sits in the field beneath a tree while a child or young person is up in the branches nearby."
         }
       ]
@@ -717,55 +717,55 @@
       "dataset_name": "sit_make_fire",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/7_sit_make_fire/existing",
+      "source_dir": "assets/7_sit_make_fire/1",
       "completedAt": "2026-06-13T02:13:42",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/7_sit_make_fire/existing/ic_1.webp",
+          "source_path": "assets/7_sit_make_fire/1/ic_1.webp",
           "description": "A stormy mountain landscape with a small rural house and dark clouds over green fields."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/7_sit_make_fire/existing/coh_1.webp",
+          "source_path": "assets/7_sit_make_fire/1/coh_1.webp",
           "description": "An older man uses an axe to chop into a tree trunk outdoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/7_sit_make_fire/existing/coh_2.webp",
+          "source_path": "assets/7_sit_make_fire/1/coh_2.webp",
           "description": "The older man splits a log with an axe near a pile of firewood."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/7_sit_make_fire/existing/tr_target.webp",
+          "source_path": "assets/7_sit_make_fire/1/tr_target.webp",
           "description": "An older woman lights or feeds firewood in an indoor clay stove."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/7_sit_make_fire/existing/it_target.webp",
+          "source_path": "assets/7_sit_make_fire/1/it_target.webp",
           "description": "The older woman sits outdoors on a stack of firewood logs."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/7_sit_make_fire/existing/end_coh_it.webp",
+          "source_path": "assets/7_sit_make_fire/1/end_coh_it.webp",
           "description": "The older woman walks along a path carrying a large basket of firewood on her back."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/7_sit_make_fire/existing/end_ic_tr.webp",
+          "source_path": "assets/7_sit_make_fire/1/end_ic_tr.webp",
           "description": "The older woman pours hot tea into several glasses beside the indoor fire."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/7_sit_make_fire/existing/end_ic_it.webp",
+          "source_path": "assets/7_sit_make_fire/1/end_ic_it.webp",
           "description": "The older woman sits outside in rain wrapped in a blanket beside stacked firewood."
         }
       ]
@@ -775,55 +775,55 @@
       "dataset_name": "sit_make_fire",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/7_sit_make_fire/draft",
+      "source_dir": "assets/7_sit_make_fire/2",
       "completedAt": "2026-06-13T02:13:42",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/7_sit_make_fire/draft/ic_1.webp",
+          "source_path": "assets/7_sit_make_fire/2/ic_1.webp",
           "description": "A village and hillside sit under dark storm clouds, with houses and a path visible below."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/7_sit_make_fire/draft/coh_1.webp",
+          "source_path": "assets/7_sit_make_fire/2/coh_1.webp",
           "description": "A man chops into a tree trunk with an axe beside a rural house."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/7_sit_make_fire/draft/coh_2.webp",
+          "source_path": "assets/7_sit_make_fire/2/coh_2.webp",
           "description": "The man splits firewood on a stump with an axe near a stacked woodpile."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/7_sit_make_fire/draft/tr_target.webp",
+          "source_path": "assets/7_sit_make_fire/2/tr_target.webp",
           "description": "A woman crouches indoors and places wood into a clay stove fire."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/7_sit_make_fire/draft/it_target.webp",
+          "source_path": "assets/7_sit_make_fire/2/it_target.webp",
           "description": "The woman sits outside on a stack of firewood logs."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/7_sit_make_fire/draft/end_coh_it.webp",
+          "source_path": "assets/7_sit_make_fire/2/end_coh_it.webp",
           "description": "The man works with an axe near a stump while the woman sits beside the firewood stack."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/7_sit_make_fire/draft/end_ic_tr.webp",
+          "source_path": "assets/7_sit_make_fire/2/end_ic_tr.webp",
           "description": "The woman tends the indoor fire while a child sits close by warming their hands."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/7_sit_make_fire/draft/end_ic_it.webp",
+          "source_path": "assets/7_sit_make_fire/2/end_ic_it.webp",
           "description": "The woman spreads a plastic sheet over stacked firewood outside under stormy skies."
         }
       ]
@@ -833,55 +833,55 @@
       "dataset_name": "smile_weave_garland",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/8_smile_weave_garland/existing",
+      "source_dir": "assets/8_smile_weave_garland/1",
       "completedAt": "2026-06-13T02:13:42",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/8_smile_weave_garland/existing/ic_1.webp",
+          "source_path": "assets/8_smile_weave_garland/1/ic_1.webp",
           "description": "An open window frames a mountain valley with a rainbow in the sky."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/8_smile_weave_garland/existing/coh_1.webp",
+          "source_path": "assets/8_smile_weave_garland/1/coh_1.webp",
           "description": "A woman sits among marigold flowers and threads or prepares a flower by hand."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/8_smile_weave_garland/existing/coh_2.webp",
+          "source_path": "assets/8_smile_weave_garland/1/coh_2.webp",
           "description": "The woman holds a bowl full of bright orange marigold flowers."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/8_smile_weave_garland/existing/tr_target.webp",
+          "source_path": "assets/8_smile_weave_garland/1/tr_target.webp",
           "description": "A girl sits indoors stringing orange marigolds into a garland."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/8_smile_weave_garland/existing/it_target.webp",
+          "source_path": "assets/8_smile_weave_garland/1/it_target.webp",
           "description": "The girl smiles in a close portrait against a warm indoor background."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/8_smile_weave_garland/existing/end_coh_it.webp",
+          "source_path": "assets/8_smile_weave_garland/1/end_coh_it.webp",
           "description": "The woman and the girl sit together and string a marigold garland from a bowl of flowers."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/8_smile_weave_garland/existing/end_ic_tr.webp",
+          "source_path": "assets/8_smile_weave_garland/1/end_ic_tr.webp",
           "description": "The girl stands at an open window, holding up a phone toward the rainbow outside with a garland hanging beside her."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/8_smile_weave_garland/existing/end_ic_it.webp",
+          "source_path": "assets/8_smile_weave_garland/1/end_ic_it.webp",
           "description": "An older woman and the girl stand at the window, with the girl pointing out toward the rainbow."
         }
       ]
@@ -891,55 +891,55 @@
       "dataset_name": "smile_weave_garland",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/8_smile_weave_garland/draft",
+      "source_dir": "assets/8_smile_weave_garland/2",
       "completedAt": "2026-06-13T02:13:42",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/8_smile_weave_garland/draft/ic_1.webp",
+          "source_path": "assets/8_smile_weave_garland/2/ic_1.webp",
           "description": "A village path and hillside appear under cloudy skies with a rainbow over the valley."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/8_smile_weave_garland/draft/coh_1.webp",
+          "source_path": "assets/8_smile_weave_garland/2/coh_1.webp",
           "description": "A girl picks or prepares a marigold flower beside a stone wall and greenery."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/8_smile_weave_garland/draft/coh_2.webp",
+          "source_path": "assets/8_smile_weave_garland/2/coh_2.webp",
           "description": "The girl sits outside holding a bowl filled with orange marigold flowers."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/8_smile_weave_garland/draft/tr_target.webp",
+          "source_path": "assets/8_smile_weave_garland/2/tr_target.webp",
           "description": "An older woman sits indoors stringing a marigold garland."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/8_smile_weave_garland/draft/it_target.webp",
+          "source_path": "assets/8_smile_weave_garland/2/it_target.webp",
           "description": "The older woman sits outside and smiles gently toward the camera."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/8_smile_weave_garland/draft/end_coh_it.webp",
+          "source_path": "assets/8_smile_weave_garland/2/end_coh_it.webp",
           "description": "The girl and the older woman sit together and work on a marigold garland from a bowl of flowers."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/8_smile_weave_garland/draft/end_ic_tr.webp",
+          "source_path": "assets/8_smile_weave_garland/2/end_ic_tr.webp",
           "description": "The older woman places or offers a marigold garland to a man in a small group outdoors, with a rainbow behind them."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/8_smile_weave_garland/draft/end_ic_it.webp",
+          "source_path": "assets/8_smile_weave_garland/2/end_ic_it.webp",
           "description": "The older woman sits by a window and works with food or small items in a bowl while the rainbow is visible outside."
         }
       ]
@@ -949,55 +949,55 @@
       "dataset_name": "descend_harvest_rice",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/9_descend_harvest_rice/existing",
+      "source_dir": "assets/9_descend_harvest_rice/1",
       "completedAt": "2026-06-13T02:15:32",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/9_descend_harvest_rice/existing/ic_1.webp",
+          "source_path": "assets/9_descend_harvest_rice/1/ic_1.webp",
           "description": "A misty terraced rice-field landscape with a stone path and mountains in the background."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/9_descend_harvest_rice/existing/coh_1.webp",
+          "source_path": "assets/9_descend_harvest_rice/1/coh_1.webp",
           "description": "An older woman walks through a flooded rice paddy carrying bundles of young rice seedlings."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/9_descend_harvest_rice/existing/coh_2.webp",
+          "source_path": "assets/9_descend_harvest_rice/1/coh_2.webp",
           "description": "The older woman kneels in the flooded paddy and plants rice seedlings by hand."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/9_descend_harvest_rice/existing/tr_target.webp",
+          "source_path": "assets/9_descend_harvest_rice/1/tr_target.webp",
           "description": "A man cuts or harvests ripe rice stalks in a yellow field."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/9_descend_harvest_rice/existing/it_target.webp",
+          "source_path": "assets/9_descend_harvest_rice/1/it_target.webp",
           "description": "The man descends stone steps beside a flooded rice field."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/9_descend_harvest_rice/existing/end_coh_it.webp",
+          "source_path": "assets/9_descend_harvest_rice/1/end_coh_it.webp",
           "description": "The older woman and the man plant rice seedlings together in the flooded paddy."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/9_descend_harvest_rice/existing/end_ic_tr.webp",
+          "source_path": "assets/9_descend_harvest_rice/1/end_ic_tr.webp",
           "description": "The man harvests rice stalks and gathers them into a bundle in the field."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/9_descend_harvest_rice/existing/end_ic_it.webp",
+          "source_path": "assets/9_descend_harvest_rice/1/end_ic_it.webp",
           "description": "The man stands on rocks beside a stream or river, holding a long pole over the water."
         }
       ]
@@ -1007,55 +1007,55 @@
       "dataset_name": "descend_harvest_rice",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/9_descend_harvest_rice/draft",
+      "source_dir": "assets/9_descend_harvest_rice/2",
       "completedAt": "2026-06-13T02:15:32",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/9_descend_harvest_rice/draft/ic_1.webp",
+          "source_path": "assets/9_descend_harvest_rice/2/ic_1.webp",
           "description": "A wide view of terraced rice paddies and a hillside village under misty mountain clouds."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/9_descend_harvest_rice/draft/coh_1.webp",
+          "source_path": "assets/9_descend_harvest_rice/2/coh_1.webp",
           "description": "A man walks through a flooded paddy carrying bundles of rice seedlings."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/9_descend_harvest_rice/draft/coh_2.webp",
+          "source_path": "assets/9_descend_harvest_rice/2/coh_2.webp",
           "description": "The man bends in the flooded paddy and plants rice seedlings by hand."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/9_descend_harvest_rice/draft/tr_target.webp",
+          "source_path": "assets/9_descend_harvest_rice/2/tr_target.webp",
           "description": "A woman cuts ripe rice stalks in a yellow field."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/9_descend_harvest_rice/draft/it_target.webp",
+          "source_path": "assets/9_descend_harvest_rice/2/it_target.webp",
           "description": "The woman descends stone steps beside the terraced rice fields."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/9_descend_harvest_rice/draft/end_coh_it.webp",
+          "source_path": "assets/9_descend_harvest_rice/2/end_coh_it.webp",
           "description": "The man reaches out to help the woman up after she has fallen or sat down in the muddy paddy."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/9_descend_harvest_rice/draft/end_ic_tr.webp",
+          "source_path": "assets/9_descend_harvest_rice/2/end_ic_tr.webp",
           "description": "The woman walks through a red entrance gate in a mountain setting."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/9_descend_harvest_rice/draft/end_ic_it.webp",
+          "source_path": "assets/9_descend_harvest_rice/2/end_ic_it.webp",
           "description": "The woman stands near the base of a waterfall in a green rocky gorge."
         }
       ]
@@ -1065,55 +1065,55 @@
       "dataset_name": "run_cook_pancakes",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/10_run_cook_pancakes/existing",
+      "source_dir": "assets/10_run_cook_pancakes/1",
       "completedAt": "2026-06-13T02:15:32",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/10_run_cook_pancakes/existing/ic_1.webp",
+          "source_path": "assets/10_run_cook_pancakes/1/ic_1.webp",
           "description": "An empty earthen village courtyard between houses, with small pale bits scattered across the ground."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/10_run_cook_pancakes/existing/coh_1.webp",
+          "source_path": "assets/10_run_cook_pancakes/1/coh_1.webp",
           "description": "A young man spreads or sorts dark grains on a large mat outside."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/10_run_cook_pancakes/existing/coh_2.webp",
+          "source_path": "assets/10_run_cook_pancakes/1/coh_2.webp",
           "description": "The young man grinds grain with a traditional stone mill outdoors."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/10_run_cook_pancakes/existing/tr_target.webp",
+          "source_path": "assets/10_run_cook_pancakes/1/tr_target.webp",
           "description": "A girl cooks a pancake or flatbread in a pan over an indoor fire."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/10_run_cook_pancakes/existing/it_target.webp",
+          "source_path": "assets/10_run_cook_pancakes/1/it_target.webp",
           "description": "The girl runs across the village courtyard."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/10_run_cook_pancakes/existing/end_coh_it.webp",
+          "source_path": "assets/10_run_cook_pancakes/1/end_coh_it.webp",
           "description": "The girl works with the stone mill and nearby grains in the courtyard."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/10_run_cook_pancakes/existing/end_ic_tr.webp",
+          "source_path": "assets/10_run_cook_pancakes/1/end_ic_tr.webp",
           "description": "The girl carries a large tray of red dried peppers or similar produce through a rainy courtyard."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/10_run_cook_pancakes/existing/end_ic_it.webp",
+          "source_path": "assets/10_run_cook_pancakes/1/end_ic_it.webp",
           "description": "The girl runs across the courtyard toward clothing hanging on a line."
         }
       ]
@@ -1123,55 +1123,55 @@
       "dataset_name": "run_cook_pancakes",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/10_run_cook_pancakes/draft",
+      "source_dir": "assets/10_run_cook_pancakes/2",
       "completedAt": "2026-06-13T02:15:32",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/10_run_cook_pancakes/draft/ic_1.webp",
+          "source_path": "assets/10_run_cook_pancakes/2/ic_1.webp",
           "description": "An empty stone village courtyard in rainy weather, with small hail-like white spots on the ground."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/10_run_cook_pancakes/draft/coh_1.webp",
+          "source_path": "assets/10_run_cook_pancakes/2/coh_1.webp",
           "description": "A girl spreads or sorts dark grains on a mat in the courtyard."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/10_run_cook_pancakes/draft/coh_2.webp",
+          "source_path": "assets/10_run_cook_pancakes/2/coh_2.webp",
           "description": "The girl grinds grain with a traditional stone mill outdoors."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/10_run_cook_pancakes/draft/tr_target.webp",
+          "source_path": "assets/10_run_cook_pancakes/2/tr_target.webp",
           "description": "A boy cooks a pancake or flatbread in a pan over an indoor fire."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/10_run_cook_pancakes/draft/it_target.webp",
+          "source_path": "assets/10_run_cook_pancakes/2/it_target.webp",
           "description": "The boy runs across the stone courtyard."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/10_run_cook_pancakes/draft/end_coh_it.webp",
+          "source_path": "assets/10_run_cook_pancakes/2/end_coh_it.webp",
           "description": "The boy stands beside the girl at the stone mill and hands her a small item while she works."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/10_run_cook_pancakes/draft/end_ic_tr.webp",
+          "source_path": "assets/10_run_cook_pancakes/2/end_ic_tr.webp",
           "description": "The boy stands in a doorway looking out at the rainy courtyard."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/10_run_cook_pancakes/draft/end_ic_it.webp",
+          "source_path": "assets/10_run_cook_pancakes/2/end_ic_it.webp",
           "description": "The boy sits on the wet stone courtyard as if he has slipped or fallen in the rain."
         }
       ]
@@ -1181,55 +1181,55 @@
       "dataset_name": "ascend_wipe_plate",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/11_ascend_wipe_plate/existing",
+      "source_dir": "assets/11_ascend_wipe_plate/1",
       "completedAt": "2026-06-13T02:17:31",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/11_ascend_wipe_plate/existing/ic_1.webp",
+          "source_path": "assets/11_ascend_wipe_plate/1/ic_1.webp",
           "description": "Clothes hang on a line in an empty stone courtyard outside a rural house."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/11_ascend_wipe_plate/existing/coh_1.webp",
+          "source_path": "assets/11_ascend_wipe_plate/1/coh_1.webp",
           "description": "An older woman stands at an outdoor tap and fills or rinses something under running water."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/11_ascend_wipe_plate/existing/coh_2.webp",
+          "source_path": "assets/11_ascend_wipe_plate/1/coh_2.webp",
           "description": "The older woman washes metal plates in a large basin outdoors."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/11_ascend_wipe_plate/existing/tr_target.webp",
+          "source_path": "assets/11_ascend_wipe_plate/1/tr_target.webp",
           "description": "A boy wipes a brass plate with a cloth while standing in the courtyard."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/11_ascend_wipe_plate/existing/it_target.webp",
+          "source_path": "assets/11_ascend_wipe_plate/1/it_target.webp",
           "description": "The boy climbs stone steps beside a house."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/11_ascend_wipe_plate/existing/end_coh_it.webp",
+          "source_path": "assets/11_ascend_wipe_plate/1/end_coh_it.webp",
           "description": "The boy pours water from a bucket while the older woman washes dishes in a basin below."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/11_ascend_wipe_plate/existing/end_ic_tr.webp",
+          "source_path": "assets/11_ascend_wipe_plate/1/end_ic_tr.webp",
           "description": "The boy stands in the courtyard holding a plate and cloth while a goat reaches toward the cloth."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/11_ascend_wipe_plate/existing/end_ic_it.webp",
+          "source_path": "assets/11_ascend_wipe_plate/1/end_ic_it.webp",
           "description": "An older woman hands a large woven basket to the boy in the courtyard."
         }
       ]
@@ -1239,55 +1239,55 @@
       "dataset_name": "ascend_wipe_plate",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/11_ascend_wipe_plate/draft",
+      "source_dir": "assets/11_ascend_wipe_plate/2",
       "completedAt": "2026-06-13T02:17:31",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/11_ascend_wipe_plate/draft/ic_1.webp",
+          "source_path": "assets/11_ascend_wipe_plate/2/ic_1.webp",
           "description": "Laundry hangs on a line in an empty rural courtyard near stone houses."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/11_ascend_wipe_plate/draft/coh_1.webp",
+          "source_path": "assets/11_ascend_wipe_plate/2/coh_1.webp",
           "description": "A boy crouches at an outdoor tap and lets water run into a basin."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/11_ascend_wipe_plate/draft/coh_2.webp",
+          "source_path": "assets/11_ascend_wipe_plate/2/coh_2.webp",
           "description": "The boy washes metal plates in a large basin by the outdoor tap."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/11_ascend_wipe_plate/draft/tr_target.webp",
+          "source_path": "assets/11_ascend_wipe_plate/2/tr_target.webp",
           "description": "A woman wipes a brass plate with a cloth while standing outdoors."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/11_ascend_wipe_plate/draft/it_target.webp",
+          "source_path": "assets/11_ascend_wipe_plate/2/it_target.webp",
           "description": "The woman climbs stone steps along a village path."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/11_ascend_wipe_plate/draft/end_coh_it.webp",
+          "source_path": "assets/11_ascend_wipe_plate/2/end_coh_it.webp",
           "description": "The woman hands something to the boy beside the tap and basin after washing dishes."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/11_ascend_wipe_plate/draft/end_ic_tr.webp",
+          "source_path": "assets/11_ascend_wipe_plate/2/end_ic_tr.webp",
           "description": "The woman stands near a clothesline holding a brass plate and a dish towel."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/11_ascend_wipe_plate/draft/end_ic_it.webp",
+          "source_path": "assets/11_ascend_wipe_plate/2/end_ic_it.webp",
           "description": "The woman runs toward laundry blowing or falling from the line in the courtyard."
         }
       ]
@@ -1297,55 +1297,55 @@
       "dataset_name": "come_eat_rice",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/12_come_eat_rice/existing",
+      "source_dir": "assets/12_come_eat_rice/1",
       "completedAt": "2026-06-13T02:17:31",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/12_come_eat_rice/existing/ic_1.webp",
+          "source_path": "assets/12_come_eat_rice/1/ic_1.webp",
           "description": "A village of stone and tile-roofed houses appears in heavy rain and mist."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/12_come_eat_rice/existing/coh_1.webp",
+          "source_path": "assets/12_come_eat_rice/1/coh_1.webp",
           "description": "A woman cooks food in a pot or pan over an indoor clay stove fire."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/12_come_eat_rice/existing/coh_2.webp",
+          "source_path": "assets/12_come_eat_rice/1/coh_2.webp",
           "description": "The woman stirs or tends a cooking pot over the fire, with a bowl of prepared food nearby."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/12_come_eat_rice/existing/tr_target.webp",
+          "source_path": "assets/12_come_eat_rice/1/tr_target.webp",
           "description": "An older man sits indoors and eats rice or a meal from a metal plate with his hand."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/12_come_eat_rice/existing/it_target.webp",
+          "source_path": "assets/12_come_eat_rice/1/it_target.webp",
           "description": "The older man walks in through a doorway into the room."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/12_come_eat_rice/existing/end_coh_it.webp",
+          "source_path": "assets/12_come_eat_rice/1/end_coh_it.webp",
           "description": "The older man drinks from a glass while the woman sits by the stove behind him."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/12_come_eat_rice/existing/end_ic_tr.webp",
+          "source_path": "assets/12_come_eat_rice/1/end_ic_tr.webp",
           "description": "The older man continues eating from a plate in a dim indoor kitchen."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/12_come_eat_rice/existing/end_ic_it.webp",
+          "source_path": "assets/12_come_eat_rice/1/end_ic_it.webp",
           "description": "The older man crouches indoors under leaking water and holds a pot to catch the dripping stream."
         }
       ]
@@ -1355,55 +1355,55 @@
       "dataset_name": "come_eat_rice",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/12_come_eat_rice/draft",
+      "source_dir": "assets/12_come_eat_rice/2",
       "completedAt": "2026-06-13T02:17:31",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/12_come_eat_rice/draft/ic_1.webp",
+          "source_path": "assets/12_come_eat_rice/2/ic_1.webp",
           "description": "A rainy village scene with stone houses, wet roofs, and misty hills."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/12_come_eat_rice/draft/coh_1.webp",
+          "source_path": "assets/12_come_eat_rice/2/coh_1.webp",
           "description": "An older woman stirs food in a pot over an indoor open fire."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/12_come_eat_rice/draft/coh_2.webp",
+          "source_path": "assets/12_come_eat_rice/2/coh_2.webp",
           "description": "The older woman cooks at the stove, tending a pot with food prepared nearby."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/12_come_eat_rice/draft/tr_target.webp",
+          "source_path": "assets/12_come_eat_rice/2/tr_target.webp",
           "description": "A boy sits indoors and eats rice or a meal from a plate with his hand."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/12_come_eat_rice/draft/it_target.webp",
+          "source_path": "assets/12_come_eat_rice/2/it_target.webp",
           "description": "The boy walks through a doorway into the room."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/12_come_eat_rice/draft/end_coh_it.webp",
+          "source_path": "assets/12_come_eat_rice/2/end_coh_it.webp",
           "description": "The boy brings or offers a plate of food to the older woman sitting near the stove."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/12_come_eat_rice/draft/end_ic_tr.webp",
+          "source_path": "assets/12_come_eat_rice/2/end_ic_tr.webp",
           "description": "The boy washes a plate and utensils at an outdoor tap in the rainy courtyard."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/12_come_eat_rice/draft/end_ic_it.webp",
+          "source_path": "assets/12_come_eat_rice/2/end_ic_it.webp",
           "description": "The boy puts on or adjusts a jacket indoors near a window after coming in from outside."
         }
       ]
@@ -1413,55 +1413,55 @@
       "dataset_name": "stand_wash_clothes",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/13_stand_wash_clothes/existing",
+      "source_dir": "assets/13_stand_wash_clothes/1",
       "completedAt": "2026-06-13T02:19:23",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/13_stand_wash_clothes/existing/ic_1.webp",
+          "source_path": "assets/13_stand_wash_clothes/1/ic_1.webp",
           "description": "A courtyard with yellow grain spread on a mat to dry, beside stone houses with blue windows."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/13_stand_wash_clothes/existing/coh_1.webp",
+          "source_path": "assets/13_stand_wash_clothes/1/coh_1.webp",
           "description": "A boy stands at an outdoor tap and fills or rinses a blue basin with water."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/13_stand_wash_clothes/existing/coh_2.webp",
+          "source_path": "assets/13_stand_wash_clothes/1/coh_2.webp",
           "description": "The boy pours water from a blue jug into a large basin under the tap."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/13_stand_wash_clothes/existing/tr_target.webp",
+          "source_path": "assets/13_stand_wash_clothes/1/tr_target.webp",
           "description": "An older woman washes a dark garment in a blue basin of soapy water."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/13_stand_wash_clothes/existing/it_target.webp",
+          "source_path": "assets/13_stand_wash_clothes/1/it_target.webp",
           "description": "The older woman stands alone in the courtyard near the stone house."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/13_stand_wash_clothes/existing/end_coh_it.webp",
+          "source_path": "assets/13_stand_wash_clothes/1/end_coh_it.webp",
           "description": "The boy carries a blue basin toward the older woman standing in the courtyard."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/13_stand_wash_clothes/existing/end_ic_tr.webp",
+          "source_path": "assets/13_stand_wash_clothes/1/end_ic_tr.webp",
           "description": "The older woman moves a dark cloth near the drying grain while a chicken walks beside the mat."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/13_stand_wash_clothes/existing/end_ic_it.webp",
+          "source_path": "assets/13_stand_wash_clothes/1/end_ic_it.webp",
           "description": "The older woman pours yellow grain from a sack onto the drying mat in the courtyard."
         }
       ]
@@ -1471,55 +1471,55 @@
       "dataset_name": "stand_wash_clothes",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/13_stand_wash_clothes/draft",
+      "source_dir": "assets/13_stand_wash_clothes/2",
       "completedAt": "2026-06-13T02:19:23",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/13_stand_wash_clothes/draft/ic_1.webp",
+          "source_path": "assets/13_stand_wash_clothes/2/ic_1.webp",
           "description": "Yellow grain dries on a mat in an empty stone courtyard between village houses."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/13_stand_wash_clothes/draft/coh_1.webp",
+          "source_path": "assets/13_stand_wash_clothes/2/coh_1.webp",
           "description": "A girl fills or rinses a green basin at an outdoor tap."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/13_stand_wash_clothes/draft/coh_2.webp",
+          "source_path": "assets/13_stand_wash_clothes/2/coh_2.webp",
           "description": "The girl pours water from a green jug into a basin under the tap."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/13_stand_wash_clothes/draft/tr_target.webp",
+          "source_path": "assets/13_stand_wash_clothes/2/tr_target.webp",
           "description": "A man washes a blue garment in a green basin of soapy water."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/13_stand_wash_clothes/draft/it_target.webp",
+          "source_path": "assets/13_stand_wash_clothes/2/it_target.webp",
           "description": "The man stands alone in the stone courtyard near village houses."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/13_stand_wash_clothes/draft/end_coh_it.webp",
+          "source_path": "assets/13_stand_wash_clothes/2/end_coh_it.webp",
           "description": "The man and the girl wash a dark garment together in a green basin."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/13_stand_wash_clothes/draft/end_ic_tr.webp",
+          "source_path": "assets/13_stand_wash_clothes/2/end_ic_tr.webp",
           "description": "The man hangs a blue shirt on a clothesline above the grain drying mat."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/13_stand_wash_clothes/draft/end_ic_it.webp",
+          "source_path": "assets/13_stand_wash_clothes/2/end_ic_it.webp",
           "description": "The man tries to move goats or sheep away from the yellow grain spread on the drying mat."
         }
       ]
@@ -1529,55 +1529,55 @@
       "dataset_name": "ascend_weave_raincoat",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/14_ascend_weave_raincoat/existing",
+      "source_dir": "assets/14_ascend_weave_raincoat/1",
       "completedAt": "2026-06-13T02:19:23",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/existing/ic_1.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/1/ic_1.webp",
           "description": "A narrow stone village path appears under windy storm clouds, with cloth or leaves blowing through the air."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/existing/coh_1.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/1/coh_1.webp",
           "description": "An older man washes or handles a mass of white fiber in a basin outdoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/existing/coh_2.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/1/coh_2.webp",
           "description": "The older man sorts or fluffs a pile of white fiber on a mat."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/existing/tr_target.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/1/tr_target.webp",
           "description": "An older woman sits at a loom and weaves a striped cloth or raincoat material."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/existing/it_target.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/1/it_target.webp",
           "description": "The older woman climbs stone steps along a village path."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/existing/end_coh_it.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/1/end_coh_it.webp",
           "description": "The older woman sits by a doorway and spins or works fiber with a simple hand tool."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/existing/end_ic_tr.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/1/end_ic_tr.webp",
           "description": "The older woman sits beside the loom while another person runs through the windy courtyard behind her."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/existing/end_ic_it.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/1/end_ic_it.webp",
           "description": "The older woman climbs stone steps while holding a dark cloth over her head against wind or rain."
         }
       ]
@@ -1587,55 +1587,55 @@
       "dataset_name": "ascend_weave_raincoat",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/14_ascend_weave_raincoat/draft",
+      "source_dir": "assets/14_ascend_weave_raincoat/2",
       "completedAt": "2026-06-13T02:19:23",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/draft/ic_1.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/2/ic_1.webp",
           "description": "A village lane is swept by strong wind, with leaves or straw flying around stone houses."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/draft/coh_1.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/2/coh_1.webp",
           "description": "A man washes or handles white fiber in a black basin outdoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/draft/coh_2.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/2/coh_2.webp",
           "description": "The man sorts or fluffs a pile of white fiber on a mat in the courtyard."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/draft/tr_target.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/2/tr_target.webp",
           "description": "A girl in purple clothing sits at a loom and weaves striped material."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/draft/it_target.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/2/it_target.webp",
           "description": "The girl climbs stone steps along the village path."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/draft/end_coh_it.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/2/end_coh_it.webp",
           "description": "The girl sits beside the man near the pile of white fiber and hands him a small item."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/draft/end_ic_tr.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/2/end_ic_tr.webp",
           "description": "The girl runs across the courtyard while wind blows leaves or debris around her."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/14_ascend_weave_raincoat/draft/end_ic_it.webp",
+          "source_path": "assets/14_ascend_weave_raincoat/2/end_ic_it.webp",
           "description": "The girl runs through a stormy courtyard holding a cloth or tarp over her head."
         }
       ]
@@ -1645,55 +1645,55 @@
       "dataset_name": "smile_clean_wall",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/15_smile_clean_wall/existing",
+      "source_dir": "assets/15_smile_clean_wall/1",
       "completedAt": "2026-06-13T02:21:18",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/15_smile_clean_wall/existing/ic_1.webp",
+          "source_path": "assets/15_smile_clean_wall/1/ic_1.webp",
           "description": "An open window frames a bright view of snowy mountains and a hillside village."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/15_smile_clean_wall/existing/coh_1.webp",
+          "source_path": "assets/15_smile_clean_wall/1/coh_1.webp",
           "description": "A girl selects colored crayons or pencils from a yellow box indoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/15_smile_clean_wall/existing/coh_2.webp",
+          "source_path": "assets/15_smile_clean_wall/1/coh_2.webp",
           "description": "The girl draws a small house on a wall with a colored crayon."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/15_smile_clean_wall/existing/tr_target.webp",
+          "source_path": "assets/15_smile_clean_wall/1/tr_target.webp",
           "description": "An older man wipes or cleans a wall with a cloth."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/15_smile_clean_wall/existing/it_target.webp",
+          "source_path": "assets/15_smile_clean_wall/1/it_target.webp",
           "description": "The older man smiles in front of the plain wall."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/15_smile_clean_wall/existing/end_coh_it.webp",
+          "source_path": "assets/15_smile_clean_wall/1/end_coh_it.webp",
           "description": "The older man draws on the wall with a marker near the child's house drawing."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/15_smile_clean_wall/existing/end_ic_tr.webp",
+          "source_path": "assets/15_smile_clean_wall/1/end_ic_tr.webp",
           "description": "The older man paints a mountain landscape mural on the wall."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/15_smile_clean_wall/existing/end_ic_it.webp",
+          "source_path": "assets/15_smile_clean_wall/1/end_ic_it.webp",
           "description": "The older man sits outdoors facing the mountain view, holding a small object near his mouth."
         }
       ]
@@ -1703,55 +1703,55 @@
       "dataset_name": "smile_clean_wall",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/15_smile_clean_wall/draft",
+      "source_dir": "assets/15_smile_clean_wall/2",
       "completedAt": "2026-06-13T02:21:18",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/15_smile_clean_wall/draft/ic_1.webp",
+          "source_path": "assets/15_smile_clean_wall/2/ic_1.webp",
           "description": "An open wooden window looks out over snowy mountains and a hillside village."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/15_smile_clean_wall/draft/coh_1.webp",
+          "source_path": "assets/15_smile_clean_wall/2/coh_1.webp",
           "description": "A boy selects colored crayons or pencils from a yellow box indoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/15_smile_clean_wall/draft/coh_2.webp",
+          "source_path": "assets/15_smile_clean_wall/2/coh_2.webp",
           "description": "The boy draws a small house on an interior wall with a crayon."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/15_smile_clean_wall/draft/tr_target.webp",
+          "source_path": "assets/15_smile_clean_wall/2/tr_target.webp",
           "description": "An older woman wipes or cleans the wall with a cloth."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/15_smile_clean_wall/draft/it_target.webp",
+          "source_path": "assets/15_smile_clean_wall/2/it_target.webp",
           "description": "The older woman smiles in a close portrait against the wall."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/15_smile_clean_wall/draft/end_coh_it.webp",
+          "source_path": "assets/15_smile_clean_wall/2/end_coh_it.webp",
           "description": "The older woman and the boy look at a drawing book or set of colored pencils at a table."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/15_smile_clean_wall/draft/end_ic_tr.webp",
+          "source_path": "assets/15_smile_clean_wall/2/end_ic_tr.webp",
           "description": "The older woman hangs or adjusts a mountain picture on the wall."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/15_smile_clean_wall/draft/end_ic_it.webp",
+          "source_path": "assets/15_smile_clean_wall/2/end_ic_it.webp",
           "description": "The older woman sits outside smiling while holding or working with dry plant stalks."
         }
       ]
@@ -1761,55 +1761,55 @@
       "dataset_name": "sleep_wash_dish",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/16_sleep_wash_dish/existing",
+      "source_dir": "assets/16_sleep_wash_dish/1",
       "completedAt": "2026-06-13T02:21:18",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/16_sleep_wash_dish/existing/ic_1.webp",
+          "source_path": "assets/16_sleep_wash_dish/1/ic_1.webp",
           "description": "A wet stone village path runs between houses in warm evening light."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/16_sleep_wash_dish/existing/coh_1.webp",
+          "source_path": "assets/16_sleep_wash_dish/1/coh_1.webp",
           "description": "An older man drinks from a glass of milk or a pale drink indoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/16_sleep_wash_dish/existing/coh_2.webp",
+          "source_path": "assets/16_sleep_wash_dish/1/coh_2.webp",
           "description": "The older man eats a meal from a metal plate with his hand."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/16_sleep_wash_dish/existing/tr_target.webp",
+          "source_path": "assets/16_sleep_wash_dish/1/tr_target.webp",
           "description": "A girl washes a plate at an outdoor tap, letting water run into a basin."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/16_sleep_wash_dish/existing/it_target.webp",
+          "source_path": "assets/16_sleep_wash_dish/1/it_target.webp",
           "description": "The girl sleeps or rests curled on a woven mat indoors."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/16_sleep_wash_dish/existing/end_coh_it.webp",
+          "source_path": "assets/16_sleep_wash_dish/1/end_coh_it.webp",
           "description": "The older man sits beside the sleeping girl and covers or tucks a blanket around her."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/16_sleep_wash_dish/existing/end_ic_tr.webp",
+          "source_path": "assets/16_sleep_wash_dish/1/end_ic_tr.webp",
           "description": "The girl washes dishes at the outdoor tap with plates and utensils around her."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/16_sleep_wash_dish/existing/end_ic_it.webp",
+          "source_path": "assets/16_sleep_wash_dish/1/end_ic_it.webp",
           "description": "The girl rests indoors on a woven mat in a warm beam of sunlight."
         }
       ]
@@ -1819,55 +1819,55 @@
       "dataset_name": "sleep_wash_dish",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/16_sleep_wash_dish/draft",
+      "source_dir": "assets/16_sleep_wash_dish/2",
       "completedAt": "2026-06-13T02:21:18",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/16_sleep_wash_dish/draft/ic_1.webp",
+          "source_path": "assets/16_sleep_wash_dish/2/ic_1.webp",
           "description": "A bright village lane with wet stones runs between white houses under a blue sky."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/16_sleep_wash_dish/draft/coh_1.webp",
+          "source_path": "assets/16_sleep_wash_dish/2/coh_1.webp",
           "description": "A woman drinks milk or a pale drink from a glass indoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/16_sleep_wash_dish/draft/coh_2.webp",
+          "source_path": "assets/16_sleep_wash_dish/2/coh_2.webp",
           "description": "The woman eats a meal from a metal plate with her hand."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/16_sleep_wash_dish/draft/tr_target.webp",
+          "source_path": "assets/16_sleep_wash_dish/2/tr_target.webp",
           "description": "A boy washes a plate at an outdoor tap above a basin."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/16_sleep_wash_dish/draft/it_target.webp",
+          "source_path": "assets/16_sleep_wash_dish/2/it_target.webp",
           "description": "The boy sleeps or dozes curled on a woven mat indoors."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/16_sleep_wash_dish/draft/end_coh_it.webp",
+          "source_path": "assets/16_sleep_wash_dish/2/end_coh_it.webp",
           "description": "The woman sits beside the sleepy boy and touches or comforts him, with a plate of food nearby."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/16_sleep_wash_dish/draft/end_ic_tr.webp",
+          "source_path": "assets/16_sleep_wash_dish/2/end_ic_tr.webp",
           "description": "The boy washes a plate outdoors while another boy beside him looks at or shows a phone."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/16_sleep_wash_dish/draft/end_ic_it.webp",
+          "source_path": "assets/16_sleep_wash_dish/2/end_ic_it.webp",
           "description": "The boy runs along a wet stone village lane in bright sunlight."
         }
       ]
@@ -1877,55 +1877,55 @@
       "dataset_name": "rest_hang_picture",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/17_rest_hang_picture/existing",
+      "source_dir": "assets/17_rest_hang_picture/1",
       "completedAt": "2026-06-13T02:23:05",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/17_rest_hang_picture/existing/ic_1.webp",
+          "source_path": "assets/17_rest_hang_picture/1/ic_1.webp",
           "description": "A dark village lane at night with a few house lights visible."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/17_rest_hang_picture/existing/coh_1.webp",
+          "source_path": "assets/17_rest_hang_picture/1/coh_1.webp",
           "description": "A young man marks or positions a nail on an indoor wall."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/17_rest_hang_picture/existing/coh_2.webp",
+          "source_path": "assets/17_rest_hang_picture/1/coh_2.webp",
           "description": "The young man hammers a nail into the wall."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/17_rest_hang_picture/existing/tr_target.webp",
+          "source_path": "assets/17_rest_hang_picture/1/tr_target.webp",
           "description": "An older woman hangs a framed mountain picture on the wall."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/17_rest_hang_picture/existing/it_target.webp",
+          "source_path": "assets/17_rest_hang_picture/1/it_target.webp",
           "description": "The older woman reclines on a woven mat or low bed, resting with her head on her hand."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/17_rest_hang_picture/existing/end_coh_it.webp",
+          "source_path": "assets/17_rest_hang_picture/1/end_coh_it.webp",
           "description": "The young man and the older woman stand together looking at a map or poster on the wall."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/17_rest_hang_picture/existing/end_ic_tr.webp",
+          "source_path": "assets/17_rest_hang_picture/1/end_ic_tr.webp",
           "description": "The older woman holds up a phone and photographs the framed picture hanging on the wall."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/17_rest_hang_picture/existing/end_ic_it.webp",
+          "source_path": "assets/17_rest_hang_picture/1/end_ic_it.webp",
           "description": "The older woman leans out from a doorway at night, looking toward a dog sleeping outside."
         }
       ]
@@ -1935,55 +1935,55 @@
       "dataset_name": "rest_hang_picture",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/17_rest_hang_picture/draft",
+      "source_dir": "assets/17_rest_hang_picture/2",
       "completedAt": "2026-06-13T02:23:05",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/17_rest_hang_picture/draft/ic_1.webp",
+          "source_path": "assets/17_rest_hang_picture/2/ic_1.webp",
           "description": "A narrow stone village lane at night with warm light coming from houses."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/17_rest_hang_picture/draft/coh_1.webp",
+          "source_path": "assets/17_rest_hang_picture/2/coh_1.webp",
           "description": "An older man marks or positions a nail on an indoor wall."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/17_rest_hang_picture/draft/coh_2.webp",
+          "source_path": "assets/17_rest_hang_picture/2/coh_2.webp",
           "description": "The older man hammers a nail into the wall."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/17_rest_hang_picture/draft/tr_target.webp",
+          "source_path": "assets/17_rest_hang_picture/2/tr_target.webp",
           "description": "A girl hangs a framed landscape picture on the wall."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/17_rest_hang_picture/draft/it_target.webp",
+          "source_path": "assets/17_rest_hang_picture/2/it_target.webp",
           "description": "The girl reclines on a woven mat or low bed, resting with her head on her hand."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/17_rest_hang_picture/draft/end_coh_it.webp",
+          "source_path": "assets/17_rest_hang_picture/2/end_coh_it.webp",
           "description": "The girl and the older man stand near the wall and exchange or discuss a small item after the wall work."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/17_rest_hang_picture/draft/end_ic_tr.webp",
+          "source_path": "assets/17_rest_hang_picture/2/end_ic_tr.webp",
           "description": "A framed landscape picture lies on the floor below a bare wall, as if it has fallen."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/17_rest_hang_picture/draft/end_ic_it.webp",
+          "source_path": "assets/17_rest_hang_picture/2/end_ic_it.webp",
           "description": "The girl stands alone in the village lane at night under the house lights."
         }
       ]
@@ -1993,55 +1993,55 @@
       "dataset_name": "yawn_put_on_cap",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/18_yawn_put_on_cap/existing",
+      "source_dir": "assets/18_yawn_put_on_cap/1",
       "completedAt": "2026-06-13T02:23:05",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/18_yawn_put_on_cap/existing/ic_1.webp",
+          "source_path": "assets/18_yawn_put_on_cap/1/ic_1.webp",
           "description": "A mountain village path at sunset with snowy peaks and warm orange sky."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/18_yawn_put_on_cap/existing/coh_1.webp",
+          "source_path": "assets/18_yawn_put_on_cap/1/coh_1.webp",
           "description": "A young woman cuts patterned cloth with scissors at a table."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/18_yawn_put_on_cap/existing/coh_2.webp",
+          "source_path": "assets/18_yawn_put_on_cap/1/coh_2.webp",
           "description": "The young woman sews patterned cloth on a sewing machine."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/18_yawn_put_on_cap/existing/tr_target.webp",
+          "source_path": "assets/18_yawn_put_on_cap/1/tr_target.webp",
           "description": "An older man adjusts or puts on a patterned cap."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/18_yawn_put_on_cap/existing/it_target.webp",
+          "source_path": "assets/18_yawn_put_on_cap/1/it_target.webp",
           "description": "The older man yawns widely in a close portrait."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/18_yawn_put_on_cap/existing/end_coh_it.webp",
+          "source_path": "assets/18_yawn_put_on_cap/1/end_coh_it.webp",
           "description": "The young woman helps adjust the older man's vest or clothing while he yawns."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/18_yawn_put_on_cap/existing/end_ic_tr.webp",
+          "source_path": "assets/18_yawn_put_on_cap/1/end_ic_tr.webp",
           "description": "The older man wearing the cap sits at an outdoor gathering and gestures beside a table."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/18_yawn_put_on_cap/existing/end_ic_it.webp",
+          "source_path": "assets/18_yawn_put_on_cap/1/end_ic_it.webp",
           "description": "The older man yawns while sitting on a bed indoors at night."
         }
       ]
@@ -2051,55 +2051,55 @@
       "dataset_name": "yawn_put_on_cap",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/18_yawn_put_on_cap/draft",
+      "source_dir": "assets/18_yawn_put_on_cap/2",
       "completedAt": "2026-06-13T02:23:05",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/18_yawn_put_on_cap/draft/ic_1.webp",
+          "source_path": "assets/18_yawn_put_on_cap/2/ic_1.webp",
           "description": "A sunset mountain village path curves along a hillside with snowy peaks in the distance."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/18_yawn_put_on_cap/draft/coh_1.webp",
+          "source_path": "assets/18_yawn_put_on_cap/2/coh_1.webp",
           "description": "A girl cuts patterned cloth with scissors at an indoor table."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/18_yawn_put_on_cap/draft/coh_2.webp",
+          "source_path": "assets/18_yawn_put_on_cap/2/coh_2.webp",
           "description": "The girl sews patterned cloth on a sewing machine."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/18_yawn_put_on_cap/draft/tr_target.webp",
+          "source_path": "assets/18_yawn_put_on_cap/2/tr_target.webp",
           "description": "A young man adjusts or puts on a patterned cap."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/18_yawn_put_on_cap/draft/it_target.webp",
+          "source_path": "assets/18_yawn_put_on_cap/2/it_target.webp",
           "description": "The young man yawns with his eyes closed."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/18_yawn_put_on_cap/draft/end_coh_it.webp",
+          "source_path": "assets/18_yawn_put_on_cap/2/end_coh_it.webp",
           "description": "The young man rests his head on his hand beside the girl as she works at the sewing machine."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/18_yawn_put_on_cap/draft/end_ic_tr.webp",
+          "source_path": "assets/18_yawn_put_on_cap/2/end_ic_tr.webp",
           "description": "The young man wears the cap and plays guitar while a group sings or watches indoors."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/18_yawn_put_on_cap/draft/end_ic_it.webp",
+          "source_path": "assets/18_yawn_put_on_cap/2/end_ic_it.webp",
           "description": "The young man sits on a bed reading a book indoors."
         }
       ]
@@ -2109,55 +2109,55 @@
       "dataset_name": "sit_crack_egg",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/19_sit_crack_egg/existing",
+      "source_dir": "assets/19_sit_crack_egg/1",
       "completedAt": "2026-06-13T02:24:53",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/19_sit_crack_egg/existing/ic_1.webp",
+          "source_path": "assets/19_sit_crack_egg/1/ic_1.webp",
           "description": "A dark village lane at night with faint blue lights and house silhouettes."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/19_sit_crack_egg/existing/coh_1.webp",
+          "source_path": "assets/19_sit_crack_egg/1/coh_1.webp",
           "description": "An older woman reaches up to take a pan from a kitchen shelf."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/19_sit_crack_egg/existing/coh_2.webp",
+          "source_path": "assets/19_sit_crack_egg/1/coh_2.webp",
           "description": "The older woman pours oil into a pan over an open fire."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/19_sit_crack_egg/existing/tr_target.webp",
+          "source_path": "assets/19_sit_crack_egg/1/tr_target.webp",
           "description": "A boy cracks an egg into a pan over the fire."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/19_sit_crack_egg/existing/it_target.webp",
+          "source_path": "assets/19_sit_crack_egg/1/it_target.webp",
           "description": "The boy sits alone on a woven mat indoors."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/19_sit_crack_egg/existing/end_coh_it.webp",
+          "source_path": "assets/19_sit_crack_egg/1/end_coh_it.webp",
           "description": "The older woman and the boy sit together by the stove with a plate of food near the fire."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/19_sit_crack_egg/existing/end_ic_tr.webp",
+          "source_path": "assets/19_sit_crack_egg/1/end_ic_tr.webp",
           "description": "The boy serves or cooks fried eggs near the fire while a young girl sits beside him."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/19_sit_crack_egg/existing/end_ic_it.webp",
+          "source_path": "assets/19_sit_crack_egg/1/end_ic_it.webp",
           "description": "The boy sits on the mat holding or sitting beside a chicken indoors."
         }
       ]
@@ -2167,55 +2167,55 @@
       "dataset_name": "sit_crack_egg",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/19_sit_crack_egg/draft",
+      "source_dir": "assets/19_sit_crack_egg/2",
       "completedAt": "2026-06-13T02:24:53",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/19_sit_crack_egg/draft/ic_1.webp",
+          "source_path": "assets/19_sit_crack_egg/2/ic_1.webp",
           "description": "A dark stone village lane at night with dim lights along the houses."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/19_sit_crack_egg/draft/coh_1.webp",
+          "source_path": "assets/19_sit_crack_egg/2/coh_1.webp",
           "description": "A man reaches up to take a pan from a kitchen shelf."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/19_sit_crack_egg/draft/coh_2.webp",
+          "source_path": "assets/19_sit_crack_egg/2/coh_2.webp",
           "description": "The man pours oil into a pan over an indoor open fire."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/19_sit_crack_egg/draft/tr_target.webp",
+          "source_path": "assets/19_sit_crack_egg/2/tr_target.webp",
           "description": "An older woman cracks an egg into a pan over the fire."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/19_sit_crack_egg/draft/it_target.webp",
+          "source_path": "assets/19_sit_crack_egg/2/it_target.webp",
           "description": "The older woman sits alone on a woven mat indoors."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/19_sit_crack_egg/draft/end_coh_it.webp",
+          "source_path": "assets/19_sit_crack_egg/2/end_coh_it.webp",
           "description": "The man holds a bottle of cooking oil while the older woman gestures beside the pan and fire."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/19_sit_crack_egg/draft/end_ic_tr.webp",
+          "source_path": "assets/19_sit_crack_egg/2/end_ic_tr.webp",
           "description": "A small group sits on the floor eating a meal together from plates."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/19_sit_crack_egg/draft/end_ic_it.webp",
+          "source_path": "assets/19_sit_crack_egg/2/end_ic_it.webp",
           "description": "The man stands beside a large boxed television while the older woman sits nearby indoors."
         }
       ]
@@ -2225,55 +2225,55 @@
       "dataset_name": "come_plant_sapling",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/20_come_plant_sapling/existing",
+      "source_dir": "assets/20_come_plant_sapling/1",
       "completedAt": "2026-06-13T02:24:53",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/20_come_plant_sapling/existing/ic_1.webp",
+          "source_path": "assets/20_come_plant_sapling/1/ic_1.webp",
           "description": "A sunny village yard with stone houses, green grass, and mountains beyond."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/20_come_plant_sapling/existing/coh_1.webp",
+          "source_path": "assets/20_come_plant_sapling/1/coh_1.webp",
           "description": "An older man pokes or marks the grass with a stick in the yard."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/20_come_plant_sapling/existing/coh_2.webp",
+          "source_path": "assets/20_come_plant_sapling/1/coh_2.webp",
           "description": "The older man digs a round hole in the grass with a shovel."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/20_come_plant_sapling/existing/tr_target.webp",
+          "source_path": "assets/20_come_plant_sapling/1/tr_target.webp",
           "description": "A young woman kneels and plants a small sapling in the ground."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/20_come_plant_sapling/existing/it_target.webp",
+          "source_path": "assets/20_come_plant_sapling/1/it_target.webp",
           "description": "The young woman walks across the sunny grass yard."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/20_come_plant_sapling/existing/end_coh_it.webp",
+          "source_path": "assets/20_come_plant_sapling/1/end_coh_it.webp",
           "description": "The older man helps the young woman plant the sapling in the freshly dug hole."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/20_come_plant_sapling/existing/end_ic_tr.webp",
+          "source_path": "assets/20_come_plant_sapling/1/end_ic_tr.webp",
           "description": "The young woman kneels and ties or steadies the sapling in the soil."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/20_come_plant_sapling/existing/end_ic_it.webp",
+          "source_path": "assets/20_come_plant_sapling/1/end_ic_it.webp",
           "description": "The young woman walks along a village path talking with an older woman."
         }
       ]
@@ -2283,55 +2283,55 @@
       "dataset_name": "come_plant_sapling",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/20_come_plant_sapling/draft",
+      "source_dir": "assets/20_come_plant_sapling/2",
       "completedAt": "2026-06-13T02:24:53",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/20_come_plant_sapling/draft/ic_1.webp",
+          "source_path": "assets/20_come_plant_sapling/2/ic_1.webp",
           "description": "A bright stone village path runs between houses and green plants under strong sunlight."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/20_come_plant_sapling/draft/coh_1.webp",
+          "source_path": "assets/20_come_plant_sapling/2/coh_1.webp",
           "description": "An older woman marks or pokes the grass with a stick."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/20_come_plant_sapling/draft/coh_2.webp",
+          "source_path": "assets/20_come_plant_sapling/2/coh_2.webp",
           "description": "The older woman digs a hole in the grass with a shovel."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/20_come_plant_sapling/draft/tr_target.webp",
+          "source_path": "assets/20_come_plant_sapling/2/tr_target.webp",
           "description": "A man kneels and plants a small sapling in the ground."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/20_come_plant_sapling/draft/it_target.webp",
+          "source_path": "assets/20_come_plant_sapling/2/it_target.webp",
           "description": "The man walks across a sunny grass yard."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/20_come_plant_sapling/draft/end_coh_it.webp",
+          "source_path": "assets/20_come_plant_sapling/2/end_coh_it.webp",
           "description": "The older woman and the man work together with the shovel at the planting hole."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/20_come_plant_sapling/draft/end_ic_tr.webp",
+          "source_path": "assets/20_come_plant_sapling/2/end_ic_tr.webp",
           "description": "A small wilted sapling stands in dry soil under bright sun."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/20_come_plant_sapling/draft/end_ic_it.webp",
+          "source_path": "assets/20_come_plant_sapling/2/end_ic_it.webp",
           "description": "The man stands at a small shop window and receives or buys an item from a woman behind the counter."
         }
       ]
@@ -2341,55 +2341,55 @@
       "dataset_name": "cough_burn_bottles",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/21_cough_burn_bottles/existing",
+      "source_dir": "assets/21_cough_burn_bottles/1",
       "completedAt": "2026-06-13T02:26:44",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/21_cough_burn_bottles/existing/ic_1.webp",
+          "source_path": "assets/21_cough_burn_bottles/1/ic_1.webp",
           "description": "Smoke rises from several places over a hillside village, making the air hazy."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/21_cough_burn_bottles/existing/coh_1.webp",
+          "source_path": "assets/21_cough_burn_bottles/1/coh_1.webp",
           "description": "A girl puts plastic bottles or trash into a large sack outside."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/21_cough_burn_bottles/existing/coh_2.webp",
+          "source_path": "assets/21_cough_burn_bottles/1/coh_2.webp",
           "description": "The girl stands beside a small smoking burn pile while holding a large sack."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/21_cough_burn_bottles/existing/tr_target.webp",
+          "source_path": "assets/21_cough_burn_bottles/1/tr_target.webp",
           "description": "A man throws or places plastic bottles into an outdoor fire."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/21_cough_burn_bottles/existing/it_target.webp",
+          "source_path": "assets/21_cough_burn_bottles/1/it_target.webp",
           "description": "The man coughs into his fist amid smoke."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/21_cough_burn_bottles/existing/end_coh_it.webp",
+          "source_path": "assets/21_cough_burn_bottles/1/end_coh_it.webp",
           "description": "The man stands near the smoking burn pile and sack, covering his face with a cloth."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/21_cough_burn_bottles/existing/end_ic_tr.webp",
+          "source_path": "assets/21_cough_burn_bottles/1/end_ic_tr.webp",
           "description": "The man reacts near the flames as fire burns close to his foot or trouser leg."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/21_cough_burn_bottles/existing/end_ic_it.webp",
+          "source_path": "assets/21_cough_burn_bottles/1/end_ic_it.webp",
           "description": "The man coughs in a doorway while holding a glass of water."
         }
       ]
@@ -2399,55 +2399,55 @@
       "dataset_name": "cough_burn_bottles",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/21_cough_burn_bottles/draft",
+      "source_dir": "assets/21_cough_burn_bottles/2",
       "completedAt": "2026-06-13T02:26:44",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/21_cough_burn_bottles/draft/ic_1.webp",
+          "source_path": "assets/21_cough_burn_bottles/2/ic_1.webp",
           "description": "A smoky hillside village with haze rising between stone houses."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/21_cough_burn_bottles/draft/coh_1.webp",
+          "source_path": "assets/21_cough_burn_bottles/2/coh_1.webp",
           "description": "A boy puts bottles or trash into a large sack outdoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/21_cough_burn_bottles/draft/coh_2.webp",
+          "source_path": "assets/21_cough_burn_bottles/2/coh_2.webp",
           "description": "The boy stands beside a small smoking burn pile with a sack of rubbish."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/21_cough_burn_bottles/draft/tr_target.webp",
+          "source_path": "assets/21_cough_burn_bottles/2/tr_target.webp",
           "description": "A woman places plastic bottles or trash into an outdoor fire."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/21_cough_burn_bottles/draft/it_target.webp",
+          "source_path": "assets/21_cough_burn_bottles/2/it_target.webp",
           "description": "The woman coughs in the smoky air near the burn pile."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/21_cough_burn_bottles/draft/end_coh_it.webp",
+          "source_path": "assets/21_cough_burn_bottles/2/end_coh_it.webp",
           "description": "The boy hands the woman a cloth or small item near the sack and smoking burn pile."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/21_cough_burn_bottles/draft/end_ic_tr.webp",
+          "source_path": "assets/21_cough_burn_bottles/2/end_ic_tr.webp",
           "description": "The woman stands beside a wet smoldering burn pile in the rain, looking uncomfortable."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/21_cough_burn_bottles/draft/end_ic_it.webp",
+          "source_path": "assets/21_cough_burn_bottles/2/end_ic_it.webp",
           "description": "The woman sits in a clinic or office while a doctor hands her medicine or a paper."
         }
       ]
@@ -2457,55 +2457,55 @@
       "dataset_name": "come_push_chest",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/22_come_push_chest/existing",
+      "source_dir": "assets/22_come_push_chest/1",
       "completedAt": "2026-06-13T02:26:44",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/22_come_push_chest/existing/ic_1.webp",
+          "source_path": "assets/22_come_push_chest/1/ic_1.webp",
           "description": "An empty room with open doors and windows overlooking a mountain village."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/22_come_push_chest/existing/coh_1.webp",
+          "source_path": "assets/22_come_push_chest/1/coh_1.webp",
           "description": "A woman unrolls a woven mat or rug on the floor of the room."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/22_come_push_chest/existing/coh_2.webp",
+          "source_path": "assets/22_come_push_chest/1/coh_2.webp",
           "description": "The woman sweeps the room with a broom."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/22_come_push_chest/existing/tr_target.webp",
+          "source_path": "assets/22_come_push_chest/1/tr_target.webp",
           "description": "A man pushes a wooden wardrobe or chest across the room."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/22_come_push_chest/existing/it_target.webp",
+          "source_path": "assets/22_come_push_chest/1/it_target.webp",
           "description": "The man steps into the room through the open doorway."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/22_come_push_chest/existing/end_coh_it.webp",
+          "source_path": "assets/22_come_push_chest/1/end_coh_it.webp",
           "description": "The woman speaks with the man inside the room after he enters."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/22_come_push_chest/existing/end_ic_tr.webp",
+          "source_path": "assets/22_come_push_chest/1/end_ic_tr.webp",
           "description": "The woman moves or arranges a wooden table in the room."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/22_come_push_chest/existing/end_ic_it.webp",
+          "source_path": "assets/22_come_push_chest/1/end_ic_it.webp",
           "description": "The man bends near the doorway and cleans or sweeps the floor."
         }
       ]
@@ -2515,55 +2515,55 @@
       "dataset_name": "come_push_chest",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/22_come_push_chest/draft",
+      "source_dir": "assets/22_come_push_chest/2",
       "completedAt": "2026-06-13T02:26:44",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/22_come_push_chest/draft/ic_1.webp",
+          "source_path": "assets/22_come_push_chest/2/ic_1.webp",
           "description": "An empty room with an open doorway looking out to a mountain village."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/22_come_push_chest/draft/coh_1.webp",
+          "source_path": "assets/22_come_push_chest/2/coh_1.webp",
           "description": "A man unrolls a mat or rug on the floor of the room."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/22_come_push_chest/draft/coh_2.webp",
+          "source_path": "assets/22_come_push_chest/2/coh_2.webp",
           "description": "The man sweeps the floor with a broom."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/22_come_push_chest/draft/tr_target.webp",
+          "source_path": "assets/22_come_push_chest/2/tr_target.webp",
           "description": "An older woman pushes a wooden wardrobe or cabinet across the room."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/22_come_push_chest/draft/it_target.webp",
+          "source_path": "assets/22_come_push_chest/2/it_target.webp",
           "description": "The older woman enters through the open doorway."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/22_come_push_chest/draft/end_coh_it.webp",
+          "source_path": "assets/22_come_push_chest/2/end_coh_it.webp",
           "description": "The man and the older woman carry or position a wooden table together."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/22_come_push_chest/draft/end_ic_tr.webp",
+          "source_path": "assets/22_come_push_chest/2/end_ic_tr.webp",
           "description": "The older woman stands at the wardrobe and handles clothes inside it."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/22_come_push_chest/draft/end_ic_it.webp",
+          "source_path": "assets/22_come_push_chest/2/end_ic_it.webp",
           "description": "The older woman reaches out in surprise as a bird flies inside the room."
         }
       ]
@@ -2573,55 +2573,55 @@
       "dataset_name": "stand_tear_paper",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/23_stand_tear_paper/existing",
+      "source_dir": "assets/23_stand_tear_paper/1",
       "completedAt": "2026-06-13T02:28:33",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/23_stand_tear_paper/existing/ic_1.webp",
+          "source_path": "assets/23_stand_tear_paper/1/ic_1.webp",
           "description": "A windy field with a bent tree and dry grass under warm evening light."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/23_stand_tear_paper/existing/coh_1.webp",
+          "source_path": "assets/23_stand_tear_paper/1/coh_1.webp",
           "description": "A boy holds open a blank notebook outdoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/23_stand_tear_paper/existing/coh_2.webp",
+          "source_path": "assets/23_stand_tear_paper/1/coh_2.webp",
           "description": "The boy sits at a table and draws or writes on paper with colored pencils nearby."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/23_stand_tear_paper/existing/tr_target.webp",
+          "source_path": "assets/23_stand_tear_paper/1/tr_target.webp",
           "description": "A girl tears a sheet of paper in half outdoors."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/23_stand_tear_paper/existing/it_target.webp",
+          "source_path": "assets/23_stand_tear_paper/1/it_target.webp",
           "description": "The girl stands alone in the field."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/23_stand_tear_paper/existing/end_coh_it.webp",
+          "source_path": "assets/23_stand_tear_paper/1/end_coh_it.webp",
           "description": "The girl embraces the boy from behind while he draws at the table."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/23_stand_tear_paper/existing/end_ic_tr.webp",
+          "source_path": "assets/23_stand_tear_paper/1/end_ic_tr.webp",
           "description": "The girl stands in the wind holding torn paper as loose sheets fly around her."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/23_stand_tear_paper/existing/end_ic_it.webp",
+          "source_path": "assets/23_stand_tear_paper/1/end_ic_it.webp",
           "description": "The girl runs or stands in the field flying a colorful kite."
         }
       ]
@@ -2631,55 +2631,55 @@
       "dataset_name": "stand_tear_paper",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/23_stand_tear_paper/draft",
+      "source_dir": "assets/23_stand_tear_paper/2",
       "completedAt": "2026-06-13T02:28:33",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/23_stand_tear_paper/draft/ic_1.webp",
+          "source_path": "assets/23_stand_tear_paper/2/ic_1.webp",
           "description": "A windy mountain path with tall grass and a bent tree under a hazy sky."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/23_stand_tear_paper/draft/coh_1.webp",
+          "source_path": "assets/23_stand_tear_paper/2/coh_1.webp",
           "description": "A girl holds open a blank notebook outdoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/23_stand_tear_paper/draft/coh_2.webp",
+          "source_path": "assets/23_stand_tear_paper/2/coh_2.webp",
           "description": "The girl draws or writes on paper at a table with colored pencils nearby."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/23_stand_tear_paper/draft/tr_target.webp",
+          "source_path": "assets/23_stand_tear_paper/2/tr_target.webp",
           "description": "A boy tears a sheet of paper in half outdoors."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/23_stand_tear_paper/draft/it_target.webp",
+          "source_path": "assets/23_stand_tear_paper/2/it_target.webp",
           "description": "The boy stands alone in a grassy field near houses."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/23_stand_tear_paper/draft/end_coh_it.webp",
+          "source_path": "assets/23_stand_tear_paper/2/end_coh_it.webp",
           "description": "The girl shows the boy a drawing of him on a page."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/23_stand_tear_paper/draft/end_ic_tr.webp",
+          "source_path": "assets/23_stand_tear_paper/2/end_ic_tr.webp",
           "description": "The boy crouches by a stone wall near a paper object on the windy path."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/23_stand_tear_paper/draft/end_ic_it.webp",
+          "source_path": "assets/23_stand_tear_paper/2/end_ic_it.webp",
           "description": "The boy stands in the wind holding a colorful pinwheel or small kite-like toy."
         }
       ]
@@ -2689,55 +2689,55 @@
       "dataset_name": "descend_paint_bench",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/24_descend_paint_bench/existing",
+      "source_dir": "assets/24_descend_paint_bench/1",
       "completedAt": "2026-06-13T02:28:33",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/24_descend_paint_bench/existing/ic_1.webp",
+          "source_path": "assets/24_descend_paint_bench/1/ic_1.webp",
           "description": "A stormy village path and stone steps under dark clouds."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/24_descend_paint_bench/existing/coh_1.webp",
+          "source_path": "assets/24_descend_paint_bench/1/coh_1.webp",
           "description": "A woman carries a paint bucket and brush along the stone path."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/24_descend_paint_bench/existing/coh_2.webp",
+          "source_path": "assets/24_descend_paint_bench/1/coh_2.webp",
           "description": "The woman stirs bright orange paint in a bucket."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/24_descend_paint_bench/existing/tr_target.webp",
+          "source_path": "assets/24_descend_paint_bench/1/tr_target.webp",
           "description": "A man paints an orange table or bench with a brush."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/24_descend_paint_bench/existing/it_target.webp",
+          "source_path": "assets/24_descend_paint_bench/1/it_target.webp",
           "description": "The man descends stone steps along the village path."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/24_descend_paint_bench/existing/end_coh_it.webp",
+          "source_path": "assets/24_descend_paint_bench/1/end_coh_it.webp",
           "description": "The man and woman paint a bright orange patch on an exterior wall together."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/24_descend_paint_bench/existing/end_ic_tr.webp",
+          "source_path": "assets/24_descend_paint_bench/1/end_ic_tr.webp",
           "description": "The man carries the freshly painted orange table through a wet courtyard."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/24_descend_paint_bench/existing/end_ic_it.webp",
+          "source_path": "assets/24_descend_paint_bench/1/end_ic_it.webp",
           "description": "The man descends dark stone steps under storm clouds while looking down at his hands."
         }
       ]
@@ -2747,55 +2747,55 @@
       "dataset_name": "descend_paint_bench",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/24_descend_paint_bench/draft",
+      "source_dir": "assets/24_descend_paint_bench/2",
       "completedAt": "2026-06-13T02:28:33",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/24_descend_paint_bench/draft/ic_1.webp",
+          "source_path": "assets/24_descend_paint_bench/2/ic_1.webp",
           "description": "A narrow village path lies under heavy storm clouds between green stone walls."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/24_descend_paint_bench/draft/coh_1.webp",
+          "source_path": "assets/24_descend_paint_bench/2/coh_1.webp",
           "description": "An older man carries a bucket of pink paint and a brush along the path."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/24_descend_paint_bench/draft/coh_2.webp",
+          "source_path": "assets/24_descend_paint_bench/2/coh_2.webp",
           "description": "The older man stirs pink paint in a bucket."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/24_descend_paint_bench/draft/tr_target.webp",
+          "source_path": "assets/24_descend_paint_bench/2/tr_target.webp",
           "description": "A woman paints a table bright pink with a brush."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/24_descend_paint_bench/draft/it_target.webp",
+          "source_path": "assets/24_descend_paint_bench/2/it_target.webp",
           "description": "The woman descends stone steps along the path."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/24_descend_paint_bench/draft/end_coh_it.webp",
+          "source_path": "assets/24_descend_paint_bench/2/end_coh_it.webp",
           "description": "The older man accidentally pours or splashes pink paint from the bucket onto the woman."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/24_descend_paint_bench/draft/end_ic_tr.webp",
+          "source_path": "assets/24_descend_paint_bench/2/end_ic_tr.webp",
           "description": "A cat walks across the freshly painted pink table while the woman reacts."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/24_descend_paint_bench/draft/end_ic_it.webp",
+          "source_path": "assets/24_descend_paint_bench/2/end_ic_it.webp",
           "description": "The woman descends the stone steps during a lightning storm."
         }
       ]
@@ -2805,55 +2805,55 @@
       "dataset_name": "yawn_lock_door",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/25_yawn_lock_door/existing",
+      "source_dir": "assets/25_yawn_lock_door/1",
       "completedAt": "2026-06-13T02:30:25",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/25_yawn_lock_door/existing/ic_1.webp",
+          "source_path": "assets/25_yawn_lock_door/1/ic_1.webp",
           "description": "A misty village path and rooftops at dawn or dusk with pink sky over the hills."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/25_yawn_lock_door/existing/coh_1.webp",
+          "source_path": "assets/25_yawn_lock_door/1/coh_1.webp",
           "description": "A man buttons or adjusts his jacket indoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/25_yawn_lock_door/existing/coh_2.webp",
+          "source_path": "assets/25_yawn_lock_door/1/coh_2.webp",
           "description": "The man locks a wooden door with a padlock."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/25_yawn_lock_door/existing/tr_target.webp",
+          "source_path": "assets/25_yawn_lock_door/1/tr_target.webp",
           "description": "A woman locks a wooden door with a padlock."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/25_yawn_lock_door/existing/it_target.webp",
+          "source_path": "assets/25_yawn_lock_door/1/it_target.webp",
           "description": "The woman yawns with her hand near her mouth."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/25_yawn_lock_door/existing/end_coh_it.webp",
+          "source_path": "assets/25_yawn_lock_door/1/end_coh_it.webp",
           "description": "The man and woman walk away from the doorway together along the village path."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/25_yawn_lock_door/existing/end_ic_tr.webp",
+          "source_path": "assets/25_yawn_lock_door/1/end_ic_tr.webp",
           "description": "The woman opens or enters the back of a white vehicle on the village road."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/25_yawn_lock_door/existing/end_ic_it.webp",
+          "source_path": "assets/25_yawn_lock_door/1/end_ic_it.webp",
           "description": "The woman crouches outdoors and milks a goat or cow near the house at dusk."
         }
       ]
@@ -2863,55 +2863,55 @@
       "dataset_name": "yawn_lock_door",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/25_yawn_lock_door/draft",
+      "source_dir": "assets/25_yawn_lock_door/2",
       "completedAt": "2026-06-13T02:30:25",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/25_yawn_lock_door/draft/ic_1.webp",
+          "source_path": "assets/25_yawn_lock_door/2/ic_1.webp",
           "description": "A misty hillside village at sunrise or sunset with pink light over stone rooftops."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/25_yawn_lock_door/draft/coh_1.webp",
+          "source_path": "assets/25_yawn_lock_door/2/coh_1.webp",
           "description": "A woman buttons or adjusts her cardigan indoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/25_yawn_lock_door/draft/coh_2.webp",
+          "source_path": "assets/25_yawn_lock_door/2/coh_2.webp",
           "description": "The woman locks a wooden door with a padlock."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/25_yawn_lock_door/draft/tr_target.webp",
+          "source_path": "assets/25_yawn_lock_door/2/tr_target.webp",
           "description": "An older man locks a wooden door with a padlock."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/25_yawn_lock_door/draft/it_target.webp",
+          "source_path": "assets/25_yawn_lock_door/2/it_target.webp",
           "description": "The older man yawns with his hand over his mouth."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/25_yawn_lock_door/draft/end_coh_it.webp",
+          "source_path": "assets/25_yawn_lock_door/2/end_coh_it.webp",
           "description": "The woman and the older man walk away from the house along a village path."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/25_yawn_lock_door/draft/end_ic_tr.webp",
+          "source_path": "assets/25_yawn_lock_door/2/end_ic_tr.webp",
           "description": "The older man sits on a motorcycle on the village path at dusk."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/25_yawn_lock_door/draft/end_ic_it.webp",
+          "source_path": "assets/25_yawn_lock_door/2/end_ic_it.webp",
           "description": "The older man climbs or works on a steep cliff face near hanging baskets or honeycombs."
         }
       ]
@@ -2921,55 +2921,55 @@
       "dataset_name": "sleep_drag_log",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/26_sleep_drag_log/existing",
+      "source_dir": "assets/26_sleep_drag_log/1",
       "completedAt": "2026-06-13T02:30:25",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/26_sleep_drag_log/existing/ic_1.webp",
+          "source_path": "assets/26_sleep_drag_log/1/ic_1.webp",
           "description": "A misty forest path runs between tall straight trees."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/26_sleep_drag_log/existing/coh_1.webp",
+          "source_path": "assets/26_sleep_drag_log/1/coh_1.webp",
           "description": "A man kneels in the forest and saws a branch with a hand saw."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/26_sleep_drag_log/existing/coh_2.webp",
+          "source_path": "assets/26_sleep_drag_log/1/coh_2.webp",
           "description": "The man ties a bundle of cut sticks with rope."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/26_sleep_drag_log/existing/tr_target.webp",
+          "source_path": "assets/26_sleep_drag_log/1/tr_target.webp",
           "description": "An older woman drags a log along the forest path with a rope."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/26_sleep_drag_log/existing/it_target.webp",
+          "source_path": "assets/26_sleep_drag_log/1/it_target.webp",
           "description": "The older woman sleeps or rests against a fallen log in the forest."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/26_sleep_drag_log/existing/end_coh_it.webp",
+          "source_path": "assets/26_sleep_drag_log/1/end_coh_it.webp",
           "description": "The man and the older woman walk together carrying bundles of cut sticks."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/26_sleep_drag_log/existing/end_ic_tr.webp",
+          "source_path": "assets/26_sleep_drag_log/1/end_ic_tr.webp",
           "description": "The man drags a log while the older woman stands nearby on the forest path."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/26_sleep_drag_log/existing/end_ic_it.webp",
+          "source_path": "assets/26_sleep_drag_log/1/end_ic_it.webp",
           "description": "A man yawns or calls out while walking through the misty forest."
         }
       ]
@@ -2979,55 +2979,55 @@
       "dataset_name": "sleep_drag_log",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/26_sleep_drag_log/draft",
+      "source_dir": "assets/26_sleep_drag_log/2",
       "completedAt": "2026-06-13T02:30:25",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/26_sleep_drag_log/draft/ic_1.webp",
+          "source_path": "assets/26_sleep_drag_log/2/ic_1.webp",
           "description": "A foggy forest path fades into tall trees."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/26_sleep_drag_log/draft/coh_1.webp",
+          "source_path": "assets/26_sleep_drag_log/2/coh_1.webp",
           "description": "An older woman saws a branch with a hand saw in the forest."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/26_sleep_drag_log/draft/coh_2.webp",
+          "source_path": "assets/26_sleep_drag_log/2/coh_2.webp",
           "description": "The older woman ties a bundle of cut sticks with rope."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/26_sleep_drag_log/draft/tr_target.webp",
+          "source_path": "assets/26_sleep_drag_log/2/tr_target.webp",
           "description": "An older man drags a log along the forest path with a rope."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/26_sleep_drag_log/draft/it_target.webp",
+          "source_path": "assets/26_sleep_drag_log/2/it_target.webp",
           "description": "The older man sleeps or rests on the forest floor against a log."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/26_sleep_drag_log/draft/end_coh_it.webp",
+          "source_path": "assets/26_sleep_drag_log/2/end_coh_it.webp",
           "description": "The older woman bends over the older man as he rests beside a bundle of sticks."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/26_sleep_drag_log/draft/end_ic_tr.webp",
+          "source_path": "assets/26_sleep_drag_log/2/end_ic_tr.webp",
           "description": "The older man stands near a dragged log while another man carrying a chainsaw speaks to him in the foggy forest."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/26_sleep_drag_log/draft/end_ic_it.webp",
+          "source_path": "assets/26_sleep_drag_log/2/end_ic_it.webp",
           "description": "The older man sits on the forest floor at night holding a small flashlight."
         }
       ]
@@ -3037,55 +3037,55 @@
       "dataset_name": "jump_pull_blanket",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/27_jump_pull_blanket/existing",
+      "source_dir": "assets/27_jump_pull_blanket/1",
       "completedAt": "2026-06-13T02:32:24",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/27_jump_pull_blanket/existing/ic_1.webp",
+          "source_path": "assets/27_jump_pull_blanket/1/ic_1.webp",
           "description": "A sunny hillside village lane with stone houses and mountains in the background."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/27_jump_pull_blanket/existing/coh_1.webp",
+          "source_path": "assets/27_jump_pull_blanket/1/coh_1.webp",
           "description": "A man wrings water from a dark garment over a blue basin."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/27_jump_pull_blanket/existing/coh_2.webp",
+          "source_path": "assets/27_jump_pull_blanket/1/coh_2.webp",
           "description": "The man hangs a red shirt on a clothesline with clothespins."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/27_jump_pull_blanket/existing/tr_target.webp",
+          "source_path": "assets/27_jump_pull_blanket/1/tr_target.webp",
           "description": "A girl pulls down or holds a large blanket or sheet from a clothesline."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/27_jump_pull_blanket/existing/it_target.webp",
+          "source_path": "assets/27_jump_pull_blanket/1/it_target.webp",
           "description": "The girl jumps in a yard near hanging laundry."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/27_jump_pull_blanket/existing/end_coh_it.webp",
+          "source_path": "assets/27_jump_pull_blanket/1/end_coh_it.webp",
           "description": "The man and the girl reach up toward a red shirt hanging on the clothesline."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/27_jump_pull_blanket/existing/end_ic_tr.webp",
+          "source_path": "assets/27_jump_pull_blanket/1/end_ic_tr.webp",
           "description": "The girl makes or straightens a bed inside a homestay room."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/27_jump_pull_blanket/existing/end_ic_it.webp",
+          "source_path": "assets/27_jump_pull_blanket/1/end_ic_it.webp",
           "description": "The girl jumps in the yard with one hand raised, as if reaching for something."
         }
       ]
@@ -3095,55 +3095,55 @@
       "dataset_name": "jump_pull_blanket",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/27_jump_pull_blanket/draft",
+      "source_dir": "assets/27_jump_pull_blanket/2",
       "completedAt": "2026-06-13T02:32:24",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/27_jump_pull_blanket/draft/ic_1.webp",
+          "source_path": "assets/27_jump_pull_blanket/2/ic_1.webp",
           "description": "A bright stone village path winds between houses under a sunny sky."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/27_jump_pull_blanket/draft/coh_1.webp",
+          "source_path": "assets/27_jump_pull_blanket/2/coh_1.webp",
           "description": "An older woman wrings water from a dark garment over a metal basin."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/27_jump_pull_blanket/draft/coh_2.webp",
+          "source_path": "assets/27_jump_pull_blanket/2/coh_2.webp",
           "description": "The older woman hangs a blue shirt on a clothesline."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/27_jump_pull_blanket/draft/tr_target.webp",
+          "source_path": "assets/27_jump_pull_blanket/2/tr_target.webp",
           "description": "A boy pulls down or holds a large blanket or sheet from a clothesline."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/27_jump_pull_blanket/draft/it_target.webp",
+          "source_path": "assets/27_jump_pull_blanket/2/it_target.webp",
           "description": "The boy jumps in the yard near the hanging laundry."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/27_jump_pull_blanket/draft/end_coh_it.webp",
+          "source_path": "assets/27_jump_pull_blanket/2/end_coh_it.webp",
           "description": "The older woman hands a red garment to the boy beside a basin of laundry."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/27_jump_pull_blanket/draft/end_ic_tr.webp",
+          "source_path": "assets/27_jump_pull_blanket/2/end_ic_tr.webp",
           "description": "Three people hold a cloth full of round green fruits on a village path."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/27_jump_pull_blanket/draft/end_ic_it.webp",
+          "source_path": "assets/27_jump_pull_blanket/2/end_ic_it.webp",
           "description": "The boy jumps in the yard while holding a ball above his head."
         }
       ]
@@ -3153,55 +3153,55 @@
       "dataset_name": "jump_peel_orange",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/28_jump_peel_orange/existing",
+      "source_dir": "assets/28_jump_peel_orange/1",
       "completedAt": "2026-06-13T02:32:24",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/28_jump_peel_orange/existing/ic_1.webp",
+          "source_path": "assets/28_jump_peel_orange/1/ic_1.webp",
           "description": "A green hillside with a small house and path under cloudy light."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/28_jump_peel_orange/existing/coh_1.webp",
+          "source_path": "assets/28_jump_peel_orange/1/coh_1.webp",
           "description": "A woman carries a large basket beneath an orange tree."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/28_jump_peel_orange/existing/coh_2.webp",
+          "source_path": "assets/28_jump_peel_orange/1/coh_2.webp",
           "description": "The woman positions a wooden ladder against an orange tree."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/28_jump_peel_orange/existing/tr_target.webp",
+          "source_path": "assets/28_jump_peel_orange/1/tr_target.webp",
           "description": "A boy peels an orange while standing outdoors."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/28_jump_peel_orange/existing/it_target.webp",
+          "source_path": "assets/28_jump_peel_orange/1/it_target.webp",
           "description": "The boy jumps under a tree in a grassy orchard."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/28_jump_peel_orange/existing/end_coh_it.webp",
+          "source_path": "assets/28_jump_peel_orange/1/end_coh_it.webp",
           "description": "The woman stands on a ladder picking oranges while the boy jumps below to reach fruit."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/28_jump_peel_orange/existing/end_ic_tr.webp",
+          "source_path": "assets/28_jump_peel_orange/1/end_ic_tr.webp",
           "description": "The boy offers a plate of peeled orange pieces to an older woman seated outside."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/28_jump_peel_orange/existing/end_ic_it.webp",
+          "source_path": "assets/28_jump_peel_orange/1/end_ic_it.webp",
           "description": "The boy stands in an orchard watching other children play with a ball."
         }
       ]
@@ -3211,55 +3211,55 @@
       "dataset_name": "jump_peel_orange",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/28_jump_peel_orange/draft",
+      "source_dir": "assets/28_jump_peel_orange/2",
       "completedAt": "2026-06-13T02:32:24",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/28_jump_peel_orange/draft/ic_1.webp",
+          "source_path": "assets/28_jump_peel_orange/2/ic_1.webp",
           "description": "A small house sits on a green, misty hillside among trees."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/28_jump_peel_orange/draft/coh_1.webp",
+          "source_path": "assets/28_jump_peel_orange/2/coh_1.webp",
           "description": "An older man carries a large basket beneath an orange tree."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/28_jump_peel_orange/draft/coh_2.webp",
+          "source_path": "assets/28_jump_peel_orange/2/coh_2.webp",
           "description": "The older man sets a wooden ladder against an orange tree."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/28_jump_peel_orange/draft/tr_target.webp",
+          "source_path": "assets/28_jump_peel_orange/2/tr_target.webp",
           "description": "A girl peels an orange while standing outdoors."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/28_jump_peel_orange/draft/it_target.webp",
+          "source_path": "assets/28_jump_peel_orange/2/it_target.webp",
           "description": "The girl jumps under a tree in a grassy orchard."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/28_jump_peel_orange/draft/end_coh_it.webp",
+          "source_path": "assets/28_jump_peel_orange/2/end_coh_it.webp",
           "description": "The older man stands on the ladder near oranges while the girl jumps and reaches below."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/28_jump_peel_orange/draft/end_ic_tr.webp",
+          "source_path": "assets/28_jump_peel_orange/2/end_ic_tr.webp",
           "description": "The girl shares orange pieces with children gathered beside a stone wall."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/28_jump_peel_orange/draft/end_ic_it.webp",
+          "source_path": "assets/28_jump_peel_orange/2/end_ic_it.webp",
           "description": "The girl jumps in the orchard near a shoe lying on the ground."
         }
       ]
@@ -3269,55 +3269,55 @@
       "dataset_name": "sit_cut_potato",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/29_sit_cut_potato/existing",
+      "source_dir": "assets/29_sit_cut_potato/1",
       "completedAt": "2026-06-13T02:34:17",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/29_sit_cut_potato/existing/ic_1.webp",
+          "source_path": "assets/29_sit_cut_potato/1/ic_1.webp",
           "description": "A courtyard with dark beans or seeds spread on a blue-edged mat to dry."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/29_sit_cut_potato/existing/coh_1.webp",
+          "source_path": "assets/29_sit_cut_potato/1/coh_1.webp",
           "description": "An older woman arranges potatoes and carrots on a wooden table indoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/29_sit_cut_potato/existing/coh_2.webp",
+          "source_path": "assets/29_sit_cut_potato/1/coh_2.webp",
           "description": "The older woman peels or cleans a potato with a cloth or knife at the table."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/29_sit_cut_potato/existing/tr_target.webp",
+          "source_path": "assets/29_sit_cut_potato/1/tr_target.webp",
           "description": "An older man cuts potatoes on a round board beside a bowl of chopped pieces."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/29_sit_cut_potato/existing/it_target.webp",
+          "source_path": "assets/29_sit_cut_potato/1/it_target.webp",
           "description": "The older man sits alone on a low stool indoors."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/29_sit_cut_potato/existing/end_coh_it.webp",
+          "source_path": "assets/29_sit_cut_potato/1/end_coh_it.webp",
           "description": "The older woman and older man sit together cutting and preparing potatoes and vegetables at the table."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/29_sit_cut_potato/existing/end_ic_tr.webp",
+          "source_path": "assets/29_sit_cut_potato/1/end_ic_tr.webp",
           "description": "The older man moves toward a child crawling across the drying mat of dark beans in the courtyard."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/29_sit_cut_potato/existing/end_ic_it.webp",
+          "source_path": "assets/29_sit_cut_potato/1/end_ic_it.webp",
           "description": "The older man and a woman lift or fold the blue-edged drying mat in the courtyard under cloudy skies."
         }
       ]
@@ -3327,55 +3327,55 @@
       "dataset_name": "sit_cut_potato",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/29_sit_cut_potato/draft",
+      "source_dir": "assets/29_sit_cut_potato/2",
       "completedAt": "2026-06-13T02:34:17",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/29_sit_cut_potato/draft/ic_1.webp",
+          "source_path": "assets/29_sit_cut_potato/2/ic_1.webp",
           "description": "Dark beans or seeds dry on a blue-edged mat in a stone courtyard."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/29_sit_cut_potato/draft/coh_1.webp",
+          "source_path": "assets/29_sit_cut_potato/2/coh_1.webp",
           "description": "A man arranges potatoes and carrots on a wooden table indoors."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/29_sit_cut_potato/draft/coh_2.webp",
+          "source_path": "assets/29_sit_cut_potato/2/coh_2.webp",
           "description": "The man peels or cleans a potato at the table."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/29_sit_cut_potato/draft/tr_target.webp",
+          "source_path": "assets/29_sit_cut_potato/2/tr_target.webp",
           "description": "A girl cuts potatoes on a round board beside a bowl of chopped pieces."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/29_sit_cut_potato/draft/it_target.webp",
+          "source_path": "assets/29_sit_cut_potato/2/it_target.webp",
           "description": "The girl sits alone on a low stool indoors."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/29_sit_cut_potato/draft/end_coh_it.webp",
+          "source_path": "assets/29_sit_cut_potato/2/end_coh_it.webp",
           "description": "A family sits around a table eating or serving a potato dish together."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/29_sit_cut_potato/draft/end_ic_tr.webp",
+          "source_path": "assets/29_sit_cut_potato/2/end_ic_tr.webp",
           "description": "The girl reaches toward a large round gourd or object lying on the drying mat of dark beans."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/29_sit_cut_potato/draft/end_ic_it.webp",
+          "source_path": "assets/29_sit_cut_potato/2/end_ic_it.webp",
           "description": "The girl chases a black bird away from the drying mat in the courtyard."
         }
       ]
@@ -3385,55 +3385,55 @@
       "dataset_name": "smile_make_momos",
       "set": 1,
       "source_format": "webp",
-      "source_dir": "assets/30_smile_make_momos/existing",
+      "source_dir": "assets/30_smile_make_momos/1",
       "completedAt": "2026-06-13T02:34:17",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/30_smile_make_momos/existing/ic_1.webp",
+          "source_path": "assets/30_smile_make_momos/1/ic_1.webp",
           "description": "A rainy stone village lane between houses, with heavy rain falling in the mountains."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/30_smile_make_momos/existing/coh_1.webp",
+          "source_path": "assets/30_smile_make_momos/1/coh_1.webp",
           "description": "A boy pours flour from a cloth sack into a large bowl."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/30_smile_make_momos/existing/coh_2.webp",
+          "source_path": "assets/30_smile_make_momos/1/coh_2.webp",
           "description": "The boy stretches and kneads dough in the bowl."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/30_smile_make_momos/existing/tr_target.webp",
+          "source_path": "assets/30_smile_make_momos/1/tr_target.webp",
           "description": "A young woman shapes small dumplings or momos on a floured table."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/30_smile_make_momos/existing/it_target.webp",
+          "source_path": "assets/30_smile_make_momos/1/it_target.webp",
           "description": "The young woman smiles in a close indoor portrait."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/30_smile_make_momos/existing/end_coh_it.webp",
+          "source_path": "assets/30_smile_make_momos/1/end_coh_it.webp",
           "description": "The boy and the young woman shape dough or dumplings together at the table."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/30_smile_make_momos/existing/end_ic_tr.webp",
+          "source_path": "assets/30_smile_make_momos/1/end_ic_tr.webp",
           "description": "The young woman offers a plate of dumplings to an older woman indoors."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/30_smile_make_momos/existing/end_ic_it.webp",
+          "source_path": "assets/30_smile_make_momos/1/end_ic_it.webp",
           "description": "The young woman stands in a doorway smiling and speaking with an older man."
         }
       ]
@@ -3443,55 +3443,55 @@
       "dataset_name": "smile_make_momos",
       "set": 2,
       "source_format": "webp",
-      "source_dir": "assets/30_smile_make_momos/draft",
+      "source_dir": "assets/30_smile_make_momos/2",
       "completedAt": "2026-06-13T02:34:17",
       "images": [
         {
           "image_type": "ic_1",
           "filename": "ic_1.webp",
-          "source_path": "assets/30_smile_make_momos/draft/ic_1.webp",
+          "source_path": "assets/30_smile_make_momos/2/ic_1.webp",
           "description": "A rainy mountain village lane with stone houses and water running along the path."
         },
         {
           "image_type": "coh_1",
           "filename": "coh_1.webp",
-          "source_path": "assets/30_smile_make_momos/draft/coh_1.webp",
+          "source_path": "assets/30_smile_make_momos/2/coh_1.webp",
           "description": "A woman pours flour from a cloth sack into a large bowl."
         },
         {
           "image_type": "coh_2",
           "filename": "coh_2.webp",
-          "source_path": "assets/30_smile_make_momos/draft/coh_2.webp",
+          "source_path": "assets/30_smile_make_momos/2/coh_2.webp",
           "description": "The woman stretches and kneads dough in the bowl."
         },
         {
           "image_type": "tr_target",
           "filename": "tr_target.webp",
-          "source_path": "assets/30_smile_make_momos/draft/tr_target.webp",
+          "source_path": "assets/30_smile_make_momos/2/tr_target.webp",
           "description": "An older man shapes small dumplings or momos at a wooden table."
         },
         {
           "image_type": "it_target",
           "filename": "it_target.webp",
-          "source_path": "assets/30_smile_make_momos/draft/it_target.webp",
+          "source_path": "assets/30_smile_make_momos/2/it_target.webp",
           "description": "The older man smiles in a close indoor portrait."
         },
         {
           "image_type": "end_coh_it",
           "filename": "end_coh_it.webp",
-          "source_path": "assets/30_smile_make_momos/draft/end_coh_it.webp",
+          "source_path": "assets/30_smile_make_momos/2/end_coh_it.webp",
           "description": "A woman and the older man arrange plates of dumplings on a blue table outdoors."
         },
         {
           "image_type": "end_ic_tr",
           "filename": "end_ic_tr.webp",
-          "source_path": "assets/30_smile_make_momos/draft/end_ic_tr.webp",
+          "source_path": "assets/30_smile_make_momos/2/end_ic_tr.webp",
           "description": "In the rain, one man works on a roof while another person below holds up a plate near the house."
         },
         {
           "image_type": "end_ic_it",
           "filename": "end_ic_it.webp",
-          "source_path": "assets/30_smile_make_momos/draft/end_ic_it.webp",
+          "source_path": "assets/30_smile_make_momos/2/end_ic_it.webp",
           "description": "The older man smiles beside a muddy child standing in the rainy village lane."
         }
       ]

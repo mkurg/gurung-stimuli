@@ -25,7 +25,8 @@ EXPECTED_IMAGES = [
     "end_ic_tr",
     "end_ic_it",
 ]
-SET_VARIANTS = {
+DESCRIPTION_SET_NUMBERS = (1, 2)
+LEGACY_SET_FIELDS = {
     1: "existing",
     2: "draft",
 }
@@ -46,30 +47,37 @@ def write_json_atomic(path: Path, payload: Any) -> None:
     os.replace(tmp_path, path)
 
 
+def dataset_set(dataset: dict[str, Any], set_number: int) -> dict[str, Any]:
+    if "sets" in dataset:
+        return dataset["sets"][str(set_number)]
+    return dataset[LEGACY_SET_FIELDS[set_number]]
+
+
 def source_data() -> dict[str, Any]:
     data = load_json(DATASETS_JSON)
-    return {
-        f"{dataset['number']}:{set_number}": {
-            "dataset_number": dataset["number"],
-            "dataset_name": dataset["displayName"],
-            "set": set_number,
-            "source_format": "webp",
-            "source_dir": dataset[variant]["path"],
-            "images": {
-                stem: dataset[variant]["images"][stem]
-                for stem in EXPECTED_IMAGES
-            },
-        }
-        for dataset in data["datasets"]
-        for set_number, variant in SET_VARIANTS.items()
-    }
+    sources: dict[str, Any] = {}
+    for dataset in data["datasets"]:
+        for set_number in DESCRIPTION_SET_NUMBERS:
+            set_data = dataset_set(dataset, set_number)
+            sources[f"{dataset['number']}:{set_number}"] = {
+                "dataset_number": dataset["number"],
+                "dataset_name": dataset["displayName"],
+                "set": set_number,
+                "source_format": "webp",
+                "source_dir": set_data["path"],
+                "images": {
+                    stem: set_data["images"][stem]
+                    for stem in EXPECTED_IMAGES
+                },
+            }
+    return sources
 
 
 def ordered_keys(sources: dict[str, Any]) -> list[str]:
     return [
         f"{dataset_number}:{set_number}"
         for dataset_number in sorted({source["dataset_number"] for source in sources.values()})
-        for set_number in (1, 2)
+        for set_number in DESCRIPTION_SET_NUMBERS
     ]
 
 
@@ -135,12 +143,19 @@ def normalize_group(group: dict[str, Any], sources: dict[str, Any]) -> dict[str,
         "set": source["set"],
         "source_format": source["source_format"],
         "source_dir": source["source_dir"],
-        "completedAt": now(),
+        "completedAt": group.get("completedAt") or now(),
         "images": [
             normalize_image(stem, descriptions_by_stem[stem], source)
             for stem in EXPECTED_IMAGES
         ],
     }
+
+
+def refresh_group_metadata(payload: dict[str, Any], sources: dict[str, Any]) -> None:
+    payload["groups"] = [
+        normalize_group(group, sources)
+        for group in payload.get("groups", [])
+    ]
 
 
 def refresh_status(payload: dict[str, Any], sources: dict[str, Any]) -> None:
@@ -188,6 +203,7 @@ def print_status(payload: dict[str, Any]) -> None:
 def cmd_init(_args: argparse.Namespace) -> None:
     sources = source_data()
     payload = load_payload(sources)
+    refresh_group_metadata(payload, sources)
     sort_groups(payload, sources)
     refresh_status(payload, sources)
     write_json_atomic(OUTPUT_JSON, payload)
@@ -211,6 +227,10 @@ def cmd_next(args: argparse.Namespace) -> None:
 def cmd_validate(_args: argparse.Namespace) -> None:
     sources = source_data()
     payload = load_payload(sources)
+    try:
+        refresh_group_metadata(payload, sources)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
     done = {group_key(group): group for group in payload["groups"]}
     errors: list[str] = []
 
@@ -296,7 +316,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     sheet_parser = subparsers.add_parser("sheet")
     sheet_parser.add_argument("dataset", type=int)
-    sheet_parser.add_argument("set", type=int, choices=(1, 2))
+    sheet_parser.add_argument("set", type=int, choices=DESCRIPTION_SET_NUMBERS)
     sheet_parser.add_argument("--out", default="/private/tmp/gurung_desc_sheets")
     sheet_parser.set_defaults(func=cmd_sheet)
 

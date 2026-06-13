@@ -22,6 +22,8 @@ IDEAS_FILE = APP_DIR / "missing_picture_ideas.json"
 MAX_IDEA_LENGTH = 5000
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
+SET_NUMBERS = [1, 2, 3, 4]
+SET_ALIASES = {"existing": 1, "draft": 2}
 CORE_IMAGES = ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"]
 ENDING_IMAGES = ["end_coh_it", "end_ic_tr", "end_ic_it"]
 EXPECTED_IMAGES = CORE_IMAGES + ENDING_IMAGES
@@ -121,25 +123,36 @@ def set_folder(dataset_folder: Path, set_number: int) -> Path:
     return candidate
 
 
-def file_info(path: Path, dataset_number: int, variant: str) -> dict[str, object]:
+def normalize_set_number(value: object) -> int | None:
+    if isinstance(value, int) and value in SET_NUMBERS:
+        return value
+    text = str(value).strip().lower()
+    if text in SET_ALIASES:
+        return SET_ALIASES[text]
+    if text.isdigit() and int(text) in SET_NUMBERS:
+        return int(text)
+    return None
+
+
+def file_info(path: Path, dataset_number: int, set_number: int) -> dict[str, object]:
     stat = path.stat()
     return {
         "filename": path.name,
         "stem": path.stem,
-        "url": f"/image/{dataset_number}/{variant}/{quote(path.name)}",
+        "url": f"/image/{dataset_number}/{set_number}/{quote(path.name)}",
         "bytes": stat.st_size,
         "modified": datetime.fromtimestamp(stat.st_mtime).isoformat(timespec="seconds"),
     }
 
 
-def scan_image_dir(folder: Path, dataset_number: int, variant: str) -> dict[str, object]:
+def scan_image_dir(folder: Path, dataset_number: int, set_number: int) -> dict[str, object]:
     exists = folder.is_dir()
     files: list[dict[str, object]] = []
 
     if exists:
         for child in sorted(folder.iterdir(), key=lambda p: natural_key(p.name)):
             if child.is_file() and child.suffix.lower() in IMAGE_EXTENSIONS:
-                files.append(file_info(child, dataset_number, variant))
+                files.append(file_info(child, dataset_number, set_number))
 
     by_stem: dict[str, dict[str, object]] = {}
     for image in files:
@@ -153,6 +166,7 @@ def scan_image_dir(folder: Path, dataset_number: int, variant: str) -> dict[str,
     missing = [stem for stem, image in images.items() if image is None]
 
     return {
+        "set": set_number,
         "exists": exists,
         "path": str(folder),
         "fileCount": len(files),
@@ -179,28 +193,31 @@ def scan_datasets(root: Path, ideas: dict[str, dict[str, str]] | None = None) ->
             continue
 
         dataset_number, label = parsed
-        existing = scan_image_dir(set_folder(folder, 1), dataset_number, "existing")
-        draft = scan_image_dir(set_folder(folder, 2), dataset_number, "draft")
-        add_ideas_to_variant(existing, dataset_number, "existing", ideas)
-        add_ideas_to_variant(draft, dataset_number, "draft", ideas)
+        sets: dict[str, dict[str, object]] = {}
+        for set_number in SET_NUMBERS:
+            set_data = scan_image_dir(set_folder(folder, set_number), dataset_number, set_number)
+            add_ideas_to_set(set_data, dataset_number, set_number, ideas)
+            sets[str(set_number)] = set_data
 
         issue_tags: list[str] = []
-        if not existing["complete"]:
-            issue_tags.append("existing-missing")
-        if not draft["exists"]:
-            issue_tags.append("draft-missing")
-        elif draft["fileCount"] == 0:
-            issue_tags.append("draft-empty")
-        elif not draft["complete"]:
-            issue_tags.append("draft-incomplete")
-        if existing["extra"] or draft["extra"]:
+        for set_number, set_data in sets.items():
+            if not set_data["exists"]:
+                issue_tags.append(f"set-{set_number}-missing")
+            elif set_data["fileCount"] == 0:
+                issue_tags.append(f"set-{set_number}-empty")
+            elif not set_data["complete"]:
+                issue_tags.append(f"set-{set_number}-incomplete")
+            if any(set_data["images"].get(stem) is None for stem in CORE_IMAGES):
+                issue_tags.append(f"set-{set_number}-core-incomplete")
+            if (
+                set_data["exists"]
+                and set_data["fileCount"] > 0
+                and any(set_data["images"].get(stem) is None for stem in ENDING_IMAGES)
+            ):
+                issue_tags.append(f"set-{set_number}-needs-endings")
+
+        if any(set_data["extra"] for set_data in sets.values()):
             issue_tags.append("extra-images")
-        draft_missing_endings = [
-            stem for stem in ENDING_IMAGES if draft["images"].get(stem) is None
-        ]
-        if draft_missing_endings:
-            if draft["exists"] and draft["fileCount"] > 0:
-                issue_tags.append("draft-needs-endings")
 
         datasets.append(
             {
@@ -208,43 +225,61 @@ def scan_datasets(root: Path, ideas: dict[str, dict[str, str]] | None = None) ->
                 "folderName": folder.name,
                 "displayName": label.replace(" ", "_"),
                 "folderPath": str(folder),
-                "existing": existing,
-                "draft": draft,
+                "sets": sets,
                 "issueTags": sorted(set(issue_tags)),
             }
         )
 
     ending_slot_count = len(datasets) * len(ENDING_IMAGES)
-    existing_ending_count = count_present_endings(datasets, "existing")
-    draft_ending_count = count_present_endings(datasets, "draft")
+    set_summaries: dict[str, dict[str, object]] = {}
+    all_ending_count = 0
+    for set_number in SET_NUMBERS:
+        set_key = str(set_number)
+        ending_count = count_present_endings(datasets, set_number)
+        all_ending_count += ending_count
+        set_summaries[set_key] = {
+            "folders": sum(1 for item in datasets if item["sets"][set_key]["exists"]),
+            "complete": sum(1 for item in datasets if item["sets"][set_key]["complete"]),
+            "empty": sum(
+                1
+                for item in datasets
+                if item["sets"][set_key]["exists"] and item["sets"][set_key]["fileCount"] == 0
+            ),
+            "incomplete": sum(1 for item in datasets if not item["sets"][set_key]["complete"]),
+            "coreIncomplete": sum(
+                1
+                for item in datasets
+                if any(item["sets"][set_key]["images"].get(stem) is None for stem in CORE_IMAGES)
+            ),
+            "needsEndings": sum(
+                1 for item in datasets if f"set-{set_key}-needs-endings" in item["issueTags"]
+            ),
+            "extraImages": sum(len(item["sets"][set_key]["extra"]) for item in datasets),
+            "endings": progress_summary(ending_count, ending_slot_count),
+        }
 
     summary = {
         "datasetCount": len(datasets),
-        "existingComplete": sum(1 for item in datasets if item["existing"]["complete"]),
-        "existingWithProblems": sum(1 for item in datasets if not item["existing"]["complete"]),
-        "draftFolders": sum(1 for item in datasets if item["draft"]["exists"]),
-        "draftComplete": sum(1 for item in datasets if item["draft"]["complete"]),
-        "draftEmpty": sum(
-            1 for item in datasets if item["draft"]["exists"] and item["draft"]["fileCount"] == 0
-        ),
-        "draftNeedsEndings": sum(
-            1 for item in datasets if "draft-needs-endings" in item["issueTags"]
-        ),
+        "sets": set_summaries,
         "extraImages": sum(
-            len(item["existing"]["extra"]) + len(item["draft"]["extra"]) for item in datasets
+            len(set_data["extra"]) for item in datasets for set_data in item["sets"].values()
         ),
         "endings": {
-            "existing": progress_summary(existing_ending_count, ending_slot_count),
-            "draft": progress_summary(draft_ending_count, ending_slot_count),
-            "all": progress_summary(
-                existing_ending_count + draft_ending_count,
-                ending_slot_count * 2,
-            ),
+            **{set_key: set_summary["endings"] for set_key, set_summary in set_summaries.items()},
+            "all": progress_summary(all_ending_count, ending_slot_count * len(SET_NUMBERS)),
         },
+        # Legacy summary fields kept for older local scripts that only know sets 1 and 2.
+        "existingComplete": set_summaries["1"]["complete"],
+        "existingWithProblems": set_summaries["1"]["incomplete"],
+        "draftFolders": set_summaries["2"]["folders"],
+        "draftComplete": set_summaries["2"]["complete"],
+        "draftEmpty": set_summaries["2"]["empty"],
+        "draftNeedsEndings": set_summaries["2"]["needsEndings"],
     }
 
     return {
         "root": str(root),
+        "setNumbers": SET_NUMBERS,
         "expected": EXPECTED_IMAGES,
         "core": CORE_IMAGES,
         "endings": ENDING_IMAGES,
@@ -255,12 +290,13 @@ def scan_datasets(root: Path, ideas: dict[str, dict[str, str]] | None = None) ->
     }
 
 
-def count_present_endings(datasets: list[dict[str, object]], variant: str) -> int:
+def count_present_endings(datasets: list[dict[str, object]], set_number: int) -> int:
+    set_key = str(set_number)
     return sum(
         1
         for dataset in datasets
         for stem in ENDING_IMAGES
-        if dataset[variant]["images"].get(stem) is not None
+        if dataset["sets"][set_key]["images"].get(stem) is not None
     )
 
 
@@ -274,8 +310,13 @@ def progress_summary(present: int, total: int) -> dict[str, object]:
     }
 
 
-def idea_key(dataset_number: int, variant: str, stem: str) -> str:
-    return f"{dataset_number}:{variant}:{stem}"
+def idea_key(dataset_number: int, set_number: int, stem: str) -> str:
+    return f"{dataset_number}:{set_number}:{stem}"
+
+
+def legacy_idea_keys(dataset_number: int, set_number: int, stem: str) -> list[str]:
+    aliases = [name for name, number in SET_ALIASES.items() if number == set_number]
+    return [f"{dataset_number}:{alias}:{stem}" for alias in aliases]
 
 
 def load_ideas(path: Path = IDEAS_FILE) -> dict[str, dict[str, str]]:
@@ -312,14 +353,23 @@ def write_ideas(ideas: dict[str, dict[str, str]], path: Path = IDEAS_FILE) -> No
     tmp_path.replace(path)
 
 
-def add_ideas_to_variant(
-    variant: dict[str, object],
+def add_ideas_to_set(
+    set_data: dict[str, object],
     dataset_number: int,
-    variant_name: str,
+    set_number: int,
     ideas: dict[str, dict[str, str]],
 ) -> None:
-    variant["ideas"] = {
-        stem: ideas.get(idea_key(dataset_number, variant_name, stem)) for stem in EXPECTED_IMAGES
+    set_data["ideas"] = {
+        stem: next(
+            (
+                ideas[key]
+                for key in [idea_key(dataset_number, set_number, stem)]
+                + legacy_idea_keys(dataset_number, set_number, stem)
+                if key in ideas
+            ),
+            None,
+        )
+        for stem in EXPECTED_IMAGES
     }
 
 
@@ -402,12 +452,12 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             self.send_error_json(HTTPStatus.BAD_REQUEST, "Dataset number is invalid.")
             return
 
-        variant = payload.get("variant")
+        set_number = normalize_set_number(payload.get("setNumber", payload.get("variant")))
         stem = payload.get("stem")
         text = payload.get("text", "")
 
-        if variant not in {"existing", "draft"}:
-            self.send_error_json(HTTPStatus.BAD_REQUEST, "Variant is invalid.")
+        if set_number is None:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Set number is invalid.")
             return
         if stem not in EXPECTED_IMAGES:
             self.send_error_json(HTTPStatus.BAD_REQUEST, "Image stem is invalid.")
@@ -435,7 +485,7 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             return
 
         ideas = load_ideas()
-        key = idea_key(dataset_number, variant, stem)
+        key = idea_key(dataset_number, set_number, stem)
         if clean_text:
             ideas[key] = {
                 "text": clean_text,
@@ -453,9 +503,10 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             self.send_error_json(HTTPStatus.NOT_FOUND, "Image URL is incomplete.")
             return
 
-        _, _, dataset_text, variant, encoded_filename = parts
-        if variant not in {"existing", "draft"}:
-            self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown image variant.")
+        _, _, dataset_text, set_text, encoded_filename = parts
+        set_number = normalize_set_number(set_text)
+        if set_number is None:
+            self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown image set.")
             return
         if not dataset_text.isdigit():
             self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown dataset.")
@@ -484,7 +535,7 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             self.send_error_json(HTTPStatus.NOT_FOUND, "Dataset not found.")
             return
 
-        image_dir = set_folder(dataset_folder, 1 if variant == "existing" else 2)
+        image_dir = set_folder(dataset_folder, set_number)
         image_path = (image_dir / filename).resolve()
         try:
             image_path.relative_to(image_dir.resolve())

@@ -1,7 +1,23 @@
+const DEFAULT_VISIBLE_SETS = ["1", "2"];
+const GENERATION_STAT_SETS = ["3", "4"];
+const DEFAULT_EXPECTED_IMAGES = [
+  "ic_1",
+  "coh_1",
+  "coh_2",
+  "tr_target",
+  "it_target",
+  "end_coh_it",
+  "end_ic_tr",
+  "end_ic_it",
+];
+
 const state = {
   datasets: [],
   paths: [],
   summary: {},
+  expected: [],
+  setNumbers: ["1", "2", "3", "4"],
+  visibleSets: [...DEFAULT_VISIBLE_SETS],
   root: "",
   scannedAt: "",
   search: "",
@@ -19,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   els.nav = document.querySelector("#dataset-nav");
   els.search = document.querySelector("#search");
   els.filter = document.querySelector("#filter");
+  els.setToggles = Array.from(document.querySelectorAll("[data-set-toggle]"));
   els.refresh = document.querySelector("#refresh");
   els.lightbox = document.querySelector("#lightbox");
   els.lightboxImage = document.querySelector("#lightbox-image");
@@ -40,6 +57,18 @@ document.addEventListener("DOMContentLoaded", () => {
   els.filter.addEventListener("change", () => {
     state.filter = els.filter.value;
     render();
+  });
+
+  els.setToggles.forEach((input) => {
+    input.addEventListener("change", () => {
+      const selected = els.setToggles.filter((toggle) => toggle.checked).map((toggle) => toggle.value);
+      if (!selected.length) {
+        input.checked = true;
+        return;
+      }
+      state.visibleSets = selected;
+      render();
+    });
   });
 
   els.refresh.addEventListener("click", loadData);
@@ -94,9 +123,12 @@ async function loadData() {
     state.datasets = data.datasets;
     state.paths = data.paths;
     state.summary = data.summary;
+    state.expected = data.expected ?? [];
+    state.setNumbers = (data.setNumbers ?? ["1", "2", "3", "4"]).map(String);
     state.root = data.root;
     state.scannedAt = data.scannedAt;
     state.canSaveIdeas = canSaveIdeas;
+    syncSetToggles();
     render();
   } catch (error) {
     els.datasets.innerHTML = `<div class="empty-state">${escapeHtml(error.message)}</div>`;
@@ -118,7 +150,7 @@ async function fetchDatasetData() {
         throw new Error(`${source} returned HTTP ${response.status}`);
       }
       return {
-        data: await response.json(),
+        data: normalizeData(await response.json()),
         canSaveIdeas: source === "/api/datasets",
       };
     } catch (error) {
@@ -129,9 +161,76 @@ async function fetchDatasetData() {
   throw new Error(`Could not load dataset data. ${lastError?.message ?? ""}`.trim());
 }
 
+function normalizeData(data) {
+  const setNumbers = (data.setNumbers ?? [1, 2]).map(String);
+  data.setNumbers = setNumbers;
+  data.datasets = (data.datasets ?? []).map((dataset) => {
+    if (!dataset.sets) {
+      dataset.sets = {};
+      if (dataset.existing) {
+        dataset.sets["1"] = dataset.existing;
+      }
+      if (dataset.draft) {
+        dataset.sets["2"] = dataset.draft;
+      }
+    }
+    return dataset;
+  });
+  data.summary = data.summary ?? {};
+  data.summary.sets = data.summary.sets ?? {};
+  return data;
+}
+
+function syncSetToggles() {
+  const available = availableSetKeys();
+  state.visibleSets = state.visibleSets.filter((setKey) => available.includes(setKey));
+  if (!state.visibleSets.length) {
+    state.visibleSets = available.filter((setKey) => DEFAULT_VISIBLE_SETS.includes(setKey));
+  }
+  if (!state.visibleSets.length && available.length) {
+    state.visibleSets = [available[0]];
+  }
+
+  els.setToggles.forEach((input) => {
+    const availableSet = available.includes(input.value);
+    input.disabled = !availableSet;
+    input.checked = state.visibleSets.includes(input.value);
+  });
+}
+
 function versionedDataUrl(source) {
   const separator = source.includes("?") ? "&" : "?";
   return `${source}${separator}v=${Date.now()}`;
+}
+
+function availableSetKeys() {
+  return (state.setNumbers.length ? state.setNumbers : ["1", "2", "3", "4"]).map(String);
+}
+
+function selectedSetKeys() {
+  const available = availableSetKeys();
+  const selected = state.visibleSets.filter((setKey) => available.includes(setKey));
+  return selected.length ? selected : available.slice(0, 1);
+}
+
+function setData(dataset, setKey) {
+  return dataset.sets?.[setKey] ?? {
+    set: Number(setKey),
+    exists: false,
+    path: "",
+    fileCount: 0,
+    images: {},
+    core: {},
+    endings: {},
+    missing: state.expected ?? [],
+    extra: [],
+    complete: false,
+    ideas: {},
+  };
+}
+
+function visibleSetData(dataset) {
+  return selectedSetKeys().map((setKey) => [setKey, setData(dataset, setKey)]);
 }
 
 function render() {
@@ -149,14 +248,19 @@ function render() {
 
 function renderStatus(visibleCount) {
   const summary = state.summary;
+  const generationSetKeys = selectedSetKeys().filter((setKey) => GENERATION_STAT_SETS.includes(setKey));
+  const generationChips = generationSetKeys.map((setKey) =>
+    pictureProgressChip(`Set ${setKey} images`, pictureProgressForSets([setKey])),
+  );
+  if (generationSetKeys.length) {
+    generationChips.push(
+      pictureProgressChip("Sets 3+4 images", pictureProgressForSets(GENERATION_STAT_SETS)),
+    );
+  }
+
   els.status.innerHTML = [
     chip("Datasets", `${visibleCount}/${summary.datasetCount ?? 0}`),
-    chip("Set 1 complete", summary.existingComplete ?? 0, "ok"),
-    chip("Set 1 problems", summary.existingWithProblems ?? 0, summary.existingWithProblems ? "bad" : "ok"),
-    chip("Folder 2", summary.draftFolders ?? 0, "warn"),
-    chip("Draft complete", summary.draftComplete ?? 0, "ok"),
-    progressChip("Endings", summary.endings?.draft, progressTone(summary.endings?.draft)),
-    chip("Need endings", summary.draftNeedsEndings ?? 0, summary.draftNeedsEndings ? "warn" : "ok"),
+    ...generationChips,
     chip("Extra images", summary.extraImages ?? 0, summary.extraImages ? "warn" : "ok"),
     chip("Scanned", state.scannedAt ? state.scannedAt.replace("T", " ") : ""),
   ].join("");
@@ -166,15 +270,39 @@ function chip(label, value, tone = "") {
   return `<span class="chip ${tone}">${escapeHtml(label)} <strong>${escapeHtml(String(value))}</strong></span>`;
 }
 
-function progressChip(label, progress, tone = "") {
-  if (!progress || !progress.total) {
-    return chip(label, "0/0 0%", tone);
-  }
+function pictureProgressChip(label, progress) {
   return chip(
     label,
     `${progress.present}/${progress.total} ${formatPercent(progress.percent)}`,
-    tone,
+    progressToneCount(progress.present, progress.total),
   );
+}
+
+function pictureProgressForSets(setKeys) {
+  const stems = expectedImageStems();
+  const total = state.datasets.length * setKeys.length * stems.length;
+  let present = 0;
+
+  for (const dataset of state.datasets) {
+    for (const setKey of setKeys) {
+      const images = setData(dataset, setKey).images ?? {};
+      for (const stem of stems) {
+        if (images[stem]) {
+          present += 1;
+        }
+      }
+    }
+  }
+
+  return {
+    present,
+    total,
+    percent: total ? (present / total) * 100 : 0,
+  };
+}
+
+function expectedImageStems() {
+  return state.expected.length ? state.expected : DEFAULT_EXPECTED_IMAGES;
 }
 
 function formatPercent(value) {
@@ -185,21 +313,17 @@ function formatPercent(value) {
   return `${Number.isInteger(number) ? number : number.toFixed(1)}%`;
 }
 
-function progressTone(progress) {
-  if (!progress || !progress.total) {
-    return "warn";
+function progressToneCount(value, total) {
+  if (!total || value >= total) {
+    return "ok";
   }
-  return progress.present >= progress.total ? "ok" : "warn";
+  return value ? "warn" : "bad";
 }
 
 function renderNav(datasets) {
   els.nav.innerHTML = datasets
     .map((dataset) => {
-      const tone = dataset.issueTags.includes("existing-missing")
-        ? "bad"
-        : dataset.issueTags.some((tag) => tag.startsWith("draft") || tag === "extra-images")
-          ? "warn"
-          : "ok";
+      const tone = datasetTone(dataset);
       return `
         <button class="nav-item" type="button" data-target="dataset-${dataset.number}">
           <span class="nav-number">${dataset.number}</span>
@@ -211,8 +335,20 @@ function renderNav(datasets) {
     .join("");
 }
 
+function datasetTone(dataset) {
+  const visibleSets = visibleSetData(dataset);
+  if (visibleSets.some(([setKey, set]) => setKey === "1" && !set.complete)) {
+    return "bad";
+  }
+  if (visibleSets.some(([, set]) => !set.exists || set.fileCount === 0 || !set.complete || set.extra.length)) {
+    return "warn";
+  }
+  return "ok";
+}
+
 function renderDataset(dataset) {
   const tags = tagChips(dataset).join("");
+  const setKeys = selectedSetKeys();
   return `
     <article class="dataset-card" id="dataset-${dataset.number}">
       <header class="dataset-header">
@@ -222,9 +358,8 @@ function renderDataset(dataset) {
         </div>
         <div class="dataset-tags">${tags}</div>
       </header>
-      <div class="variant-grid">
-        ${renderVariant(dataset, "existing", "Set 1")}
-        ${renderVariant(dataset, "draft", "Set 2 / folder 2")}
+      <div class="set-grid" style="--visible-set-count: ${setKeys.length}">
+        ${setKeys.map((setKey) => renderSet(dataset, setKey)).join("")}
       </div>
     </article>
   `;
@@ -232,68 +367,62 @@ function renderDataset(dataset) {
 
 function tagChips(dataset) {
   const chips = [];
-  chips.push(dataset.existing.complete ? chip("Set 1", "8/8", "ok") : chip("Set 1", `${8 - dataset.existing.missing.length}/8`, "bad"));
-
-  if (!dataset.draft.exists) {
-    chips.push(chip("Folder 2", "missing", "warn"));
-  } else if (dataset.draft.fileCount === 0) {
-    chips.push(chip("Folder 2", "empty", "warn"));
-  } else if (dataset.draft.complete) {
-    chips.push(chip("Draft", "8/8", "ok"));
-  } else {
-    chips.push(chip("Draft", `${8 - dataset.draft.missing.length}/8`, "warn"));
+  for (const [setKey, set] of visibleSetData(dataset)) {
+    const tone = set.complete ? "ok" : setKey === "1" ? "bad" : "warn";
+    const value = set.exists ? `${8 - set.missing.length}/8` : "missing";
+    chips.push(chip(`Set ${setKey}`, value, tone));
   }
 
-  const extraCount = dataset.existing.extra.length + dataset.draft.extra.length;
+  const extraCount = visibleSetData(dataset).reduce((total, [, set]) => total + set.extra.length, 0);
   if (extraCount) {
     chips.push(chip("Extra", extraCount, "warn"));
   }
   return chips;
 }
 
-function renderVariant(dataset, key, title) {
-  const variant = dataset[key];
-  const status = variantStatus(variant, key);
+function renderSet(dataset, setKey) {
+  const set = setData(dataset, setKey);
+  const status = setStatus(set);
   return `
-    <section class="variant">
-      <div class="variant-header">
-        <h3>${escapeHtml(title)}</h3>
+    <section class="set-panel">
+      <div class="set-header">
+        <h3>${escapeHtml(`Set ${setKey}`)}</h3>
         ${status}
       </div>
 
       <p class="section-label">Core images</p>
       <div class="core-grid">
         ${["ic_1", "coh_1", "coh_2", "tr_target", "it_target"]
-          .map((stem) => renderThumb(variant.images[stem], stem, dataset, key, false, variant.ideas?.[stem]))
+          .map((stem) => renderThumb(set.images[stem], stem, dataset, setKey, false, set.ideas?.[stem]))
           .join("")}
       </div>
 
       <p class="section-label">Path previews</p>
       <div class="trial-list">
-        ${state.paths.map((trial, index) => renderTrial(trial, index, variant, dataset, key)).join("")}
+        ${state.paths.map((trial, index) => renderTrial(trial, index, set, dataset, setKey)).join("")}
       </div>
 
-      ${renderExtraImages(variant.extra, dataset, key)}
+      ${renderExtraImages(set.extra, dataset, setKey)}
     </section>
   `;
 }
 
-function variantStatus(variant, key) {
-  if (!variant.exists) {
-    return chip(key === "draft" ? "Folder" : "Set", "missing", "warn");
+function setStatus(set) {
+  if (!set.exists) {
+    return chip("Folder", "missing", "warn");
   }
-  if (variant.fileCount === 0) {
+  if (set.fileCount === 0) {
     return chip("Images", "0", "warn");
   }
-  if (variant.complete) {
-    return chip("Images", `${variant.fileCount}`, "ok");
+  if (set.complete) {
+    return chip("Images", `${set.fileCount}`, "ok");
   }
-  return chip("Missing", variant.missing.length, "warn");
+  return chip("Missing", set.missing.length, "warn");
 }
 
-function renderTrial(trial, index, variant, dataset, key) {
+function renderTrial(trial, index, set, dataset, setKey) {
   const steps = trial.steps
-    .map((stem) => renderThumb(variant.images[stem], stem, dataset, key, false, variant.ideas?.[stem]))
+    .map((stem) => renderThumb(set.images[stem], stem, dataset, setKey, false, set.ideas?.[stem]))
     .join('<span class="arrow" aria-hidden="true">&rarr;</span>');
   return `
     <section class="trial">
@@ -315,7 +444,7 @@ function renderExtraImages(images, dataset, key) {
   `;
 }
 
-function renderThumb(image, stem, dataset, variant, extra = false, idea = null) {
+function renderThumb(image, stem, dataset, setKey, extra = false, idea = null) {
   if (!image) {
     const ideaText = idea?.text ?? "";
     return `
@@ -325,7 +454,7 @@ function renderThumb(image, stem, dataset, variant, extra = false, idea = null) 
         data-missing="true"
         data-dataset-number="${dataset.number}"
         data-dataset-name="${escapeAttr(dataset.displayName)}"
-        data-variant="${escapeAttr(variant)}"
+        data-set-number="${escapeAttr(setKey)}"
         data-stem="${escapeAttr(stem)}"
         data-idea="${escapeAttr(ideaText)}"
       >
@@ -339,7 +468,7 @@ function renderThumb(image, stem, dataset, variant, extra = false, idea = null) 
   }
 
   const url = versionedImageUrl(image);
-  const caption = `Dataset ${dataset.number}: ${dataset.displayName} / ${variant} / ${image.filename}`;
+  const caption = `Dataset ${dataset.number}: ${dataset.displayName} / set ${setKey} / ${image.filename}`;
   return `
     <button class="thumb" type="button" data-image="${escapeAttr(url)}" data-caption="${escapeAttr(caption)}">
       <img loading="lazy" src="${escapeAttr(url)}" alt="${escapeAttr(stem)}">
@@ -370,6 +499,7 @@ function matchesFilters(dataset) {
       dataset.displayName,
       dataset.folderName,
       dataset.folderPath,
+      ...Object.values(dataset.sets ?? {}).map((set) => set.path),
     ].join(" ").toLowerCase();
     if (!haystack.includes(state.search)) {
       return false;
@@ -377,29 +507,31 @@ function matchesFilters(dataset) {
   }
 
   switch (state.filter) {
-    case "has-draft":
-      return dataset.draft.exists;
-    case "draft-incomplete":
-      return dataset.draft.exists && !dataset.draft.complete;
+    case "set-incomplete":
+      return visibleSetData(dataset).some(([, set]) => !set.complete);
     case "core-incomplete":
-      return draftCoreImagesIncomplete(dataset);
+      return coreImagesIncomplete(dataset);
     case "needs-endings":
-      return dataset.issueTags.includes("draft-needs-endings");
-    case "no-draft":
-      return !dataset.draft.exists || dataset.draft.fileCount === 0;
+      return visibleSetData(dataset).some(([, set]) => set.exists && set.fileCount > 0 && missingEndings(set));
+    case "empty-set":
+      return visibleSetData(dataset).some(([, set]) => !set.exists || set.fileCount === 0);
     case "existing-problems":
-      return !dataset.existing.complete;
+      return !setData(dataset, "1").complete;
     case "extras":
-      return dataset.existing.extra.length + dataset.draft.extra.length > 0;
+      return visibleSetData(dataset).some(([, set]) => set.extra.length > 0);
     default:
       return true;
   }
 }
 
-function draftCoreImagesIncomplete(dataset) {
+function coreImagesIncomplete(dataset) {
   return ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"].some(
-    (stem) => !dataset.draft.images[stem],
+    (stem) => visibleSetData(dataset).some(([, set]) => !set.images[stem]),
   );
+}
+
+function missingEndings(set) {
+  return ["end_coh_it", "end_ic_tr", "end_ic_it"].some((stem) => !set.images[stem]);
 }
 
 function handleDatasetClick(event) {
@@ -421,11 +553,11 @@ function openIdeaModal(button) {
     button,
     datasetNumber: Number(button.dataset.datasetNumber),
     datasetName: button.dataset.datasetName,
-    variant: button.dataset.variant,
+    setNumber: button.dataset.setNumber,
     stem: button.dataset.stem,
   };
 
-  els.ideaTitle.textContent = `Dataset ${activeIdeaTarget.datasetNumber}: ${activeIdeaTarget.datasetName} / ${activeIdeaTarget.variant} / ${activeIdeaTarget.stem}`;
+  els.ideaTitle.textContent = `Dataset ${activeIdeaTarget.datasetNumber}: ${activeIdeaTarget.datasetName} / set ${activeIdeaTarget.setNumber} / ${activeIdeaTarget.stem}`;
   els.ideaText.value = button.dataset.idea ?? "";
   els.ideaStatus.textContent = state.canSaveIdeas
     ? ""
@@ -467,7 +599,7 @@ async function saveIdea() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         datasetNumber: activeIdeaTarget.datasetNumber,
-        variant: activeIdeaTarget.variant,
+        setNumber: activeIdeaTarget.setNumber,
         stem: activeIdeaTarget.stem,
         text: els.ideaText.value,
       }),
