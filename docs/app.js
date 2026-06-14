@@ -30,6 +30,7 @@ let activePreviewButton = null;
 let activeIdeaTarget = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+  els.topbar = document.querySelector(".topbar");
   els.status = document.querySelector("#status");
   els.datasets = document.querySelector("#datasets");
   els.nav = document.querySelector("#dataset-nav");
@@ -80,6 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
   els.ideaCancel.addEventListener("click", closeIdeaModal);
   els.ideaClear.addEventListener("click", clearIdeaText);
   els.ideaSave.addEventListener("click", saveIdea);
+  window.addEventListener("resize", updateStickyOffset);
+  if ("ResizeObserver" in window && els.topbar) {
+    new ResizeObserver(updateStickyOffset).observe(els.topbar);
+  }
 
   document.addEventListener("keydown", (event) => {
     if (!els.ideaModal.hidden) {
@@ -112,8 +117,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  updateStickyOffset();
   loadData();
 });
+
+function updateStickyOffset() {
+  if (!els.topbar) {
+    return;
+  }
+  const topbarHeight = Math.ceil(els.topbar.getBoundingClientRect().height);
+  document.documentElement.style.setProperty("--sticky-offset", `${topbarHeight + 10}px`);
+}
 
 async function loadData() {
   els.refresh.disabled = true;

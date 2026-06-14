@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import mimetypes
 import os
@@ -50,6 +51,22 @@ TRIAL_PATHS = [
         "steps": ["ic_1", "it_target", "end_ic_it"],
     },
 ]
+
+
+def asset_version(path: Path) -> str:
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    return digest[:12]
+
+
+def versioned_index_html() -> bytes:
+    html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    versions = {
+        "styles.css": asset_version(STATIC_DIR / "styles.css"),
+        "app.js": asset_version(STATIC_DIR / "app.js"),
+    }
+    for filename, version in versions.items():
+        html = html.replace(filename, f"{filename}?v={version}")
+    return html.encode("utf-8")
 
 
 def natural_key(value: str) -> list[object]:
@@ -386,6 +403,9 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
+        if parsed.path in {"/", "/index.html"}:
+            self.send_index()
+            return
         if parsed.path == "/api/datasets":
             self.send_json(scan_datasets(self.data_root))
             return
@@ -402,8 +422,18 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
 
     def end_headers(self) -> None:
-        self.send_header("Cache-Control", "no-store")
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
         super().end_headers()
+
+    def send_index(self) -> None:
+        body = versioned_index_html()
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
     def send_json(self, payload: object) -> None:
         body = json.dumps(payload, indent=2).encode("utf-8")
