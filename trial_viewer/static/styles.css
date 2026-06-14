@@ -75,7 +75,7 @@ h1 {
   gap: 10px;
 }
 
-.toolbar label {
+.toolbar > label {
   display: grid;
   gap: 4px;
   color: var(--muted);
@@ -83,8 +83,8 @@ h1 {
   font-weight: 700;
 }
 
-.toolbar input,
-.toolbar select {
+.toolbar .search input,
+.toolbar .filter select {
   min-height: 38px;
   border: 1px solid var(--line);
   border-radius: 7px;
@@ -92,36 +92,44 @@ h1 {
   color: var(--ink);
 }
 
-.toolbar input {
+.toolbar .search input {
   width: min(30vw, 310px);
   min-width: 220px;
   padding: 0 12px;
 }
 
-.toolbar select {
+.toolbar .filter select {
   padding: 0 34px 0 10px;
 }
 
-.set-controls {
-  display: flex;
+.set-controls,
+.view-control {
+  display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
   gap: 8px;
+  width: max-content;
+  max-width: 100%;
+  min-width: 0;
+  min-inline-size: 0;
   min-height: 38px;
   margin: 0;
   padding: 4px 8px 5px;
   border: 1px solid var(--line);
   border-radius: 7px;
   background: var(--surface);
+  white-space: nowrap;
 }
 
-.set-controls legend {
+.set-controls legend,
+.view-control legend {
   padding: 0 4px;
   color: var(--muted);
   font-size: 12px;
   font-weight: 800;
 }
 
-.set-controls label {
+.toolbar .control-option {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -130,9 +138,25 @@ h1 {
   font-weight: 850;
 }
 
-.set-controls input {
+.toolbar .control-option input {
   width: 16px;
+  height: 16px;
   min-height: 0;
+  margin: 0;
+  accent-color: var(--teal);
+}
+
+.toolbar .control-option input:disabled + *,
+.toolbar .control-option:has(input:disabled) {
+  color: var(--muted);
+}
+
+.radio-cluster {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 8px;
+  border-left: 1px solid var(--line);
 }
 
 .primary {
@@ -708,16 +732,19 @@ button.thumb:hover {
     justify-content: stretch;
   }
 
-  .toolbar label,
-  .toolbar input,
-  .toolbar select,
-  .set-controls,
-  .primary {
+  .toolbar > .search,
+  .toolbar > .filter,
+  .toolbar .search input,
+  .toolbar .filter select,
+  .toolbar > .primary {
     width: 100%;
   }
 
-  .set-controls {
+  .set-controls,
+  .view-control {
     justify-content: flex-start;
+    width: max-content;
+    max-width: 100%;
   }
 
   .workspace,

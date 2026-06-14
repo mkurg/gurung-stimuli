@@ -31,10 +31,22 @@
         </label>
         <fieldset class="set-controls" aria-label="Visible sets">
           <legend>Sets</legend>
-          <label><input type="checkbox" data-set-toggle value="1" checked> 1</label>
-          <label><input type="checkbox" data-set-toggle value="2" checked> 2</label>
-          <label><input type="checkbox" data-set-toggle value="3"> 3</label>
-          <label><input type="checkbox" data-set-toggle value="4"> 4</label>
+          <label class="control-option"><input type="checkbox" data-set-toggle value="1" checked> 1</label>
+          <label class="control-option"><input type="checkbox" data-set-toggle value="2" checked> 2</label>
+          <label class="control-option"><input type="checkbox" data-set-toggle value="3"> 3</label>
+          <label class="control-option"><input type="checkbox" data-set-toggle value="4"> 4</label>
+        </fieldset>
+        <fieldset class="view-control" aria-label="Image set previews">
+          <legend>Images</legend>
+          <label class="control-option"><input id="show-image-sets" type="checkbox" checked> Sets</label>
+          <span class="radio-cluster" role="radiogroup" aria-label="Image set size">
+            <label class="control-option"><input type="radio" name="image-set-size" value="5" checked> 5</label>
+            <label class="control-option"><input type="radio" name="image-set-size" value="8"> 8</label>
+          </span>
+        </fieldset>
+        <fieldset class="view-control" aria-label="Path preview visibility">
+          <legend>Paths</legend>
+          <label class="control-option"><input id="show-path-previews" type="checkbox" checked> Show</label>
         </fieldset>
         <button id="refresh" class="primary" type="button">Refresh</button>
       </div>

@@ -1,11 +1,8 @@
 const DEFAULT_VISIBLE_SETS = ["1", "2"];
 const GENERATION_STAT_SETS = ["3", "4"];
+const CORE_IMAGE_STEMS = ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"];
 const DEFAULT_EXPECTED_IMAGES = [
-  "ic_1",
-  "coh_1",
-  "coh_2",
-  "tr_target",
-  "it_target",
+  ...CORE_IMAGE_STEMS,
   "end_coh_it",
   "end_ic_tr",
   "end_ic_it",
@@ -22,6 +19,9 @@ const state = {
   scannedAt: "",
   search: "",
   filter: "all",
+  showImageSets: true,
+  imageSetSize: 5,
+  showPathPreviews: true,
   canSaveIdeas: false,
 };
 
@@ -37,6 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
   els.search = document.querySelector("#search");
   els.filter = document.querySelector("#filter");
   els.setToggles = Array.from(document.querySelectorAll("[data-set-toggle]"));
+  els.showImageSets = document.querySelector("#show-image-sets");
+  els.imageSetSizeRadios = Array.from(document.querySelectorAll("[name='image-set-size']"));
+  els.showPathPreviews = document.querySelector("#show-path-previews");
   els.refresh = document.querySelector("#refresh");
   els.lightbox = document.querySelector("#lightbox");
   els.lightboxImage = document.querySelector("#lightbox-image");
@@ -70,6 +73,29 @@ document.addEventListener("DOMContentLoaded", () => {
       state.visibleSets = selected;
       render();
     });
+  });
+
+  els.showImageSets.addEventListener("change", () => {
+    state.showImageSets = els.showImageSets.checked;
+    syncViewControls();
+    render();
+    updateStickyOffset();
+  });
+
+  els.imageSetSizeRadios.forEach((input) => {
+    input.addEventListener("change", () => {
+      if (!input.checked) {
+        return;
+      }
+      state.imageSetSize = Number(input.value);
+      render();
+    });
+  });
+
+  els.showPathPreviews.addEventListener("change", () => {
+    state.showPathPreviews = els.showPathPreviews.checked;
+    render();
+    updateStickyOffset();
   });
 
   els.refresh.addEventListener("click", loadData);
@@ -118,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   updateStickyOffset();
+  syncViewControls();
   loadData();
 });
 
@@ -210,6 +237,15 @@ function syncSetToggles() {
     input.disabled = !availableSet;
     input.checked = state.visibleSets.includes(input.value);
   });
+}
+
+function syncViewControls() {
+  els.showImageSets.checked = state.showImageSets;
+  els.imageSetSizeRadios.forEach((input) => {
+    input.checked = Number(input.value) === state.imageSetSize;
+    input.disabled = !state.showImageSets;
+  });
+  els.showPathPreviews.checked = state.showPathPreviews;
 }
 
 function versionedDataUrl(source) {
@@ -404,20 +440,37 @@ function renderSet(dataset, setKey) {
         ${status}
       </div>
 
-      <p class="section-label">Core images</p>
-      <div class="core-grid">
-        ${["ic_1", "coh_1", "coh_2", "tr_target", "it_target"]
-          .map((stem) => renderThumb(set.images[stem], stem, dataset, setKey, false, set.ideas?.[stem]))
-          .join("")}
-      </div>
-
-      <p class="section-label">Path previews</p>
-      <div class="trial-list">
-        ${state.paths.map((trial, index) => renderTrial(trial, index, set, dataset, setKey)).join("")}
-      </div>
+      ${state.showImageSets ? renderImageSet(set, dataset, setKey) : ""}
+      ${state.showPathPreviews ? renderPathPreviews(set, dataset, setKey) : ""}
 
       ${renderExtraImages(set.extra, dataset, setKey)}
     </section>
+  `;
+}
+
+function renderImageSet(set, dataset, setKey) {
+  const stems = imageSetStems();
+  const label = state.imageSetSize === 8 ? "Whole image set" : "Core images";
+  return `
+    <p class="section-label">${label}</p>
+    <div class="core-grid">
+      ${stems
+        .map((stem) => renderThumb(set.images[stem], stem, dataset, setKey, false, set.ideas?.[stem]))
+        .join("")}
+    </div>
+  `;
+}
+
+function imageSetStems() {
+  return state.imageSetSize === 8 ? expectedImageStems() : CORE_IMAGE_STEMS;
+}
+
+function renderPathPreviews(set, dataset, setKey) {
+  return `
+    <p class="section-label">Path previews</p>
+    <div class="trial-list">
+      ${state.paths.map((trial, index) => renderTrial(trial, index, set, dataset, setKey)).join("")}
+    </div>
   `;
 }
 
@@ -539,7 +592,7 @@ function matchesFilters(dataset) {
 }
 
 function coreImagesIncomplete(dataset) {
-  return ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"].some(
+  return CORE_IMAGE_STEMS.some(
     (stem) => visibleSetData(dataset).some(([, set]) => !set.images[stem]),
   );
 }
