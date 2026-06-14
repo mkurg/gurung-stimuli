@@ -401,11 +401,14 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             return
         self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
 
+    def end_headers(self) -> None:
+        self.send_header("Cache-Control", "no-store")
+        super().end_headers()
+
     def send_json(self, payload: object) -> None:
         body = json.dumps(payload, indent=2).encode("utf-8")
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Cache-Control", "no-store")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
@@ -550,7 +553,6 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(image_path.stat().st_size))
-        self.send_header("Cache-Control", "no-store")
         self.end_headers()
         with image_path.open("rb") as handle:
             shutil.copyfileobj(handle, self.wfile)

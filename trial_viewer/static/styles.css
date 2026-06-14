@@ -679,10 +679,15 @@ button.thumb:hover {
   }
 
   .dataset-nav {
-    position: static;
+    position: sticky;
+    top: 92px;
+    z-index: 15;
     display: flex;
+    align-self: start;
     max-height: none;
     overflow-x: auto;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 8px 22px rgba(29, 36, 48, 0.08);
   }
 
   .nav-item {
@@ -719,6 +724,10 @@ button.thumb:hover {
   .topbar {
     padding-left: 14px;
     padding-right: 14px;
+  }
+
+  .dataset-nav {
+    top: 0;
   }
 
   .set-grid {

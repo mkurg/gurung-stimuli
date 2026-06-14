@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import subprocess
@@ -196,10 +197,27 @@ def clean_stale_assets(assets_dir: Path, expected_assets: set[Path]) -> int:
     return removed
 
 
+def asset_version(path: Path) -> str:
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    return digest[:12]
+
+
+def versioned_index_html() -> str:
+    html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    versions = {
+        "styles.css": asset_version(STATIC_DIR / "styles.css"),
+        "app.js": asset_version(STATIC_DIR / "app.js"),
+    }
+    for filename, version in versions.items():
+        html = html.replace(filename, f"{filename}?v={version}")
+    return html
+
+
 def copy_static_files(docs_dir: Path) -> None:
     docs_dir.mkdir(parents=True, exist_ok=True)
-    for name in ("index.html", "styles.css", "app.js"):
+    for name in ("styles.css", "app.js"):
         shutil.copy2(STATIC_DIR / name, docs_dir / name)
+    (docs_dir / "index.html").write_text(versioned_index_html(), encoding="utf-8")
     (docs_dir / ".nojekyll").write_text("", encoding="utf-8")
 
 
