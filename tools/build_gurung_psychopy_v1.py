@@ -81,7 +81,27 @@ IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 MAIN_STIMULI_MAX_DIMENSION = 900
 BETWEEN_TRIALS_SOURCE = Path("between_trials") / "Nepal 2025"
 BETWEEN_TRIALS_MAX_DIMENSION = 1920
-PRACTICE_TRIAL_COUNT = 8
+PRACTICE_STORIES = [
+    ("orange_and_man", 3),
+    ("girl_towel_and_old_man", 3),
+    ("falling_from_bicycle", 3),
+    ("drinking_morning_milk", 4),
+    ("butterfly", 3),
+    ("badminton_and_wind", 3),
+    ("buffalo_blocks_the_way", 3),
+    ("pieces_of_broken_jug", 4),
+    ("leech_after_rain", 3),
+    ("slipper_floats_away", 3),
+]
+PRACTICE_TRIAL_COUNT = len(PRACTICE_STORIES)
+PRACTICE_EXTRA_BETWEEN_COUNT = 1
+AUDIO_PROBE_FILES = [
+    "Audio/tsakyali.wav",
+    "Audio/bucketdog_noerg.wav",
+    "Audio/chickencorn_erg.wav",
+]
+AUDIO_PROBE_RATE = 0.10
+AUDIO_PROBE_LOCK_SEC = 10
 JPEG_SOF_MARKERS = {
     0xC0,
     0xC1,
@@ -275,6 +295,11 @@ def copy_assets(out_dir: Path, old_dir: Path) -> None:
     for path in sorted((old_dir / "Audio").iterdir(), key=lambda item: item.name):
         if path.is_file():
             shutil.copy2(path, audio_dir / path.name)
+
+    for audio_value in AUDIO_PROBE_FILES:
+        audio_path = audio_dir / Path(audio_value).name
+        if not audio_path.is_file():
+            print(f"Warning: audio probe file missing from package: {audio_path}")
 
     for path in sorted((old_dir / "old_stimuli").iterdir(), key=lambda item: item.name):
         if path.is_file():
@@ -477,14 +502,9 @@ def build_main_rows(
     rng.shuffle(rows)
     if len(between_images) < len(rows):
         raise ValueError(f"Need {len(rows)} unique main between-trial images, got {len(between_images)}")
-    probe_indices = set(rng.sample(range(len(rows)), 12))
     for index, (row, between_image) in enumerate(zip(rows, between_images), start=1):
         row["random_order"] = str(index)
         row["between_image"] = between_image
-        if index - 1 in probe_indices:
-            row["audio_probe"] = "1"
-            row["between_audio"] = "Audio/tsakyali.wav"
-            row["between_audio_lock_sec"] = "10"
     return rows
 
 
@@ -492,20 +512,21 @@ def build_practice_rows(between_images: list[str]) -> list[dict[str, str]]:
     if len(between_images) < PRACTICE_TRIAL_COUNT:
         raise ValueError(f"Need {PRACTICE_TRIAL_COUNT} unique practice between-trial images, got {len(between_images)}")
     rows: list[dict[str, str]] = []
-    for index in range(1, PRACTICE_TRIAL_COUNT + 1):
+    for index, (story_slug, image_count) in enumerate(PRACTICE_STORIES, start=1):
         row = {
             "trial_id": f"practice_{index:02d}",
-            "n_images": "3",
-            "img1": f"Stimuli/pr{index}_1.png",
-            "img1_role": "practice_1",
-            "img2": f"Stimuli/pr{index}_2.png",
-            "img2_role": "practice_2",
-            "img3": f"Stimuli/pr{index}_3.png",
-            "img3_role": "practice_3",
-            "img4": "",
-            "img4_role": "",
+            "n_images": str(image_count),
             "between_image": between_images[index - 1],
         }
+        for image_index in range(1, 5):
+            if image_index <= image_count:
+                row[f"img{image_index}"] = (
+                    f"Stimuli/practice_{index:02d}_pic{image_index:02d}_{story_slug}.png"
+                )
+                row[f"img{image_index}_role"] = f"practice_{image_index}"
+            else:
+                row[f"img{image_index}"] = ""
+                row[f"img{image_index}_role"] = ""
         rows.append(row)
     return rows
 
@@ -520,6 +541,7 @@ def write_csv(path: Path, rows: list[dict[str, str]], fields: list[str]) -> None
 
 SHARED_CODE = r'''
 from pathlib import Path
+import csv
 import gc
 import queue
 import random as _gurung_random
@@ -550,15 +572,28 @@ except Exception as _gurung_image_import_error:
 
 G_ROOT = Path(_thisDir)
 G_DATA_DIR = G_ROOT / "data"
-G_RECORDINGS_DIR = G_ROOT / "recordings"
+G_RECORDINGS_ROOT = G_ROOT / "recordings"
+G_RECORDINGS_DIR = None
 G_DEBUG_LOG = G_ROOT / "debug_gurung_runtime.log"
 G_DATA_DIR.mkdir(exist_ok=True)
-G_RECORDINGS_DIR.mkdir(exist_ok=True)
+G_RECORDINGS_ROOT.mkdir(exist_ok=True)
 G_IMAGE_ASPECT = 2.0 / 3.0
 G_SEQUENCE_SIDE_STEPS = 2
 G_SEQUENCE_X_MARGIN = 0.02
 G_SEQUENCE_Y_MARGIN = 0.05
 G_SEQUENCE_GAP_RATIO = 0.12
+G_SEQUENCE_SIZE_COUNT = 5
+G_SEQUENCE_JITTER_POSITIONS = (
+    (-0.035, -0.018),
+    (-0.012, -0.018),
+    (0.012, -0.018),
+    (0.035, -0.018),
+    (-0.035, 0.018),
+    (-0.012, 0.018),
+    (0.012, 0.018),
+    (0.035, 0.018),
+)
+G_SEQUENCE_JITTER_STATE = {"bag": []}
 G_ARROW_MAX_SIZE = 0.045
 G_MAIN_TRIAL_INDEX = 0
 G_PRACTICE_TRIAL_INDEX = 0
@@ -566,6 +601,33 @@ G_SPEAKER = None
 G_FULLSCREEN_CACHE = {"stim": None}
 G_BETWEEN_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
 G_BETWEEN_STATE = {"images": [], "index": 0}
+G_MAIN_RUNTIME_STATE = {"prepared": False, "files": []}
+G_AUDIO_PROBE_FILES = (
+    "Audio/tsakyali.wav",
+    "Audio/bucketdog_noerg.wav",
+    "Audio/chickencorn_erg.wav",
+)
+G_AUDIO_PROBE_RATE = 0.10
+G_AUDIO_PROBE_LOCK_SEC = 10
+G_MAIN_BLOCK_SIZE = 40
+G_PRACTICE_TRIAL_COUNT = 10
+G_PRACTICE_PICTURE_AUDIO = {
+    1: {
+        0: "Audio/tsakyali.wav",
+        1: "Audio/bucketdog_noerg.wav",
+        2: "Audio/chickencorn_erg.wav",
+    },
+    2: {
+        0: "Audio/tsakyali.wav",
+        1: "Audio/bucketdog_noerg.wav",
+        2: "Audio/chickencorn_erg.wav",
+    },
+}
+G_PRACTICE_AFTER_TRIAL_AUDIO = {
+    4: "Audio/tsakyali.wav",
+    7: "Audio/bucketdog_noerg.wav",
+    10: "Audio/chickencorn_erg.wav",
+}
 
 
 def g_log(message):
@@ -603,6 +665,17 @@ def g_float(value, default=0.0):
         return float(value)
     except Exception:
         return default
+
+
+def g_practice_picture_audio(trial_index, segment_index):
+    trial_audio = G_PRACTICE_PICTURE_AUDIO.get(trial_index, {})
+    return trial_audio.get(segment_index, "")
+
+
+def g_practice_pre_picture_audio(trial_index, segment_index, image_count):
+    if trial_index not in G_PRACTICE_PICTURE_AUDIO and segment_index == image_count - 1:
+        return "Audio/tsakyali.wav"
+    return ""
 
 
 def g_int(value, default=0):
@@ -684,11 +757,21 @@ def g_release_fullscreen_image(stim):
 
 def g_init_between_images():
     between_dir = G_ROOT / "BetweenTrials"
+    practice_images = set()
+    try:
+        for row in data.importConditions("Conds/practice.csv"):
+            image_value = g_text(row.get("between_image", "")).replace("\\", "/")
+            if image_value:
+                practice_images.add(image_value)
+    except Exception as err:
+        g_log(f"Could not reserve practice between-trial images: {err}")
     images = []
     try:
         for path in sorted(between_dir.iterdir()):
             if path.is_file() and path.suffix.lower() in G_BETWEEN_IMAGE_EXTS:
-                images.append(f"BetweenTrials/{path.name}")
+                image_value = f"BetweenTrials/{path.name}"
+                if image_value not in practice_images:
+                    images.append(image_value)
     except Exception as err:
         raise RuntimeError(f"Could not list between-trial images in {between_dir}: {err}")
     if not images:
@@ -696,7 +779,7 @@ def g_init_between_images():
     _gurung_random.shuffle(images)
     G_BETWEEN_STATE["images"] = images
     G_BETWEEN_STATE["index"] = 0
-    g_log(f"runtime_between_images_shuffled count={len(images)}")
+    g_log(f"runtime_between_images_shuffled count={len(images)} reserved_practice={len(practice_images)}")
 
 
 def g_next_between_image():
@@ -708,6 +791,76 @@ def g_next_between_image():
     G_BETWEEN_STATE["index"] = index + 1
     g_log(f"runtime_between_image {index + 1}/{len(images)} {image_value}")
     return image_value
+
+
+def g_prepare_runtime_main_blocks():
+    if G_MAIN_RUNTIME_STATE.get("prepared"):
+        return
+    rows = list(data.importConditions("Conds/main_all_120.csv"))
+    if not rows:
+        raise RuntimeError("No main trials found in Conds/main_all_120.csv")
+    _gurung_random.shuffle(rows)
+    g_assign_runtime_audio_probes(rows)
+    fieldnames = list(rows[0].keys())
+    block_files = []
+    block_sizes = []
+    for block_index in range(3):
+        block_rows = rows[block_index * 40 : (block_index + 1) * 40]
+        block_sizes.append(len(block_rows))
+        block_path = G_DATA_DIR / f"runtime_main_block{block_index + 1}.csv"
+        with block_path.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore", lineterminator="\n")
+            writer.writeheader()
+            for row in block_rows:
+                writer.writerow({field: "" if g_is_blank(row.get(field, "")) else row.get(field, "") for field in fieldnames})
+        block_files.append(str(block_path))
+    G_MAIN_RUNTIME_STATE["files"] = block_files
+    G_MAIN_RUNTIME_STATE["prepared"] = True
+    g_log(f"runtime_main_sequences_shuffled count={len(rows)} block_sizes={block_sizes}")
+
+
+def g_assign_runtime_audio_probes(rows):
+    for row in rows:
+        row["audio_probe"] = "0"
+        row["between_audio"] = ""
+        row["between_audio_lock_sec"] = "0"
+    probe_count = int(round(len(rows) * G_AUDIO_PROBE_RATE))
+    if probe_count <= 0:
+        return
+    if probe_count % len(G_AUDIO_PROBE_FILES):
+        raise RuntimeError(
+            f"Audio probe count {probe_count} cannot be split equally across {len(G_AUDIO_PROBE_FILES)} files"
+        )
+    block_start_indices = set(range(0, len(rows), G_MAIN_BLOCK_SIZE))
+    candidate_indices = [index for index in range(len(rows)) if index not in block_start_indices]
+    if probe_count > len(candidate_indices):
+        raise RuntimeError(f"Need {probe_count} audio probe slots, only {len(candidate_indices)} are available")
+    for audio_value in G_AUDIO_PROBE_FILES:
+        audio_path = Path(g_path(audio_value))
+        if not audio_path.is_file():
+            raise RuntimeError(f"Missing audio probe file: {audio_path}")
+    per_audio_count = probe_count // len(G_AUDIO_PROBE_FILES)
+    audio_bag = []
+    for audio_value in G_AUDIO_PROBE_FILES:
+        audio_bag.extend([audio_value] * per_audio_count)
+    _gurung_random.shuffle(audio_bag)
+    probe_indices = _gurung_random.sample(candidate_indices, probe_count)
+    for row_index, audio_value in zip(probe_indices, audio_bag):
+        rows[row_index]["audio_probe"] = "1"
+        rows[row_index]["between_audio"] = audio_value
+        rows[row_index]["between_audio_lock_sec"] = str(G_AUDIO_PROBE_LOCK_SEC)
+    counts = {audio_value: audio_bag.count(audio_value) for audio_value in G_AUDIO_PROBE_FILES}
+    g_log(f"runtime_main_audio_probes count={probe_count} counts={counts} block_start_audio=0")
+
+
+def g_runtime_main_block_file(block_index):
+    if not G_MAIN_RUNTIME_STATE.get("prepared"):
+        g_prepare_runtime_main_blocks()
+    files = G_MAIN_RUNTIME_STATE.get("files") or []
+    index = int(block_index) - 1
+    if index < 0 or index >= len(files):
+        raise RuntimeError(f"Invalid main block index: {block_index}")
+    return files[index]
 
 
 def g_choose_speaker():
@@ -744,6 +897,7 @@ def g_choose_speaker():
 
 G_SPEAKER = g_choose_speaker()
 g_init_between_images()
+g_prepare_runtime_main_blocks()
 
 
 def g_safe(value):
@@ -751,6 +905,16 @@ def g_safe(value):
     while "__" in text:
         text = text.replace("__", "_")
     return text.strip("._") or "item"
+
+
+def g_session_recordings_dir():
+    participant = g_safe(expInfo.get("participant", "participant"))
+    date_value = g_safe(expInfo.get("date") or expInfo.get("date|hid") or data.getDateStr())
+    folder = G_RECORDINGS_ROOT / f"{participant}_{date_value}"
+    folder.mkdir(parents=True, exist_ok=True)
+    expInfo["recordings_dir"] = str(folder)
+    g_log(f"recordings_dir {folder}")
+    return folder
 
 
 def g_roles_and_paths():
@@ -772,31 +936,43 @@ def g_target_index(roles):
     return (len(roles) - 1) / 2
 
 
+def g_next_sequence_jitter():
+    bag = G_SEQUENCE_JITTER_STATE.get("bag")
+    if not bag:
+        bag = list(G_SEQUENCE_JITTER_POSITIONS)
+        _gurung_random.shuffle(bag)
+        G_SEQUENCE_JITTER_STATE["bag"] = bag
+    return bag.pop()
+
+
 def g_sequence_layout(win, roles):
-    target_index = g_target_index(roles)
-    right_steps = max(0, len(roles) - target_index - 1)
-    side_steps = max(G_SEQUENCE_SIDE_STEPS, target_index, right_steps)
-    horizontal_room = max(0.1, (g_window_aspect(win) / 2) - G_SEQUENCE_X_MARGIN)
-    vertical_room = max(0.1, 1.0 - (2 * G_SEQUENCE_Y_MARGIN))
-    width_from_horizontal = horizontal_room / (side_steps * (1.0 + G_SEQUENCE_GAP_RATIO) + 0.5)
+    sequence_count = max(1, len(roles))
+    size_count = max(G_SEQUENCE_SIZE_COUNT, sequence_count)
+    jitter_x_max = max(abs(pos[0]) for pos in G_SEQUENCE_JITTER_POSITIONS)
+    jitter_y_max = max(abs(pos[1]) for pos in G_SEQUENCE_JITTER_POSITIONS)
+    horizontal_room = max(0.1, g_window_aspect(win) - (2 * (G_SEQUENCE_X_MARGIN + jitter_x_max)))
+    vertical_room = max(0.1, 1.0 - (2 * (G_SEQUENCE_Y_MARGIN + jitter_y_max)))
+    width_from_horizontal = horizontal_room / (size_count + ((size_count - 1) * G_SEQUENCE_GAP_RATIO))
     image_height = min(vertical_room, width_from_horizontal / G_IMAGE_ASPECT)
     image_width = image_height * G_IMAGE_ASPECT
     gap = image_width * G_SEQUENCE_GAP_RATIO
     step = image_width + gap
-    positions = [((idx - target_index) * step, 0) for idx in range(len(roles))]
+    row_center = (len(roles) - 1) / 2.0
+    jitter_x, jitter_y = g_next_sequence_jitter()
+    positions = [((idx - row_center) * step + jitter_x, jitter_y) for idx in range(len(roles))]
     arrow_size = min(G_ARROW_MAX_SIZE, max(0.02, gap * 0.9))
-    return (image_width, image_height), positions, (arrow_size, arrow_size)
+    return (image_width, image_height), positions, (arrow_size, arrow_size), (jitter_x, jitter_y)
 
 
 def g_make_sequence(win, roles, paths):
-    g_log(f"make_sequence roles={roles} paths={paths}")
-    image_size, positions, arrow_size = g_sequence_layout(win, roles)
+    image_size, positions, arrow_size, jitter = g_sequence_layout(win, roles)
+    g_log(f"make_sequence roles={roles} jitter={jitter} paths={paths}")
     images = []
     for path, pos in zip(paths, positions):
         images.append(visual.ImageStim(win, image=path, pos=pos, size=image_size, interpolate=True))
     arrows = []
     for left, right in zip(positions, positions[1:]):
-        arrows.append(g_make_arrow(win, ((left[0] + right[0]) / 2, 0), arrow_size))
+        arrows.append(g_make_arrow(win, ((left[0] + right[0]) / 2, (left[1] + right[1]) / 2), arrow_size))
     return images, arrows
 
 
@@ -960,6 +1136,7 @@ def g_cleanup():
         g_log(f"Speaker cleanup failed: {err}")
 
 
+G_RECORDINGS_DIR = g_session_recordings_dir()
 G_RECORDER = GRecorder(G_RECORDINGS_DIR)
 '''
 
@@ -989,7 +1166,7 @@ if "space" in keys:
 PRACTICE_BEGIN = r'''
 G_PRACTICE_TRIAL_INDEX += 1
 win.color = "white"
-practice_between_image = g_next_between_image()
+practice_between_image = g_text(globals().get("between_image", "")) or g_next_between_image()
 practice_placeholder = g_fullscreen_image(win, practice_between_image)
 practice_roles, practice_paths = g_roles_and_paths()
 practice_images = []
@@ -997,11 +1174,26 @@ practice_arrows = []
 practice_segment = 0
 practice_phase = "between"
 practice_between_clock = core.Clock()
+practice_between_audio = None
+practice_between_audio_value = g_text(G_PRACTICE_AFTER_TRIAL_AUDIO.get(G_PRACTICE_TRIAL_INDEX - 1, ""))
+practice_between_audio_lock = G_AUDIO_PROBE_LOCK_SEC if practice_between_audio_value else 0.0
+practice_after_placeholder = None
+practice_after_between_image = ""
+practice_after_between_clock = core.Clock()
+practice_after_between_lock = 0.0
 practice_audio = None
+practice_audio_value = ""
 practice_audio_clock = core.Clock()
 practice_audio_duration = 0
+practice_segment_audio_value = ""
+practice_segment_audio_started = False
+practice_segment_audio_lock = 0.0
+if practice_between_audio_value:
+    practice_between_audio = g_play_audio(practice_between_audio_value)
+practice_between_clock.reset()
 thisExp.addData("practice_trial_index", G_PRACTICE_TRIAL_INDEX)
 thisExp.addData("practice_between_image", g_path(practice_between_image))
+thisExp.addData("practice_between_audio", g_path(practice_between_audio_value) if practice_between_audio_value else "")
 event.clearEvents()
 '''
 
@@ -1012,63 +1204,131 @@ if practice_phase == "between":
     if "escape" in keys:
         G_RECORDER.abort()
         core.quit()
-    if "space" in keys:
+    if "space" in keys and practice_between_clock.getTime() >= practice_between_audio_lock:
+        if practice_between_audio:
+            practice_between_audio.stop()
         thisExp.addData("practice_between_rt", practice_between_clock.getTime())
         g_release_fullscreen_image(practice_placeholder)
         practice_placeholder = None
         practice_images, practice_arrows = g_make_sequence(win, practice_roles, practice_paths)
-        practice_phase = "segment"
-        practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
-        G_RECORDER.start(practice_stem)
+        practice_pre_audio_value = g_practice_pre_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment, len(practice_images))
+        if practice_pre_audio_value:
+            practice_phase = "practice_audio"
+            practice_audio_value = practice_pre_audio_value
+            practice_audio = g_play_audio(practice_audio_value)
+            practice_audio_clock.reset()
+            practice_audio_duration = g_float(practice_audio.getDuration(), 0) if practice_audio else 0
+            thisExp.addData(f"practice_seg{practice_segment + 1}_pre_audio", g_path(practice_audio_value))
+        else:
+            practice_phase = "segment"
+            practice_segment_audio_value = g_practice_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment)
+            practice_segment_audio_started = False
+            practice_segment_audio_lock = 0.0
+            practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
+            G_RECORDER.start(practice_stem)
         event.clearEvents()
 elif practice_phase == "segment":
     g_draw_sequence(practice_images, practice_arrows, practice_segment + 1)
+    if practice_segment_audio_value and not practice_segment_audio_started:
+        practice_audio_value = practice_segment_audio_value
+        practice_audio = g_play_audio(practice_audio_value)
+        practice_audio_clock.reset()
+        practice_segment_audio_lock = g_float(practice_audio.getDuration(), 0) if practice_audio else 0
+        practice_segment_audio_started = True
+        thisExp.addData(f"practice_seg{practice_segment + 1}_onset_audio", g_path(practice_audio_value))
     keys = event.getKeys(keyList=["space", "escape"])
     if "escape" in keys:
         G_RECORDER.abort()
         core.quit()
-    if "space" in keys:
+    if "space" in keys and practice_audio_clock.getTime() >= practice_segment_audio_lock:
+        if practice_audio:
+            practice_audio.stop()
+        practice_audio = None
         audio_file = G_RECORDER.stop()
         seg = practice_segment + 1
         thisExp.addData(f"practice_seg{seg}_role", practice_roles[practice_segment])
         thisExp.addData(f"practice_seg{seg}_audio", audio_file)
         if practice_segment >= len(practice_images) - 1:
-            continueRoutine = False
+            practice_audio_value = g_text(G_PRACTICE_AFTER_TRIAL_AUDIO.get(G_PRACTICE_TRIAL_INDEX, ""))
+            if practice_audio_value and G_PRACTICE_TRIAL_INDEX >= G_PRACTICE_TRIAL_COUNT:
+                practice_phase = "practice_after_between"
+                practice_after_between_image = g_next_between_image()
+                practice_after_placeholder = g_fullscreen_image(win, practice_after_between_image)
+                practice_audio = g_play_audio(practice_audio_value)
+                practice_audio_clock.reset()
+                practice_after_between_clock.reset()
+                practice_after_between_lock = G_AUDIO_PROBE_LOCK_SEC
+                thisExp.addData("practice_after_trial_audio", g_path(practice_audio_value))
+                thisExp.addData("practice_after_trial_between_image", g_path(practice_after_between_image))
+            else:
+                continueRoutine = False
         else:
             practice_segment += 1
-            if practice_segment == 2:
+            practice_pre_audio_value = g_practice_pre_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment, len(practice_images))
+            if practice_pre_audio_value:
                 practice_phase = "practice_audio"
-                practice_audio = g_play_audio("Audio/tsakyali.wav")
+                practice_audio_value = practice_pre_audio_value
+                practice_audio = g_play_audio(practice_audio_value)
                 practice_audio_clock.reset()
-                practice_audio_duration = practice_audio.getDuration() if practice_audio else 0
+                practice_audio_duration = g_float(practice_audio.getDuration(), 0) if practice_audio else 0
+                thisExp.addData(f"practice_seg{practice_segment + 1}_pre_audio", g_path(practice_audio_value))
             else:
+                practice_segment_audio_value = g_practice_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment)
+                practice_segment_audio_started = False
+                practice_segment_audio_lock = 0.0
                 practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
                 G_RECORDER.start(practice_stem)
         event.clearEvents()
 elif practice_phase == "practice_audio":
-    g_draw_sequence(practice_images, practice_arrows, 2)
+    g_draw_sequence(practice_images, practice_arrows, practice_segment)
     if practice_audio_clock.getTime() >= practice_audio_duration:
+        if practice_audio:
+            practice_audio.stop()
+        practice_audio = None
         practice_phase = "segment"
+        practice_segment_audio_value = g_practice_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment)
+        practice_segment_audio_started = False
+        practice_segment_audio_lock = 0.0
         practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
         G_RECORDER.start(practice_stem)
+        event.clearEvents()
+elif practice_phase == "practice_after_between":
+    practice_after_placeholder.draw()
+    keys = event.getKeys(keyList=["space", "escape"])
+    if "escape" in keys:
+        G_RECORDER.abort()
+        core.quit()
+    if "space" in keys and practice_after_between_clock.getTime() >= practice_after_between_lock:
+        if practice_audio:
+            practice_audio.stop()
+        practice_audio = None
+        g_release_fullscreen_image(practice_after_placeholder)
+        practice_after_placeholder = None
+        continueRoutine = False
         event.clearEvents()
 '''
 
 PRACTICE_END = r'''
 G_RECORDER.stop()
+if practice_between_audio:
+    practice_between_audio.stop()
 if practice_audio:
     practice_audio.stop()
 g_release_stims(practice_images, practice_arrows)
 g_release_fullscreen_image(practice_placeholder)
+g_release_fullscreen_image(practice_after_placeholder)
 practice_images = []
 practice_arrows = []
 practice_placeholder = None
+practice_after_placeholder = None
 '''
 
 PRACTICE_DONE_BEGIN = r'''
 win.color = "white"
 practice_done_icon = visual.ImageStim(win, image=g_path("Stimuli/sound.png"), pos=(0, 0), size=(0.22, 0.22), interpolate=True)
 practice_done_audio = g_play_audio("Audio/practice_end.wav")
+practice_done_clock = core.Clock()
+practice_done_duration = g_float(practice_done_audio.getDuration() if practice_done_audio else 0, 0.0)
 event.clearEvents()
 '''
 
@@ -1077,7 +1337,7 @@ practice_done_icon.draw()
 keys = event.getKeys(keyList=["space", "escape"])
 if "escape" in keys:
     core.quit()
-if "space" in keys:
+if "space" in keys and practice_done_clock.getTime() >= practice_done_duration:
     if practice_done_audio:
         practice_done_audio.stop()
     continueRoutine = False
@@ -1275,14 +1535,14 @@ def add_routine(routines: ET.Element, name: str, code_name: str, **code_parts: s
     code_component(routine, code_name, **code_parts)
 
 
-def loop_initiator(flow: ET.Element, name: str, conditions_file: str) -> None:
+def loop_initiator(flow: ET.Element, name: str, conditions_file: str, loop_type: str = "random") -> None:
     loop = ET.SubElement(flow, "LoopInitiator", loopType="TrialHandler", name=name)
     add_param(loop, "Selected rows", "")
     add_param(loop, "conditions", "None")
     add_param(loop, "conditionsFile", conditions_file, "file")
     add_param(loop, "endPoints", "[0, 1]", "num")
     add_param(loop, "isTrials", "True", "bool")
-    add_param(loop, "loopType", "sequential")
+    add_param(loop, "loopType", loop_type)
     add_param(loop, "nReps", "1", "num")
     add_param(loop, "name", name, "code")
     add_param(loop, "random seed", "", "code")
@@ -1389,19 +1649,19 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
 
     flow = ET.SubElement(root, "Flow")
     ET.SubElement(flow, "Routine", name="Instructions")
-    loop_initiator(flow, "PracticeLoop", "Conds/practice.csv")
+    loop_initiator(flow, "PracticeLoop", "Conds/practice.csv", loop_type="sequential")
     ET.SubElement(flow, "Routine", name="PracticeTrial")
     ET.SubElement(flow, "LoopTerminator", name="PracticeLoop")
     ET.SubElement(flow, "Routine", name="PracticeEnd")
-    loop_initiator(flow, "MainBlock1", "Conds/main_block1.csv")
+    loop_initiator(flow, "MainBlock1", "$g_runtime_main_block_file(1)", loop_type="sequential")
     ET.SubElement(flow, "Routine", name="MainTrial")
     ET.SubElement(flow, "LoopTerminator", name="MainBlock1")
     ET.SubElement(flow, "Routine", name="Break")
-    loop_initiator(flow, "MainBlock2", "Conds/main_block2.csv")
+    loop_initiator(flow, "MainBlock2", "$g_runtime_main_block_file(2)", loop_type="sequential")
     ET.SubElement(flow, "Routine", name="MainTrial")
     ET.SubElement(flow, "LoopTerminator", name="MainBlock2")
     ET.SubElement(flow, "Routine", name="Break")
-    loop_initiator(flow, "MainBlock3", "Conds/main_block3.csv")
+    loop_initiator(flow, "MainBlock3", "$g_runtime_main_block_file(3)", loop_type="sequential")
     ET.SubElement(flow, "Routine", name="MainTrial")
     ET.SubElement(flow, "LoopTerminator", name="MainBlock3")
     ET.SubElement(flow, "Routine", name="EndExperiment")
@@ -1419,15 +1679,18 @@ This is a first Builder-compatible draft based on the design described on 2026-0
 
 - Stimulus source: set/folder `1` from the Gurung trial viewer data.
 - Main trials: 30 datasets x 4 conditions = 120 trials.
-- Trial order: fixed random order, seed `{RANDOM_SEED}`.
+- Trial order: practice runs in CSV order; main picture sequences are shuffled as one 120-trial list at runtime, then split into 40/40/40 for the breaks.
 - Breaks: after trials 40 and 80.
-- Between-trial images: 128 unique landscape photos sampled from `{BETWEEN_TRIALS_SOURCE}` and copied into `BetweenTrials/`; these are shuffled again at runtime, and practice/main never repeat a between-trial image within one experiment.
-- Between-trial audio probes: 12 rows marked in `Conds/main_all_120.csv`; audio is `Audio/tsakyali.wav`; lockout is 10 seconds.
-- Practice uses old practice images/audio, starts each trial with a random between-trial image, and plays `Audio/tsakyali.wav` before the last picture.
+- Between-trial images: unique landscape photos sampled from `{BETWEEN_TRIALS_SOURCE}` and copied into `BetweenTrials/`; practice uses its assigned CSV images, the extra practice-end probe uses one more Nepal image, and main images are shuffled at runtime without reusing practice images.
+- Between-trial audio probes: 10% of main trials are selected at runtime; `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav` each occur on one third of those trials; lockout is 10 seconds; the first main Nepal screen after practice or any break can never be an audio-probe screen.
+- Practice fixed audio probes: after practice sequences 4, 7, and 10, the experiment plays `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav`, respectively, on Nepal-image screens with the same 10-second lock as main probes.
+- Practice uses the numbered practice-story images in CSV order. Stories 1 and 2 start `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav` simultaneously with pictures 1, 2, and 3; stories 3-10 play `Audio/tsakyali.wav` before the last picture.
 - Breaks show `Stimuli/break.png`; space is locked for 30 seconds.
 - Main recordings are named with image set, condition, and picture identifier.
 - Practice recordings are named with practice trial number and picture number.
+- Microphone recordings are stored in `recordings/<participant>_<date-time>/` for each run.
 - Main PNGs are local packaged copies in `MainStimuli/`, downsampled to max `{MAIN_STIMULI_MAX_DIMENSION}px on the long edge. This avoids loading trial textures from the Google Drive cloud-storage mount during the run.
+- All sequence pictures use the same on-screen size across 3- and 4-picture trials; each sequence row is group-centered with a small randomized horizontal and vertical jitter.
 
 Open `gurung_120_v1.psyexp` in PsychoPy Builder.
 
@@ -1437,7 +1700,7 @@ Source root used:
 {source_root}
 ```
 
-The main trial routine uses a Code Component because trials may contain either 3 or 4 images, and the transitive/intransitive target image is dynamically centered.
+The main trial routine uses a Code Component because trials may contain either 3 or 4 images.
 """
     (out_dir / "README.md").write_text(text, encoding="utf-8")
 
@@ -1451,7 +1714,7 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     preserved_dirs: dict[str, Path] = {}
     if out_dir.exists() and args.clean:
         preserve_root = Path(tempfile.mkdtemp(prefix="gurung_psychopy_preserve_"))
-        for dirname in ("data", "recordings"):
+        for dirname in ("Audio", "data", "recordings"):
             source = out_dir / dirname
             if source.exists():
                 target = preserve_root / dirname
@@ -1465,7 +1728,7 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     copy_assets(out_dir, old_dir)
     main_stimuli = copy_main_stimuli(out_dir, datasets)
 
-    required_between_count = PRACTICE_TRIAL_COUNT + (len(datasets) * len(TRIAL_PATHS))
+    required_between_count = PRACTICE_TRIAL_COUNT + PRACTICE_EXTRA_BETWEEN_COUNT + (len(datasets) * len(TRIAL_PATHS))
     between_images = prepare_between_images(out_dir, required_between_count)
     practice_between_images = between_images[:PRACTICE_TRIAL_COUNT]
     main_between_images = between_images[PRACTICE_TRIAL_COUNT:]
@@ -1488,7 +1751,8 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         "random_seed": RANDOM_SEED,
         "main_trials": len(main_rows),
         "practice_trials": len(practice_rows),
-        "audio_probe_trials": sum(1 for row in main_rows if row["audio_probe"] == "1"),
+        "runtime_audio_probe_trials": int(round(len(main_rows) * AUDIO_PROBE_RATE)),
+        "runtime_audio_probe_files": AUDIO_PROBE_FILES,
         "between_trial_images": len(between_images),
         "between_trial_source": str(BETWEEN_TRIALS_SOURCE),
         "between_trial_max_dimension": BETWEEN_TRIALS_MAX_DIMENSION,
