@@ -609,6 +609,9 @@ G_AUDIO_PROBE_FILES = (
 )
 G_AUDIO_PROBE_RATE = 0.10
 G_AUDIO_PROBE_LOCK_SEC = 10
+G_AUDIO_SPEAKER_IMAGE = "Stimuli/sound.png"
+G_AUDIO_SPEAKER_SIZE = (0.22, 0.22)
+G_RECORDING_STOP_GRACE_SEC = 0.6
 G_MAIN_BLOCK_SIZE = 40
 G_PRACTICE_TRIAL_COUNT = 10
 G_PRACTICE_PICTURE_AUDIO = {
@@ -624,10 +627,12 @@ G_PRACTICE_PICTURE_AUDIO = {
     },
 }
 G_PRACTICE_AFTER_TRIAL_AUDIO = {
+    2: "Audio/practice_end.wav",
     4: "Audio/tsakyali.wav",
     7: "Audio/bucketdog_noerg.wav",
     10: "Audio/chickencorn_erg.wav",
 }
+G_PRACTICE_SPEAKER_SCREEN_AFTER_TRIALS = {2}
 
 
 def g_log(message):
@@ -747,6 +752,16 @@ def g_fullscreen_image(win, image_value):
     )
     G_FULLSCREEN_CACHE["stim"] = stim
     return stim
+
+
+def g_audio_speaker_image(win):
+    return visual.ImageStim(
+        win,
+        image=g_path(G_AUDIO_SPEAKER_IMAGE),
+        pos=(0, 0),
+        size=G_AUDIO_SPEAKER_SIZE,
+        interpolate=True,
+    )
 
 
 def g_release_fullscreen_image(stim):
@@ -1043,21 +1058,28 @@ class GRecorder:
         self.root = Path(root)
         self.root.mkdir(exist_ok=True)
         self.stream = None
-        self.frames = []
-        self.path = None
+        self.segments = []
+        self.current_segment = None
+        self.lock = threading.Lock()
         self.write_queue = queue.Queue()
+        self.close_event = threading.Event()
         self.writer = threading.Thread(target=self._writer_loop, daemon=True)
         self.writer.start()
+        self.closer = threading.Thread(target=self._closer_loop, daemon=True)
+        self.closer.start()
 
     def start(self, stem):
         self.stop()
         if not G_RECORDING_AVAILABLE:
             return ""
         self._ensure_stream()
-        self.frames = []
-        self.path = self.root / f"{g_safe(stem)}.wav"
-        g_log(f"rec_segment_start {self.path}")
-        return str(self.path)
+        path = self.root / f"{g_safe(stem)}.wav"
+        segment = {"path": path, "frames": [], "stop_after": None}
+        with self.lock:
+            self.segments.append(segment)
+            self.current_segment = segment
+        g_log(f"rec_segment_start {path}")
+        return str(path)
 
     def _ensure_stream(self):
         if self.stream is not None:
@@ -1066,8 +1088,10 @@ class GRecorder:
         def callback(indata, frames, time_info, status):
             if status:
                 g_log(f"rec_callback_status {status}")
-            if self.path is not None:
-                self.frames.append(indata.copy())
+            block = indata.copy()
+            with self.lock:
+                for segment in self.segments:
+                    segment["frames"].append(block)
 
         g_log("rec_stream_open_start")
         self.stream = _gurung_sd.InputStream(
@@ -1079,16 +1103,47 @@ class GRecorder:
         self.stream.start()
         g_log("rec_stream_open_done")
 
-    def stop(self):
-        path = self.path
-        frames = self.frames
-        self.path = None
-        self.frames = []
-        if path and frames:
-            g_log(f"rec_segment_queue_write {path} frames={len(frames)}")
-            self.write_queue.put((str(path), frames))
-            return str(path)
-        return ""
+    def stop(self, grace_sec=None):
+        if grace_sec is None:
+            grace_sec = G_RECORDING_STOP_GRACE_SEC
+        with self.lock:
+            segment = self.current_segment
+            self.current_segment = None
+            if segment is not None:
+                segment["stop_after"] = core.getTime() + max(0.0, grace_sec)
+        if segment is None:
+            return ""
+        path = segment["path"]
+        g_log(f"rec_segment_stop_requested {path} grace={grace_sec:.3f}")
+        self.close_event.set()
+        if grace_sec <= 0:
+            self._flush_ready_segments(force=True)
+        return str(path)
+
+    def _closer_loop(self):
+        while True:
+            self.close_event.wait(0.02)
+            self.close_event.clear()
+            self._flush_ready_segments()
+
+    def _flush_ready_segments(self, force=False):
+        now = core.getTime()
+        ready = []
+        with self.lock:
+            remaining = []
+            for segment in self.segments:
+                stop_after = segment.get("stop_after")
+                if stop_after is not None and (force or now >= stop_after):
+                    ready.append(segment)
+                else:
+                    remaining.append(segment)
+            self.segments = remaining
+        for segment in ready:
+            path = segment["path"]
+            frames = list(segment["frames"])
+            if frames:
+                g_log(f"rec_segment_queue_write {path} frames={len(frames)}")
+                self.write_queue.put((str(path), frames))
 
     def _writer_loop(self):
         while True:
@@ -1104,7 +1159,8 @@ class GRecorder:
                 g_log(f"rec_segment_write_failed {path}: {err}")
 
     def abort(self):
-        self.stop()
+        self.stop(grace_sec=0.0)
+        self._flush_ready_segments(force=True)
         stream = self.stream
         self.stream = None
         if stream is not None:
@@ -1167,7 +1223,13 @@ PRACTICE_BEGIN = r'''
 G_PRACTICE_TRIAL_INDEX += 1
 win.color = "white"
 practice_between_image = g_text(globals().get("between_image", "")) or g_next_between_image()
-practice_placeholder = g_fullscreen_image(win, practice_between_image)
+practice_previous_trial_index = G_PRACTICE_TRIAL_INDEX - 1
+practice_between_audio_value = g_text(G_PRACTICE_AFTER_TRIAL_AUDIO.get(practice_previous_trial_index, ""))
+practice_between_uses_speaker = practice_previous_trial_index in G_PRACTICE_SPEAKER_SCREEN_AFTER_TRIALS
+practice_between_display_image = G_AUDIO_SPEAKER_IMAGE if practice_between_uses_speaker else practice_between_image
+practice_placeholder = (
+    g_audio_speaker_image(win) if practice_between_uses_speaker else g_fullscreen_image(win, practice_between_image)
+)
 practice_roles, practice_paths = g_roles_and_paths()
 practice_images = []
 practice_arrows = []
@@ -1175,7 +1237,6 @@ practice_segment = 0
 practice_phase = "between"
 practice_between_clock = core.Clock()
 practice_between_audio = None
-practice_between_audio_value = g_text(G_PRACTICE_AFTER_TRIAL_AUDIO.get(G_PRACTICE_TRIAL_INDEX - 1, ""))
 practice_between_audio_lock = G_AUDIO_PROBE_LOCK_SEC if practice_between_audio_value else 0.0
 practice_after_placeholder = None
 practice_after_between_image = ""
@@ -1192,7 +1253,7 @@ if practice_between_audio_value:
     practice_between_audio = g_play_audio(practice_between_audio_value)
 practice_between_clock.reset()
 thisExp.addData("practice_trial_index", G_PRACTICE_TRIAL_INDEX)
-thisExp.addData("practice_between_image", g_path(practice_between_image))
+thisExp.addData("practice_between_image", g_path(practice_between_display_image))
 thisExp.addData("practice_between_audio", g_path(practice_between_audio_value) if practice_between_audio_value else "")
 event.clearEvents()
 '''
