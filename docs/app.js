@@ -1,5 +1,6 @@
 const DEFAULT_VISIBLE_SETS = ["1", "2"];
 const GENERATION_STAT_SETS = ["3", "4"];
+const FULL_SET_KEYS = ["1", "2", "3", "4"];
 const CORE_IMAGE_STEMS = ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"];
 const DEFAULT_EXPECTED_IMAGES = [
   ...CORE_IMAGE_STEMS,
@@ -574,6 +575,8 @@ function matchesFilters(dataset) {
   }
 
   switch (state.filter) {
+    case "full-sets":
+      return allSetsReady(dataset);
     case "set-incomplete":
       return visibleSetData(dataset).some(([, set]) => !set.complete);
     case "core-incomplete":
@@ -589,6 +592,10 @@ function matchesFilters(dataset) {
     default:
       return true;
   }
+}
+
+function allSetsReady(dataset) {
+  return FULL_SET_KEYS.every((setKey) => setData(dataset, setKey).complete);
 }
 
 function coreImagesIncomplete(dataset) {
