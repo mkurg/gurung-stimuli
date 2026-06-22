@@ -102,32 +102,32 @@
       },
       "3": {
         "folders": 30,
-        "complete": 3,
-        "empty": 25,
-        "incomplete": 27,
-        "coreIncomplete": 27,
-        "needsEndings": 1,
-        "extraImages": 0,
-        "endings": {
-          "present": 12,
-          "total": 90,
-          "missing": 78,
-          "percent": 13.3
-        }
-      },
-      "4": {
-        "folders": 30,
         "complete": 5,
-        "empty": 23,
+        "empty": 24,
         "incomplete": 25,
         "coreIncomplete": 25,
         "needsEndings": 1,
         "extraImages": 0,
         "endings": {
-          "present": 18,
+          "present": 16,
           "total": 90,
-          "missing": 72,
-          "percent": 20.0
+          "missing": 74,
+          "percent": 17.8
+        }
+      },
+      "4": {
+        "folders": 30,
+        "complete": 6,
+        "empty": 23,
+        "incomplete": 24,
+        "coreIncomplete": 24,
+        "needsEndings": 0,
+        "extraImages": 0,
+        "endings": {
+          "present": 21,
+          "total": 90,
+          "missing": 69,
+          "percent": 23.3
         }
       }
     },
@@ -146,22 +146,22 @@
         "percent": 100.0
       },
       "3": {
-        "present": 12,
+        "present": 16,
         "total": 90,
-        "missing": 78,
-        "percent": 13.3
+        "missing": 74,
+        "percent": 17.8
       },
       "4": {
-        "present": 18,
+        "present": 21,
         "total": 90,
-        "missing": 72,
-        "percent": 20.0
+        "missing": 69,
+        "percent": 23.3
       },
       "all": {
-        "present": 210,
+        "present": 217,
         "total": 360,
-        "missing": 150,
-        "percent": 58.3
+        "missing": 143,
+        "percent": 60.3
       }
     },
     "existingComplete": 30,
@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-22T20:22:15",
+  "scannedAt": "2026-06-22T21:37:10",
   "datasets": [
     {
       "number": 1,
@@ -2461,7 +2461,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/5_rest_build_wall/3",
-          "fileCount": 6,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -2490,8 +2490,24 @@
               "sourceBytes": 3055767,
               "modified": "2026-06-22T20:07:17"
             },
-            "tr_target": null,
-            "it_target": null,
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/5_rest_build_wall/3/tr_target.webp",
+              "bytes": 84402,
+              "sourceBytes": 3010440,
+              "modified": "2026-06-22T20:27:03"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/5_rest_build_wall/3/it_target.webp",
+              "bytes": 86896,
+              "sourceBytes": 3006323,
+              "modified": "2026-06-22T20:56:35"
+            },
             "end_coh_it": {
               "filename": "end_coh_it.webp",
               "originalFilename": "end_coh_it.png",
@@ -2548,8 +2564,24 @@
               "sourceBytes": 3055767,
               "modified": "2026-06-22T20:07:17"
             },
-            "tr_target": null,
-            "it_target": null
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/5_rest_build_wall/3/tr_target.webp",
+              "bytes": 84402,
+              "sourceBytes": 3010440,
+              "modified": "2026-06-22T20:27:03"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/5_rest_build_wall/3/it_target.webp",
+              "bytes": 86896,
+              "sourceBytes": 3006323,
+              "modified": "2026-06-22T20:56:35"
+            }
           },
           "endings": {
             "end_coh_it": {
@@ -2580,12 +2612,9 @@
               "modified": "2026-06-22T20:10:51"
             }
           },
-          "missing": [
-            "tr_target",
-            "it_target"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -2767,10 +2796,7 @@
           }
         }
       },
-      "issueTags": [
-        "set-3-core-incomplete",
-        "set-3-incomplete"
-      ]
+      "issueTags": []
     },
     {
       "number": 6,
@@ -3698,37 +3724,82 @@
           "set": 3,
           "exists": true,
           "path": "assets/7_sit_make_fire/3",
-          "fileCount": 0,
+          "fileCount": 3,
           "images": {
-            "ic_1": null,
+            "ic_1": {
+              "filename": "ic_1.webp",
+              "originalFilename": "ic_1.png",
+              "stem": "ic_1",
+              "url": "assets/7_sit_make_fire/3/ic_1.webp",
+              "bytes": 47880,
+              "sourceBytes": 2742729,
+              "modified": "2026-06-22T21:18:47"
+            },
             "coh_1": null,
             "coh_2": null,
-            "tr_target": null,
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/7_sit_make_fire/3/tr_target.webp",
+              "bytes": 50618,
+              "sourceBytes": 2807578,
+              "modified": "2026-06-22T21:21:38"
+            },
             "it_target": null,
             "end_coh_it": null,
-            "end_ic_tr": null,
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/7_sit_make_fire/3/end_ic_tr.webp",
+              "bytes": 45930,
+              "sourceBytes": 2632428,
+              "modified": "2026-06-22T21:22:23"
+            },
             "end_ic_it": null
           },
           "core": {
-            "ic_1": null,
+            "ic_1": {
+              "filename": "ic_1.webp",
+              "originalFilename": "ic_1.png",
+              "stem": "ic_1",
+              "url": "assets/7_sit_make_fire/3/ic_1.webp",
+              "bytes": 47880,
+              "sourceBytes": 2742729,
+              "modified": "2026-06-22T21:18:47"
+            },
             "coh_1": null,
             "coh_2": null,
-            "tr_target": null,
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/7_sit_make_fire/3/tr_target.webp",
+              "bytes": 50618,
+              "sourceBytes": 2807578,
+              "modified": "2026-06-22T21:21:38"
+            },
             "it_target": null
           },
           "endings": {
             "end_coh_it": null,
-            "end_ic_tr": null,
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/7_sit_make_fire/3/end_ic_tr.webp",
+              "bytes": 45930,
+              "sourceBytes": 2632428,
+              "modified": "2026-06-22T21:22:23"
+            },
             "end_ic_it": null
           },
           "missing": [
-            "ic_1",
             "coh_1",
             "coh_2",
-            "tr_target",
             "it_target",
             "end_coh_it",
-            "end_ic_tr",
             "end_ic_it"
           ],
           "extra": [],
@@ -3797,7 +3868,8 @@
       },
       "issueTags": [
         "set-3-core-incomplete",
-        "set-3-empty",
+        "set-3-incomplete",
+        "set-3-needs-endings",
         "set-4-core-incomplete",
         "set-4-empty"
       ]
@@ -5524,7 +5596,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/11_ascend_wipe_plate/3",
-          "fileCount": 3,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -5535,7 +5607,15 @@
               "sourceBytes": 2703742,
               "modified": "2026-06-22T19:42:12"
             },
-            "coh_1": null,
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "assets/11_ascend_wipe_plate/3/coh_1.webp",
+              "bytes": 34630,
+              "sourceBytes": 2361267,
+              "modified": "2026-06-22T21:02:37"
+            },
             "coh_2": {
               "filename": "coh_2.webp",
               "originalFilename": "coh_2.png",
@@ -5554,10 +5634,42 @@
               "sourceBytes": 2520927,
               "modified": "2026-06-22T19:48:38"
             },
-            "it_target": null,
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/11_ascend_wipe_plate/3/it_target.webp",
+              "bytes": 80134,
+              "sourceBytes": 2692523,
+              "modified": "2026-06-22T20:57:45"
+            },
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/11_ascend_wipe_plate/3/end_coh_it.webp",
+              "bytes": 74248,
+              "sourceBytes": 2949031,
+              "modified": "2026-06-22T20:46:21"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/11_ascend_wipe_plate/3/end_ic_tr.webp",
+              "bytes": 62018,
+              "sourceBytes": 2639799,
+              "modified": "2026-06-22T21:15:04"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/11_ascend_wipe_plate/3/end_ic_it.webp",
+              "bytes": 50756,
+              "sourceBytes": 2535182,
+              "modified": "2026-06-22T21:27:46"
+            }
           },
           "core": {
             "ic_1": {
@@ -5569,7 +5681,15 @@
               "sourceBytes": 2703742,
               "modified": "2026-06-22T19:42:12"
             },
-            "coh_1": null,
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "assets/11_ascend_wipe_plate/3/coh_1.webp",
+              "bytes": 34630,
+              "sourceBytes": 2361267,
+              "modified": "2026-06-22T21:02:37"
+            },
             "coh_2": {
               "filename": "coh_2.webp",
               "originalFilename": "coh_2.png",
@@ -5588,22 +5708,48 @@
               "sourceBytes": 2520927,
               "modified": "2026-06-22T19:48:38"
             },
-            "it_target": null
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/11_ascend_wipe_plate/3/it_target.webp",
+              "bytes": 80134,
+              "sourceBytes": 2692523,
+              "modified": "2026-06-22T20:57:45"
+            }
           },
           "endings": {
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/11_ascend_wipe_plate/3/end_coh_it.webp",
+              "bytes": 74248,
+              "sourceBytes": 2949031,
+              "modified": "2026-06-22T20:46:21"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/11_ascend_wipe_plate/3/end_ic_tr.webp",
+              "bytes": 62018,
+              "sourceBytes": 2639799,
+              "modified": "2026-06-22T21:15:04"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/11_ascend_wipe_plate/3/end_ic_it.webp",
+              "bytes": 50756,
+              "sourceBytes": 2535182,
+              "modified": "2026-06-22T21:27:46"
+            }
           },
-          "missing": [
-            "coh_1",
-            "it_target",
-            "end_coh_it",
-            "end_ic_tr",
-            "end_ic_it"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -5619,7 +5765,7 @@
           "set": 4,
           "exists": true,
           "path": "assets/11_ascend_wipe_plate/4",
-          "fileCount": 3,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -5648,11 +5794,51 @@
               "sourceBytes": 2401258,
               "modified": "2026-06-22T18:23:08"
             },
-            "tr_target": null,
-            "it_target": null,
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/11_ascend_wipe_plate/4/tr_target.webp",
+              "bytes": 56290,
+              "sourceBytes": 2454643,
+              "modified": "2026-06-22T20:42:29"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/11_ascend_wipe_plate/4/it_target.webp",
+              "bytes": 61796,
+              "sourceBytes": 2523089,
+              "modified": "2026-06-22T21:01:03"
+            },
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/11_ascend_wipe_plate/4/end_coh_it.webp",
+              "bytes": 46832,
+              "sourceBytes": 2522899,
+              "modified": "2026-06-22T21:07:47"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/11_ascend_wipe_plate/4/end_ic_tr.webp",
+              "bytes": 66840,
+              "sourceBytes": 2465132,
+              "modified": "2026-06-22T21:29:08"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/11_ascend_wipe_plate/4/end_ic_it.webp",
+              "bytes": 71998,
+              "sourceBytes": 2702803,
+              "modified": "2026-06-22T21:35:44"
+            }
           },
           "core": {
             "ic_1": {
@@ -5682,23 +5868,57 @@
               "sourceBytes": 2401258,
               "modified": "2026-06-22T18:23:08"
             },
-            "tr_target": null,
-            "it_target": null
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/11_ascend_wipe_plate/4/tr_target.webp",
+              "bytes": 56290,
+              "sourceBytes": 2454643,
+              "modified": "2026-06-22T20:42:29"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/11_ascend_wipe_plate/4/it_target.webp",
+              "bytes": 61796,
+              "sourceBytes": 2523089,
+              "modified": "2026-06-22T21:01:03"
+            }
           },
           "endings": {
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/11_ascend_wipe_plate/4/end_coh_it.webp",
+              "bytes": 46832,
+              "sourceBytes": 2522899,
+              "modified": "2026-06-22T21:07:47"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/11_ascend_wipe_plate/4/end_ic_tr.webp",
+              "bytes": 66840,
+              "sourceBytes": 2465132,
+              "modified": "2026-06-22T21:29:08"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/11_ascend_wipe_plate/4/end_ic_it.webp",
+              "bytes": 71998,
+              "sourceBytes": 2702803,
+              "modified": "2026-06-22T21:35:44"
+            }
           },
-          "missing": [
-            "tr_target",
-            "it_target",
-            "end_coh_it",
-            "end_ic_tr",
-            "end_ic_it"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -5711,14 +5931,7 @@
           }
         }
       },
-      "issueTags": [
-        "set-3-core-incomplete",
-        "set-3-incomplete",
-        "set-3-needs-endings",
-        "set-4-core-incomplete",
-        "set-4-incomplete",
-        "set-4-needs-endings"
-      ]
+      "issueTags": []
     },
     {
       "number": 12,
@@ -15015,7 +15228,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-22T20:22:15",
+  "exportedAt": "2026-06-22T21:37:10",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
