@@ -117,11 +117,11 @@
       },
       "4": {
         "folders": 30,
-        "complete": 3,
-        "empty": 24,
-        "incomplete": 27,
-        "coreIncomplete": 27,
-        "needsEndings": 1,
+        "complete": 4,
+        "empty": 23,
+        "incomplete": 26,
+        "coreIncomplete": 26,
+        "needsEndings": 2,
         "extraImages": 0,
         "endings": {
           "present": 15,
@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-22T17:59:45",
+  "scannedAt": "2026-06-22T19:15:16",
   "datasets": [
     {
       "number": 1,
@@ -1942,7 +1942,7 @@
           "set": 4,
           "exists": true,
           "path": "assets/4_run_drink_tea/4",
-          "fileCount": 6,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -1971,8 +1971,24 @@
               "sourceBytes": 2567151,
               "modified": "2026-06-22T16:43:41"
             },
-            "tr_target": null,
-            "it_target": null,
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/4_run_drink_tea/4/tr_target.webp",
+              "bytes": 54154,
+              "sourceBytes": 2694251,
+              "modified": "2026-06-22T18:25:54"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/4_run_drink_tea/4/it_target.webp",
+              "bytes": 78622,
+              "sourceBytes": 2813476,
+              "modified": "2026-06-22T19:14:48"
+            },
             "end_coh_it": {
               "filename": "end_coh_it.webp",
               "originalFilename": "end_coh_it.png",
@@ -2029,8 +2045,24 @@
               "sourceBytes": 2567151,
               "modified": "2026-06-22T16:43:41"
             },
-            "tr_target": null,
-            "it_target": null
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/4_run_drink_tea/4/tr_target.webp",
+              "bytes": 54154,
+              "sourceBytes": 2694251,
+              "modified": "2026-06-22T18:25:54"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/4_run_drink_tea/4/it_target.webp",
+              "bytes": 78622,
+              "sourceBytes": 2813476,
+              "modified": "2026-06-22T19:14:48"
+            }
           },
           "endings": {
             "end_coh_it": {
@@ -2061,12 +2093,9 @@
               "modified": "2026-06-22T16:42:54"
             }
           },
-          "missing": [
-            "tr_target",
-            "it_target"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -2081,9 +2110,7 @@
       },
       "issueTags": [
         "set-3-core-incomplete",
-        "set-3-empty",
-        "set-4-core-incomplete",
-        "set-4-incomplete"
+        "set-3-empty"
       ]
     },
     {
@@ -5401,11 +5428,35 @@
           "set": 4,
           "exists": true,
           "path": "assets/11_ascend_wipe_plate/4",
-          "fileCount": 0,
+          "fileCount": 3,
           "images": {
-            "ic_1": null,
-            "coh_1": null,
-            "coh_2": null,
+            "ic_1": {
+              "filename": "ic_1.webp",
+              "originalFilename": "ic_1.png",
+              "stem": "ic_1",
+              "url": "assets/11_ascend_wipe_plate/4/ic_1.webp",
+              "bytes": 62788,
+              "sourceBytes": 2596671,
+              "modified": "2026-06-22T18:22:13"
+            },
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "assets/11_ascend_wipe_plate/4/coh_1.webp",
+              "bytes": 46662,
+              "sourceBytes": 2528155,
+              "modified": "2026-06-22T18:22:53"
+            },
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/11_ascend_wipe_plate/4/coh_2.webp",
+              "bytes": 42732,
+              "sourceBytes": 2401258,
+              "modified": "2026-06-22T18:23:08"
+            },
             "tr_target": null,
             "it_target": null,
             "end_coh_it": null,
@@ -5413,9 +5464,33 @@
             "end_ic_it": null
           },
           "core": {
-            "ic_1": null,
-            "coh_1": null,
-            "coh_2": null,
+            "ic_1": {
+              "filename": "ic_1.webp",
+              "originalFilename": "ic_1.png",
+              "stem": "ic_1",
+              "url": "assets/11_ascend_wipe_plate/4/ic_1.webp",
+              "bytes": 62788,
+              "sourceBytes": 2596671,
+              "modified": "2026-06-22T18:22:13"
+            },
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "assets/11_ascend_wipe_plate/4/coh_1.webp",
+              "bytes": 46662,
+              "sourceBytes": 2528155,
+              "modified": "2026-06-22T18:22:53"
+            },
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/11_ascend_wipe_plate/4/coh_2.webp",
+              "bytes": 42732,
+              "sourceBytes": 2401258,
+              "modified": "2026-06-22T18:23:08"
+            },
             "tr_target": null,
             "it_target": null
           },
@@ -5425,9 +5500,6 @@
             "end_ic_it": null
           },
           "missing": [
-            "ic_1",
-            "coh_1",
-            "coh_2",
             "tr_target",
             "it_target",
             "end_coh_it",
@@ -5452,7 +5524,8 @@
         "set-3-core-incomplete",
         "set-3-empty",
         "set-4-core-incomplete",
-        "set-4-empty"
+        "set-4-incomplete",
+        "set-4-needs-endings"
       ]
     },
     {
@@ -14750,7 +14823,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-22T17:59:45",
+  "exportedAt": "2026-06-22T19:15:16",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
