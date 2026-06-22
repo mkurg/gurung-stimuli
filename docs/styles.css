@@ -1,18 +1,25 @@
 :root {
-  color-scheme: light;
-  --bg: #f6f7f9;
-  --surface: #ffffff;
-  --surface-2: #eef7f4;
-  --line: #d9dee7;
-  --ink: #1d2430;
-  --muted: #647184;
+  color-scheme: dark;
+  --bg: #111315;
+  --surface: #181b20;
+  --surface-2: #17332f;
+  --line: #2d333b;
+  --ink: #eef2f5;
+  --muted: #9aa6b2;
   --teal: #0f766e;
-  --teal-dark: #0b5f59;
-  --rose: #9f315d;
-  --amber: #a05f09;
-  --red: #b42318;
-  --blue: #2457a6;
-  --shadow: 0 14px 42px rgba(29, 36, 48, 0.1);
+  --teal-dark: #7bd7cf;
+  --teal-hover: #0b5f59;
+  --rose: #f087b1;
+  --amber: #f1b867;
+  --red: #ff8b82;
+  --blue: #8abaff;
+  --topbar-bg: rgba(17, 19, 21, 0.94);
+  --hover: #222832;
+  --thumb-bg: #151a20;
+  --image-bg: #0d1014;
+  --placeholder-a: #151a20;
+  --placeholder-b: #1d242c;
+  --shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
   --sticky-offset: 92px;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -47,7 +54,7 @@ select {
   justify-content: space-between;
   gap: 24px;
   padding: 18px 24px 16px;
-  background: rgba(246, 247, 249, 0.94);
+  background: var(--topbar-bg);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(12px);
 }
@@ -143,7 +150,7 @@ h1 {
   height: 16px;
   min-height: 0;
   margin: 0;
-  accent-color: var(--teal);
+  accent-color: var(--teal-dark);
 }
 
 .toolbar .control-option input:disabled + *,
@@ -171,7 +178,7 @@ h1 {
 }
 
 .primary:hover {
-  background: var(--teal-dark);
+  background: var(--teal-hover);
 }
 
 .status {
@@ -200,17 +207,17 @@ h1 {
 }
 
 .chip.ok {
-  border-color: rgba(15, 118, 110, 0.28);
+  border-color: rgba(123, 215, 207, 0.32);
   color: var(--teal-dark);
 }
 
 .chip.warn {
-  border-color: rgba(160, 95, 9, 0.28);
+  border-color: rgba(241, 184, 103, 0.32);
   color: var(--amber);
 }
 
 .chip.bad {
-  border-color: rgba(180, 35, 24, 0.25);
+  border-color: rgba(255, 139, 130, 0.32);
   color: var(--red);
 }
 
@@ -252,7 +259,7 @@ h1 {
 }
 
 .nav-item:hover {
-  background: #f1f4f8;
+  background: var(--hover);
 }
 
 .nav-number {
@@ -425,7 +432,7 @@ h1 {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #fbfcfd;
+  background: var(--thumb-bg);
   color: var(--ink);
 }
 
@@ -444,8 +451,8 @@ button.missing-thumb {
 }
 
 button.thumb:hover {
-  border-color: rgba(15, 118, 110, 0.55);
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+  border-color: rgba(123, 215, 207, 0.62);
+  box-shadow: 0 0 0 3px rgba(123, 215, 207, 0.12);
 }
 
 .thumb img {
@@ -454,7 +461,7 @@ button.thumb:hover {
   aspect-ratio: 2 / 3;
   height: auto;
   object-fit: contain;
-  background: #edf1f5;
+  background: var(--image-bg);
 }
 
 .thumb-label {
@@ -481,10 +488,10 @@ button.thumb:hover {
   border-style: dashed;
   background: repeating-linear-gradient(
     135deg,
-    #f7f8fa 0,
-    #f7f8fa 8px,
-    #edf0f5 8px,
-    #edf0f5 16px
+    var(--placeholder-a) 0,
+    var(--placeholder-a) 8px,
+    var(--placeholder-b) 8px,
+    var(--placeholder-b) 16px
   );
 }
 
@@ -522,8 +529,8 @@ button.thumb:hover {
 }
 
 .missing-thumb.has-idea {
-  border-color: rgba(36, 87, 166, 0.42);
-  background: #f7fbff;
+  border-color: rgba(138, 186, 255, 0.48);
+  background: #121b2a;
 }
 
 .missing-thumb.has-idea .placeholder-art {
@@ -562,7 +569,7 @@ button.thumb:hover {
   position: absolute;
   inset: 0;
   border: 0;
-  background: rgba(19, 27, 37, 0.78);
+  background: rgba(0, 0, 0, 0.82);
   cursor: zoom-out;
 }
 
@@ -581,7 +588,7 @@ button.thumb:hover {
   max-width: 100%;
   max-height: 84vh;
   border-radius: 8px;
-  background: white;
+  background: var(--surface);
   object-fit: contain;
 }
 
@@ -609,7 +616,7 @@ button.thumb:hover {
   position: absolute;
   inset: 0;
   border: 0;
-  background: rgba(19, 27, 37, 0.6);
+  background: rgba(0, 0, 0, 0.68);
 }
 
 .idea-panel {
@@ -663,7 +670,7 @@ button.thumb:hover {
 }
 
 .idea-panel textarea:disabled {
-  background: #f4f6f8;
+  background: #20252c;
   color: var(--muted);
 }
 
@@ -711,8 +718,8 @@ button.thumb:hover {
     align-self: start;
     max-height: none;
     overflow-x: auto;
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 8px 22px rgba(29, 36, 48, 0.08);
+    background: rgba(24, 27, 32, 0.97);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.34);
   }
 
   .nav-item {
