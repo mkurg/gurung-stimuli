@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-22T10:53:09",
+  "scannedAt": "2026-06-22T10:54:23",
   "datasets": [
     {
       "number": 1,
@@ -9457,9 +9457,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "assets/20_come_plant_sapling/3/end_ic_tr.webp",
-              "bytes": 98176,
-              "sourceBytes": 3047740,
-              "modified": "2026-06-16T17:19:00"
+              "bytes": 74914,
+              "sourceBytes": 2891777,
+              "modified": "2026-06-22T10:53:53"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -9533,9 +9533,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "assets/20_come_plant_sapling/3/end_ic_tr.webp",
-              "bytes": 98176,
-              "sourceBytes": 3047740,
-              "modified": "2026-06-16T17:19:00"
+              "bytes": 74914,
+              "sourceBytes": 2891777,
+              "modified": "2026-06-22T10:53:53"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -14260,7 +14260,7 @@
       ]
     }
   ],
-  "exportedAt": "2026-06-22T10:53:09",
+  "exportedAt": "2026-06-22T10:54:23",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
