@@ -2,18 +2,23 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import hashlib
 import json
 import mimetypes
 import os
 import re
 import shutil
+import subprocess
 import sys
+import tempfile
 from datetime import datetime
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
+from urllib.request import Request, urlopen
 
 
 APP_DIR = Path(__file__).resolve().parent
@@ -21,6 +26,9 @@ STATIC_DIR = APP_DIR / "static"
 WORKSPACE_DIR = APP_DIR.parent
 IDEAS_FILE = APP_DIR / "missing_picture_ideas.json"
 MAX_IDEA_LENGTH = 5000
+MAX_UPLOAD_BYTES = 24 * 1024 * 1024
+MAX_UPLOAD_REQUEST_BYTES = 36 * 1024 * 1024
+DOWNLOAD_TIMEOUT_SECONDS = 30
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
 SET_NUMBERS = [1, 2, 3, 4]
@@ -149,6 +157,19 @@ def normalize_set_number(value: object) -> int | None:
     if text.isdigit() and int(text) in SET_NUMBERS:
         return int(text)
     return None
+
+
+def find_dataset_folder(root: Path, dataset_number: int) -> Path | None:
+    return next(
+        (
+            folder
+            for folder in root.iterdir()
+            if folder.is_dir()
+            and (parsed := parse_dataset_folder(folder))
+            and parsed[0] == dataset_number
+        ),
+        None,
+    )
 
 
 def file_info(path: Path, dataset_number: int, set_number: int) -> dict[str, object]:
@@ -370,6 +391,107 @@ def write_ideas(ideas: dict[str, dict[str, str]], path: Path = IDEAS_FILE) -> No
     tmp_path.replace(path)
 
 
+def image_bytes_kind(data: bytes) -> str | None:
+    if data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return "png"
+    if data.startswith(b"\xff\xd8\xff"):
+        return "jpg"
+    if data.startswith(b"RIFF") and data[8:12] == b"WEBP":
+        return "webp"
+    if data.startswith((b"GIF87a", b"GIF89a")):
+        return "gif"
+    return None
+
+
+def parse_data_url(data_url: object) -> bytes | None:
+    if not isinstance(data_url, str):
+        return None
+    match = re.match(r"^data:image/[a-zA-Z0-9.+-]+;base64,(.+)$", data_url, re.DOTALL)
+    if not match:
+        return None
+    try:
+        data = base64.b64decode(match.group(1), validate=True)
+    except (binascii.Error, ValueError):
+        return None
+    return data
+
+
+def download_image(source_url: object) -> bytes | None:
+    if not isinstance(source_url, str):
+        return None
+    source_url = source_url.strip()
+    parsed = urlparse(source_url)
+    if parsed.scheme not in {"http", "https"}:
+        return None
+
+    request = Request(source_url, headers={"User-Agent": "GurungTrialViewer/1.0"})
+    with urlopen(request, timeout=DOWNLOAD_TIMEOUT_SECONDS) as response:
+        content_type = response.headers.get("Content-Type", "")
+        if content_type and "image/" not in content_type.lower() and "octet-stream" not in content_type.lower():
+            return None
+
+        chunks: list[bytes] = []
+        total = 0
+        while True:
+            chunk = response.read(1024 * 1024)
+            if not chunk:
+                break
+            total += len(chunk)
+            if total > MAX_UPLOAD_BYTES:
+                raise ValueError("Image is too large.")
+            chunks.append(chunk)
+        return b"".join(chunks)
+
+
+def to_png_bytes(data: bytes) -> bytes:
+    kind = image_bytes_kind(data)
+    if kind is None:
+        raise ValueError("Dropped data is not a recognized image.")
+    if kind == "png":
+        return data
+
+    sips = shutil.which("sips")
+    if sips is None:
+        raise ValueError("Only PNG drops are supported unless macOS sips is available.")
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        tmp_path = Path(tmp_dir)
+        input_path = tmp_path / f"input.{kind}"
+        output_path = tmp_path / "output.png"
+        input_path.write_bytes(data)
+        result = subprocess.run(
+            [sips, "-s", "format", "png", str(input_path), "--out", str(output_path)],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if result.returncode != 0 or not output_path.is_file():
+            raise ValueError(result.stderr.strip() or result.stdout.strip() or "Could not convert image to PNG.")
+        png_data = output_path.read_bytes()
+
+    if image_bytes_kind(png_data) != "png":
+        raise ValueError("Image conversion did not produce a PNG.")
+    return png_data
+
+
+def image_paths_for_stem(folder: Path, stem: str) -> list[Path]:
+    if not folder.is_dir():
+        return []
+    return [
+        child
+        for child in folder.iterdir()
+        if child.is_file()
+        and child.stem.lower() == stem.lower()
+        and child.suffix.lower() in IMAGE_EXTENSIONS
+    ]
+
+
+def atomic_write(path: Path, data: bytes) -> None:
+    tmp_path = path.with_name(f".{path.name}.tmp")
+    tmp_path.write_bytes(data)
+    tmp_path.replace(path)
+
+
 def add_ideas_to_set(
     set_data: dict[str, object],
     dataset_number: int,
@@ -419,6 +541,9 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/ideas":
             self.save_idea()
             return
+        if parsed.path == "/api/upload-image":
+            self.save_dropped_image()
+            return
         self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
 
     def end_headers(self) -> None:
@@ -451,14 +576,14 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def read_json_body(self) -> dict[str, object] | None:
+    def read_json_body(self, max_bytes: int = 20000) -> dict[str, object] | None:
         try:
             content_length = int(self.headers.get("Content-Length", "0"))
         except ValueError:
             self.send_error_json(HTTPStatus.BAD_REQUEST, "Invalid content length.")
             return None
 
-        if content_length <= 0 or content_length > 20000:
+        if content_length <= 0 or content_length > max_bytes:
             self.send_error_json(HTTPStatus.BAD_REQUEST, "Invalid request body size.")
             return None
 
@@ -499,13 +624,7 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             self.send_error_json(HTTPStatus.BAD_REQUEST, "Idea text is invalid.")
             return
 
-        dataset_exists = any(
-            folder.is_dir()
-            and (parsed := parse_dataset_folder(folder))
-            and parsed[0] == dataset_number
-            for folder in self.data_root.iterdir()
-        )
-        if not dataset_exists:
+        if find_dataset_folder(self.data_root, dataset_number) is None:
             self.send_error_json(HTTPStatus.NOT_FOUND, "Dataset not found.")
             return
 
@@ -529,6 +648,91 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
 
         write_ideas(ideas)
         self.send_json({"ok": True, "idea": ideas.get(key), "key": key})
+
+    def save_dropped_image(self) -> None:
+        payload = self.read_json_body(MAX_UPLOAD_REQUEST_BYTES)
+        if payload is None:
+            return
+
+        try:
+            dataset_number = int(payload.get("datasetNumber", ""))
+        except (TypeError, ValueError):
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Dataset number is invalid.")
+            return
+
+        set_number = normalize_set_number(payload.get("setNumber"))
+        stem = payload.get("stem")
+        overwrite = payload.get("overwrite") is True
+
+        if set_number is None:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Set number is invalid.")
+            return
+        if stem not in EXPECTED_IMAGES:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, "Image stem is invalid.")
+            return
+
+        dataset_folder = find_dataset_folder(self.data_root, dataset_number)
+        if dataset_folder is None:
+            self.send_error_json(HTTPStatus.NOT_FOUND, "Dataset not found.")
+            return
+
+        image_dir = set_folder(dataset_folder, set_number)
+        image_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            image_dir.resolve().relative_to(dataset_folder.resolve())
+        except ValueError:
+            self.send_error_json(HTTPStatus.FORBIDDEN, "Image folder is outside the dataset folder.")
+            return
+
+        existing_paths = image_paths_for_stem(image_dir, str(stem))
+        if existing_paths and not overwrite:
+            self.send_error_json(
+                HTTPStatus.CONFLICT,
+                f"{stem}.png would replace an existing image in set {set_number}.",
+            )
+            return
+
+        try:
+            raw_data = parse_data_url(payload.get("fileData"))
+            if raw_data is None:
+                raw_data = download_image(payload.get("sourceUrl"))
+            if raw_data is None:
+                self.send_error_json(HTTPStatus.BAD_REQUEST, "Drop an image file or image URL.")
+                return
+            if len(raw_data) > MAX_UPLOAD_BYTES:
+                self.send_error_json(HTTPStatus.BAD_REQUEST, "Image is too large.")
+                return
+
+            png_data = to_png_bytes(raw_data)
+        except ValueError as exc:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, str(exc))
+            return
+        except OSError as exc:
+            self.send_error_json(HTTPStatus.BAD_GATEWAY, f"Could not fetch image: {exc}")
+            return
+
+        output_path = (image_dir / f"{stem}.png").resolve()
+        try:
+            output_path.relative_to(image_dir.resolve())
+        except ValueError:
+            self.send_error_json(HTTPStatus.FORBIDDEN, "Output path is outside the image folder.")
+            return
+
+        atomic_write(output_path, png_data)
+        for old_path in existing_paths:
+            if old_path.resolve() != output_path:
+                old_path.unlink(missing_ok=True)
+
+        self.send_json(
+            {
+                "ok": True,
+                "datasetNumber": dataset_number,
+                "setNumber": set_number,
+                "stem": stem,
+                "filename": output_path.name,
+                "path": str(output_path),
+            }
+        )
 
     def send_image(self, request_path: str) -> None:
         parts = request_path.split("/", 4)
@@ -554,16 +758,7 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             return
 
         dataset_number = int(dataset_text)
-        dataset_folder = next(
-            (
-                folder
-                for folder in self.data_root.iterdir()
-                if folder.is_dir()
-                and (parsed := parse_dataset_folder(folder))
-                and parsed[0] == dataset_number
-            ),
-            None,
-        )
+        dataset_folder = find_dataset_folder(self.data_root, dataset_number)
         if dataset_folder is None:
             self.send_error_json(HTTPStatus.NOT_FOUND, "Dataset not found.")
             return

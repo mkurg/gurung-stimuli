@@ -455,6 +455,28 @@ button.thumb:hover {
   box-shadow: 0 0 0 3px rgba(123, 215, 207, 0.12);
 }
 
+.thumb.upload-target.drag-over,
+.thumb.missing-thumb.drag-over {
+  border-color: var(--teal-dark);
+  box-shadow: 0 0 0 4px rgba(123, 215, 207, 0.2);
+}
+
+.thumb.is-uploading {
+  pointer-events: none;
+}
+
+.thumb.is-uploading::after {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.58);
+  color: var(--ink);
+  content: "Saving...";
+  font-size: 13px;
+  font-weight: 900;
+}
+
 .thumb img {
   display: block;
   width: 100%;

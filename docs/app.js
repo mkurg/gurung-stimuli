@@ -2,6 +2,7 @@ const DEFAULT_VISIBLE_SETS = ["1", "2"];
 const GENERATION_STAT_SETS = ["3", "4"];
 const FULL_SET_KEYS = ["1", "2", "3", "4"];
 const CORE_IMAGE_STEMS = ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"];
+const MAX_DROP_FILE_BYTES = 24 * 1024 * 1024;
 const DEFAULT_EXPECTED_IMAGES = [
   ...CORE_IMAGE_STEMS,
   "end_coh_it",
@@ -29,6 +30,7 @@ const state = {
 const els = {};
 let activePreviewButton = null;
 let activeIdeaTarget = null;
+let activeDropTarget = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   els.topbar = document.querySelector(".topbar");
@@ -101,6 +103,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   els.refresh.addEventListener("click", loadData);
   els.datasets.addEventListener("click", handleDatasetClick);
+  els.datasets.addEventListener("dragover", handleDatasetDragOver);
+  els.datasets.addEventListener("dragleave", handleDatasetDragLeave);
+  els.datasets.addEventListener("drop", handleDatasetDrop);
   els.nav.addEventListener("click", handleNavClick);
   els.lightbox.addEventListener("click", handleLightboxClick);
   els.ideaModal.addEventListener("click", handleIdeaModalClick);
@@ -520,6 +525,8 @@ function renderThumb(image, stem, dataset, setKey, extra = false, idea = null) {
         class="thumb placeholder missing-thumb ${ideaText ? "has-idea" : ""}"
         type="button"
         data-missing="true"
+        data-upload-target="true"
+        data-has-image="false"
         data-dataset-number="${dataset.number}"
         data-dataset-name="${escapeAttr(dataset.displayName)}"
         data-set-number="${escapeAttr(setKey)}"
@@ -537,8 +544,18 @@ function renderThumb(image, stem, dataset, setKey, extra = false, idea = null) {
 
   const url = versionedImageUrl(image);
   const caption = `Dataset ${dataset.number}: ${dataset.displayName} / set ${setKey} / ${image.filename}`;
+  const uploadAttrs = extra
+    ? ""
+    : `
+      data-upload-target="true"
+      data-has-image="true"
+      data-dataset-number="${dataset.number}"
+      data-dataset-name="${escapeAttr(dataset.displayName)}"
+      data-set-number="${escapeAttr(setKey)}"
+      data-stem="${escapeAttr(stem)}"
+    `;
   return `
-    <button class="thumb" type="button" data-image="${escapeAttr(url)}" data-caption="${escapeAttr(caption)}">
+    <button class="thumb ${extra ? "" : "upload-target"}" type="button" data-image="${escapeAttr(url)}" data-caption="${escapeAttr(caption)}"${uploadAttrs}>
       <img loading="lazy" src="${escapeAttr(url)}" alt="${escapeAttr(stem)}">
       <div class="thumb-label">
         <span>${escapeHtml(extra ? image.filename : stem)}</span>
@@ -606,6 +623,191 @@ function coreImagesIncomplete(dataset) {
 
 function missingEndings(set) {
   return ["end_coh_it", "end_ic_tr", "end_ic_it"].some((stem) => !set.images[stem]);
+}
+
+function uploadTargetFromEvent(event) {
+  const target = event.target.closest("[data-upload-target]");
+  if (!target || !els.datasets.contains(target)) {
+    return null;
+  }
+  return target;
+}
+
+function setActiveDropTarget(target) {
+  if (activeDropTarget === target) {
+    return;
+  }
+  clearActiveDropTarget();
+  activeDropTarget = target;
+  activeDropTarget.classList.add("drag-over");
+}
+
+function clearActiveDropTarget() {
+  if (!activeDropTarget) {
+    return;
+  }
+  activeDropTarget.classList.remove("drag-over");
+  activeDropTarget = null;
+}
+
+function handleDatasetDragOver(event) {
+  const target = uploadTargetFromEvent(event);
+  if (!target) {
+    return;
+  }
+  event.preventDefault();
+  event.dataTransfer.dropEffect = state.canSaveIdeas ? "copy" : "none";
+  if (!state.canSaveIdeas) {
+    return;
+  }
+  setActiveDropTarget(target);
+}
+
+function handleDatasetDragLeave(event) {
+  if (!event.relatedTarget || !els.datasets.contains(event.relatedTarget)) {
+    clearActiveDropTarget();
+  }
+}
+
+async function handleDatasetDrop(event) {
+  const target = uploadTargetFromEvent(event);
+  if (!target) {
+    return;
+  }
+
+  event.preventDefault();
+  event.stopPropagation();
+  clearActiveDropTarget();
+
+  if (!state.canSaveIdeas) {
+    window.alert("Image drops only work in the local viewer.");
+    return;
+  }
+
+  let imagePayload = null;
+  try {
+    imagePayload = await droppedImagePayload(event.dataTransfer);
+  } catch (error) {
+    window.alert(error.message);
+    return;
+  }
+
+  if (!imagePayload) {
+    window.alert("Drop an image file, or drag an image URL from the source page.");
+    return;
+  }
+
+  const targetLabel = `Dataset ${target.dataset.datasetNumber}: ${target.dataset.datasetName} / set ${target.dataset.setNumber} / ${target.dataset.stem}.png`;
+  const replacing = target.dataset.hasImage === "true";
+  if (replacing && !window.confirm(`Replace ${targetLabel}?`)) {
+    return;
+  }
+
+  try {
+    await uploadDroppedImage(target, imagePayload, replacing);
+    await loadData();
+  } catch (error) {
+    window.alert(error.message);
+  }
+}
+
+async function droppedImagePayload(dataTransfer) {
+  const file = Array.from(dataTransfer.files ?? []).find((item) => isImageFile(item));
+  if (file) {
+    if (file.size > MAX_DROP_FILE_BYTES) {
+      throw new Error("Image is too large.");
+    }
+    return { fileData: await readFileAsDataUrl(file) };
+  }
+
+  const sourceUrl = extractDroppedUrl(dataTransfer);
+  return sourceUrl ? { sourceUrl } : null;
+}
+
+function isImageFile(file) {
+  return file && (file.type.startsWith("image/") || /\.(png|jpe?g|webp|gif)$/i.test(file.name));
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => resolve(reader.result));
+    reader.addEventListener("error", () => reject(new Error("Could not read dropped image.")));
+    reader.readAsDataURL(file);
+  });
+}
+
+function extractDroppedUrl(dataTransfer) {
+  const uriList = dataTransfer.getData("text/uri-list");
+  const uri = firstHttpUrl(uriList);
+  if (uri) {
+    return uri;
+  }
+
+  const html = dataTransfer.getData("text/html");
+  if (html) {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const element = doc.querySelector("img[src], a[href]");
+    const htmlUrl = element?.getAttribute("src") ?? element?.getAttribute("href");
+    if (htmlUrl && /^https?:\/\//i.test(htmlUrl)) {
+      return htmlUrl;
+    }
+  }
+
+  return firstHttpUrl(dataTransfer.getData("text/plain"));
+}
+
+function firstHttpUrl(text) {
+  if (!text) {
+    return "";
+  }
+  const lineUrl = text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .find((line) => /^https?:\/\//i.test(line));
+  if (lineUrl) {
+    return lineUrl;
+  }
+  const match = text.match(/https?:\/\/\S+/i);
+  return match ? match[0] : "";
+}
+
+async function uploadDroppedImage(target, imagePayload, overwrite) {
+  target.classList.add("is-uploading");
+  target.setAttribute("aria-busy", "true");
+  try {
+    const payload = {
+      datasetNumber: Number(target.dataset.datasetNumber),
+      setNumber: target.dataset.setNumber,
+      stem: target.dataset.stem,
+      overwrite,
+      ...imagePayload,
+    };
+
+    const response = await fetch("/api/upload-image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.status === 409 && !overwrite) {
+      const error = await response.json().catch(() => ({}));
+      if (window.confirm(`${error.error ?? "This slot already has an image."}\n\nReplace it?`)) {
+        return uploadDroppedImage(target, imagePayload, true);
+      }
+      return null;
+    }
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error ?? `Upload failed with HTTP ${response.status}`);
+    }
+
+    return response.json();
+  } finally {
+    target.classList.remove("is-uploading");
+    target.removeAttribute("aria-busy");
+  }
 }
 
 function handleDatasetClick(event) {
