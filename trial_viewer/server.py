@@ -5,6 +5,7 @@ import argparse
 import base64
 import binascii
 import hashlib
+import html
 import json
 import mimetypes
 import os
@@ -17,6 +18,7 @@ from datetime import datetime
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.parse import quote, unquote, urlparse
 from urllib.request import Request, urlopen
 
@@ -29,6 +31,7 @@ MAX_IDEA_LENGTH = 5000
 MAX_UPLOAD_BYTES = 24 * 1024 * 1024
 MAX_UPLOAD_REQUEST_BYTES = 36 * 1024 * 1024
 DOWNLOAD_TIMEOUT_SECONDS = 30
+CHROME_FETCH_TIMEOUT_SECONDS = 45
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
 SET_NUMBERS = [1, 2, 3, 4]
@@ -416,16 +419,153 @@ def parse_data_url(data_url: object) -> bytes | None:
     return data
 
 
+def clean_source_url(source_url: str) -> str:
+    return html.unescape(source_url.strip()).strip("\"'()[]<> \t\r\n")
+
+
+def is_chatgpt_content_url(source_url: str) -> bool:
+    parsed = urlparse(source_url)
+    return (
+        parsed.scheme == "https"
+        and parsed.hostname in {"chatgpt.com", "chat.openai.com"}
+        and parsed.path.startswith("/backend-api/estuary/content")
+    )
+
+
+def browser_like_headers(source_url: str) -> dict[str, str]:
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/126.0.0.0 Safari/537.36"
+        ),
+        "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+    }
+    if is_chatgpt_content_url(source_url):
+        headers["Referer"] = "https://chatgpt.com/"
+    return headers
+
+
+def fetch_chatgpt_image_with_chrome(source_url: str) -> bytes:
+    osascript = shutil.which("osascript")
+    if sys.platform != "darwin" or osascript is None:
+        raise OSError("Protected ChatGPT image links require an open Chrome tab on macOS.")
+
+    js_code = f"""
+(() => {{
+  const url = {json.dumps(source_url)};
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, false);
+  xhr.overrideMimeType("text/plain; charset=x-user-defined");
+  try {{
+    xhr.send(null);
+  }} catch (error) {{
+    return JSON.stringify({{ ok: false, error: String(error && error.message ? error.message : error) }});
+  }}
+  if (xhr.status < 200 || xhr.status >= 300) {{
+    return JSON.stringify({{ ok: false, error: `Chrome fetch returned HTTP ${{xhr.status}}` }});
+  }}
+  const contentType = (xhr.getResponseHeader("Content-Type") || "image/png").split(";")[0];
+  if (!/^(image\\/|application\\/octet-stream$)/i.test(contentType)) {{
+    return JSON.stringify({{ ok: false, error: `ChatGPT returned ${{contentType || "unknown content"}} instead of an image` }});
+  }}
+  const response = xhr.responseText || "";
+  const chunks = [];
+  const chunkSize = 0x8000;
+  for (let offset = 0; offset < response.length; offset += chunkSize) {{
+    const slice = response.slice(offset, offset + chunkSize);
+    const chars = new Array(slice.length);
+    for (let index = 0; index < slice.length; index += 1) {{
+      chars[index] = String.fromCharCode(slice.charCodeAt(index) & 0xff);
+    }}
+    chunks.push(chars.join(""));
+  }}
+  return JSON.stringify({{ ok: true, contentType, data: btoa(chunks.join("")) }});
+}})();
+""".strip()
+
+    apple_script = """
+on run argv
+  set jsCode to item 1 of argv
+  tell application "Google Chrome"
+    set targetTab to missing value
+    repeat with browserWindow in windows
+      repeat with browserTab in tabs of browserWindow
+        set tabUrl to URL of browserTab
+        if tabUrl starts with "https://chatgpt.com/" or tabUrl starts with "https://chat.openai.com/" then
+          set targetTab to browserTab
+          exit repeat
+        end if
+      end repeat
+      if targetTab is not missing value then exit repeat
+    end repeat
+    if targetTab is missing value then error "No open ChatGPT tab found in Google Chrome."
+    return execute targetTab javascript jsCode
+  end tell
+end run
+""".strip()
+
+    with tempfile.NamedTemporaryFile("w", suffix=".applescript", delete=False, encoding="utf-8") as script_file:
+        script_file.write(apple_script)
+        script_path = Path(script_file.name)
+    try:
+        result = subprocess.run(
+            [osascript, str(script_path), js_code],
+            capture_output=True,
+            text=True,
+            timeout=CHROME_FETCH_TIMEOUT_SECONDS,
+            check=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise OSError("Timed out while asking Chrome to read the ChatGPT image.") from exc
+    finally:
+        script_path.unlink(missing_ok=True)
+
+    if result.returncode != 0:
+        details = (result.stderr or result.stdout).strip()
+        hint = (
+            "Protected ChatGPT image links need Chrome permission. "
+            "In Chrome, enable View > Developer > Allow JavaScript from Apple Events, "
+            "keep a ChatGPT tab open, and try the drop again."
+        )
+        raise OSError(f"{hint} {details}".strip())
+
+    try:
+        payload = json.loads(result.stdout.strip())
+    except json.JSONDecodeError as exc:
+        raise OSError("Chrome returned an unreadable image response.") from exc
+
+    if not payload.get("ok"):
+        raise OSError(str(payload.get("error") or "Chrome could not read the ChatGPT image."))
+
+    try:
+        data = base64.b64decode(str(payload["data"]), validate=True)
+    except (KeyError, binascii.Error, ValueError) as exc:
+        raise OSError("Chrome returned invalid image data.") from exc
+
+    if len(data) > MAX_UPLOAD_BYTES:
+        raise ValueError("Image is too large.")
+    return data
+
+
 def download_image(source_url: object) -> bytes | None:
     if not isinstance(source_url, str):
         return None
-    source_url = source_url.strip()
+    source_url = clean_source_url(source_url)
     parsed = urlparse(source_url)
     if parsed.scheme not in {"http", "https"}:
         return None
 
-    request = Request(source_url, headers={"User-Agent": "GurungTrialViewer/1.0"})
-    with urlopen(request, timeout=DOWNLOAD_TIMEOUT_SECONDS) as response:
+    request = Request(source_url, headers=browser_like_headers(source_url))
+    try:
+        response = urlopen(request, timeout=DOWNLOAD_TIMEOUT_SECONDS)
+    except HTTPError as exc:
+        if exc.code in {401, 403} and is_chatgpt_content_url(source_url):
+            return fetch_chatgpt_image_with_chrome(source_url)
+        raise
+
+    with response:
         content_type = response.headers.get("Content-Type", "")
         if content_type and "image/" not in content_type.lower() and "octet-stream" not in content_type.lower():
             return None

@@ -741,20 +741,25 @@ function extractDroppedUrl(dataTransfer) {
   const uriList = dataTransfer.getData("text/uri-list");
   const uri = firstHttpUrl(uriList);
   if (uri) {
-    return uri;
+    return cleanDroppedUrl(uri);
   }
 
   const html = dataTransfer.getData("text/html");
   if (html) {
     const doc = new DOMParser().parseFromString(html, "text/html");
     const element = doc.querySelector("img[src], a[href]");
-    const htmlUrl = element?.getAttribute("src") ?? element?.getAttribute("href");
+    const htmlUrl =
+      element?.currentSrc ??
+      element?.src ??
+      element?.href ??
+      element?.getAttribute("src") ??
+      element?.getAttribute("href");
     if (htmlUrl && /^https?:\/\//i.test(htmlUrl)) {
-      return htmlUrl;
+      return cleanDroppedUrl(htmlUrl);
     }
   }
 
-  return firstHttpUrl(dataTransfer.getData("text/plain"));
+  return cleanDroppedUrl(firstHttpUrl(dataTransfer.getData("text/plain")));
 }
 
 function firstHttpUrl(text) {
@@ -770,6 +775,12 @@ function firstHttpUrl(text) {
   }
   const match = text.match(/https?:\/\/\S+/i);
   return match ? match[0] : "";
+}
+
+function cleanDroppedUrl(url) {
+  const textarea = document.createElement("textarea");
+  textarea.innerHTML = url.trim();
+  return textarea.value.replace(/["')\]>]+$/g, "").trim();
 }
 
 async function uploadDroppedImage(target, imagePayload, overwrite) {
