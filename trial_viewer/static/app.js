@@ -21,6 +21,8 @@ const state = {
   scannedAt: "",
   search: "",
   filter: "all",
+  currentDatasetNumber: "",
+  currentDatasetName: "",
   showImageSets: true,
   imageSetSize: 5,
   showPathPreviews: true,
@@ -31,6 +33,8 @@ const els = {};
 let activePreviewButton = null;
 let activeIdeaTarget = null;
 let activeDropTarget = null;
+let viewportUpdateFrame = 0;
+let navJumpLockUntil = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
   els.topbar = document.querySelector(".topbar");
@@ -114,8 +118,12 @@ document.addEventListener("DOMContentLoaded", () => {
   els.ideaClear.addEventListener("click", clearIdeaText);
   els.ideaSave.addEventListener("click", saveIdea);
   window.addEventListener("resize", updateStickyOffset);
+  window.addEventListener("scroll", scheduleViewportStateUpdate, { passive: true });
   if ("ResizeObserver" in window && els.topbar) {
     new ResizeObserver(updateStickyOffset).observe(els.topbar);
+  }
+  if ("ResizeObserver" in window && els.nav) {
+    new ResizeObserver(updateStickyOffset).observe(els.nav);
   }
 
   document.addEventListener("keydown", (event) => {
@@ -155,14 +163,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function updateStickyOffset() {
-  if (!els.topbar) {
-    return;
-  }
-  const topbarHeight = Math.ceil(els.topbar.getBoundingClientRect().height);
-  document.documentElement.style.setProperty("--sticky-offset", `${topbarHeight + 10}px`);
+  const topbarHeight = els.topbar ? Math.ceil(els.topbar.getBoundingClientRect().height) : 0;
+  const navHeight = els.nav ? Math.ceil(els.nav.getBoundingClientRect().height) : 0;
+  document.documentElement.style.setProperty("--topbar-height", `${topbarHeight}px`);
+  document.documentElement.style.setProperty("--nav-height", `${navHeight}px`);
+  document.documentElement.style.setProperty("--sticky-offset", `${topbarHeight}px`);
+  document.documentElement.style.setProperty("--dataset-scroll-margin", `${topbarHeight + navHeight + 28}px`);
 }
 
-async function loadData() {
+async function loadData(options = {}) {
   els.refresh.disabled = true;
   els.refresh.textContent = "Refreshing";
   try {
@@ -177,6 +186,7 @@ async function loadData() {
     state.canSaveIdeas = canSaveIdeas;
     syncSetToggles();
     render();
+    restorePositionSnapshot(options.positionSnapshot);
   } catch (error) {
     els.datasets.innerHTML = `<div class="empty-state">${escapeHtml(error.message)}</div>`;
   } finally {
@@ -296,10 +306,55 @@ function render() {
 
   if (!visible.length) {
     els.datasets.innerHTML = '<div class="empty-state">No datasets match the current view.</div>';
+    scheduleViewportStateUpdate();
     return;
   }
 
   els.datasets.innerHTML = visible.map(renderDataset).join("");
+  scheduleViewportStateUpdate();
+}
+
+function capturePositionSnapshot() {
+  const gridScrollLeft = {};
+  els.datasets.querySelectorAll(".dataset-card").forEach((card) => {
+    const grid = card.querySelector(".set-grid");
+    if (grid && card.dataset.datasetNumber) {
+      gridScrollLeft[card.dataset.datasetNumber] = grid.scrollLeft;
+    }
+  });
+
+  return {
+    windowX: window.scrollX,
+    windowY: window.scrollY,
+    currentDatasetNumber: state.currentDatasetNumber,
+    currentDatasetName: state.currentDatasetName,
+    gridScrollLeft,
+  };
+}
+
+function restorePositionSnapshot(snapshot) {
+  if (!snapshot) {
+    return;
+  }
+
+  const applySnapshot = () => {
+    window.scrollTo(snapshot.windowX ?? 0, snapshot.windowY ?? 0);
+
+    Object.entries(snapshot.gridScrollLeft ?? {}).forEach(([datasetNumber, scrollLeft]) => {
+      const card = document.getElementById(`dataset-${datasetNumber}`);
+      const grid = card?.querySelector(".set-grid");
+      if (grid) {
+        grid.scrollLeft = scrollLeft;
+      }
+    });
+
+    if (snapshot.currentDatasetNumber) {
+      setCurrentDataset(snapshot.currentDatasetNumber, snapshot.currentDatasetName);
+    }
+  };
+
+  applySnapshot();
+  requestAnimationFrame(applySnapshot);
 }
 
 function renderStatus(visibleCount) {
@@ -377,18 +432,49 @@ function progressToneCount(value, total) {
 }
 
 function renderNav(datasets) {
-  els.nav.innerHTML = datasets
-    .map((dataset) => {
-      const tone = datasetTone(dataset);
-      return `
-        <button class="nav-item" type="button" data-target="dataset-${dataset.number}">
-          <span class="nav-number">${dataset.number}</span>
-          <span class="nav-title">${escapeHtml(dataset.displayName)}</span>
-          <span class="dot ${tone}" aria-hidden="true"></span>
-        </button>
-      `;
-    })
-    .join("");
+  const current = currentDatasetFrom(datasets);
+  state.currentDatasetNumber = current ? String(current.number) : "";
+  state.currentDatasetName = current?.displayName ?? "";
+  els.nav.innerHTML = `
+    <div class="nav-current" aria-live="polite">
+      <span>Current</span>
+      <strong class="nav-current-number">${escapeHtml(state.currentDatasetNumber || "-")}</strong>
+      <span class="nav-current-name">${escapeHtml(state.currentDatasetName)}</span>
+    </div>
+    <div class="nav-grid">
+      ${datasets
+        .map((dataset) => {
+          const tone = datasetTone(dataset);
+          const active = String(dataset.number) === state.currentDatasetNumber;
+          return `
+            <button
+              class="nav-item ${active ? "active" : ""}"
+              type="button"
+              data-target="dataset-${dataset.number}"
+              data-dataset-number="${dataset.number}"
+              data-dataset-name="${escapeAttr(dataset.displayName)}"
+              title="Dataset ${dataset.number}: ${escapeAttr(dataset.displayName)}"
+              aria-label="Dataset ${dataset.number}: ${escapeAttr(dataset.displayName)}"
+              ${active ? 'aria-current="true"' : ""}
+            >
+              <span class="nav-number">${dataset.number}</span>
+              <span class="dot ${tone}" aria-hidden="true"></span>
+            </button>
+          `;
+        })
+        .join("")}
+    </div>
+  `;
+}
+
+function currentDatasetFrom(datasets) {
+  if (!datasets.length) {
+    return null;
+  }
+  return (
+    datasets.find((dataset) => String(dataset.number) === state.currentDatasetNumber) ??
+    datasets[0]
+  );
 }
 
 function datasetTone(dataset) {
@@ -406,7 +492,12 @@ function renderDataset(dataset) {
   const tags = tagChips(dataset).join("");
   const setKeys = selectedSetKeys();
   return `
-    <article class="dataset-card" id="dataset-${dataset.number}">
+    <article
+      class="dataset-card"
+      id="dataset-${dataset.number}"
+      data-dataset-number="${dataset.number}"
+      data-dataset-name="${escapeAttr(dataset.displayName)}"
+    >
       <header class="dataset-header">
         <div>
           <h2 class="dataset-title">Dataset ${dataset.number}: ${escapeHtml(dataset.displayName)}</h2>
@@ -703,9 +794,12 @@ async function handleDatasetDrop(event) {
     return;
   }
 
+  const positionSnapshot = capturePositionSnapshot();
   try {
-    await uploadDroppedImage(target, imagePayload, replacing);
-    await loadData();
+    const result = await uploadDroppedImage(target, imagePayload, replacing);
+    if (result) {
+      await loadData({ positionSnapshot });
+    }
   } catch (error) {
     window.alert(error.message);
   }
@@ -912,8 +1006,89 @@ function handleNavClick(event) {
   }
   const target = document.getElementById(button.dataset.target);
   if (target) {
-    target.scrollIntoView({ block: "start", behavior: "smooth" });
+    navJumpLockUntil = performance.now() + 450;
+    setCurrentDataset(button.dataset.datasetNumber, button.dataset.datasetName);
+    scrollToDataset(target);
+    window.setTimeout(scheduleViewportStateUpdate, 480);
   }
+}
+
+function scheduleViewportStateUpdate() {
+  if (viewportUpdateFrame) {
+    cancelAnimationFrame(viewportUpdateFrame);
+  }
+  viewportUpdateFrame = requestAnimationFrame(() => {
+    viewportUpdateFrame = 0;
+    updateStickyOffset();
+    updateCurrentDataset();
+  });
+}
+
+function updateCurrentDataset() {
+  if (performance.now() < navJumpLockUntil) {
+    return;
+  }
+
+  const cards = Array.from(els.datasets.querySelectorAll(".dataset-card"));
+  if (!cards.length) {
+    setCurrentDataset("", "");
+    return;
+  }
+
+  const readLine = datasetReadLine();
+  const covering = cards.find((card) => {
+    const rect = card.getBoundingClientRect();
+    return rect.top <= readLine && rect.bottom > readLine;
+  });
+  const nearest =
+    covering ??
+    cards
+      .map((card) => ({
+        card,
+        distance: Math.abs(card.getBoundingClientRect().top - readLine),
+      }))
+      .sort((a, b) => a.distance - b.distance)[0]?.card;
+
+  if (nearest) {
+    setCurrentDataset(nearest.dataset.datasetNumber, nearest.dataset.datasetName);
+  }
+}
+
+function datasetReadLine() {
+  const topbarHeight = els.topbar ? els.topbar.getBoundingClientRect().height : 0;
+  const navHeight = els.nav ? els.nav.getBoundingClientRect().height : 0;
+  return topbarHeight + navHeight + 18;
+}
+
+function scrollToDataset(target) {
+  const top = window.scrollY + target.getBoundingClientRect().top - datasetReadLine();
+  window.scrollTo(0, Math.max(0, top));
+}
+
+function setCurrentDataset(number, name) {
+  const normalizedNumber = number ? String(number) : "";
+  const normalizedName = name ?? "";
+  state.currentDatasetNumber = normalizedNumber;
+  state.currentDatasetName = normalizedName;
+
+  const numberElement = els.nav.querySelector(".nav-current-number");
+  const nameElement = els.nav.querySelector(".nav-current-name");
+  if (numberElement) {
+    numberElement.textContent = normalizedNumber || "-";
+  }
+  if (nameElement) {
+    nameElement.textContent = normalizedName;
+  }
+
+  els.nav.querySelectorAll(".nav-item").forEach((button) => {
+    const active = button.dataset.datasetNumber === normalizedNumber;
+    button.classList.toggle("active", active);
+    if (active) {
+      button.setAttribute("aria-current", "true");
+    } else {
+      button.removeAttribute("aria-current");
+    }
+  });
 }
 
 function openLightbox(button) {
