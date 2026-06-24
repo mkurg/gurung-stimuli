@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gurung Experimental Lists</title>
+    <link rel="stylesheet" href="lists.css">
+  </head>
+  <body>
+    <header class="lists-topbar">
+      <div>
+        <p class="eyebrow">Gurung stimuli</p>
+        <h1>Experimental lists</h1>
+      </div>
+      <nav class="page-links" aria-label="Pages">
+        <a href="index.html">Trial viewer</a>
+        <a href="lists.html" aria-current="page">Lists</a>
+      </nav>
+      <div class="toolbar" aria-label="List controls">
+        <label class="search">
+          <span>Search</span>
+          <input id="search" type="search" autocomplete="off" placeholder="Item, verb, object">
+        </label>
+        <label class="filter">
+          <span>Item</span>
+          <select id="item-filter">
+            <option value="all">All items</option>
+          </select>
+        </label>
+      </div>
+    </header>
+
+    <section id="summary" class="summary" aria-live="polite"></section>
+
+    <main id="items" class="items" aria-live="polite">
+      <div class="empty-state">Loading lists...</div>
+    </main>
+
+    <script src="lists.js" defer></script>
+  </body>
+</html>

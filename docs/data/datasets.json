@@ -102,17 +102,17 @@
       },
       "3": {
         "folders": 30,
-        "complete": 21,
+        "complete": 22,
         "empty": 1,
-        "incomplete": 9,
+        "incomplete": 8,
         "coreIncomplete": 8,
-        "needsEndings": 6,
+        "needsEndings": 5,
         "extraImages": 0,
         "endings": {
-          "present": 74,
+          "present": 76,
           "total": 90,
-          "missing": 16,
-          "percent": 82.2
+          "missing": 14,
+          "percent": 84.4
         }
       },
       "4": {
@@ -146,10 +146,10 @@
         "percent": 100.0
       },
       "3": {
-        "present": 74,
+        "present": 76,
         "total": 90,
-        "missing": 16,
-        "percent": 82.2
+        "missing": 14,
+        "percent": 84.4
       },
       "4": {
         "present": 57,
@@ -158,10 +158,10 @@
         "percent": 63.3
       },
       "all": {
-        "present": 311,
+        "present": 313,
         "total": 360,
-        "missing": 49,
-        "percent": 86.4
+        "missing": 47,
+        "percent": 86.9
       }
     },
     "existingComplete": 30,
@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-24T15:09:32",
+  "scannedAt": "2026-06-24T16:20:05",
   "datasets": [
     {
       "number": 1,
@@ -14945,7 +14945,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/24_descend_paint_bench/3",
-          "fileCount": 6,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -15001,8 +15001,24 @@
               "sourceBytes": 2769570,
               "modified": "2026-06-24T14:20:36"
             },
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/24_descend_paint_bench/3/end_ic_tr.webp",
+              "bytes": 56916,
+              "sourceBytes": 2546026,
+              "modified": "2026-06-24T15:46:59"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/24_descend_paint_bench/3/end_ic_it.webp",
+              "bytes": 38004,
+              "sourceBytes": 2278317,
+              "modified": "2026-06-24T16:09:27"
+            }
           },
           "core": {
             "ic_1": {
@@ -15061,15 +15077,28 @@
               "sourceBytes": 2769570,
               "modified": "2026-06-24T14:20:36"
             },
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/24_descend_paint_bench/3/end_ic_tr.webp",
+              "bytes": 56916,
+              "sourceBytes": 2546026,
+              "modified": "2026-06-24T15:46:59"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/24_descend_paint_bench/3/end_ic_it.webp",
+              "bytes": 38004,
+              "sourceBytes": 2278317,
+              "modified": "2026-06-24T16:09:27"
+            }
           },
-          "missing": [
-            "end_ic_tr",
-            "end_ic_it"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -15148,8 +15177,6 @@
         }
       },
       "issueTags": [
-        "set-3-incomplete",
-        "set-3-needs-endings",
         "set-4-core-incomplete",
         "set-4-incomplete",
         "set-4-needs-endings"
@@ -19070,7 +19097,7 @@
       "issueTags": []
     }
   ],
-  "exportedAt": "2026-06-24T15:09:32",
+  "exportedAt": "2026-06-24T16:20:05",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,

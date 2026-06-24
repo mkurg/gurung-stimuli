@@ -202,12 +202,9 @@ def asset_version(path: Path) -> str:
     return digest[:12]
 
 
-def versioned_index_html() -> str:
-    html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
-    versions = {
-        "styles.css": asset_version(STATIC_DIR / "styles.css"),
-        "app.js": asset_version(STATIC_DIR / "app.js"),
-    }
+def versioned_html(filename: str, assets: tuple[str, ...]) -> str:
+    html = (STATIC_DIR / filename).read_text(encoding="utf-8")
+    versions = {asset: asset_version(STATIC_DIR / asset) for asset in assets}
     for filename, version in versions.items():
         html = html.replace(filename, f"{filename}?v={version}")
     return html
@@ -215,9 +212,16 @@ def versioned_index_html() -> str:
 
 def copy_static_files(docs_dir: Path) -> None:
     docs_dir.mkdir(parents=True, exist_ok=True)
-    for name in ("styles.css", "app.js"):
+    for name in ("styles.css", "app.js", "lists.css", "lists.js"):
         shutil.copy2(STATIC_DIR / name, docs_dir / name)
-    (docs_dir / "index.html").write_text(versioned_index_html(), encoding="utf-8")
+    (docs_dir / "index.html").write_text(
+        versioned_html("index.html", ("styles.css", "app.js")),
+        encoding="utf-8",
+    )
+    (docs_dir / "lists.html").write_text(
+        versioned_html("lists.html", ("lists.css", "lists.js")),
+        encoding="utf-8",
+    )
     (docs_dir / ".nojekyll").write_text("", encoding="utf-8")
 
 

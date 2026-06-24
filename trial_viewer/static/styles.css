@@ -82,6 +82,32 @@ h1 {
   line-height: 1.12;
 }
 
+.page-links {
+  display: inline-flex;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.page-links a {
+  min-height: 30px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.page-links a:hover,
+.page-links a[aria-current="page"] {
+  background: rgba(15, 118, 110, 0.24);
+  color: var(--teal-dark);
+}
+
 .toolbar {
   display: flex;
   flex-wrap: wrap;
