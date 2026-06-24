@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-24T16:34:57",
+  "scannedAt": "2026-06-24T16:57:57",
   "datasets": [
     {
       "number": 1,
@@ -1953,9 +1953,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "assets/3_rest_cook_fish/3/end_ic_tr.webp",
-              "bytes": 32976,
-              "sourceBytes": 2469720,
-              "modified": "2026-06-23T22:27:21"
+              "bytes": 31884,
+              "sourceBytes": 2233035,
+              "modified": "2026-06-24T16:51:58"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -2029,9 +2029,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "assets/3_rest_cook_fish/3/end_ic_tr.webp",
-              "bytes": 32976,
-              "sourceBytes": 2469720,
-              "modified": "2026-06-23T22:27:21"
+              "bytes": 31884,
+              "sourceBytes": 2233035,
+              "modified": "2026-06-24T16:51:58"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -19097,7 +19097,7 @@
       "issueTags": []
     }
   ],
-  "exportedAt": "2026-06-24T16:34:57",
+  "exportedAt": "2026-06-24T16:57:57",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,

@@ -380,6 +380,16 @@ function reviewCountFor(datasetNumber, setKey, stem) {
   return reviewsFor(datasetNumber, setKey, stem).length;
 }
 
+function reviewSummaryFor(datasetNumber, setKey, stem) {
+  const entries = reviewsFor(datasetNumber, setKey, stem);
+  const latest = entries[entries.length - 1] ?? null;
+  return {
+    count: entries.length,
+    latest,
+    latestDone: latest?.done === true,
+  };
+}
+
 function allReviewCount() {
   return Object.values(state.reviews).reduce((total, entries) => total + entries.length, 0);
 }
@@ -646,7 +656,13 @@ function renderDatasetReviewList(dataset) {
       const entries = reviewsFor(dataset.number, setKey, stem);
       if (entries.length) {
         const latest = entries[entries.length - 1];
-        items.push({ setKey, stem, count: entries.length, latest: latest.text });
+        items.push({
+          setKey,
+          stem,
+          count: entries.length,
+          latest: latest.text,
+          latestDone: latest.done === true,
+        });
       }
     }
   }
@@ -661,16 +677,18 @@ function renderDatasetReviewList(dataset) {
         .map(
           (item) => `
             <button
-              class="dataset-review-item"
+              class="dataset-review-item ${item.latestDone ? "is-done" : "is-open"}"
               type="button"
               data-review-target="true"
               data-dataset-number="${dataset.number}"
               data-dataset-name="${escapeAttr(dataset.displayName)}"
               data-set-number="${escapeAttr(item.setKey)}"
               data-stem="${escapeAttr(item.stem)}"
+              title="${escapeAttr(`${item.latestDone ? "Done" : "Open"}: set ${item.setKey} / ${item.stem}`)}"
+              aria-label="${escapeAttr(`${item.latestDone ? "Done" : "Open"} comment for set ${item.setKey} ${item.stem}`)}"
             >
               <strong>${escapeHtml(`Set ${item.setKey} / ${item.stem}`)}</strong>
-              <span>${item.count}</span>
+              <span class="dataset-review-count">${item.count}</span>
               <em>${escapeHtml(item.latest)}</em>
             </button>
           `,
@@ -804,7 +822,9 @@ function renderThumb(image, stem, dataset, setKey, extra = false, idea = null) {
 
   const url = versionedImageUrl(image);
   const caption = `Dataset ${dataset.number}: ${dataset.displayName} / set ${setKey} / ${image.filename}`;
-  const reviewCount = extra ? 0 : reviewCountFor(dataset.number, setKey, stem);
+  const reviewSummary = extra ? { count: 0, latestDone: false } : reviewSummaryFor(dataset.number, setKey, stem);
+  const reviewCount = reviewSummary.count;
+  const reviewStateClass = reviewCount ? (reviewSummary.latestDone ? "reviews-done" : "reviews-open") : "";
   const uploadAttrs = extra
     ? ""
     : `
@@ -821,11 +841,11 @@ function renderThumb(image, stem, dataset, setKey, extra = false, idea = null) {
       data-review-target="true"
     `;
   return `
-    <button class="thumb ${extra ? "" : "upload-target"} ${reviewCount ? "has-reviews" : ""}" type="button" data-image="${escapeAttr(url)}" data-caption="${escapeAttr(caption)}"${uploadAttrs}${reviewAttrs}>
+    <button class="thumb ${extra ? "" : "upload-target"} ${reviewCount ? "has-reviews" : ""} ${reviewStateClass}" type="button" data-image="${escapeAttr(url)}" data-caption="${escapeAttr(caption)}"${uploadAttrs}${reviewAttrs}>
       <img loading="lazy" src="${escapeAttr(url)}" alt="${escapeAttr(stem)}">
       <div class="thumb-label">
         <span>${escapeHtml(extra ? image.filename : stem)}</span>
-        ${reviewCount ? `<strong class="review-badge">${reviewCount}</strong>` : ""}
+        ${reviewCount ? `<strong class="review-badge ${reviewSummary.latestDone ? "is-done" : "is-open"}">${reviewCount}</strong>` : ""}
       </div>
     </button>
   `;

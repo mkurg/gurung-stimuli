@@ -443,6 +443,17 @@ h1 {
   cursor: pointer;
 }
 
+.dataset-review-item.is-open {
+  border-color: rgba(241, 184, 103, 0.42);
+  background: rgba(52, 38, 22, 0.9);
+}
+
+.dataset-review-item.is-done {
+  border-color: rgba(123, 215, 207, 0.5);
+  background: rgba(15, 118, 110, 0.18);
+  box-shadow: inset 3px 0 0 rgba(123, 215, 207, 0.84);
+}
+
 .dataset-review-item strong,
 .dataset-review-item em {
   overflow: hidden;
@@ -454,9 +465,10 @@ h1 {
   font-size: 11px;
 }
 
-.dataset-review-item span {
-  display: inline-grid;
-  place-items: center;
+.dataset-review-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 20px;
   height: 20px;
   border-radius: 999px;
@@ -464,6 +476,30 @@ h1 {
   color: #07111f;
   font-size: 11px;
   font-weight: 950;
+}
+
+.dataset-review-item.is-open .dataset-review-count {
+  background: var(--amber);
+  color: #241304;
+}
+
+.dataset-review-item.is-done .dataset-review-count {
+  background: var(--teal-dark);
+  color: #062522;
+}
+
+.dataset-review-item.is-done .dataset-review-count::before {
+  content: "";
+  width: 7px;
+  height: 4px;
+  margin-right: 3px;
+  border-bottom: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: rotate(-45deg) translateY(-1px);
+}
+
+.dataset-review-item.is-done em {
+  color: var(--teal-dark);
 }
 
 .dataset-review-item em {
@@ -601,13 +637,19 @@ button.thumb:hover {
 }
 
 .thumb.has-reviews {
-  border-color: rgba(138, 186, 255, 0.72);
-  box-shadow: 0 0 0 3px rgba(138, 186, 255, 0.12);
+  border-color: rgba(241, 184, 103, 0.72);
+  box-shadow: 0 0 0 3px rgba(241, 184, 103, 0.12);
+}
+
+.thumb.has-reviews.reviews-done {
+  border-color: rgba(123, 215, 207, 0.72);
+  box-shadow: 0 0 0 3px rgba(123, 215, 207, 0.13);
 }
 
 .review-badge {
-  display: inline-grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 20px;
   height: 20px;
   padding: 0 5px;
@@ -616,6 +658,26 @@ button.thumb:hover {
   color: #07111f;
   font-size: 11px;
   font-weight: 950;
+}
+
+.review-badge.is-open {
+  background: var(--amber);
+  color: #241304;
+}
+
+.review-badge.is-done {
+  gap: 3px;
+  background: var(--teal-dark);
+  color: #062522;
+}
+
+.review-badge.is-done::before {
+  content: "";
+  width: 7px;
+  height: 4px;
+  border-bottom: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: rotate(-45deg) translateY(-1px);
 }
 
 .thumb.upload-target.drag-over,
