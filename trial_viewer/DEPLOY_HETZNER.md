@@ -1,14 +1,27 @@
 # Hetzner Review Site Deployment
 
-This deployment serves the exported viewer at `https://gurung.duckdns.org` and stores picture comments in one JSON file:
+This deployment serves the exported viewer through the existing Nginx on the Hetzner server and stores picture comments in one JSON file:
 
 ```text
-/var/lib/gurung-trial-viewer/reviews.json
+/home/apazent/gurung-trial-viewer/reviews.json
 ```
 
-The site backend is intentionally tiny: `review_server.py` serves `docs/` and exposes `GET/POST /api/reviews`.
+The app backend is intentionally tiny: `review_server.py` serves the exported `docs/` site and exposes `GET/POST /api/reviews`.
 
 By default, anyone who can open the site can submit a text comment. Add a password or VPN later if the URL should not be publicly writable.
+
+## Current Server Shape
+
+Observed on `204.168.154.216`:
+
+- SSH user: `apazent`
+- Domain: `gurung.duckdns.org`
+- Nginx is already active on ports `80` and `443`
+- Caddy is inactive
+- Certbot is installed
+- `apazent` does not currently have passwordless sudo
+
+The review server is designed to run as `apazent` on localhost port `8780`, and Nginx should proxy `gurung.duckdns.org` to it.
 
 ## 1. Prepare The Export Locally
 
@@ -20,82 +33,94 @@ python3 trial_viewer/export_static.py
 
 This refreshes `docs/` with the current UI, `data/datasets.json`, and lightweight WebP images.
 
-## 2. Prepare The Ubuntu Server
-
-Replace `YOUR_USER` with your SSH username.
-
-```sh
-ssh YOUR_USER@204.168.154.216
-sudo apt update
-sudo apt install -y python3 caddy rsync
-sudo mkdir -p /opt/gurung-trial-viewer/site /var/lib/gurung-trial-viewer
-sudo chown -R YOUR_USER:YOUR_USER /opt/gurung-trial-viewer /var/lib/gurung-trial-viewer
-sudo ufw allow OpenSSH
-sudo ufw allow 80,443/tcp
-sudo ufw enable
-exit
-```
-
-Make sure DuckDNS points `gurung.duckdns.org` to:
-
-```text
-204.168.154.216
-```
-
-## 3. Upload The Site And Review Server
+## 2. Upload The Site And Review Server
 
 From the repo root:
 
 ```sh
-rsync -av --delete docs/ YOUR_USER@204.168.154.216:/opt/gurung-trial-viewer/site/
-rsync -av trial_viewer/review_server.py trial_viewer/reviews.py YOUR_USER@204.168.154.216:/opt/gurung-trial-viewer/
+ssh apazent@204.168.154.216 'mkdir -p /home/apazent/gurung-trial-viewer/site /home/apazent/gurung-trial-viewer/logs'
+rsync -av --delete docs/ apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/site/
+rsync -av trial_viewer/review_server.py trial_viewer/reviews.py apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/
 ```
 
-## 4. Install The Systemd Service
-
-On the server:
+Create `reviews.json` only if it does not exist:
 
 ```sh
-ssh YOUR_USER@204.168.154.216
-sudo tee /etc/systemd/system/gurung-review.service >/dev/null <<'EOF'
-[Unit]
-Description=Gurung picture review site
-After=network.target
-
-[Service]
-Type=simple
-User=YOUR_USER
-WorkingDirectory=/opt/gurung-trial-viewer
-Environment=GURUNG_SITE_ROOT=/opt/gurung-trial-viewer/site
-Environment=GURUNG_REVIEWS_FILE=/var/lib/gurung-trial-viewer/reviews.json
-ExecStart=/usr/bin/python3 /opt/gurung-trial-viewer/review_server.py --host 127.0.0.1 --port 8780
-Restart=always
-RestartSec=3
-
-[Install]
-WantedBy=multi-user.target
-EOF
-sudo sed -i 's/User=YOUR_USER/User='"$USER"'/g' /etc/systemd/system/gurung-review.service
-sudo systemctl daemon-reload
-sudo systemctl enable --now gurung-review
+ssh apazent@204.168.154.216 'test -e /home/apazent/gurung-trial-viewer/reviews.json || printf "{\n  \"version\": 1,\n  \"updatedAt\": \"\",\n  \"reviews\": {}\n}\n" > /home/apazent/gurung-trial-viewer/reviews.json'
 ```
 
-## 5. Configure Caddy
+## 3. Start Or Restart The Review Server
 
-On the server:
+This does not touch other services:
 
 ```sh
-sudo tee /etc/caddy/Caddyfile >/dev/null <<'EOF'
-gurung.duckdns.org {
-    reverse_proxy 127.0.0.1:8780
+ssh apazent@204.168.154.216 '
+set -eu
+if test -f /home/apazent/gurung-trial-viewer/review_server.pid; then
+  old_pid=$(cat /home/apazent/gurung-trial-viewer/review_server.pid)
+  if kill -0 "$old_pid" 2>/dev/null; then
+    kill "$old_pid"
+  fi
+fi
+cd /home/apazent/gurung-trial-viewer
+nohup python3 review_server.py \
+  --host 0.0.0.0 \
+  --port 8780 \
+  --site-root /home/apazent/gurung-trial-viewer/site \
+  --reviews-file /home/apazent/gurung-trial-viewer/reviews.json \
+  > /home/apazent/gurung-trial-viewer/logs/review_server.log 2>&1 &
+echo $! > /home/apazent/gurung-trial-viewer/review_server.pid
+'
+```
+
+Check internally:
+
+```sh
+ssh apazent@204.168.154.216 'curl -sS http://127.0.0.1:8780/api/reviews'
+```
+
+## 4. Final Nginx And HTTPS Step
+
+This step needs sudo on the server. It is the only global system change.
+
+First copy the prepared vhost file:
+
+```sh
+sudo cp /home/apazent/gurung-trial-viewer/nginx-gurung.duckdns.org.conf /etc/nginx/sites-available/gurung.duckdns.org
+sudo ln -sf /etc/nginx/sites-available/gurung.duckdns.org /etc/nginx/sites-enabled/gurung.duckdns.org
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+Then request the certificate and let Certbot edit the vhost:
+
+```sh
+sudo certbot --nginx -d gurung.duckdns.org
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+The prepared Nginx vhost is:
+
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+    server_name gurung.duckdns.org;
+
+    client_max_body_size 2M;
+
+    location / {
+        proxy_pass http://127.0.0.1:8780;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
 }
-EOF
-sudo systemctl reload caddy
 ```
 
-Caddy will request HTTPS certificates automatically once DNS points to the server and ports 80/443 are reachable.
-
-## 6. Check It
+## 5. Check It Publicly
 
 ```sh
 curl -I https://gurung.duckdns.org/
@@ -116,12 +141,12 @@ localStorage.setItem("gurungReviewApiBase", "https://gurung.duckdns.org")
 
 Then refresh the local viewer.
 
-## 7. Back Up Or Collect Reviews
+## 6. Back Up Or Collect Reviews
 
 From your local machine:
 
 ```sh
-scp YOUR_USER@204.168.154.216:/var/lib/gurung-trial-viewer/reviews.json ./reviews.json
+scp apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/reviews.json ./reviews.json
 ```
 
 The file is grouped by picture key:
@@ -136,21 +161,13 @@ For example:
 12:2:coh_1
 ```
 
-## 8. Updating Pictures Later
+## 7. Updating Pictures Later
 
 After changing images locally:
 
 ```sh
 python3 trial_viewer/export_static.py
-rsync -av --delete docs/ YOUR_USER@204.168.154.216:/opt/gurung-trial-viewer/site/
+rsync -av --delete docs/ apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/site/
 ```
 
-Then, on the server:
-
-```sh
-ssh YOUR_USER@204.168.154.216
-sudo systemctl restart gurung-review
-exit
-```
-
-The restart is optional for static files, but it is harmless and keeps the process fresh.
+Static file updates do not require restarting the review server.
