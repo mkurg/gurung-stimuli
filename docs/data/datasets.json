@@ -105,14 +105,14 @@
         "complete": 17,
         "empty": 1,
         "incomplete": 13,
-        "coreIncomplete": 12,
+        "coreIncomplete": 10,
         "needsEndings": 9,
         "extraImages": 0,
         "endings": {
-          "present": 68,
+          "present": 69,
           "total": 90,
-          "missing": 22,
-          "percent": 75.6
+          "missing": 21,
+          "percent": 76.7
         }
       },
       "4": {
@@ -120,7 +120,7 @@
         "complete": 15,
         "empty": 10,
         "incomplete": 15,
-        "coreIncomplete": 15,
+        "coreIncomplete": 14,
         "needsEndings": 4,
         "extraImages": 0,
         "endings": {
@@ -146,10 +146,10 @@
         "percent": 100.0
       },
       "3": {
-        "present": 68,
+        "present": 69,
         "total": 90,
-        "missing": 22,
-        "percent": 75.6
+        "missing": 21,
+        "percent": 76.7
       },
       "4": {
         "present": 53,
@@ -158,10 +158,10 @@
         "percent": 58.9
       },
       "all": {
-        "present": 301,
+        "present": 302,
         "total": 360,
-        "missing": 59,
-        "percent": 83.6
+        "missing": 58,
+        "percent": 83.9
       }
     },
     "existingComplete": 30,
@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-24T09:33:21",
+  "scannedAt": "2026-06-24T10:19:09",
   "datasets": [
     {
       "number": 1,
@@ -1892,7 +1892,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/3_rest_cook_fish/3",
-          "fileCount": 6,
+          "fileCount": 7,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -1930,7 +1930,15 @@
               "sourceBytes": 2525916,
               "modified": "2026-06-23T22:26:47"
             },
-            "it_target": null,
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/3_rest_cook_fish/3/it_target.webp",
+              "bytes": 77432,
+              "sourceBytes": 2705408,
+              "modified": "2026-06-24T10:04:09"
+            },
             "end_coh_it": null,
             "end_ic_tr": {
               "filename": "end_ic_tr.webp",
@@ -1988,7 +1996,15 @@
               "sourceBytes": 2525916,
               "modified": "2026-06-23T22:26:47"
             },
-            "it_target": null
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/3_rest_cook_fish/3/it_target.webp",
+              "bytes": 77432,
+              "sourceBytes": 2705408,
+              "modified": "2026-06-24T10:04:09"
+            }
           },
           "endings": {
             "end_coh_it": null,
@@ -2012,7 +2028,6 @@
             }
           },
           "missing": [
-            "it_target",
             "end_coh_it"
           ],
           "extra": [],
@@ -2199,7 +2214,6 @@
         }
       },
       "issueTags": [
-        "set-3-core-incomplete",
         "set-3-incomplete",
         "set-3-needs-endings"
       ]
@@ -17222,7 +17236,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/28_jump_peel_orange/3",
-          "fileCount": 3,
+          "fileCount": 5,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -17238,12 +17252,28 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/28_jump_peel_orange/3/coh_1.webp",
-              "bytes": 80144,
-              "sourceBytes": 2803572,
-              "modified": "2026-06-24T08:51:22"
+              "bytes": 58662,
+              "sourceBytes": 2544536,
+              "modified": "2026-06-24T10:02:59"
             },
-            "coh_2": null,
-            "tr_target": null,
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/28_jump_peel_orange/3/coh_2.webp",
+              "bytes": 61136,
+              "sourceBytes": 2478949,
+              "modified": "2026-06-24T10:07:34"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/28_jump_peel_orange/3/tr_target.webp",
+              "bytes": 30570,
+              "sourceBytes": 2081817,
+              "modified": "2026-06-24T10:12:28"
+            },
             "it_target": null,
             "end_coh_it": null,
             "end_ic_tr": {
@@ -17272,12 +17302,28 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/28_jump_peel_orange/3/coh_1.webp",
-              "bytes": 80144,
-              "sourceBytes": 2803572,
-              "modified": "2026-06-24T08:51:22"
+              "bytes": 58662,
+              "sourceBytes": 2544536,
+              "modified": "2026-06-24T10:02:59"
             },
-            "coh_2": null,
-            "tr_target": null,
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/28_jump_peel_orange/3/coh_2.webp",
+              "bytes": 61136,
+              "sourceBytes": 2478949,
+              "modified": "2026-06-24T10:07:34"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/28_jump_peel_orange/3/tr_target.webp",
+              "bytes": 30570,
+              "sourceBytes": 2081817,
+              "modified": "2026-06-24T10:12:28"
+            },
             "it_target": null
           },
           "endings": {
@@ -17294,8 +17340,6 @@
             "end_ic_it": null
           },
           "missing": [
-            "coh_2",
-            "tr_target",
             "it_target",
             "end_coh_it",
             "end_ic_it"
@@ -17317,7 +17361,7 @@
           "set": 4,
           "exists": true,
           "path": "assets/28_jump_peel_orange/4",
-          "fileCount": 3,
+          "fileCount": 7,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -17328,19 +17372,51 @@
               "sourceBytes": 3389254,
               "modified": "2026-06-24T09:30:56"
             },
-            "coh_1": null,
-            "coh_2": null,
-            "tr_target": null,
-            "it_target": null,
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "assets/28_jump_peel_orange/4/coh_1.webp",
+              "bytes": 71032,
+              "sourceBytes": 2774390,
+              "modified": "2026-06-24T10:01:52"
+            },
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/28_jump_peel_orange/4/coh_2.webp",
+              "bytes": 49406,
+              "sourceBytes": 2560092,
+              "modified": "2026-06-24T10:05:53"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/28_jump_peel_orange/4/tr_target.webp",
+              "bytes": 22420,
+              "sourceBytes": 2142708,
+              "modified": "2026-06-24T10:11:01"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/28_jump_peel_orange/4/it_target.webp",
+              "bytes": 35520,
+              "sourceBytes": 2137541,
+              "modified": "2026-06-24T10:14:08"
+            },
             "end_coh_it": null,
             "end_ic_tr": {
               "filename": "end_ic_tr.webp",
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "assets/28_jump_peel_orange/4/end_ic_tr.webp",
-              "bytes": 70800,
-              "sourceBytes": 2757359,
-              "modified": "2026-06-24T09:31:42"
+              "bytes": 51098,
+              "sourceBytes": 2360059,
+              "modified": "2026-06-24T09:54:45"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -17362,10 +17438,42 @@
               "sourceBytes": 3389254,
               "modified": "2026-06-24T09:30:56"
             },
-            "coh_1": null,
-            "coh_2": null,
-            "tr_target": null,
-            "it_target": null
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "assets/28_jump_peel_orange/4/coh_1.webp",
+              "bytes": 71032,
+              "sourceBytes": 2774390,
+              "modified": "2026-06-24T10:01:52"
+            },
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/28_jump_peel_orange/4/coh_2.webp",
+              "bytes": 49406,
+              "sourceBytes": 2560092,
+              "modified": "2026-06-24T10:05:53"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/28_jump_peel_orange/4/tr_target.webp",
+              "bytes": 22420,
+              "sourceBytes": 2142708,
+              "modified": "2026-06-24T10:11:01"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/28_jump_peel_orange/4/it_target.webp",
+              "bytes": 35520,
+              "sourceBytes": 2137541,
+              "modified": "2026-06-24T10:14:08"
+            }
           },
           "endings": {
             "end_coh_it": null,
@@ -17374,9 +17482,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "assets/28_jump_peel_orange/4/end_ic_tr.webp",
-              "bytes": 70800,
-              "sourceBytes": 2757359,
-              "modified": "2026-06-24T09:31:42"
+              "bytes": 51098,
+              "sourceBytes": 2360059,
+              "modified": "2026-06-24T09:54:45"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -17389,10 +17497,6 @@
             }
           },
           "missing": [
-            "coh_1",
-            "coh_2",
-            "tr_target",
-            "it_target",
             "end_coh_it"
           ],
           "extra": [],
@@ -17413,7 +17517,6 @@
         "set-3-core-incomplete",
         "set-3-incomplete",
         "set-3-needs-endings",
-        "set-4-core-incomplete",
         "set-4-incomplete",
         "set-4-needs-endings"
       ]
@@ -18414,7 +18517,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/30_smile_make_momos/3",
-          "fileCount": 5,
+          "fileCount": 7,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -18443,7 +18546,15 @@
               "sourceBytes": 2176227,
               "modified": "2026-06-24T09:05:05"
             },
-            "tr_target": null,
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/30_smile_make_momos/3/tr_target.webp",
+              "bytes": 38080,
+              "sourceBytes": 2397277,
+              "modified": "2026-06-24T10:08:54"
+            },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
@@ -18462,7 +18573,15 @@
               "sourceBytes": 2719039,
               "modified": "2026-06-24T09:03:51"
             },
-            "end_ic_tr": null,
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/30_smile_make_momos/3/end_ic_tr.webp",
+              "bytes": 52444,
+              "sourceBytes": 2520631,
+              "modified": "2026-06-24T10:17:52"
+            },
             "end_ic_it": null
           },
           "core": {
@@ -18493,7 +18612,15 @@
               "sourceBytes": 2176227,
               "modified": "2026-06-24T09:05:05"
             },
-            "tr_target": null,
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/30_smile_make_momos/3/tr_target.webp",
+              "bytes": 38080,
+              "sourceBytes": 2397277,
+              "modified": "2026-06-24T10:08:54"
+            },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
@@ -18514,12 +18641,18 @@
               "sourceBytes": 2719039,
               "modified": "2026-06-24T09:03:51"
             },
-            "end_ic_tr": null,
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/30_smile_make_momos/3/end_ic_tr.webp",
+              "bytes": 52444,
+              "sourceBytes": 2520631,
+              "modified": "2026-06-24T10:17:52"
+            },
             "end_ic_it": null
           },
           "missing": [
-            "tr_target",
-            "end_ic_tr",
             "end_ic_it"
           ],
           "extra": [],
@@ -18706,13 +18839,12 @@
         }
       },
       "issueTags": [
-        "set-3-core-incomplete",
         "set-3-incomplete",
         "set-3-needs-endings"
       ]
     }
   ],
-  "exportedAt": "2026-06-24T09:33:21",
+  "exportedAt": "2026-06-24T10:19:09",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,

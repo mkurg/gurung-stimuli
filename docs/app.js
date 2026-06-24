@@ -530,8 +530,9 @@ function tagChips(dataset) {
 function renderSet(dataset, setKey) {
   const set = setData(dataset, setKey);
   const status = setStatus(set);
+  const copyToneClass = ["2", "4"].includes(String(setKey)) ? " set-panel-copy" : "";
   return `
-    <section class="set-panel">
+    <section class="set-panel${copyToneClass}" data-set-key="${escapeAttr(setKey)}">
       <div class="set-header">
         <h3>${escapeHtml(`Set ${setKey}`)}</h3>
         ${status}
