@@ -19,7 +19,11 @@ EXPECTED_IMAGES = {
     "end_ic_it",
 }
 MAX_REVIEW_LENGTH = 3000
-REVIEW_STATUSES = {"open", "done", "deferred"}
+REVIEW_STATUSES = {"open", "on_review", "done", "deferred"}
+REVIEW_STATUS_ALIASES = {
+    "on review": "on_review",
+    "on-review": "on_review",
+}
 
 
 def review_key(dataset_number: int, set_number: int, stem: str) -> str:
@@ -76,6 +80,9 @@ def load_reviews(path: Path) -> dict[str, Any]:
                 deferred_at = entry.get("deferredAt")
                 if status == "deferred" and isinstance(deferred_at, str):
                     clean_entry["deferredAt"] = deferred_at
+                on_review_at = entry.get("onReviewAt")
+                if status == "on_review" and isinstance(on_review_at, str):
+                    clean_entry["onReviewAt"] = on_review_at
                 clean_entries.append(clean_entry)
             if clean_entries:
                 reviews[key] = clean_entries
@@ -89,10 +96,18 @@ def load_reviews(path: Path) -> dict[str, Any]:
 
 
 def normalize_review_status(entry: dict[str, Any]) -> str:
-    status = entry.get("status")
-    if isinstance(status, str) and status in REVIEW_STATUSES:
+    status = normalize_review_status_value(entry.get("status"))
+    if status:
         return status
     return "done" if entry.get("done") is True else "open"
+
+
+def normalize_review_status_value(status: Any) -> str | None:
+    if not isinstance(status, str):
+        return None
+    clean_status = status.strip().lower()
+    canonical_status = REVIEW_STATUS_ALIASES.get(clean_status, clean_status)
+    return canonical_status if canonical_status in REVIEW_STATUSES else None
 
 
 def write_reviews(path: Path, payload: dict[str, Any]) -> None:
@@ -215,10 +230,10 @@ def set_review_status(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
     review_id = payload.get("id", payload.get("reviewId"))
     if not isinstance(review_id, str) or not review_id.strip():
         raise ValueError("Review id is invalid.")
-    status = payload.get("status")
-    if (not isinstance(status, str) or status not in REVIEW_STATUSES) and isinstance(payload.get("done"), bool):
+    status = normalize_review_status_value(payload.get("status"))
+    if status is None and isinstance(payload.get("done"), bool):
         status = "done" if payload["done"] else "open"
-    if not isinstance(status, str) or status not in REVIEW_STATUSES:
+    if status is None:
         raise ValueError("Review status is invalid.")
 
     clean_review_id = review_id.strip()
@@ -239,12 +254,19 @@ def set_review_status(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
             if status == "done":
                 entry["doneAt"] = now
                 entry.pop("deferredAt", None)
+                entry.pop("onReviewAt", None)
+            elif status == "on_review":
+                entry["onReviewAt"] = now
+                entry.pop("doneAt", None)
+                entry.pop("deferredAt", None)
             elif status == "deferred":
                 entry["deferredAt"] = now
                 entry.pop("doneAt", None)
+                entry.pop("onReviewAt", None)
             else:
                 entry.pop("doneAt", None)
                 entry.pop("deferredAt", None)
+                entry.pop("onReviewAt", None)
             updated_entry = entry
             break
 

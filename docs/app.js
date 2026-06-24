@@ -5,7 +5,11 @@ const CORE_IMAGE_STEMS = ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"];
 const MAX_DROP_FILE_BYTES = 24 * 1024 * 1024;
 const MAX_REVIEW_TEXT_LENGTH = 3000;
 const DEFAULT_REMOTE_REVIEW_API_BASE = "https://gurung.duckdns.org";
-const REVIEW_STATUSES = new Set(["open", "done", "deferred"]);
+const REVIEW_STATUSES = new Set(["open", "on_review", "done", "deferred"]);
+const REVIEW_STATUS_ALIASES = new Map([
+  ["on review", "on_review"],
+  ["on-review", "on_review"],
+]);
 const DEFAULT_EXPECTED_IMAGES = [
   ...CORE_IMAGE_STEMS,
   "end_coh_it",
@@ -361,6 +365,7 @@ function normalizeReviews(payload) {
             done: status === "done",
             doneAt: typeof entry.doneAt === "string" ? entry.doneAt : "",
             deferredAt: typeof entry.deferredAt === "string" ? entry.deferredAt : "",
+            onReviewAt: typeof entry.onReviewAt === "string" ? entry.onReviewAt : "",
           };
         });
       if (cleanEntries.length) {
@@ -375,14 +380,26 @@ function normalizeReviews(payload) {
 }
 
 function normalizeReviewStatus(entry) {
-  const status = entry?.status;
-  if (typeof status === "string" && REVIEW_STATUSES.has(status)) {
+  const status = normalizeReviewStatusValue(entry?.status);
+  if (status) {
     return status;
   }
   return entry?.done === true ? "done" : "open";
 }
 
+function normalizeReviewStatusValue(status) {
+  if (typeof status !== "string") {
+    return "";
+  }
+  const cleanStatus = status.trim().toLowerCase();
+  const canonicalStatus = REVIEW_STATUS_ALIASES.get(cleanStatus) ?? cleanStatus;
+  return REVIEW_STATUSES.has(canonicalStatus) ? canonicalStatus : "";
+}
+
 function reviewStatusLabel(status) {
+  if (status === "on_review") {
+    return "On review";
+  }
   if (status === "done") {
     return "Done";
   }
@@ -1447,6 +1464,7 @@ function renderReviewActions(entry) {
   }
 
   return `
+    ${entry.status !== "on_review" ? reviewStatusButton(entry.id, "on_review", "On review") : ""}
     ${entry.status !== "done" ? reviewStatusButton(entry.id, "done", "Mark done") : ""}
     ${entry.status !== "deferred" ? reviewStatusButton(entry.id, "deferred", "Defer") : ""}
     ${entry.status !== "open" ? reviewStatusButton(entry.id, "open", "Reopen") : ""}
@@ -1472,6 +1490,9 @@ function reviewStatusButton(reviewId, status, label) {
 }
 
 function renderReviewStatusTime(entry) {
+  if (entry.status === "on_review" && entry.onReviewAt) {
+    return `<time class="review-status-at is-on_review">On review ${escapeHtml(entry.onReviewAt.replace("T", " "))}</time>`;
+  }
   if (entry.status === "done" && entry.doneAt) {
     return `<time class="review-status-at is-done">Done ${escapeHtml(entry.doneAt.replace("T", " "))}</time>`;
   }
@@ -1660,6 +1681,9 @@ async function setReviewStatus(reviewId, status, button) {
 }
 
 function reviewStatusProgressText(status) {
+  if (status === "on_review") {
+    return "Marking on review...";
+  }
   if (status === "done") {
     return "Marking done...";
   }

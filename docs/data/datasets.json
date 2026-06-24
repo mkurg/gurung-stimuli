@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-24T23:47:46",
+  "scannedAt": "2026-06-24T23:57:08",
   "datasets": [
     {
       "number": 1,
@@ -1222,9 +1222,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "https://gurung.duckdns.org/assets/2_stand_weave_basket/3/ic_1.webp",
-              "bytes": 57106,
-              "sourceBytes": 2683277,
-              "modified": "2026-06-24T16:59:39"
+              "bytes": 51610,
+              "sourceBytes": 2394107,
+              "modified": "2026-06-24T23:57:07"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -1288,9 +1288,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "https://gurung.duckdns.org/assets/2_stand_weave_basket/3/ic_1.webp",
-              "bytes": 57106,
-              "sourceBytes": 2683277,
-              "modified": "2026-06-24T16:59:39"
+              "bytes": 51610,
+              "sourceBytes": 2394107,
+              "modified": "2026-06-24T23:57:07"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -3468,9 +3468,9 @@
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "https://gurung.duckdns.org/assets/5_rest_build_wall/4/tr_target.webp",
-              "bytes": 65034,
-              "sourceBytes": 2645951,
-              "modified": "2026-06-22T17:54:05"
+              "bytes": 68686,
+              "sourceBytes": 2592354,
+              "modified": "2026-06-24T23:55:29"
             },
             "it_target": {
               "filename": "it_target.webp",
@@ -3542,9 +3542,9 @@
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "https://gurung.duckdns.org/assets/5_rest_build_wall/4/tr_target.webp",
-              "bytes": 65034,
-              "sourceBytes": 2645951,
-              "modified": "2026-06-22T17:54:05"
+              "bytes": 68686,
+              "sourceBytes": 2592354,
+              "modified": "2026-06-24T23:55:29"
             },
             "it_target": {
               "filename": "it_target.webp",
@@ -19268,7 +19268,7 @@
       "issueTags": []
     }
   ],
-  "exportedAt": "2026-06-24T23:47:46",
+  "exportedAt": "2026-06-24T23:57:08",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
