@@ -354,6 +354,8 @@ function normalizeReviews(payload) {
           id: typeof entry.id === "string" ? entry.id : "",
           text: entry.text.trim(),
           createdAt: typeof entry.createdAt === "string" ? entry.createdAt : "",
+          done: entry.done === true,
+          doneAt: typeof entry.doneAt === "string" ? entry.doneAt : "",
         }));
       if (cleanEntries.length) {
         reviews[key] = cleanEntries;
@@ -1354,16 +1356,36 @@ function renderReviewPanel() {
     ? entries
         .map(
           (entry) => `
-            <article class="review-entry">
+            <article class="review-entry ${entry.done ? "is-done" : ""}">
               <div class="review-entry-head">
-                ${entry.createdAt ? `<time>${escapeHtml(entry.createdAt.replace("T", " "))}</time>` : "<span>Comment</span>"}
-                ${
-                  entry.id
-                    ? `<button class="review-delete" type="button" data-review-id="${escapeAttr(entry.id)}">Delete</button>`
-                    : ""
-                }
+                <div class="review-entry-meta">
+                  ${entry.done ? '<strong class="review-done-label">Done</strong>' : ""}
+                  ${entry.createdAt ? `<time>${escapeHtml(entry.createdAt.replace("T", " "))}</time>` : "<span>Comment</span>"}
+                </div>
+                <div class="review-actions">
+                  ${
+                    entry.id
+                      ? `
+                        <button
+                          class="review-done-toggle"
+                          type="button"
+                          data-review-action="toggle-done"
+                          data-review-id="${escapeAttr(entry.id)}"
+                          data-review-done="${entry.done ? "false" : "true"}"
+                        >${entry.done ? "Reopen" : "Mark done"}</button>
+                        <button
+                          class="review-delete"
+                          type="button"
+                          data-review-action="delete"
+                          data-review-id="${escapeAttr(entry.id)}"
+                        >Delete</button>
+                      `
+                      : ""
+                  }
+                </div>
               </div>
               <p>${escapeHtml(entry.text)}</p>
+              ${entry.doneAt ? `<time class="review-done-at">Done ${escapeHtml(entry.doneAt.replace("T", " "))}</time>` : ""}
             </article>
           `,
         )
@@ -1423,11 +1445,15 @@ async function saveReview() {
 }
 
 function handleReviewListClick(event) {
-  const button = event.target.closest("[data-review-id]");
+  const button = event.target.closest("[data-review-action]");
   if (!button || !els.reviewList.contains(button)) {
     return;
   }
-  deleteReview(button.dataset.reviewId, button);
+  if (button.dataset.reviewAction === "delete") {
+    deleteReview(button.dataset.reviewId, button);
+  } else if (button.dataset.reviewAction === "toggle-done") {
+    setReviewDone(button.dataset.reviewId, button.dataset.reviewDone === "true", button);
+  }
 }
 
 async function deleteReview(reviewId, button) {
@@ -1455,6 +1481,44 @@ async function deleteReview(reviewId, button) {
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
       throw new Error(error.error ?? `Delete failed with HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+    const payload = normalizeReviews(result.reviews ?? result);
+    state.reviews = payload.reviews;
+    state.reviewsUpdatedAt = payload.updatedAt;
+    state.reviewStatus = "ok";
+    renderReviewPanel();
+    render();
+  } catch (error) {
+    button.disabled = false;
+    els.reviewStatus.textContent = error.message;
+  }
+}
+
+async function setReviewDone(reviewId, done, button) {
+  if (!activeReviewTarget || !reviewId) {
+    return;
+  }
+
+  button.disabled = true;
+  els.reviewStatus.textContent = done ? "Marking done..." : "Reopening...";
+  try {
+    const response = await fetch(reviewApiUrl("/api/reviews"), {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        datasetNumber: activeReviewTarget.datasetNumber,
+        setNumber: activeReviewTarget.setNumber,
+        stem: activeReviewTarget.stem,
+        id: reviewId,
+        done,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error ?? `Update failed with HTTP ${response.status}`);
     }
 
     const result = await response.json();

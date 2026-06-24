@@ -9,7 +9,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
-from reviews import append_review, delete_review as delete_review_entry, load_reviews
+from reviews import append_review, delete_review as delete_review_entry, load_reviews, set_review_done
 
 
 APP_DIR = Path(__file__).resolve().parent
@@ -48,6 +48,13 @@ class ReviewSiteHandler(SimpleHTTPRequestHandler):
             return
         self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
 
+    def do_PATCH(self) -> None:
+        parsed = urlparse(self.path)
+        if parsed.path == "/api/reviews":
+            self.update_review()
+            return
+        self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
+
     def do_DELETE(self) -> None:
         parsed = urlparse(self.path)
         if parsed.path == "/api/reviews":
@@ -57,7 +64,7 @@ class ReviewSiteHandler(SimpleHTTPRequestHandler):
 
     def end_headers(self) -> None:
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
         super().end_headers()
@@ -112,6 +119,22 @@ class ReviewSiteHandler(SimpleHTTPRequestHandler):
             return
         except OSError as exc:
             self.send_error_json(HTTPStatus.INTERNAL_SERVER_ERROR, f"Could not save review: {exc}")
+            return
+
+        self.send_json(result)
+
+    def update_review(self) -> None:
+        payload = self.read_json_body()
+        if payload is None:
+            return
+
+        try:
+            result = set_review_done(self.reviews_file, payload)
+        except ValueError as exc:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, str(exc))
+            return
+        except OSError as exc:
+            self.send_error_json(HTTPStatus.INTERNAL_SERVER_ERROR, f"Could not update review: {exc}")
             return
 
         self.send_json(result)

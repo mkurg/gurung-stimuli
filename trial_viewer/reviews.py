@@ -45,7 +45,7 @@ def load_reviews(path: Path) -> dict[str, Any]:
     if not isinstance(raw, dict):
         return empty_reviews_payload()
 
-    reviews: dict[str, list[dict[str, str]]] = {}
+    reviews: dict[str, list[dict[str, Any]]] = {}
     raw_reviews = raw.get("reviews")
     if isinstance(raw_reviews, dict):
         for key, entries in raw_reviews.items():
@@ -60,13 +60,17 @@ def load_reviews(path: Path) -> dict[str, Any]:
                     continue
                 created_at = entry.get("createdAt")
                 review_id = entry.get("id")
-                clean_entries.append(
-                    {
-                        "id": review_id if isinstance(review_id, str) else "",
-                        "text": text.strip(),
-                        "createdAt": created_at if isinstance(created_at, str) else "",
-                    }
-                )
+                done = entry.get("done") is True
+                clean_entry: dict[str, Any] = {
+                    "id": review_id if isinstance(review_id, str) else "",
+                    "text": text.strip(),
+                    "createdAt": created_at if isinstance(created_at, str) else "",
+                    "done": done,
+                }
+                done_at = entry.get("doneAt")
+                if done and isinstance(done_at, str):
+                    clean_entry["doneAt"] = done_at
+                clean_entries.append(clean_entry)
             if clean_entries:
                 reviews[key] = clean_entries
 
@@ -181,5 +185,48 @@ def delete_review(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
         "ok": True,
         "key": key,
         "deletedId": clean_review_id,
+        "reviews": reviews_payload,
+    }
+
+
+def set_review_done(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    dataset_number, set_number, stem = validate_review_target(payload)
+    review_id = payload.get("id", payload.get("reviewId"))
+    if not isinstance(review_id, str) or not review_id.strip():
+        raise ValueError("Review id is invalid.")
+    if "done" not in payload or not isinstance(payload.get("done"), bool):
+        raise ValueError("Review done state is invalid.")
+
+    clean_review_id = review_id.strip()
+    done = bool(payload["done"])
+    reviews_payload = load_reviews(path)
+    key = review_key(dataset_number, set_number, stem)
+    reviews = reviews_payload.setdefault("reviews", {})
+    assert isinstance(reviews, dict)
+    entries = reviews.get(key, [])
+    if not isinstance(entries, list):
+        entries = []
+
+    now = datetime.now().isoformat(timespec="seconds")
+    updated_entry: dict[str, Any] | None = None
+    for entry in entries:
+        if isinstance(entry, dict) and entry.get("id") == clean_review_id:
+            entry["done"] = done
+            if done:
+                entry["doneAt"] = now
+            else:
+                entry.pop("doneAt", None)
+            updated_entry = entry
+            break
+
+    if updated_entry is None:
+        raise ValueError("Review not found.")
+
+    reviews_payload["updatedAt"] = now
+    write_reviews(path, reviews_payload)
+    return {
+        "ok": True,
+        "key": key,
+        "review": updated_entry,
         "reviews": reviews_payload,
     }

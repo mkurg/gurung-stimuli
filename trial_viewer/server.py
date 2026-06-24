@@ -22,7 +22,7 @@ from urllib.error import HTTPError
 from urllib.parse import quote, unquote, urlparse
 from urllib.request import Request, urlopen
 
-from reviews import append_review, delete_review as delete_review_entry, load_reviews
+from reviews import append_review, delete_review as delete_review_entry, load_reviews, set_review_done
 
 
 APP_DIR = Path(__file__).resolve().parent
@@ -695,6 +695,13 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             return
         self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
 
+    def do_PATCH(self) -> None:
+        parsed = urlparse(self.path)
+        if parsed.path == "/api/reviews":
+            self.update_review()
+            return
+        self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
+
     def do_DELETE(self) -> None:
         parsed = urlparse(self.path)
         if parsed.path == "/api/reviews":
@@ -817,6 +824,22 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             return
         except OSError as exc:
             self.send_error_json(HTTPStatus.INTERNAL_SERVER_ERROR, f"Could not save review: {exc}")
+            return
+
+        self.send_json(result)
+
+    def update_review(self) -> None:
+        payload = self.read_json_body()
+        if payload is None:
+            return
+
+        try:
+            result = set_review_done(REVIEWS_FILE, payload)
+        except ValueError as exc:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, str(exc))
+            return
+        except OSError as exc:
+            self.send_error_json(HTTPStatus.INTERNAL_SERVER_ERROR, f"Could not update review: {exc}")
             return
 
         self.send_json(result)
