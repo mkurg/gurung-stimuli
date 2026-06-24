@@ -22,7 +22,7 @@ from urllib.error import HTTPError
 from urllib.parse import quote, unquote, urlparse
 from urllib.request import Request, urlopen
 
-from reviews import append_review, load_reviews
+from reviews import append_review, delete_review as delete_review_entry, load_reviews
 
 
 APP_DIR = Path(__file__).resolve().parent
@@ -695,6 +695,13 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             return
         self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
 
+    def do_DELETE(self) -> None:
+        parsed = urlparse(self.path)
+        if parsed.path == "/api/reviews":
+            self.delete_saved_review()
+            return
+        self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
+
     def end_headers(self) -> None:
         self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
         self.send_header("Pragma", "no-cache")
@@ -810,6 +817,22 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             return
         except OSError as exc:
             self.send_error_json(HTTPStatus.INTERNAL_SERVER_ERROR, f"Could not save review: {exc}")
+            return
+
+        self.send_json(result)
+
+    def delete_saved_review(self) -> None:
+        payload = self.read_json_body()
+        if payload is None:
+            return
+
+        try:
+            result = delete_review_entry(REVIEWS_FILE, payload)
+        except ValueError as exc:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, str(exc))
+            return
+        except OSError as exc:
+            self.send_error_json(HTTPStatus.INTERNAL_SERVER_ERROR, f"Could not delete review: {exc}")
             return
 
         self.send_json(result)

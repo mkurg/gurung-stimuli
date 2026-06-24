@@ -85,7 +85,7 @@ def write_reviews(path: Path, payload: dict[str, Any]) -> None:
     tmp_path.replace(path)
 
 
-def validate_review_payload(payload: dict[str, Any]) -> tuple[int, int, str, str]:
+def validate_review_target(payload: dict[str, Any]) -> tuple[int, int, str]:
     try:
         dataset_number = int(payload.get("datasetNumber", ""))
     except (TypeError, ValueError) as exc:
@@ -97,14 +97,20 @@ def validate_review_payload(payload: dict[str, Any]) -> tuple[int, int, str, str
         raise ValueError("Set number is invalid.") from exc
 
     stem = payload.get("stem")
-    text = payload.get("text")
-
     if dataset_number <= 0:
         raise ValueError("Dataset number is invalid.")
     if set_number not in SET_NUMBERS:
         raise ValueError("Set number is invalid.")
     if stem not in EXPECTED_IMAGES:
         raise ValueError("Image stem is invalid.")
+
+    return dataset_number, set_number, str(stem)
+
+
+def validate_review_payload(payload: dict[str, Any]) -> tuple[int, int, str, str]:
+    dataset_number, set_number, stem = validate_review_target(payload)
+    text = payload.get("text")
+
     if not isinstance(text, str):
         raise ValueError("Review text is invalid.")
 
@@ -139,5 +145,41 @@ def append_review(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
         "ok": True,
         "key": key,
         "review": entry,
+        "reviews": reviews_payload,
+    }
+
+
+def delete_review(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    dataset_number, set_number, stem = validate_review_target(payload)
+    review_id = payload.get("id", payload.get("reviewId"))
+    if not isinstance(review_id, str) or not review_id.strip():
+        raise ValueError("Review id is invalid.")
+
+    clean_review_id = review_id.strip()
+    reviews_payload = load_reviews(path)
+    key = review_key(dataset_number, set_number, stem)
+    reviews = reviews_payload.setdefault("reviews", {})
+    assert isinstance(reviews, dict)
+    entries = reviews.get(key, [])
+    if not isinstance(entries, list):
+        entries = []
+
+    kept_entries = [
+        entry for entry in entries if not isinstance(entry, dict) or entry.get("id") != clean_review_id
+    ]
+    if len(kept_entries) == len(entries):
+        raise ValueError("Review not found.")
+
+    if kept_entries:
+        reviews[key] = kept_entries
+    else:
+        reviews.pop(key, None)
+
+    reviews_payload["updatedAt"] = datetime.now().isoformat(timespec="seconds")
+    write_reviews(path, reviews_payload)
+    return {
+        "ok": True,
+        "key": key,
+        "deletedId": clean_review_id,
         "reviews": reviews_payload,
     }

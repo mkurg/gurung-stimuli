@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
   els.ideaClear.addEventListener("click", clearIdeaText);
   els.ideaSave.addEventListener("click", saveIdea);
   els.reviewSave.addEventListener("click", saveReview);
+  els.reviewList.addEventListener("click", handleReviewListClick);
   window.addEventListener("resize", updateStickyOffset);
   window.addEventListener("scroll", scheduleViewportStateUpdate, { passive: true });
   if ("ResizeObserver" in window && els.topbar) {
@@ -1354,8 +1355,15 @@ function renderReviewPanel() {
         .map(
           (entry) => `
             <article class="review-entry">
+              <div class="review-entry-head">
+                ${entry.createdAt ? `<time>${escapeHtml(entry.createdAt.replace("T", " "))}</time>` : "<span>Comment</span>"}
+                ${
+                  entry.id
+                    ? `<button class="review-delete" type="button" data-review-id="${escapeAttr(entry.id)}">Delete</button>`
+                    : ""
+                }
+              </div>
               <p>${escapeHtml(entry.text)}</p>
-              ${entry.createdAt ? `<time>${escapeHtml(entry.createdAt.replace("T", " "))}</time>` : ""}
             </article>
           `,
         )
@@ -1410,6 +1418,54 @@ async function saveReview() {
     render();
   } catch (error) {
     els.reviewSave.disabled = false;
+    els.reviewStatus.textContent = error.message;
+  }
+}
+
+function handleReviewListClick(event) {
+  const button = event.target.closest("[data-review-id]");
+  if (!button || !els.reviewList.contains(button)) {
+    return;
+  }
+  deleteReview(button.dataset.reviewId, button);
+}
+
+async function deleteReview(reviewId, button) {
+  if (!activeReviewTarget || !reviewId) {
+    return;
+  }
+  if (!window.confirm("Delete this comment?")) {
+    return;
+  }
+
+  button.disabled = true;
+  els.reviewStatus.textContent = "Deleting...";
+  try {
+    const response = await fetch(reviewApiUrl("/api/reviews"), {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        datasetNumber: activeReviewTarget.datasetNumber,
+        setNumber: activeReviewTarget.setNumber,
+        stem: activeReviewTarget.stem,
+        id: reviewId,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error ?? `Delete failed with HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+    const payload = normalizeReviews(result.reviews ?? result);
+    state.reviews = payload.reviews;
+    state.reviewsUpdatedAt = payload.updatedAt;
+    state.reviewStatus = "ok";
+    renderReviewPanel();
+    render();
+  } catch (error) {
+    button.disabled = false;
     els.reviewStatus.textContent = error.message;
   }
 }

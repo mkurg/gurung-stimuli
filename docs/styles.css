@@ -804,6 +804,13 @@ button.thumb:hover {
   background: #121b2a;
 }
 
+.review-entry-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .review-entry p,
 .review-empty {
   margin: 0;
@@ -813,10 +820,33 @@ button.thumb:hover {
 }
 
 .review-entry time,
+.review-entry-head span,
 .review-empty {
   color: var(--muted);
   font-size: 11px;
   font-weight: 750;
+}
+
+.review-delete {
+  padding: 3px 7px;
+  border: 1px solid rgba(255, 138, 138, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 117, 117, 0.08);
+  color: #ff9b9b;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.review-delete:hover,
+.review-delete:focus-visible {
+  border-color: rgba(255, 138, 138, 0.75);
+  background: rgba(255, 117, 117, 0.16);
+}
+
+.review-delete:disabled {
+  cursor: wait;
+  opacity: 0.62;
 }
 
 .review-panel textarea {
