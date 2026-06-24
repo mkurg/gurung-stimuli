@@ -1,4 +1,4 @@
-const DEFAULT_VISIBLE_SETS = ["1", "2"];
+const DEFAULT_VISIBLE_SETS = ["1", "2", "3", "4"];
 const GENERATION_STAT_SETS = ["3", "4"];
 const FULL_SET_KEYS = ["1", "2", "3", "4"];
 const CORE_IMAGE_STEMS = ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"];
@@ -30,7 +30,7 @@ const state = {
   reviewStatus: "",
   reviewsUpdatedAt: "",
   showImageSets: true,
-  imageSetSize: 5,
+  imageSetSize: 8,
   showPathPreviews: true,
   canSaveIdeas: false,
 };
