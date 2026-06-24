@@ -444,14 +444,20 @@ h1 {
 }
 
 .dataset-review-item.is-open {
-  border-color: rgba(241, 184, 103, 0.42);
-  background: rgba(52, 38, 22, 0.9);
+  border-color: rgba(255, 139, 130, 0.48);
+  background: rgba(63, 25, 25, 0.78);
 }
 
 .dataset-review-item.is-done {
   border-color: rgba(123, 215, 207, 0.5);
   background: rgba(15, 118, 110, 0.18);
   box-shadow: inset 3px 0 0 rgba(123, 215, 207, 0.84);
+}
+
+.dataset-review-item.is-deferred {
+  border-color: rgba(241, 184, 103, 0.5);
+  background: rgba(52, 38, 22, 0.88);
+  box-shadow: inset 3px 0 0 rgba(241, 184, 103, 0.84);
 }
 
 .dataset-review-item strong,
@@ -479,8 +485,8 @@ h1 {
 }
 
 .dataset-review-item.is-open .dataset-review-count {
-  background: var(--amber);
-  color: #241304;
+  background: var(--red);
+  color: #2b0603;
 }
 
 .dataset-review-item.is-done .dataset-review-count {
@@ -498,8 +504,29 @@ h1 {
   transform: rotate(-45deg) translateY(-1px);
 }
 
+.dataset-review-item.is-deferred .dataset-review-count {
+  background: var(--amber);
+  color: #241304;
+}
+
+.dataset-review-item.is-deferred .dataset-review-count::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  margin-right: 3px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  background:
+    linear-gradient(currentColor, currentColor) center 1px / 2px 4px no-repeat,
+    linear-gradient(currentColor, currentColor) center center / 4px 2px no-repeat;
+}
+
 .dataset-review-item.is-done em {
   color: var(--teal-dark);
+}
+
+.dataset-review-item.is-deferred em {
+  color: var(--amber);
 }
 
 .dataset-review-item em {
@@ -637,13 +664,18 @@ button.thumb:hover {
 }
 
 .thumb.has-reviews {
-  border-color: rgba(241, 184, 103, 0.72);
-  box-shadow: 0 0 0 3px rgba(241, 184, 103, 0.12);
+  border-color: rgba(255, 139, 130, 0.74);
+  box-shadow: 0 0 0 3px rgba(255, 139, 130, 0.13);
 }
 
 .thumb.has-reviews.reviews-done {
   border-color: rgba(123, 215, 207, 0.72);
   box-shadow: 0 0 0 3px rgba(123, 215, 207, 0.13);
+}
+
+.thumb.has-reviews.reviews-deferred {
+  border-color: rgba(241, 184, 103, 0.72);
+  box-shadow: 0 0 0 3px rgba(241, 184, 103, 0.12);
 }
 
 .review-badge {
@@ -661,8 +693,8 @@ button.thumb:hover {
 }
 
 .review-badge.is-open {
-  background: var(--amber);
-  color: #241304;
+  background: var(--red);
+  color: #2b0603;
 }
 
 .review-badge.is-done {
@@ -678,6 +710,23 @@ button.thumb:hover {
   border-bottom: 2px solid currentColor;
   border-left: 2px solid currentColor;
   transform: rotate(-45deg) translateY(-1px);
+}
+
+.review-badge.is-deferred {
+  gap: 3px;
+  background: var(--amber);
+  color: #241304;
+}
+
+.review-badge.is-deferred::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  background:
+    linear-gradient(currentColor, currentColor) center 1px / 2px 4px no-repeat,
+    linear-gradient(currentColor, currentColor) center center / 4px 2px no-repeat;
 }
 
 .thumb.upload-target.drag-over,
@@ -892,10 +941,22 @@ button.thumb:hover {
   background: #121b2a;
 }
 
+.review-entry.is-open {
+  border-color: rgba(255, 139, 130, 0.58);
+  background: rgba(63, 25, 25, 0.54);
+  box-shadow: inset 3px 0 0 rgba(255, 139, 130, 0.84);
+}
+
 .review-entry.is-done {
   border-color: rgba(123, 215, 207, 0.62);
   background: rgba(15, 118, 110, 0.18);
   box-shadow: inset 3px 0 0 rgba(123, 215, 207, 0.88);
+}
+
+.review-entry.is-deferred {
+  border-color: rgba(241, 184, 103, 0.62);
+  background: rgba(52, 38, 22, 0.64);
+  box-shadow: inset 3px 0 0 rgba(241, 184, 103, 0.88);
 }
 
 .review-entry-head {
@@ -933,21 +994,44 @@ button.thumb:hover {
   font-weight: 750;
 }
 
-.review-done-label {
+.review-status-label {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   min-height: 20px;
   padding: 0 7px;
-  border: 1px solid rgba(123, 215, 207, 0.42);
   border-radius: 999px;
-  background: rgba(123, 215, 207, 0.14);
-  color: var(--teal-dark);
   font-size: 11px;
   font-weight: 950;
 }
 
-.review-done-label::before {
+.review-status-label.is-open {
+  border: 1px solid rgba(255, 139, 130, 0.44);
+  background: rgba(255, 139, 130, 0.13);
+  color: var(--red);
+}
+
+.review-status-label.is-done {
+  border: 1px solid rgba(123, 215, 207, 0.42);
+  background: rgba(123, 215, 207, 0.14);
+  color: var(--teal-dark);
+}
+
+.review-status-label.is-deferred {
+  border: 1px solid rgba(241, 184, 103, 0.44);
+  background: rgba(241, 184, 103, 0.14);
+  color: var(--amber);
+}
+
+.review-status-label.is-open::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.review-status-label.is-done::before {
   content: "";
   width: 7px;
   height: 4px;
@@ -956,11 +1040,26 @@ button.thumb:hover {
   transform: rotate(-45deg) translateY(-1px);
 }
 
-.review-done-at {
+.review-status-label.is-deferred::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  background:
+    linear-gradient(currentColor, currentColor) center 1px / 2px 4px no-repeat,
+    linear-gradient(currentColor, currentColor) center center / 4px 2px no-repeat;
+}
+
+.review-status-at.is-done {
   color: var(--teal-dark);
 }
 
-.review-done-toggle,
+.review-status-at.is-deferred {
+  color: var(--amber);
+}
+
+.review-status-toggle,
 .review-delete {
   padding: 3px 7px;
   border-radius: 999px;
@@ -969,16 +1068,40 @@ button.thumb:hover {
   font-weight: 850;
 }
 
-.review-done-toggle {
+.review-status-toggle.is-open {
+  border: 1px solid rgba(255, 139, 130, 0.35);
+  background: rgba(255, 139, 130, 0.08);
+  color: var(--red);
+}
+
+.review-status-toggle.is-done {
   border: 1px solid rgba(123, 215, 207, 0.35);
   background: rgba(123, 215, 207, 0.08);
   color: var(--teal-dark);
 }
 
-.review-done-toggle:hover,
-.review-done-toggle:focus-visible {
+.review-status-toggle.is-deferred {
+  border: 1px solid rgba(241, 184, 103, 0.38);
+  background: rgba(241, 184, 103, 0.09);
+  color: var(--amber);
+}
+
+.review-status-toggle:hover,
+.review-status-toggle:focus-visible {
   border-color: rgba(123, 215, 207, 0.75);
   background: rgba(123, 215, 207, 0.16);
+}
+
+.review-status-toggle.is-open:hover,
+.review-status-toggle.is-open:focus-visible {
+  border-color: rgba(255, 139, 130, 0.75);
+  background: rgba(255, 139, 130, 0.16);
+}
+
+.review-status-toggle.is-deferred:hover,
+.review-status-toggle.is-deferred:focus-visible {
+  border-color: rgba(241, 184, 103, 0.78);
+  background: rgba(241, 184, 103, 0.17);
 }
 
 .review-delete {
@@ -993,7 +1116,7 @@ button.thumb:hover {
   background: rgba(255, 117, 117, 0.16);
 }
 
-.review-done-toggle:disabled,
+.review-status-toggle:disabled,
 .review-delete:disabled {
   cursor: wait;
   opacity: 0.62;

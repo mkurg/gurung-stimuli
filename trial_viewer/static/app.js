@@ -5,6 +5,7 @@ const CORE_IMAGE_STEMS = ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"];
 const MAX_DROP_FILE_BYTES = 24 * 1024 * 1024;
 const MAX_REVIEW_TEXT_LENGTH = 3000;
 const DEFAULT_REMOTE_REVIEW_API_BASE = "https://gurung.duckdns.org";
+const REVIEW_STATUSES = new Set(["open", "done", "deferred"]);
 const DEFAULT_EXPECTED_IMAGES = [
   ...CORE_IMAGE_STEMS,
   "end_coh_it",
@@ -350,13 +351,18 @@ function normalizeReviews(payload) {
       }
       const cleanEntries = entries
         .filter((entry) => entry && typeof entry.text === "string" && entry.text.trim())
-        .map((entry) => ({
-          id: typeof entry.id === "string" ? entry.id : "",
-          text: entry.text.trim(),
-          createdAt: typeof entry.createdAt === "string" ? entry.createdAt : "",
-          done: entry.done === true,
-          doneAt: typeof entry.doneAt === "string" ? entry.doneAt : "",
-        }));
+        .map((entry) => {
+          const status = normalizeReviewStatus(entry);
+          return {
+            id: typeof entry.id === "string" ? entry.id : "",
+            text: entry.text.trim(),
+            createdAt: typeof entry.createdAt === "string" ? entry.createdAt : "",
+            status,
+            done: status === "done",
+            doneAt: typeof entry.doneAt === "string" ? entry.doneAt : "",
+            deferredAt: typeof entry.deferredAt === "string" ? entry.deferredAt : "",
+          };
+        });
       if (cleanEntries.length) {
         reviews[key] = cleanEntries;
       }
@@ -366,6 +372,24 @@ function normalizeReviews(payload) {
     reviews,
     updatedAt: typeof payload?.updatedAt === "string" ? payload.updatedAt : "",
   };
+}
+
+function normalizeReviewStatus(entry) {
+  const status = entry?.status;
+  if (typeof status === "string" && REVIEW_STATUSES.has(status)) {
+    return status;
+  }
+  return entry?.done === true ? "done" : "open";
+}
+
+function reviewStatusLabel(status) {
+  if (status === "done") {
+    return "Done";
+  }
+  if (status === "deferred") {
+    return "Deferred";
+  }
+  return "Open";
 }
 
 function reviewKey(datasetNumber, setKey, stem) {
@@ -383,10 +407,12 @@ function reviewCountFor(datasetNumber, setKey, stem) {
 function reviewSummaryFor(datasetNumber, setKey, stem) {
   const entries = reviewsFor(datasetNumber, setKey, stem);
   const latest = entries[entries.length - 1] ?? null;
+  const latestStatus = latest?.status ?? "open";
   return {
     count: entries.length,
     latest,
-    latestDone: latest?.done === true,
+    latestStatus,
+    latestDone: latestStatus === "done",
   };
 }
 
@@ -661,7 +687,7 @@ function renderDatasetReviewList(dataset) {
           stem,
           count: entries.length,
           latest: latest.text,
-          latestDone: latest.done === true,
+          latestStatus: latest.status ?? "open",
         });
       }
     }
@@ -677,15 +703,15 @@ function renderDatasetReviewList(dataset) {
         .map(
           (item) => `
             <button
-              class="dataset-review-item ${item.latestDone ? "is-done" : "is-open"}"
+              class="dataset-review-item is-${item.latestStatus}"
               type="button"
               data-review-target="true"
               data-dataset-number="${dataset.number}"
               data-dataset-name="${escapeAttr(dataset.displayName)}"
               data-set-number="${escapeAttr(item.setKey)}"
               data-stem="${escapeAttr(item.stem)}"
-              title="${escapeAttr(`${item.latestDone ? "Done" : "Open"}: set ${item.setKey} / ${item.stem}`)}"
-              aria-label="${escapeAttr(`${item.latestDone ? "Done" : "Open"} comment for set ${item.setKey} ${item.stem}`)}"
+              title="${escapeAttr(`${reviewStatusLabel(item.latestStatus)}: set ${item.setKey} / ${item.stem}`)}"
+              aria-label="${escapeAttr(`${reviewStatusLabel(item.latestStatus)} comment for set ${item.setKey} ${item.stem}`)}"
             >
               <strong>${escapeHtml(`Set ${item.setKey} / ${item.stem}`)}</strong>
               <span class="dataset-review-count">${item.count}</span>
@@ -822,9 +848,9 @@ function renderThumb(image, stem, dataset, setKey, extra = false, idea = null) {
 
   const url = versionedImageUrl(image);
   const caption = `Dataset ${dataset.number}: ${dataset.displayName} / set ${setKey} / ${image.filename}`;
-  const reviewSummary = extra ? { count: 0, latestDone: false } : reviewSummaryFor(dataset.number, setKey, stem);
+  const reviewSummary = extra ? { count: 0, latestStatus: "open" } : reviewSummaryFor(dataset.number, setKey, stem);
   const reviewCount = reviewSummary.count;
-  const reviewStateClass = reviewCount ? (reviewSummary.latestDone ? "reviews-done" : "reviews-open") : "";
+  const reviewStateClass = reviewCount ? `reviews-${reviewSummary.latestStatus}` : "";
   const uploadAttrs = extra
     ? ""
     : `
@@ -845,7 +871,7 @@ function renderThumb(image, stem, dataset, setKey, extra = false, idea = null) {
       <img loading="lazy" src="${escapeAttr(url)}" alt="${escapeAttr(stem)}">
       <div class="thumb-label">
         <span>${escapeHtml(extra ? image.filename : stem)}</span>
-        ${reviewCount ? `<strong class="review-badge ${reviewSummary.latestDone ? "is-done" : "is-open"}">${reviewCount}</strong>` : ""}
+        ${reviewCount ? `<strong class="review-badge is-${reviewSummary.latestStatus}">${reviewCount}</strong>` : ""}
       </div>
     </button>
   `;
@@ -1411,6 +1437,50 @@ function reviewTitle(target) {
   return `Dataset ${target.datasetNumber}: ${target.datasetName} / set ${target.setNumber} / ${target.stem}`;
 }
 
+function renderReviewStatusLabel(entry) {
+  return `<strong class="review-status-label is-${entry.status}">${escapeHtml(reviewStatusLabel(entry.status))}</strong>`;
+}
+
+function renderReviewActions(entry) {
+  if (!entry.id) {
+    return "";
+  }
+
+  return `
+    ${entry.status !== "done" ? reviewStatusButton(entry.id, "done", "Mark done") : ""}
+    ${entry.status !== "deferred" ? reviewStatusButton(entry.id, "deferred", "Defer") : ""}
+    ${entry.status !== "open" ? reviewStatusButton(entry.id, "open", "Reopen") : ""}
+    <button
+      class="review-delete"
+      type="button"
+      data-review-action="delete"
+      data-review-id="${escapeAttr(entry.id)}"
+    >Delete</button>
+  `;
+}
+
+function reviewStatusButton(reviewId, status, label) {
+  return `
+    <button
+      class="review-status-toggle is-${status}"
+      type="button"
+      data-review-action="set-status"
+      data-review-id="${escapeAttr(reviewId)}"
+      data-review-status="${escapeAttr(status)}"
+    >${escapeHtml(label)}</button>
+  `;
+}
+
+function renderReviewStatusTime(entry) {
+  if (entry.status === "done" && entry.doneAt) {
+    return `<time class="review-status-at is-done">Done ${escapeHtml(entry.doneAt.replace("T", " "))}</time>`;
+  }
+  if (entry.status === "deferred" && entry.deferredAt) {
+    return `<time class="review-status-at is-deferred">Deferred ${escapeHtml(entry.deferredAt.replace("T", " "))}</time>`;
+  }
+  return "";
+}
+
 function renderReviewPanel() {
   if (!activeReviewTarget) {
     els.reviewPanel.hidden = true;
@@ -1429,36 +1499,18 @@ function renderReviewPanel() {
     ? entries
         .map(
           (entry) => `
-            <article class="review-entry ${entry.done ? "is-done" : ""}">
+            <article class="review-entry is-${entry.status}">
               <div class="review-entry-head">
                 <div class="review-entry-meta">
-                  ${entry.done ? '<strong class="review-done-label">Done</strong>' : ""}
+                  ${renderReviewStatusLabel(entry)}
                   ${entry.createdAt ? `<time>${escapeHtml(entry.createdAt.replace("T", " "))}</time>` : "<span>Comment</span>"}
                 </div>
                 <div class="review-actions">
-                  ${
-                    entry.id
-                      ? `
-                        <button
-                          class="review-done-toggle"
-                          type="button"
-                          data-review-action="toggle-done"
-                          data-review-id="${escapeAttr(entry.id)}"
-                          data-review-done="${entry.done ? "false" : "true"}"
-                        >${entry.done ? "Reopen" : "Mark done"}</button>
-                        <button
-                          class="review-delete"
-                          type="button"
-                          data-review-action="delete"
-                          data-review-id="${escapeAttr(entry.id)}"
-                        >Delete</button>
-                      `
-                      : ""
-                  }
+                  ${renderReviewActions(entry)}
                 </div>
               </div>
               <p>${escapeHtml(entry.text)}</p>
-              ${entry.doneAt ? `<time class="review-done-at">Done ${escapeHtml(entry.doneAt.replace("T", " "))}</time>` : ""}
+              ${renderReviewStatusTime(entry)}
             </article>
           `,
         )
@@ -1524,8 +1576,8 @@ function handleReviewListClick(event) {
   }
   if (button.dataset.reviewAction === "delete") {
     deleteReview(button.dataset.reviewId, button);
-  } else if (button.dataset.reviewAction === "toggle-done") {
-    setReviewDone(button.dataset.reviewId, button.dataset.reviewDone === "true", button);
+  } else if (button.dataset.reviewAction === "set-status") {
+    setReviewStatus(button.dataset.reviewId, button.dataset.reviewStatus, button);
   }
 }
 
@@ -1569,13 +1621,13 @@ async function deleteReview(reviewId, button) {
   }
 }
 
-async function setReviewDone(reviewId, done, button) {
+async function setReviewStatus(reviewId, status, button) {
   if (!activeReviewTarget || !reviewId) {
     return;
   }
 
   button.disabled = true;
-  els.reviewStatus.textContent = done ? "Marking done..." : "Reopening...";
+  els.reviewStatus.textContent = reviewStatusProgressText(status);
   try {
     const response = await fetch(reviewApiUrl("/api/reviews"), {
       method: "PATCH",
@@ -1585,7 +1637,7 @@ async function setReviewDone(reviewId, done, button) {
         setNumber: activeReviewTarget.setNumber,
         stem: activeReviewTarget.stem,
         id: reviewId,
-        done,
+        status,
       }),
     });
 
@@ -1605,6 +1657,16 @@ async function setReviewDone(reviewId, done, button) {
     button.disabled = false;
     els.reviewStatus.textContent = error.message;
   }
+}
+
+function reviewStatusProgressText(status) {
+  if (status === "done") {
+    return "Marking done...";
+  }
+  if (status === "deferred") {
+    return "Deferring...";
+  }
+  return "Reopening...";
 }
 
 function getPreviewItems() {

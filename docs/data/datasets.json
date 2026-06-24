@@ -102,17 +102,17 @@
       },
       "3": {
         "folders": 30,
-        "complete": 22,
+        "complete": 24,
         "empty": 1,
-        "incomplete": 8,
-        "coreIncomplete": 8,
-        "needsEndings": 5,
+        "incomplete": 6,
+        "coreIncomplete": 5,
+        "needsEndings": 3,
         "extraImages": 0,
         "endings": {
-          "present": 76,
+          "present": 81,
           "total": 90,
-          "missing": 14,
-          "percent": 84.4
+          "missing": 9,
+          "percent": 90.0
         }
       },
       "4": {
@@ -146,10 +146,10 @@
         "percent": 100.0
       },
       "3": {
-        "present": 76,
+        "present": 81,
         "total": 90,
-        "missing": 14,
-        "percent": 84.4
+        "missing": 9,
+        "percent": 90.0
       },
       "4": {
         "present": 57,
@@ -158,10 +158,10 @@
         "percent": 63.3
       },
       "all": {
-        "present": 313,
+        "present": 318,
         "total": 360,
-        "missing": 47,
-        "percent": 86.9
+        "missing": 42,
+        "percent": 88.3
       }
     },
     "existingComplete": 30,
@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-24T18:16:17",
+  "scannedAt": "2026-06-24T23:47:46",
   "datasets": [
     {
       "number": 1,
@@ -570,9 +570,9 @@
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "https://gurung.duckdns.org/assets/1_cough_throw_bones/3/it_target.webp",
-              "bytes": 28728,
-              "sourceBytes": 2203135,
-              "modified": "2026-06-24T17:02:15"
+              "bytes": 29560,
+              "sourceBytes": 2071033,
+              "modified": "2026-06-24T23:47:20"
             },
             "end_coh_it": {
               "filename": "end_coh_it.webp",
@@ -644,9 +644,9 @@
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "https://gurung.duckdns.org/assets/1_cough_throw_bones/3/it_target.webp",
-              "bytes": 28728,
-              "sourceBytes": 2203135,
-              "modified": "2026-06-24T17:02:15"
+              "bytes": 29560,
+              "sourceBytes": 2071033,
+              "modified": "2026-06-24T23:47:20"
             }
           },
           "endings": {
@@ -1377,9 +1377,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "https://gurung.duckdns.org/assets/2_stand_weave_basket/4/ic_1.webp",
-              "bytes": 74886,
-              "sourceBytes": 2833641,
-              "modified": "2026-06-23T21:45:36"
+              "bytes": 70002,
+              "sourceBytes": 2542275,
+              "modified": "2026-06-24T18:23:37"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -1451,9 +1451,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "https://gurung.duckdns.org/assets/2_stand_weave_basket/4/ic_1.webp",
-              "bytes": 74886,
-              "sourceBytes": 2833641,
-              "modified": "2026-06-23T21:45:36"
+              "bytes": 70002,
+              "sourceBytes": 2542275,
+              "modified": "2026-06-24T18:23:37"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -5345,9 +5345,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "https://gurung.duckdns.org/assets/8_smile_weave_garland/3/ic_1.webp",
-              "bytes": 29242,
-              "sourceBytes": 2366534,
-              "modified": "2026-06-23T14:31:51"
+              "bytes": 37522,
+              "sourceBytes": 2465554,
+              "modified": "2026-06-24T18:19:21"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -5372,9 +5372,9 @@
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "https://gurung.duckdns.org/assets/8_smile_weave_garland/3/tr_target.webp",
-              "bytes": 42156,
-              "sourceBytes": 2464920,
-              "modified": "2026-06-23T14:38:16"
+              "bytes": 42192,
+              "sourceBytes": 2377017,
+              "modified": "2026-06-24T18:58:33"
             },
             "it_target": {
               "filename": "it_target.webp",
@@ -5399,18 +5399,18 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "https://gurung.duckdns.org/assets/8_smile_weave_garland/3/end_ic_tr.webp",
-              "bytes": 26586,
-              "sourceBytes": 2318920,
-              "modified": "2026-06-23T14:34:20"
+              "bytes": 28706,
+              "sourceBytes": 2243336,
+              "modified": "2026-06-24T18:54:43"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
               "originalFilename": "end_ic_it.png",
               "stem": "end_ic_it",
               "url": "https://gurung.duckdns.org/assets/8_smile_weave_garland/3/end_ic_it.webp",
-              "bytes": 30726,
-              "sourceBytes": 2405746,
-              "modified": "2026-06-23T14:38:55"
+              "bytes": 30566,
+              "sourceBytes": 2387272,
+              "modified": "2026-06-24T18:54:51"
             }
           },
           "core": {
@@ -5419,9 +5419,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "https://gurung.duckdns.org/assets/8_smile_weave_garland/3/ic_1.webp",
-              "bytes": 29242,
-              "sourceBytes": 2366534,
-              "modified": "2026-06-23T14:31:51"
+              "bytes": 37522,
+              "sourceBytes": 2465554,
+              "modified": "2026-06-24T18:19:21"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -5446,9 +5446,9 @@
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "https://gurung.duckdns.org/assets/8_smile_weave_garland/3/tr_target.webp",
-              "bytes": 42156,
-              "sourceBytes": 2464920,
-              "modified": "2026-06-23T14:38:16"
+              "bytes": 42192,
+              "sourceBytes": 2377017,
+              "modified": "2026-06-24T18:58:33"
             },
             "it_target": {
               "filename": "it_target.webp",
@@ -5475,18 +5475,18 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "https://gurung.duckdns.org/assets/8_smile_weave_garland/3/end_ic_tr.webp",
-              "bytes": 26586,
-              "sourceBytes": 2318920,
-              "modified": "2026-06-23T14:34:20"
+              "bytes": 28706,
+              "sourceBytes": 2243336,
+              "modified": "2026-06-24T18:54:43"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
               "originalFilename": "end_ic_it.png",
               "stem": "end_ic_it",
               "url": "https://gurung.duckdns.org/assets/8_smile_weave_garland/3/end_ic_it.webp",
-              "bytes": 30726,
-              "sourceBytes": 2405746,
-              "modified": "2026-06-23T14:38:55"
+              "bytes": 30566,
+              "sourceBytes": 2387272,
+              "modified": "2026-06-24T18:54:51"
             }
           },
           "missing": [],
@@ -7363,9 +7363,9 @@
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "https://gurung.duckdns.org/assets/11_ascend_wipe_plate/3/it_target.webp",
-              "bytes": 80134,
-              "sourceBytes": 2692523,
-              "modified": "2026-06-22T20:57:45"
+              "bytes": 75028,
+              "sourceBytes": 2727680,
+              "modified": "2026-06-24T19:00:38"
             },
             "end_coh_it": {
               "filename": "end_coh_it.webp",
@@ -7381,9 +7381,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "https://gurung.duckdns.org/assets/11_ascend_wipe_plate/3/end_ic_tr.webp",
-              "bytes": 62018,
-              "sourceBytes": 2639799,
-              "modified": "2026-06-22T21:15:04"
+              "bytes": 67696,
+              "sourceBytes": 2789789,
+              "modified": "2026-06-24T19:56:45"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -7437,9 +7437,9 @@
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "https://gurung.duckdns.org/assets/11_ascend_wipe_plate/3/it_target.webp",
-              "bytes": 80134,
-              "sourceBytes": 2692523,
-              "modified": "2026-06-22T20:57:45"
+              "bytes": 75028,
+              "sourceBytes": 2727680,
+              "modified": "2026-06-24T19:00:38"
             }
           },
           "endings": {
@@ -7457,9 +7457,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "https://gurung.duckdns.org/assets/11_ascend_wipe_plate/3/end_ic_tr.webp",
-              "bytes": 62018,
-              "sourceBytes": 2639799,
-              "modified": "2026-06-22T21:15:04"
+              "bytes": 67696,
+              "sourceBytes": 2789789,
+              "modified": "2026-06-24T19:56:45"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -8008,11 +8008,35 @@
           "set": 3,
           "exists": true,
           "path": "assets/12_come_eat_rice/3",
-          "fileCount": 2,
+          "fileCount": 8,
           "images": {
-            "ic_1": null,
-            "coh_1": null,
-            "coh_2": null,
+            "ic_1": {
+              "filename": "ic_1.webp",
+              "originalFilename": "ic_1.png",
+              "stem": "ic_1",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/ic_1.webp",
+              "bytes": 80188,
+              "sourceBytes": 3286071,
+              "modified": "2026-06-24T18:41:56"
+            },
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/coh_1.webp",
+              "bytes": 34544,
+              "sourceBytes": 2339062,
+              "modified": "2026-06-24T18:42:58"
+            },
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/coh_2.webp",
+              "bytes": 32578,
+              "sourceBytes": 2171416,
+              "modified": "2026-06-24T18:43:14"
+            },
             "tr_target": {
               "filename": "tr_target.webp",
               "originalFilename": "tr_target.png",
@@ -8031,14 +8055,62 @@
               "sourceBytes": 2817983,
               "modified": "2026-06-23T23:36:35"
             },
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/end_coh_it.webp",
+              "bytes": 39682,
+              "sourceBytes": 2539955,
+              "modified": "2026-06-24T18:41:14"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/end_ic_tr.webp",
+              "bytes": 17466,
+              "sourceBytes": 2040872,
+              "modified": "2026-06-24T18:41:37"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/end_ic_it.webp",
+              "bytes": 48544,
+              "sourceBytes": 2591143,
+              "modified": "2026-06-24T18:42:14"
+            }
           },
           "core": {
-            "ic_1": null,
-            "coh_1": null,
-            "coh_2": null,
+            "ic_1": {
+              "filename": "ic_1.webp",
+              "originalFilename": "ic_1.png",
+              "stem": "ic_1",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/ic_1.webp",
+              "bytes": 80188,
+              "sourceBytes": 3286071,
+              "modified": "2026-06-24T18:41:56"
+            },
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/coh_1.webp",
+              "bytes": 34544,
+              "sourceBytes": 2339062,
+              "modified": "2026-06-24T18:42:58"
+            },
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/coh_2.webp",
+              "bytes": 32578,
+              "sourceBytes": 2171416,
+              "modified": "2026-06-24T18:43:14"
+            },
             "tr_target": {
               "filename": "tr_target.webp",
               "originalFilename": "tr_target.png",
@@ -8059,20 +8131,37 @@
             }
           },
           "endings": {
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/end_coh_it.webp",
+              "bytes": 39682,
+              "sourceBytes": 2539955,
+              "modified": "2026-06-24T18:41:14"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/end_ic_tr.webp",
+              "bytes": 17466,
+              "sourceBytes": 2040872,
+              "modified": "2026-06-24T18:41:37"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "https://gurung.duckdns.org/assets/12_come_eat_rice/3/end_ic_it.webp",
+              "bytes": 48544,
+              "sourceBytes": 2591143,
+              "modified": "2026-06-24T18:42:14"
+            }
           },
-          "missing": [
-            "ic_1",
-            "coh_1",
-            "coh_2",
-            "end_coh_it",
-            "end_ic_tr",
-            "end_ic_it"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -8136,9 +8225,6 @@
         }
       },
       "issueTags": [
-        "set-3-core-incomplete",
-        "set-3-incomplete",
-        "set-3-needs-endings",
         "set-4-core-incomplete",
         "set-4-empty"
       ]
@@ -8525,9 +8611,9 @@
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "https://gurung.duckdns.org/assets/13_stand_wash_clothes/3/tr_target.webp",
-              "bytes": 44922,
-              "sourceBytes": 2498160,
-              "modified": "2026-06-23T23:43:27"
+              "bytes": 48484,
+              "sourceBytes": 2595327,
+              "modified": "2026-06-24T18:59:16"
             },
             "it_target": {
               "filename": "it_target.webp",
@@ -8552,9 +8638,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "https://gurung.duckdns.org/assets/13_stand_wash_clothes/3/end_ic_tr.webp",
-              "bytes": 71622,
-              "sourceBytes": 2878673,
-              "modified": "2026-06-23T23:43:58"
+              "bytes": 68474,
+              "sourceBytes": 2729695,
+              "modified": "2026-06-24T19:02:18"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -8599,9 +8685,9 @@
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "https://gurung.duckdns.org/assets/13_stand_wash_clothes/3/tr_target.webp",
-              "bytes": 44922,
-              "sourceBytes": 2498160,
-              "modified": "2026-06-23T23:43:27"
+              "bytes": 48484,
+              "sourceBytes": 2595327,
+              "modified": "2026-06-24T18:59:16"
             },
             "it_target": {
               "filename": "it_target.webp",
@@ -8628,9 +8714,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "https://gurung.duckdns.org/assets/13_stand_wash_clothes/3/end_ic_tr.webp",
-              "bytes": 71622,
-              "sourceBytes": 2878673,
-              "modified": "2026-06-23T23:43:58"
+              "bytes": 68474,
+              "sourceBytes": 2729695,
+              "modified": "2026-06-24T19:02:18"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -9067,9 +9153,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "https://gurung.duckdns.org/assets/14_ascend_weave_raincoat/3/ic_1.webp",
-              "bytes": 82190,
-              "sourceBytes": 3000424,
-              "modified": "2026-06-23T22:33:52"
+              "bytes": 102384,
+              "sourceBytes": 3365500,
+              "modified": "2026-06-24T19:16:12"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -9141,9 +9227,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "https://gurung.duckdns.org/assets/14_ascend_weave_raincoat/3/ic_1.webp",
-              "bytes": 82190,
-              "sourceBytes": 3000424,
-              "modified": "2026-06-23T22:33:52"
+              "bytes": 102384,
+              "sourceBytes": 3365500,
+              "modified": "2026-06-24T19:16:12"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -9663,18 +9749,18 @@
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "https://gurung.duckdns.org/assets/15_smile_clean_wall/3/tr_target.webp",
-              "bytes": 25280,
-              "sourceBytes": 2370727,
-              "modified": "2026-06-22T10:35:49"
+              "bytes": 26360,
+              "sourceBytes": 2414401,
+              "modified": "2026-06-24T19:34:06"
             },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "https://gurung.duckdns.org/assets/15_smile_clean_wall/3/it_target.webp",
-              "bytes": 25080,
-              "sourceBytes": 2448483,
-              "modified": "2026-06-19T13:37:04"
+              "bytes": 29896,
+              "sourceBytes": 2518042,
+              "modified": "2026-06-24T20:11:48"
             },
             "end_coh_it": {
               "filename": "end_coh_it.webp",
@@ -9737,18 +9823,18 @@
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "https://gurung.duckdns.org/assets/15_smile_clean_wall/3/tr_target.webp",
-              "bytes": 25280,
-              "sourceBytes": 2370727,
-              "modified": "2026-06-22T10:35:49"
+              "bytes": 26360,
+              "sourceBytes": 2414401,
+              "modified": "2026-06-24T19:34:06"
             },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "https://gurung.duckdns.org/assets/15_smile_clean_wall/3/it_target.webp",
-              "bytes": 25080,
-              "sourceBytes": 2448483,
-              "modified": "2026-06-19T13:37:04"
+              "bytes": 29896,
+              "sourceBytes": 2518042,
+              "modified": "2026-06-24T20:11:48"
             }
           },
           "endings": {
@@ -10317,7 +10403,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/16_sleep_wash_dish/3",
-          "fileCount": 4,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -10333,32 +10419,64 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/coh_1.webp",
-              "bytes": 36760,
-              "sourceBytes": 2304311,
-              "modified": "2026-06-23T23:39:14"
+              "bytes": 27800,
+              "sourceBytes": 2244967,
+              "modified": "2026-06-24T20:05:46"
             },
-            "coh_2": null,
-            "tr_target": null,
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/coh_2.webp",
+              "bytes": 28572,
+              "sourceBytes": 2069426,
+              "modified": "2026-06-24T20:09:06"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/tr_target.webp",
+              "bytes": 64366,
+              "sourceBytes": 2773937,
+              "modified": "2026-06-24T20:06:00"
+            },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/it_target.webp",
-              "bytes": 44506,
-              "sourceBytes": 2469998,
-              "modified": "2026-06-23T23:38:21"
+              "bytes": 54738,
+              "sourceBytes": 2600258,
+              "modified": "2026-06-24T20:06:08"
             },
             "end_coh_it": {
               "filename": "end_coh_it.webp",
               "originalFilename": "end_coh_it.png",
               "stem": "end_coh_it",
               "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/end_coh_it.webp",
-              "bytes": 42496,
-              "sourceBytes": 2351907,
-              "modified": "2026-06-23T23:38:44"
+              "bytes": 39262,
+              "sourceBytes": 2414106,
+              "modified": "2026-06-24T20:06:21"
             },
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/end_ic_tr.webp",
+              "bytes": 65410,
+              "sourceBytes": 2721110,
+              "modified": "2026-06-24T20:06:30"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/end_ic_it.webp",
+              "bytes": 49946,
+              "sourceBytes": 2608691,
+              "modified": "2026-06-24T20:06:39"
+            }
           },
           "core": {
             "ic_1": {
@@ -10375,20 +10493,36 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/coh_1.webp",
-              "bytes": 36760,
-              "sourceBytes": 2304311,
-              "modified": "2026-06-23T23:39:14"
+              "bytes": 27800,
+              "sourceBytes": 2244967,
+              "modified": "2026-06-24T20:05:46"
             },
-            "coh_2": null,
-            "tr_target": null,
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/coh_2.webp",
+              "bytes": 28572,
+              "sourceBytes": 2069426,
+              "modified": "2026-06-24T20:09:06"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/tr_target.webp",
+              "bytes": 64366,
+              "sourceBytes": 2773937,
+              "modified": "2026-06-24T20:06:00"
+            },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/it_target.webp",
-              "bytes": 44506,
-              "sourceBytes": 2469998,
-              "modified": "2026-06-23T23:38:21"
+              "bytes": 54738,
+              "sourceBytes": 2600258,
+              "modified": "2026-06-24T20:06:08"
             }
           },
           "endings": {
@@ -10397,21 +10531,32 @@
               "originalFilename": "end_coh_it.png",
               "stem": "end_coh_it",
               "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/end_coh_it.webp",
-              "bytes": 42496,
-              "sourceBytes": 2351907,
-              "modified": "2026-06-23T23:38:44"
+              "bytes": 39262,
+              "sourceBytes": 2414106,
+              "modified": "2026-06-24T20:06:21"
             },
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/end_ic_tr.webp",
+              "bytes": 65410,
+              "sourceBytes": 2721110,
+              "modified": "2026-06-24T20:06:30"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "https://gurung.duckdns.org/assets/16_sleep_wash_dish/3/end_ic_it.webp",
+              "bytes": 49946,
+              "sourceBytes": 2608691,
+              "modified": "2026-06-24T20:06:39"
+            }
           },
-          "missing": [
-            "coh_2",
-            "tr_target",
-            "end_ic_tr",
-            "end_ic_it"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -10475,9 +10620,6 @@
         }
       },
       "issueTags": [
-        "set-3-core-incomplete",
-        "set-3-incomplete",
-        "set-3-needs-endings",
         "set-4-core-incomplete",
         "set-4-empty"
       ]
@@ -10833,7 +10975,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/17_rest_hang_picture/3",
-          "fileCount": 4,
+          "fileCount": 6,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -10844,16 +10986,32 @@
               "sourceBytes": 2436251,
               "modified": "2026-06-23T22:59:27"
             },
-            "coh_1": null,
-            "coh_2": null,
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "https://gurung.duckdns.org/assets/17_rest_hang_picture/3/coh_1.webp",
+              "bytes": 27564,
+              "sourceBytes": 2399669,
+              "modified": "2026-06-24T19:44:13"
+            },
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "https://gurung.duckdns.org/assets/17_rest_hang_picture/3/coh_2.webp",
+              "bytes": 27264,
+              "sourceBytes": 2391645,
+              "modified": "2026-06-24T19:51:30"
+            },
             "tr_target": {
               "filename": "tr_target.webp",
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "https://gurung.duckdns.org/assets/17_rest_hang_picture/3/tr_target.webp",
-              "bytes": 49890,
-              "sourceBytes": 2970108,
-              "modified": "2026-06-23T22:59:50"
+              "bytes": 38296,
+              "sourceBytes": 2486093,
+              "modified": "2026-06-24T20:19:01"
             },
             "it_target": {
               "filename": "it_target.webp",
@@ -10886,16 +11044,32 @@
               "sourceBytes": 2436251,
               "modified": "2026-06-23T22:59:27"
             },
-            "coh_1": null,
-            "coh_2": null,
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "https://gurung.duckdns.org/assets/17_rest_hang_picture/3/coh_1.webp",
+              "bytes": 27564,
+              "sourceBytes": 2399669,
+              "modified": "2026-06-24T19:44:13"
+            },
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "https://gurung.duckdns.org/assets/17_rest_hang_picture/3/coh_2.webp",
+              "bytes": 27264,
+              "sourceBytes": 2391645,
+              "modified": "2026-06-24T19:51:30"
+            },
             "tr_target": {
               "filename": "tr_target.webp",
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "https://gurung.duckdns.org/assets/17_rest_hang_picture/3/tr_target.webp",
-              "bytes": 49890,
-              "sourceBytes": 2970108,
-              "modified": "2026-06-23T22:59:50"
+              "bytes": 38296,
+              "sourceBytes": 2486093,
+              "modified": "2026-06-24T20:19:01"
             },
             "it_target": {
               "filename": "it_target.webp",
@@ -10921,8 +11095,6 @@
             }
           },
           "missing": [
-            "coh_1",
-            "coh_2",
             "end_coh_it",
             "end_ic_tr"
           ],
@@ -10991,7 +11163,6 @@
         }
       },
       "issueTags": [
-        "set-3-core-incomplete",
         "set-3-incomplete",
         "set-3-needs-endings",
         "set-4-core-incomplete",
@@ -19097,7 +19268,7 @@
       "issueTags": []
     }
   ],
-  "exportedAt": "2026-06-24T18:16:17",
+  "exportedAt": "2026-06-24T23:47:46",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,

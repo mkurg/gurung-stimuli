@@ -23,7 +23,7 @@ from urllib.error import HTTPError
 from urllib.parse import quote, unquote, urlparse
 from urllib.request import Request, urlopen
 
-from reviews import append_review, delete_review as delete_review_entry, load_reviews, set_review_done
+from reviews import append_review, delete_review as delete_review_entry, load_reviews, set_review_status
 
 
 APP_DIR = Path(__file__).resolve().parent
@@ -980,7 +980,7 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             return
 
         try:
-            result = set_review_done(REVIEWS_FILE, payload)
+            result = set_review_status(REVIEWS_FILE, payload)
         except ValueError as exc:
             self.send_error_json(HTTPStatus.BAD_REQUEST, str(exc))
             return

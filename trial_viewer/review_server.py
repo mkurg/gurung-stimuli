@@ -9,7 +9,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
-from reviews import append_review, delete_review as delete_review_entry, load_reviews, set_review_done
+from reviews import append_review, delete_review as delete_review_entry, load_reviews, set_review_status
 
 
 APP_DIR = Path(__file__).resolve().parent
@@ -129,7 +129,7 @@ class ReviewSiteHandler(SimpleHTTPRequestHandler):
             return
 
         try:
-            result = set_review_done(self.reviews_file, payload)
+            result = set_review_status(self.reviews_file, payload)
         except ValueError as exc:
             self.send_error_json(HTTPStatus.BAD_REQUEST, str(exc))
             return

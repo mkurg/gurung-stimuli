@@ -19,6 +19,7 @@ EXPECTED_IMAGES = {
     "end_ic_it",
 }
 MAX_REVIEW_LENGTH = 3000
+REVIEW_STATUSES = {"open", "done", "deferred"}
 
 
 def review_key(dataset_number: int, set_number: int, stem: str) -> str:
@@ -60,16 +61,21 @@ def load_reviews(path: Path) -> dict[str, Any]:
                     continue
                 created_at = entry.get("createdAt")
                 review_id = entry.get("id")
-                done = entry.get("done") is True
+                status = normalize_review_status(entry)
+                done = status == "done"
                 clean_entry: dict[str, Any] = {
                     "id": review_id if isinstance(review_id, str) else "",
                     "text": text.strip(),
                     "createdAt": created_at if isinstance(created_at, str) else "",
+                    "status": status,
                     "done": done,
                 }
                 done_at = entry.get("doneAt")
                 if done and isinstance(done_at, str):
                     clean_entry["doneAt"] = done_at
+                deferred_at = entry.get("deferredAt")
+                if status == "deferred" and isinstance(deferred_at, str):
+                    clean_entry["deferredAt"] = deferred_at
                 clean_entries.append(clean_entry)
             if clean_entries:
                 reviews[key] = clean_entries
@@ -80,6 +86,13 @@ def load_reviews(path: Path) -> dict[str, Any]:
         "updatedAt": updated_at if isinstance(updated_at, str) else "",
         "reviews": reviews,
     }
+
+
+def normalize_review_status(entry: dict[str, Any]) -> str:
+    status = entry.get("status")
+    if isinstance(status, str) and status in REVIEW_STATUSES:
+        return status
+    return "done" if entry.get("done") is True else "open"
 
 
 def write_reviews(path: Path, payload: dict[str, Any]) -> None:
@@ -137,6 +150,8 @@ def append_review(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
         "id": hashlib.sha1(seed).hexdigest()[:12],
         "text": text,
         "createdAt": now,
+        "status": "open",
+        "done": False,
     }
     reviews = reviews_payload.setdefault("reviews", {})
     assert isinstance(reviews, dict)
@@ -190,15 +205,23 @@ def delete_review(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def set_review_done(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    if "done" not in payload or not isinstance(payload.get("done"), bool):
+        raise ValueError("Review done state is invalid.")
+    return set_review_status(path, {**payload, "status": "done" if payload["done"] else "open"})
+
+
+def set_review_status(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
     dataset_number, set_number, stem = validate_review_target(payload)
     review_id = payload.get("id", payload.get("reviewId"))
     if not isinstance(review_id, str) or not review_id.strip():
         raise ValueError("Review id is invalid.")
-    if "done" not in payload or not isinstance(payload.get("done"), bool):
-        raise ValueError("Review done state is invalid.")
+    status = payload.get("status")
+    if (not isinstance(status, str) or status not in REVIEW_STATUSES) and isinstance(payload.get("done"), bool):
+        status = "done" if payload["done"] else "open"
+    if not isinstance(status, str) or status not in REVIEW_STATUSES:
+        raise ValueError("Review status is invalid.")
 
     clean_review_id = review_id.strip()
-    done = bool(payload["done"])
     reviews_payload = load_reviews(path)
     key = review_key(dataset_number, set_number, stem)
     reviews = reviews_payload.setdefault("reviews", {})
@@ -211,11 +234,17 @@ def set_review_done(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
     updated_entry: dict[str, Any] | None = None
     for entry in entries:
         if isinstance(entry, dict) and entry.get("id") == clean_review_id:
-            entry["done"] = done
-            if done:
+            entry["status"] = status
+            entry["done"] = status == "done"
+            if status == "done":
                 entry["doneAt"] = now
+                entry.pop("deferredAt", None)
+            elif status == "deferred":
+                entry["deferredAt"] = now
+                entry.pop("doneAt", None)
             else:
                 entry.pop("doneAt", None)
+                entry.pop("deferredAt", None)
             updated_entry = entry
             break
 
