@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -16,6 +17,7 @@ from server import SET_NUMBERS, WORKSPACE_DIR, resolve_data_root, scan_datasets
 APP_DIR = Path(__file__).resolve().parent
 STATIC_DIR = APP_DIR / "static"
 DEFAULT_DOCS_DIR = WORKSPACE_DIR / "docs"
+DEFAULT_ASSET_BASE_URL = "https://gurung.duckdns.org"
 
 
 def safe_slug(value: str) -> str:
@@ -68,6 +70,11 @@ def convert_image(
     return True
 
 
+def asset_url(relative_path: str, asset_base_url: str) -> str:
+    base = asset_base_url.strip().rstrip("/")
+    return f"{base}/{relative_path}" if base else relative_path
+
+
 def exported_image_info(
     source: Path,
     destination: Path,
@@ -98,6 +105,7 @@ def replace_image_metadata(
     max_width: int,
     quality: int,
     force: bool,
+    asset_base_url: str,
     expected_assets: set[Path],
     counters: dict[str, int],
 ) -> dict[str, object] | None:
@@ -108,7 +116,8 @@ def replace_image_metadata(
     stem = str(image["stem"])
     output_name = f"{safe_slug(stem)}.webp"
     output = docs_dir / "assets" / folder_slug / set_key / output_name
-    url = f"assets/{folder_slug}/{set_key}/{output_name}"
+    relative_url = f"assets/{folder_slug}/{set_key}/{output_name}"
+    url = asset_url(relative_url, asset_base_url)
 
     converted = convert_image(source, output, cwebp, max_width, quality, force)
     expected_assets.add(output.resolve())
@@ -125,6 +134,7 @@ def convert_set(
     max_width: int,
     quality: int,
     force: bool,
+    asset_base_url: str,
     expected_assets: set[Path],
     counters: dict[str, int],
 ) -> None:
@@ -150,6 +160,7 @@ def convert_set(
             max_width,
             quality,
             force,
+            asset_base_url,
             expected_assets,
             counters,
         )
@@ -170,6 +181,7 @@ def convert_set(
             max_width,
             quality,
             force,
+            asset_base_url,
             expected_assets,
             counters,
         )
@@ -244,6 +256,7 @@ def export_static(args: argparse.Namespace) -> dict[str, int | str]:
         "imageFormat": "webp",
         "maxWidth": args.max_width,
         "quality": args.quality,
+        "assetBaseUrl": args.asset_base_url,
     }
 
     copy_static_files(docs_dir)
@@ -263,6 +276,7 @@ def export_static(args: argparse.Namespace) -> dict[str, int | str]:
                 args.max_width,
                 args.quality,
                 args.force,
+                args.asset_base_url,
                 expected_assets,
                 counters,
             )
@@ -281,6 +295,7 @@ def export_static(args: argparse.Namespace) -> dict[str, int | str]:
             "removedStaleAssets": removed,
             "datasetCount": data["summary"]["datasetCount"],
             "sets": SET_NUMBERS,
+            "assetBaseUrl": args.asset_base_url,
         },
     )
 
@@ -301,6 +316,14 @@ def main() -> int:
     parser.add_argument("--quality", type=int, default=76, help="WebP quality, 0-100.")
     parser.add_argument("--cwebp", default="cwebp", help="Path or name of the cwebp executable.")
     parser.add_argument("--force", action="store_true", help="Rebuild all WebP images.")
+    parser.add_argument(
+        "--asset-base-url",
+        default=os.environ.get("GURUNG_ASSET_BASE_URL", DEFAULT_ASSET_BASE_URL),
+        help=(
+            "Base URL for exported image URLs. Use an empty string for relative docs/assets URLs. "
+            f"Default: {DEFAULT_ASSET_BASE_URL}"
+        ),
+    )
     args = parser.parse_args()
 
     try:

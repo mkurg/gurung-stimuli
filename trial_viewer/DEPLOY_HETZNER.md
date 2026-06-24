@@ -6,7 +6,7 @@ This deployment serves the exported viewer through the existing Nginx on the Het
 /home/apazent/gurung-trial-viewer/reviews.json
 ```
 
-The app backend is intentionally tiny: `review_server.py` serves the exported `docs/` site and exposes `GET/POST /api/reviews`.
+The app backend is intentionally tiny: `review_server.py` serves the exported `docs/` site and exposes the review endpoints.
 
 By default, anyone who can open the site can submit a text comment. Add a password or VPN later if the URL should not be publicly writable.
 
@@ -32,6 +32,8 @@ python3 trial_viewer/export_static.py
 ```
 
 This refreshes `docs/` with the current UI, `data/datasets.json`, and lightweight WebP images.
+By default, image URLs in `datasets.json` point to `https://gurung.duckdns.org/assets/...`.
+The local `docs/assets/` folder is ignored by Git and is deployed directly to Hetzner.
 
 ## 2. Upload The Site And Review Server
 
@@ -41,6 +43,29 @@ From the repo root:
 ssh apazent@204.168.154.216 'mkdir -p /home/apazent/gurung-trial-viewer/site /home/apazent/gurung-trial-viewer/logs'
 rsync -av --delete docs/ apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/site/
 rsync -av trial_viewer/review_server.py trial_viewer/reviews.py apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/
+```
+
+## Fast Picture Updates From The Local Viewer
+
+Dragging a picture onto a local viewer slot saves the PNG to Google Drive, runs:
+
+```sh
+python3 trial_viewer/export_static.py
+```
+
+and then rsyncs only the live data and image cache:
+
+```sh
+rsync -az --delete docs/data/ apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/site/data/
+rsync -az --delete docs/assets/ apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/site/assets/
+```
+
+This means collaborators see new images on `gurung.duckdns.org` immediately, without waiting for a
+Git commit or GitHub Pages deploy. To disable either step while running locally:
+
+```sh
+GURUNG_STATIC_EXPORT_ON_UPLOAD=0 ./start.sh
+GURUNG_STATIC_PUBLISH_ON_UPLOAD=0 ./start.sh
 ```
 
 Create `reviews.json` only if it does not exist:

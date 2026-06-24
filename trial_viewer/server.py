@@ -10,6 +10,7 @@ import json
 import mimetypes
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -35,6 +36,10 @@ MAX_UPLOAD_BYTES = 24 * 1024 * 1024
 MAX_UPLOAD_REQUEST_BYTES = 36 * 1024 * 1024
 DOWNLOAD_TIMEOUT_SECONDS = 30
 CHROME_FETCH_TIMEOUT_SECONDS = 45
+STATIC_EXPORT_TIMEOUT_SECONDS = 180
+STATIC_PUBLISH_TIMEOUT_SECONDS = 120
+DEFAULT_STATIC_REMOTE = "apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/site"
+DEFAULT_ASSET_BASE_URL = "https://gurung.duckdns.org"
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
 SET_NUMBERS = [1, 2, 3, 4]
@@ -635,6 +640,144 @@ def atomic_write(path: Path, data: bytes) -> None:
     tmp_path.replace(path)
 
 
+def env_flag(name: str, default: bool) -> bool:
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() not in {"0", "false", "no", "off"}
+
+
+def remote_child(remote_root: str, child: str) -> str:
+    return f"{remote_root.rstrip('/')}/{child.strip('/')}/"
+
+
+def split_ssh_remote(remote_root: str) -> tuple[str, str] | None:
+    if remote_root.startswith("/") or ":" not in remote_root:
+        return None
+    host, path = remote_root.split(":", 1)
+    if not host or not path.startswith("/"):
+        return None
+    return host, path.rstrip("/")
+
+
+def completed_process_summary(result: subprocess.CompletedProcess[str]) -> str:
+    output = "\n".join(part.strip() for part in (result.stdout, result.stderr) if part and part.strip())
+    return output[-3000:] if output else ""
+
+
+def run_static_export(data_root: Path) -> dict[str, object]:
+    if not env_flag("GURUNG_STATIC_EXPORT_ON_UPLOAD", True):
+        return {"ok": True, "skipped": True, "message": "Static export disabled."}
+
+    asset_base_url = os.environ.get("GURUNG_ASSET_BASE_URL", DEFAULT_ASSET_BASE_URL)
+    command = [
+        sys.executable,
+        str(APP_DIR / "export_static.py"),
+        "--root",
+        str(data_root),
+        "--asset-base-url",
+        asset_base_url,
+    ]
+    try:
+        result = subprocess.run(
+            command,
+            cwd=str(WORKSPACE_DIR),
+            capture_output=True,
+            text=True,
+            timeout=int(os.environ.get("GURUNG_STATIC_EXPORT_TIMEOUT", STATIC_EXPORT_TIMEOUT_SECONDS)),
+            check=False,
+        )
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "error": "Static export timed out."}
+
+    summary = completed_process_summary(result)
+    if result.returncode != 0:
+        return {"ok": False, "error": summary or f"Static export failed with code {result.returncode}."}
+    return {"ok": True, "output": summary}
+
+
+def ensure_remote_site_dirs(remote_root: str) -> dict[str, object]:
+    parsed = split_ssh_remote(remote_root)
+    if parsed is None:
+        return {"ok": True, "skipped": True}
+
+    ssh = shutil.which("ssh")
+    if ssh is None:
+        return {"ok": False, "error": "ssh executable not found."}
+
+    host, remote_path = parsed
+    command = [
+        ssh,
+        host,
+        "mkdir -p "
+        f"{shlex.quote(remote_path)} "
+        f"{shlex.quote(f'{remote_path}/data')} "
+        f"{shlex.quote(f'{remote_path}/assets')}",
+    ]
+    result = subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        timeout=int(os.environ.get("GURUNG_STATIC_PUBLISH_TIMEOUT", STATIC_PUBLISH_TIMEOUT_SECONDS)),
+        check=False,
+    )
+    if result.returncode != 0:
+        return {"ok": False, "error": completed_process_summary(result) or "Could not create remote site folders."}
+    return {"ok": True}
+
+
+def run_rsync(source: Path, destination: str) -> dict[str, object]:
+    rsync = shutil.which("rsync")
+    if rsync is None:
+        return {"ok": False, "error": "rsync executable not found."}
+
+    result = subprocess.run(
+        [rsync, "-az", "--delete", f"{source}/", destination],
+        capture_output=True,
+        text=True,
+        timeout=int(os.environ.get("GURUNG_STATIC_PUBLISH_TIMEOUT", STATIC_PUBLISH_TIMEOUT_SECONDS)),
+        check=False,
+    )
+    if result.returncode != 0:
+        return {"ok": False, "error": completed_process_summary(result) or f"rsync failed with code {result.returncode}."}
+    return {"ok": True, "output": completed_process_summary(result)}
+
+
+def publish_static_data_and_assets() -> dict[str, object]:
+    if not env_flag("GURUNG_STATIC_PUBLISH_ON_UPLOAD", True):
+        return {"ok": True, "skipped": True, "message": "Static publish disabled."}
+
+    remote_root = os.environ.get("GURUNG_STATIC_REMOTE", DEFAULT_STATIC_REMOTE).strip()
+    if not remote_root:
+        return {"ok": True, "skipped": True, "message": "Static publish remote is not configured."}
+
+    docs_dir = WORKSPACE_DIR / "docs"
+    mkdir_result = ensure_remote_site_dirs(remote_root)
+    if not mkdir_result.get("ok"):
+        return mkdir_result
+
+    steps = {
+        "data": run_rsync(docs_dir / "data", remote_child(remote_root, "data")),
+        "assets": run_rsync(docs_dir / "assets", remote_child(remote_root, "assets")),
+    }
+    failed = {name: result for name, result in steps.items() if not result.get("ok")}
+    if failed:
+        return {"ok": False, "steps": steps, "error": "; ".join(str(item.get("error")) for item in failed.values())}
+    return {"ok": True, "steps": steps}
+
+
+def refresh_static_site_after_upload(data_root: Path) -> dict[str, object]:
+    export_result = run_static_export(data_root)
+    publish_result: dict[str, object] = {"ok": False, "skipped": True, "message": "Skipped because export failed."}
+    if export_result.get("ok"):
+        publish_result = publish_static_data_and_assets()
+    return {
+        "ok": bool(export_result.get("ok") and publish_result.get("ok")),
+        "export": export_result,
+        "publish": publish_result,
+    }
+
+
 def add_ideas_to_set(
     set_data: dict[str, object],
     dataset_number: int,
@@ -934,6 +1077,7 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             if old_path.resolve() != output_path:
                 old_path.unlink(missing_ok=True)
 
+        static_refresh = refresh_static_site_after_upload(self.data_root)
         self.send_json(
             {
                 "ok": True,
@@ -942,6 +1086,7 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
                 "stem": stem,
                 "filename": output_path.name,
                 "path": str(output_path),
+                "staticRefresh": static_refresh,
             }
         )
 

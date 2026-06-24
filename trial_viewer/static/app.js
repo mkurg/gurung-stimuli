@@ -995,10 +995,25 @@ async function handleDatasetDrop(event) {
     const result = await uploadDroppedImage(target, imagePayload, replacing);
     if (result) {
       await loadData({ positionSnapshot });
+      warnIfStaticRefreshFailed(result);
     }
   } catch (error) {
     window.alert(error.message);
   }
+}
+
+function warnIfStaticRefreshFailed(result) {
+  const refresh = result?.staticRefresh;
+  if (!refresh || refresh.ok) {
+    return;
+  }
+
+  const exportError = refresh.export?.error;
+  const publishError = refresh.publish?.error;
+  const details = [exportError, publishError].filter(Boolean).join("\n\n");
+  window.alert(
+    `Saved locally, but the Hetzner WebP update did not finish.${details ? `\n\n${details}` : ""}`,
+  );
 }
 
 async function droppedImagePayload(dataTransfer) {
