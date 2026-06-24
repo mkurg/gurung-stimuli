@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-24T17:53:20",
+  "scannedAt": "2026-06-24T17:59:29",
   "datasets": [
     {
       "number": 1,
@@ -5381,9 +5381,9 @@
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "https://gurung.duckdns.org/assets/8_smile_weave_garland/3/it_target.webp",
-              "bytes": 22404,
-              "sourceBytes": 2228683,
-              "modified": "2026-06-23T14:30:51"
+              "bytes": 30030,
+              "sourceBytes": 2273486,
+              "modified": "2026-06-24T17:58:47"
             },
             "end_coh_it": {
               "filename": "end_coh_it.webp",
@@ -5455,9 +5455,9 @@
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "https://gurung.duckdns.org/assets/8_smile_weave_garland/3/it_target.webp",
-              "bytes": 22404,
-              "sourceBytes": 2228683,
-              "modified": "2026-06-23T14:30:51"
+              "bytes": 30030,
+              "sourceBytes": 2273486,
+              "modified": "2026-06-24T17:58:47"
             }
           },
           "endings": {
@@ -19097,7 +19097,7 @@
       "issueTags": []
     }
   ],
-  "exportedAt": "2026-06-24T17:53:20",
+  "exportedAt": "2026-06-24T17:59:29",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,
