@@ -68,6 +68,16 @@
         <img id="lightbox-image" alt="">
         <figcaption id="lightbox-caption"></figcaption>
       </figure>
+      <section id="review-panel" class="review-panel" aria-labelledby="review-title" hidden>
+        <div class="review-panel-header">
+          <p class="eyebrow">Picture reviews</p>
+          <h2 id="review-title">Picture</h2>
+        </div>
+        <div id="review-list" class="review-list"></div>
+        <textarea id="review-text" rows="5" maxlength="3000" placeholder="Write a comment for this picture."></textarea>
+        <p id="review-status" class="review-status" aria-live="polite"></p>
+        <button id="review-save" class="primary" type="button">Save comment</button>
+      </section>
     </div>
 
     <div id="idea-modal" class="idea-modal" hidden>

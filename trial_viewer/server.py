@@ -22,11 +22,14 @@ from urllib.error import HTTPError
 from urllib.parse import quote, unquote, urlparse
 from urllib.request import Request, urlopen
 
+from reviews import append_review, load_reviews
+
 
 APP_DIR = Path(__file__).resolve().parent
 STATIC_DIR = APP_DIR / "static"
 WORKSPACE_DIR = APP_DIR.parent
 IDEAS_FILE = APP_DIR / "missing_picture_ideas.json"
+REVIEWS_FILE = Path(os.environ.get("GURUNG_REVIEWS_FILE", APP_DIR / "reviews.json")).expanduser()
 MAX_IDEA_LENGTH = 5000
 MAX_UPLOAD_BYTES = 24 * 1024 * 1024
 MAX_UPLOAD_REQUEST_BYTES = 36 * 1024 * 1024
@@ -671,6 +674,9 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/datasets":
             self.send_json(scan_datasets(self.data_root))
             return
+        if parsed.path == "/api/reviews":
+            self.send_json(load_reviews(REVIEWS_FILE))
+            return
         if parsed.path.startswith("/image/"):
             self.send_image(parsed.path)
             return
@@ -683,6 +689,9 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             return
         if parsed.path == "/api/upload-image":
             self.save_dropped_image()
+            return
+        if parsed.path == "/api/reviews":
+            self.save_review()
             return
         self.send_error_json(HTTPStatus.NOT_FOUND, "Unknown endpoint.")
 
@@ -788,6 +797,22 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
 
         write_ideas(ideas)
         self.send_json({"ok": True, "idea": ideas.get(key), "key": key})
+
+    def save_review(self) -> None:
+        payload = self.read_json_body()
+        if payload is None:
+            return
+
+        try:
+            result = append_review(REVIEWS_FILE, payload)
+        except ValueError as exc:
+            self.send_error_json(HTTPStatus.BAD_REQUEST, str(exc))
+            return
+        except OSError as exc:
+            self.send_error_json(HTTPStatus.INTERNAL_SERVER_ERROR, f"Could not save review: {exc}")
+            return
+
+        self.send_json(result)
 
     def save_dropped_image(self) -> None:
         payload = self.read_json_body(MAX_UPLOAD_REQUEST_BYTES)

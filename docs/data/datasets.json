@@ -109,10 +109,10 @@
         "needsEndings": 6,
         "extraImages": 0,
         "endings": {
-          "present": 73,
+          "present": 74,
           "total": 90,
-          "missing": 17,
-          "percent": 81.1
+          "missing": 16,
+          "percent": 82.2
         }
       },
       "4": {
@@ -146,10 +146,10 @@
         "percent": 100.0
       },
       "3": {
-        "present": 73,
+        "present": 74,
         "total": 90,
-        "missing": 17,
-        "percent": 81.1
+        "missing": 16,
+        "percent": 82.2
       },
       "4": {
         "present": 57,
@@ -158,10 +158,10 @@
         "percent": 63.3
       },
       "all": {
-        "present": 310,
+        "present": 311,
         "total": 360,
-        "missing": 50,
-        "percent": 86.1
+        "missing": 49,
+        "percent": 86.4
       }
     },
     "existingComplete": 30,
@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-24T13:46:23",
+  "scannedAt": "2026-06-24T14:28:31",
   "datasets": [
     {
       "number": 1,
@@ -14945,7 +14945,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/24_descend_paint_bench/3",
-          "fileCount": 5,
+          "fileCount": 6,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -14961,38 +14961,46 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/24_descend_paint_bench/3/coh_1.webp",
-              "bytes": 43826,
-              "sourceBytes": 2558860,
-              "modified": "2026-06-23T22:48:58"
+              "bytes": 40190,
+              "sourceBytes": 2451104,
+              "modified": "2026-06-24T14:20:10"
             },
             "coh_2": {
               "filename": "coh_2.webp",
               "originalFilename": "coh_2.png",
               "stem": "coh_2",
               "url": "assets/24_descend_paint_bench/3/coh_2.webp",
-              "bytes": 62370,
-              "sourceBytes": 2768295,
-              "modified": "2026-06-23T22:44:04"
+              "bytes": 61628,
+              "sourceBytes": 2695449,
+              "modified": "2026-06-24T14:20:15"
             },
             "tr_target": {
               "filename": "tr_target.webp",
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "assets/24_descend_paint_bench/3/tr_target.webp",
-              "bytes": 82674,
-              "sourceBytes": 2917458,
-              "modified": "2026-06-23T22:52:08"
+              "bytes": 77092,
+              "sourceBytes": 2800290,
+              "modified": "2026-06-24T14:20:21"
             },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "assets/24_descend_paint_bench/3/it_target.webp",
-              "bytes": 86256,
-              "sourceBytes": 2977642,
-              "modified": "2026-06-23T22:52:22"
+              "bytes": 87420,
+              "sourceBytes": 2954506,
+              "modified": "2026-06-24T14:20:28"
             },
-            "end_coh_it": null,
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/24_descend_paint_bench/3/end_coh_it.webp",
+              "bytes": 61310,
+              "sourceBytes": 2769570,
+              "modified": "2026-06-24T14:20:36"
+            },
             "end_ic_tr": null,
             "end_ic_it": null
           },
@@ -15011,45 +15019,52 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/24_descend_paint_bench/3/coh_1.webp",
-              "bytes": 43826,
-              "sourceBytes": 2558860,
-              "modified": "2026-06-23T22:48:58"
+              "bytes": 40190,
+              "sourceBytes": 2451104,
+              "modified": "2026-06-24T14:20:10"
             },
             "coh_2": {
               "filename": "coh_2.webp",
               "originalFilename": "coh_2.png",
               "stem": "coh_2",
               "url": "assets/24_descend_paint_bench/3/coh_2.webp",
-              "bytes": 62370,
-              "sourceBytes": 2768295,
-              "modified": "2026-06-23T22:44:04"
+              "bytes": 61628,
+              "sourceBytes": 2695449,
+              "modified": "2026-06-24T14:20:15"
             },
             "tr_target": {
               "filename": "tr_target.webp",
               "originalFilename": "tr_target.png",
               "stem": "tr_target",
               "url": "assets/24_descend_paint_bench/3/tr_target.webp",
-              "bytes": 82674,
-              "sourceBytes": 2917458,
-              "modified": "2026-06-23T22:52:08"
+              "bytes": 77092,
+              "sourceBytes": 2800290,
+              "modified": "2026-06-24T14:20:21"
             },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "assets/24_descend_paint_bench/3/it_target.webp",
-              "bytes": 86256,
-              "sourceBytes": 2977642,
-              "modified": "2026-06-23T22:52:22"
+              "bytes": 87420,
+              "sourceBytes": 2954506,
+              "modified": "2026-06-24T14:20:28"
             }
           },
           "endings": {
-            "end_coh_it": null,
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/24_descend_paint_bench/3/end_coh_it.webp",
+              "bytes": 61310,
+              "sourceBytes": 2769570,
+              "modified": "2026-06-24T14:20:36"
+            },
             "end_ic_tr": null,
             "end_ic_it": null
           },
           "missing": [
-            "end_coh_it",
             "end_ic_tr",
             "end_ic_it"
           ],
@@ -19055,7 +19070,7 @@
       "issueTags": []
     }
   ],
-  "exportedAt": "2026-06-24T13:46:23",
+  "exportedAt": "2026-06-24T14:28:31",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,

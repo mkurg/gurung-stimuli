@@ -36,6 +36,8 @@ new images appear in Google Drive; unchanged WebP files are skipped.
 
 Missing-picture ideas entered in the local viewer are saved in `trial_viewer/missing_picture_ideas.json` and included in the next static export.
 
+Picture reviews are saved by the remote review server as plain text in a JSON file. See `trial_viewer/DEPLOY_HETZNER.md` for Hetzner deployment and backup commands.
+
 Expected image names:
 
 ```text

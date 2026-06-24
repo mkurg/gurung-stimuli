@@ -3,6 +3,8 @@ const GENERATION_STAT_SETS = ["3", "4"];
 const FULL_SET_KEYS = ["1", "2", "3", "4"];
 const CORE_IMAGE_STEMS = ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"];
 const MAX_DROP_FILE_BYTES = 24 * 1024 * 1024;
+const MAX_REVIEW_TEXT_LENGTH = 3000;
+const DEFAULT_REMOTE_REVIEW_API_BASE = "https://gurung.duckdns.org";
 const DEFAULT_EXPECTED_IMAGES = [
   ...CORE_IMAGE_STEMS,
   "end_coh_it",
@@ -23,6 +25,10 @@ const state = {
   filter: "all",
   currentDatasetNumber: "",
   currentDatasetName: "",
+  reviews: {},
+  reviewApiBase: "",
+  reviewStatus: "",
+  reviewsUpdatedAt: "",
   showImageSets: true,
   imageSetSize: 5,
   showPathPreviews: true,
@@ -33,6 +39,7 @@ const els = {};
 let activePreviewButton = null;
 let activeIdeaTarget = null;
 let activeDropTarget = null;
+let activeReviewTarget = null;
 let viewportUpdateFrame = 0;
 let navJumpLockUntil = 0;
 
@@ -59,6 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
   els.ideaCancel = document.querySelector("#idea-cancel");
   els.ideaClear = document.querySelector("#idea-clear");
   els.ideaSave = document.querySelector("#idea-save");
+  els.reviewPanel = document.querySelector("#review-panel");
+  els.reviewTitle = document.querySelector("#review-title");
+  els.reviewList = document.querySelector("#review-list");
+  els.reviewText = document.querySelector("#review-text");
+  els.reviewStatus = document.querySelector("#review-status");
+  els.reviewSave = document.querySelector("#review-save");
 
   els.search.addEventListener("input", () => {
     state.search = els.search.value.trim().toLowerCase();
@@ -117,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
   els.ideaCancel.addEventListener("click", closeIdeaModal);
   els.ideaClear.addEventListener("click", clearIdeaText);
   els.ideaSave.addEventListener("click", saveIdea);
+  els.reviewSave.addEventListener("click", saveReview);
   window.addEventListener("resize", updateStickyOffset);
   window.addEventListener("scroll", scheduleViewportStateUpdate, { passive: true });
   if ("ResizeObserver" in window && els.topbar) {
@@ -184,6 +198,7 @@ async function loadData(options = {}) {
     state.root = data.root;
     state.scannedAt = data.scannedAt;
     state.canSaveIdeas = canSaveIdeas;
+    await loadReviews();
     syncSetToggles();
     render();
     restorePositionSnapshot(options.positionSnapshot);
@@ -267,6 +282,103 @@ function syncViewControls() {
 function versionedDataUrl(source) {
   const separator = source.includes("?") ? "&" : "?";
   return `${source}${separator}v=${Date.now()}`;
+}
+
+function isLocalHost() {
+  return ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+}
+
+function reviewApiBase() {
+  const globalBase = typeof window.GURUNG_REVIEW_API_BASE === "string" ? window.GURUNG_REVIEW_API_BASE : "";
+  const storedBase = safeLocalStorageGet("gurungReviewApiBase");
+  const base = storedBase || globalBase || (isLocalHost() ? DEFAULT_REMOTE_REVIEW_API_BASE : "");
+  return base.replace(/\/+$/, "");
+}
+
+function reviewApiUrl(path) {
+  const base = state.reviewApiBase || reviewApiBase();
+  return `${base}${path}`;
+}
+
+function safeLocalStorageGet(key) {
+  try {
+    return window.localStorage.getItem(key) || "";
+  } catch {
+    return "";
+  }
+}
+
+async function loadReviews() {
+  state.reviewApiBase = reviewApiBase();
+  state.reviewStatus = "Loading reviews";
+  try {
+    const response = await fetchWithTimeout(versionedDataUrl(reviewApiUrl("/api/reviews")), {
+      cache: "no-store",
+    }, 3500);
+    if (!response.ok) {
+      throw new Error(`reviews returned HTTP ${response.status}`);
+    }
+    const payload = normalizeReviews(await response.json());
+    state.reviews = payload.reviews;
+    state.reviewsUpdatedAt = payload.updatedAt;
+    state.reviewStatus = "ok";
+  } catch (error) {
+    state.reviews = {};
+    state.reviewsUpdatedAt = "";
+    state.reviewStatus = `Reviews unavailable: ${error.message}`;
+  }
+}
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+function normalizeReviews(payload) {
+  const reviews = {};
+  const rawReviews = payload?.reviews;
+  if (rawReviews && typeof rawReviews === "object") {
+    Object.entries(rawReviews).forEach(([key, entries]) => {
+      if (!Array.isArray(entries)) {
+        return;
+      }
+      const cleanEntries = entries
+        .filter((entry) => entry && typeof entry.text === "string" && entry.text.trim())
+        .map((entry) => ({
+          id: typeof entry.id === "string" ? entry.id : "",
+          text: entry.text.trim(),
+          createdAt: typeof entry.createdAt === "string" ? entry.createdAt : "",
+        }));
+      if (cleanEntries.length) {
+        reviews[key] = cleanEntries;
+      }
+    });
+  }
+  return {
+    reviews,
+    updatedAt: typeof payload?.updatedAt === "string" ? payload.updatedAt : "",
+  };
+}
+
+function reviewKey(datasetNumber, setKey, stem) {
+  return `${datasetNumber}:${setKey}:${stem}`;
+}
+
+function reviewsFor(datasetNumber, setKey, stem) {
+  return state.reviews[reviewKey(datasetNumber, setKey, stem)] ?? [];
+}
+
+function reviewCountFor(datasetNumber, setKey, stem) {
+  return reviewsFor(datasetNumber, setKey, stem).length;
+}
+
+function allReviewCount() {
+  return Object.values(state.reviews).reduce((total, entries) => total + entries.length, 0);
 }
 
 function availableSetKeys() {
@@ -371,10 +483,18 @@ function renderStatus(visibleCount) {
 
   els.status.innerHTML = [
     chip("Datasets", `${visibleCount}/${summary.datasetCount ?? 0}`),
+    reviewStatusChip(),
     ...generationChips,
     chip("Extra images", summary.extraImages ?? 0, summary.extraImages ? "warn" : "ok"),
     chip("Scanned", state.scannedAt ? state.scannedAt.replace("T", " ") : ""),
   ].join("");
+}
+
+function reviewStatusChip() {
+  if (state.reviewStatus !== "ok") {
+    return chip("Reviews", "offline", "warn");
+  }
+  return chip("Reviews", allReviewCount(), allReviewCount() ? "warn" : "ok");
 }
 
 function chip(label, value, tone = "") {
@@ -505,10 +625,55 @@ function renderDataset(dataset) {
         </div>
         <div class="dataset-tags">${tags}</div>
       </header>
+      ${renderDatasetReviewList(dataset)}
       <div class="set-grid" style="--visible-set-count: ${setKeys.length}">
         ${setKeys.map((setKey) => renderSet(dataset, setKey)).join("")}
       </div>
     </article>
+  `;
+}
+
+function renderDatasetReviewList(dataset) {
+  const items = [];
+  for (const [setKey, set] of visibleSetData(dataset)) {
+    for (const [stem, image] of Object.entries(set.images ?? {})) {
+      if (!image) {
+        continue;
+      }
+      const entries = reviewsFor(dataset.number, setKey, stem);
+      if (entries.length) {
+        const latest = entries[entries.length - 1];
+        items.push({ setKey, stem, count: entries.length, latest: latest.text });
+      }
+    }
+  }
+
+  if (!items.length) {
+    return "";
+  }
+
+  return `
+    <div class="dataset-review-list" aria-label="Picture reviews">
+      ${items
+        .map(
+          (item) => `
+            <button
+              class="dataset-review-item"
+              type="button"
+              data-review-target="true"
+              data-dataset-number="${dataset.number}"
+              data-dataset-name="${escapeAttr(dataset.displayName)}"
+              data-set-number="${escapeAttr(item.setKey)}"
+              data-stem="${escapeAttr(item.stem)}"
+            >
+              <strong>${escapeHtml(`Set ${item.setKey} / ${item.stem}`)}</strong>
+              <span>${item.count}</span>
+              <em>${escapeHtml(item.latest)}</em>
+            </button>
+          `,
+        )
+        .join("")}
+    </div>
   `;
 }
 
@@ -636,6 +801,7 @@ function renderThumb(image, stem, dataset, setKey, extra = false, idea = null) {
 
   const url = versionedImageUrl(image);
   const caption = `Dataset ${dataset.number}: ${dataset.displayName} / set ${setKey} / ${image.filename}`;
+  const reviewCount = extra ? 0 : reviewCountFor(dataset.number, setKey, stem);
   const uploadAttrs = extra
     ? ""
     : `
@@ -646,11 +812,17 @@ function renderThumb(image, stem, dataset, setKey, extra = false, idea = null) {
       data-set-number="${escapeAttr(setKey)}"
       data-stem="${escapeAttr(stem)}"
     `;
+  const reviewAttrs = extra
+    ? ""
+    : `
+      data-review-target="true"
+    `;
   return `
-    <button class="thumb ${extra ? "" : "upload-target"}" type="button" data-image="${escapeAttr(url)}" data-caption="${escapeAttr(caption)}"${uploadAttrs}>
+    <button class="thumb ${extra ? "" : "upload-target"} ${reviewCount ? "has-reviews" : ""}" type="button" data-image="${escapeAttr(url)}" data-caption="${escapeAttr(caption)}"${uploadAttrs}${reviewAttrs}>
       <img loading="lazy" src="${escapeAttr(url)}" alt="${escapeAttr(stem)}">
       <div class="thumb-label">
         <span>${escapeHtml(extra ? image.filename : stem)}</span>
+        ${reviewCount ? `<strong class="review-badge">${reviewCount}</strong>` : ""}
       </div>
     </button>
   `;
@@ -923,6 +1095,13 @@ function handleDatasetClick(event) {
     return;
   }
 
+  const reviewButton = event.target.closest("[data-review-target]");
+  if (reviewButton && !reviewButton.dataset.image) {
+    const thumb = findReviewThumb(reviewButton);
+    openLightbox(thumb ?? reviewButton);
+    return;
+  }
+
   const button = event.target.closest("[data-image]");
   if (!button) {
     return;
@@ -1094,9 +1273,12 @@ function setCurrentDataset(number, name) {
 
 function openLightbox(button) {
   activePreviewButton = button;
-  els.lightboxImage.src = button.dataset.image;
-  els.lightboxImage.alt = button.dataset.caption;
-  els.lightboxCaption.textContent = button.dataset.caption;
+  activeReviewTarget = reviewTargetFromElement(button);
+  els.lightbox.classList.toggle("review-only", !button.dataset.image);
+  els.lightboxImage.src = button.dataset.image ?? "";
+  els.lightboxImage.alt = button.dataset.caption ?? reviewTitle(activeReviewTarget);
+  els.lightboxCaption.textContent = button.dataset.caption ?? reviewTitle(activeReviewTarget);
+  renderReviewPanel();
   els.lightbox.hidden = false;
 }
 
@@ -1111,7 +1293,125 @@ function closeLightbox() {
     return;
   }
   els.lightbox.hidden = true;
+  els.lightbox.classList.remove("review-only");
   els.lightboxImage.src = "";
+  activeReviewTarget = null;
+  els.reviewText.value = "";
+}
+
+function findReviewThumb(target) {
+  const selector = [
+    "[data-image]",
+    `[data-dataset-number="${cssEscape(target.dataset.datasetNumber)}"]`,
+    `[data-set-number="${cssEscape(target.dataset.setNumber)}"]`,
+    `[data-stem="${cssEscape(target.dataset.stem)}"]`,
+  ].join("");
+  return els.datasets.querySelector(selector);
+}
+
+function cssEscape(value) {
+  if (window.CSS?.escape) {
+    return window.CSS.escape(value ?? "");
+  }
+  return String(value ?? "").replaceAll('"', '\\"');
+}
+
+function reviewTargetFromElement(element) {
+  if (!element?.dataset?.reviewTarget) {
+    return null;
+  }
+  return {
+    datasetNumber: Number(element.dataset.datasetNumber),
+    datasetName: element.dataset.datasetName ?? "",
+    setNumber: String(element.dataset.setNumber ?? ""),
+    stem: element.dataset.stem ?? "",
+  };
+}
+
+function reviewTitle(target) {
+  if (!target) {
+    return "Picture reviews";
+  }
+  return `Dataset ${target.datasetNumber}: ${target.datasetName} / set ${target.setNumber} / ${target.stem}`;
+}
+
+function renderReviewPanel() {
+  if (!activeReviewTarget) {
+    els.reviewPanel.hidden = true;
+    return;
+  }
+
+  els.reviewPanel.hidden = false;
+  els.reviewTitle.textContent = reviewTitle(activeReviewTarget);
+  const entries = reviewsFor(
+    activeReviewTarget.datasetNumber,
+    activeReviewTarget.setNumber,
+    activeReviewTarget.stem,
+  );
+
+  els.reviewList.innerHTML = entries.length
+    ? entries
+        .map(
+          (entry) => `
+            <article class="review-entry">
+              <p>${escapeHtml(entry.text)}</p>
+              ${entry.createdAt ? `<time>${escapeHtml(entry.createdAt.replace("T", " "))}</time>` : ""}
+            </article>
+          `,
+        )
+        .join("")
+    : '<p class="review-empty">No comments yet.</p>';
+
+  els.reviewText.value = "";
+  els.reviewText.maxLength = MAX_REVIEW_TEXT_LENGTH;
+  els.reviewSave.disabled = state.reviewStatus !== "ok";
+  els.reviewStatus.textContent =
+    state.reviewStatus === "ok"
+      ? ""
+      : `${state.reviewStatus}. Check the review server or API base.`;
+}
+
+async function saveReview() {
+  if (!activeReviewTarget) {
+    return;
+  }
+
+  const text = els.reviewText.value.trim();
+  if (!text) {
+    els.reviewStatus.textContent = "Write a comment first.";
+    return;
+  }
+
+  els.reviewSave.disabled = true;
+  els.reviewStatus.textContent = "Saving...";
+  try {
+    const response = await fetch(reviewApiUrl("/api/reviews"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        datasetNumber: activeReviewTarget.datasetNumber,
+        setNumber: activeReviewTarget.setNumber,
+        stem: activeReviewTarget.stem,
+        text,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error ?? `Save failed with HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+    const payload = normalizeReviews(result.reviews ?? result);
+    state.reviews = payload.reviews;
+    state.reviewsUpdatedAt = payload.updatedAt;
+    state.reviewStatus = "ok";
+    renderReviewPanel();
+    render();
+  } catch (error) {
+    els.reviewSave.disabled = false;
+    els.reviewStatus.textContent = error.message;
+  }
 }
 
 function getPreviewItems() {
