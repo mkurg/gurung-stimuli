@@ -1091,12 +1091,14 @@ function cleanDroppedUrl(url) {
 async function uploadDroppedImage(target, imagePayload, overwrite) {
   target.classList.add("is-uploading");
   target.setAttribute("aria-busy", "true");
+  setUploadStatus(target, "Saving...");
   try {
     const payload = {
       datasetNumber: Number(target.dataset.datasetNumber),
       setNumber: target.dataset.setNumber,
       stem: target.dataset.stem,
       overwrite,
+      publishStatic: false,
       ...imagePayload,
     };
 
@@ -1109,7 +1111,7 @@ async function uploadDroppedImage(target, imagePayload, overwrite) {
     if (response.status === 409 && !overwrite) {
       const error = await response.json().catch(() => ({}));
       if (window.confirm(`${error.error ?? "This slot already has an image."}\n\nReplace it?`)) {
-        return uploadDroppedImage(target, imagePayload, true);
+        return await uploadDroppedImage(target, imagePayload, true);
       }
       return null;
     }
@@ -1119,10 +1121,46 @@ async function uploadDroppedImage(target, imagePayload, overwrite) {
       throw new Error(error.error ?? `Upload failed with HTTP ${response.status}`);
     }
 
-    return response.json();
+    const uploadResult = await response.json();
+    setUploadStatus(target, "Publishing...");
+    const publishResult = await publishStaticSite();
+    return {
+      ...uploadResult,
+      staticRefresh: publishResult.staticRefresh ?? publishResult,
+    };
   } finally {
     target.classList.remove("is-uploading");
     target.removeAttribute("aria-busy");
+    target.removeAttribute("data-upload-status");
+  }
+}
+
+function setUploadStatus(target, text) {
+  target.dataset.uploadStatus = text;
+}
+
+async function publishStaticSite() {
+  try {
+    const response = await fetch("/api/publish-static", { method: "POST" });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      return {
+        ok: false,
+        staticRefresh: {
+          ok: false,
+          publish: { ok: false, error: error.error ?? `Publish failed with HTTP ${response.status}` },
+        },
+      };
+    }
+    return response.json();
+  } catch (error) {
+    return {
+      ok: false,
+      staticRefresh: {
+        ok: false,
+        publish: { ok: false, error: error.message },
+      },
+    };
   }
 }
 

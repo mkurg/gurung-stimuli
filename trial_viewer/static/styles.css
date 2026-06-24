@@ -697,7 +697,7 @@ button.thumb:hover {
   place-items: center;
   background: rgba(0, 0, 0, 0.58);
   color: var(--ink);
-  content: "Saving...";
+  content: attr(data-upload-status);
   font-size: 13px;
   font-weight: 900;
 }

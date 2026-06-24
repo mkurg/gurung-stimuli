@@ -833,6 +833,9 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/upload-image":
             self.save_dropped_image()
             return
+        if parsed.path == "/api/publish-static":
+            self.publish_static_site()
+            return
         if parsed.path == "/api/reviews":
             self.save_review()
             return
@@ -1003,6 +1006,10 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
 
         self.send_json(result)
 
+    def publish_static_site(self) -> None:
+        result = refresh_static_site_after_upload(self.data_root)
+        self.send_json({"ok": bool(result.get("ok")), "staticRefresh": result})
+
     def save_dropped_image(self) -> None:
         payload = self.read_json_body(MAX_UPLOAD_REQUEST_BYTES)
         if payload is None:
@@ -1017,6 +1024,7 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         set_number = normalize_set_number(payload.get("setNumber"))
         stem = payload.get("stem")
         overwrite = payload.get("overwrite") is True
+        publish_static = payload.get("publishStatic") is not False
 
         if set_number is None:
             self.send_error_json(HTTPStatus.BAD_REQUEST, "Set number is invalid.")
@@ -1077,7 +1085,11 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             if old_path.resolve() != output_path:
                 old_path.unlink(missing_ok=True)
 
-        static_refresh = refresh_static_site_after_upload(self.data_root)
+        static_refresh = (
+            refresh_static_site_after_upload(self.data_root)
+            if publish_static
+            else {"ok": True, "skipped": True, "message": "Static publish deferred."}
+        )
         self.send_json(
             {
                 "ok": True,
