@@ -38,7 +38,7 @@ DOWNLOAD_TIMEOUT_SECONDS = 30
 CHROME_FETCH_TIMEOUT_SECONDS = 45
 STATIC_EXPORT_TIMEOUT_SECONDS = 180
 STATIC_PUBLISH_TIMEOUT_SECONDS = 120
-DEFAULT_STATIC_REMOTE = ""
+DEFAULT_STATIC_REMOTE = "apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/site"
 DEFAULT_ASSET_BASE_URL = ""
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
@@ -749,7 +749,7 @@ def publish_static_data_and_assets() -> dict[str, object]:
 
     remote_root = os.environ.get("GURUNG_STATIC_REMOTE", DEFAULT_STATIC_REMOTE).strip()
     if not remote_root:
-        return {"ok": True, "skipped": True, "message": "Static publish remote is not configured."}
+        return {"ok": False, "skipped": True, "error": "Static publish remote is not configured."}
 
     docs_dir = WORKSPACE_DIR / "docs"
     mkdir_result = ensure_remote_site_dirs(remote_root)

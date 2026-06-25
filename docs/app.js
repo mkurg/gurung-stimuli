@@ -1087,9 +1087,9 @@ function warnIfStaticRefreshFailed(result) {
     return;
   }
 
-  const exportError = refresh.export?.error;
-  const publishError = refresh.publish?.error;
-  const details = [exportError, publishError].filter(Boolean).join("\n\n");
+  const exportDetail = refresh.export?.error ?? refresh.export?.message;
+  const publishDetail = refresh.publish?.error ?? refresh.publish?.message;
+  const details = [exportDetail, publishDetail].filter(Boolean).join("\n\n");
   window.alert(
     `Saved locally, but the static picture update did not finish.${details ? `\n\n${details}` : ""}`,
   );

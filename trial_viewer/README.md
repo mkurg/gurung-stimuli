@@ -35,16 +35,16 @@ lightweight WebP copies under `docs/assets/<dataset>/<set>/`. Those WebPs are co
 GitHub Pages export, and `datasets.json` points at relative `assets/...` URLs by default.
 
 When an image is drag-dropped into the local viewer, the local server saves the PNG to Google Drive,
-runs the same static export, and leaves the changed `docs/data/` plus `docs/assets/` files ready to
-commit for GitHub Pages. Keep `export_static.py` for manual repairs or full rebuilds; unchanged WebP
-files are skipped.
+runs the same static export, and publishes the changed `docs/data/` plus `docs/assets/` files to
+Hetzner. The same files are also left ready to commit for GitHub Pages. Keep `export_static.py` for
+manual repairs or full rebuilds; unchanged WebP files are skipped.
 
 Useful upload-time switches:
 
 ```sh
 GURUNG_STATIC_EXPORT_ON_UPLOAD=0 ./start.sh
 GURUNG_STATIC_PUBLISH_ON_UPLOAD=0 ./start.sh
-GURUNG_STATIC_REMOTE="apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/site" ./start.sh
+GURUNG_STATIC_REMOTE="user@host:/path/to/site" ./start.sh
 GURUNG_ASSET_BASE_URL="https://gurung.duckdns.org" ./start.sh
 ```
 
