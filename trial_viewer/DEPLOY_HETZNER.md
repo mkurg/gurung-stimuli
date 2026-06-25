@@ -1,6 +1,6 @@
 # Hetzner Review Site Deployment
 
-This deployment serves the exported viewer through the existing Nginx on the Hetzner server and stores picture comments in one JSON file:
+This optional deployment serves the exported viewer through the existing Nginx on the Hetzner server and stores picture comments in one JSON file:
 
 ```text
 /home/apazent/gurung-trial-viewer/reviews.json
@@ -32,8 +32,13 @@ python3 trial_viewer/export_static.py
 ```
 
 This refreshes `docs/` with the current UI, `data/datasets.json`, and lightweight WebP images.
-By default, image URLs in `datasets.json` point to `https://gurung.duckdns.org/assets/...`.
-The local `docs/assets/` folder is ignored by Git and is deployed directly to Hetzner.
+By default, image URLs in `datasets.json` are relative `assets/...` paths for GitHub Pages.
+To make this optional Hetzner deployment serve images from `https://gurung.duckdns.org/assets/...`,
+export with:
+
+```sh
+GURUNG_ASSET_BASE_URL="https://gurung.duckdns.org" python3 trial_viewer/export_static.py
+```
 
 ## 2. Upload The Site And Review Server
 

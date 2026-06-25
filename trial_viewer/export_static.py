@@ -17,7 +17,7 @@ from server import SET_NUMBERS, WORKSPACE_DIR, resolve_data_root, scan_datasets
 APP_DIR = Path(__file__).resolve().parent
 STATIC_DIR = APP_DIR / "static"
 DEFAULT_DOCS_DIR = WORKSPACE_DIR / "docs"
-DEFAULT_ASSET_BASE_URL = "https://gurung.duckdns.org"
+DEFAULT_ASSET_BASE_URL = ""
 
 
 def safe_slug(value: str) -> str:
@@ -321,7 +321,7 @@ def main() -> int:
         default=os.environ.get("GURUNG_ASSET_BASE_URL", DEFAULT_ASSET_BASE_URL),
         help=(
             "Base URL for exported image URLs. Use an empty string for relative docs/assets URLs. "
-            f"Default: {DEFAULT_ASSET_BASE_URL}"
+            "Default: relative URLs"
         ),
     )
     args = parser.parse_args()

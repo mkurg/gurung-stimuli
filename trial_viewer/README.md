@@ -31,13 +31,13 @@ The toolbar has set checkboxes so you can compare any combination, such as `1` +
 `2` + `4`, or all four sets.
 
 The exporter keeps the local viewer intact, writes `docs/data/datasets.json`, and creates
-lightweight WebP copies under `docs/assets/<dataset>/<set>/`. Those WebPs are a local deploy cache
-ignored by Git and are served from Hetzner at `https://gurung.duckdns.org/assets/...`.
+lightweight WebP copies under `docs/assets/<dataset>/<set>/`. Those WebPs are committed with the
+GitHub Pages export, and `datasets.json` points at relative `assets/...` URLs by default.
 
 When an image is drag-dropped into the local viewer, the local server saves the PNG to Google Drive,
-runs the same static export, and rsyncs only `docs/data/` plus `docs/assets/` to Hetzner. That makes
-new pictures visible to collaborators immediately, without a Git commit. Keep `export_static.py` for
-manual repairs or full rebuilds; unchanged WebP files are skipped.
+runs the same static export, and leaves the changed `docs/data/` plus `docs/assets/` files ready to
+commit for GitHub Pages. Keep `export_static.py` for manual repairs or full rebuilds; unchanged WebP
+files are skipped.
 
 Useful upload-time switches:
 

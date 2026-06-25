@@ -3,8 +3,7 @@
 This repository contains two versions of the same trial-review interface:
 
 - `trial_viewer/`: local working viewer that scans the Google Drive-backed stimuli folder live.
-- `docs/`: static GitHub Pages export. Lightweight WebP image copies are staged locally in
-  `docs/assets/` and served from Hetzner, not committed to GitHub.
+- `docs/`: static GitHub Pages export, including lightweight WebP image copies in `docs/assets/`.
 
 ## Local working viewer
 
@@ -23,7 +22,7 @@ Each dataset folder is expected to contain numbered set folders: `1`, `2`, `3`, 
 Use the set checkboxes in the toolbar to compare only the columns you need, such as `1` + `3`
 or `2` + `4`.
 
-## Static export and live image publishing
+## Static Export
 
 ```sh
 python3 trial_viewer/export_static.py
@@ -35,14 +34,13 @@ The export writes:
 - `docs/app.js`
 - `docs/styles.css`
 - `docs/data/datasets.json`
-- `docs/assets/**/*.webp` as a local deploy cache ignored by Git
+- `docs/assets/**/*.webp`
 
-The exported image URLs point to `https://gurung.duckdns.org/assets/...` by default, so GitHub
-Pages uses the Hetzner-hosted WebPs. When you drag-drop a picture in the local viewer, the server
-saves the PNG to Google Drive, refreshes the WebP cache, updates `docs/data/datasets.json`, and
-rsyncs `docs/data/` plus `docs/assets/` to Hetzner automatically. Re-run the export manually only
-when you changed files outside the local drop workflow or want a full rebuild. Existing WebP files
-are skipped when they are already current.
+The exported image URLs are relative `assets/...` paths by default, so GitHub Pages serves the
+images directly from this repository. When you drag-drop a picture in the local viewer, the server
+saves the PNG to Google Drive and refreshes the static WebP export. Commit `docs/data/` and
+`docs/assets/` to publish the updated pictures on GitHub Pages. Existing WebP files are skipped when
+they are already current.
 
 Missing-picture ideas are saved locally in:
 

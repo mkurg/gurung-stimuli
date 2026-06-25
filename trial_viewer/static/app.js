@@ -217,26 +217,38 @@ async function loadData(options = {}) {
 }
 
 async function fetchDatasetData() {
-  const sources = ["/api/datasets", "data/datasets.json"];
-  let lastError = null;
+  try {
+    return await fetchDatasetSource("/api/datasets");
+  } catch (apiError) {
+    if (!canFallBackToStaticData(apiError)) {
+      throw new Error(`Could not load local PNG dataset data. ${apiError.message ?? ""}`.trim());
+    }
 
-  for (const source of sources) {
     try {
-      const url = source === "/api/datasets" ? source : versionedDataUrl(source);
-      const response = await fetch(url, { cache: "no-store" });
-      if (!response.ok) {
-        throw new Error(`${source} returned HTTP ${response.status}`);
-      }
-      return {
-        data: normalizeData(await response.json()),
-        canSaveIdeas: source === "/api/datasets",
-      };
-    } catch (error) {
-      lastError = error;
+      return await fetchDatasetSource("data/datasets.json");
+    } catch (staticError) {
+      throw new Error(`Could not load dataset data. ${staticError.message ?? apiError.message ?? ""}`.trim());
     }
   }
+}
 
-  throw new Error(`Could not load dataset data. ${lastError?.message ?? ""}`.trim());
+async function fetchDatasetSource(source) {
+  const url = source === "/api/datasets" ? source : versionedDataUrl(source);
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) {
+    const error = new Error(`${source} returned HTTP ${response.status}`);
+    error.source = source;
+    error.status = response.status;
+    throw error;
+  }
+  return {
+    data: normalizeData(await response.json()),
+    canSaveIdeas: source === "/api/datasets",
+  };
+}
+
+function canFallBackToStaticData(error) {
+  return error?.source === "/api/datasets" && [404, 405].includes(error.status);
 }
 
 function normalizeData(data) {
@@ -1055,7 +1067,7 @@ function warnIfStaticRefreshFailed(result) {
   const publishError = refresh.publish?.error;
   const details = [exportError, publishError].filter(Boolean).join("\n\n");
   window.alert(
-    `Saved locally, but the Hetzner WebP update did not finish.${details ? `\n\n${details}` : ""}`,
+    `Saved locally, but the static picture update did not finish.${details ? `\n\n${details}` : ""}`,
   );
 }
 
@@ -1165,7 +1177,7 @@ async function uploadDroppedImage(target, imagePayload, overwrite) {
     }
 
     const uploadResult = await response.json();
-    setUploadStatus(target, "Publishing...");
+    setUploadStatus(target, "Updating...");
     const publishResult = await publishStaticSite();
     return {
       ...uploadResult,
