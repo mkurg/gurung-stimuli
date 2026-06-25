@@ -102,10 +102,10 @@
       },
       "3": {
         "folders": 30,
-        "complete": 24,
+        "complete": 25,
         "empty": 1,
-        "incomplete": 6,
-        "coreIncomplete": 5,
+        "incomplete": 5,
+        "coreIncomplete": 4,
         "needsEndings": 3,
         "extraImages": 0,
         "endings": {
@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-25T14:47:11",
+  "scannedAt": "2026-06-25T20:25:44",
   "datasets": [
     {
       "number": 1,
@@ -1215,7 +1215,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/2_stand_weave_basket/3",
-          "fileCount": 7,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -1244,7 +1244,15 @@
               "sourceBytes": 2467035,
               "modified": "2026-06-23T18:31:36"
             },
-            "tr_target": null,
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/2_stand_weave_basket/3/tr_target.webp",
+              "bytes": 65922,
+              "sourceBytes": 2695710,
+              "modified": "2026-06-25T20:22:43"
+            },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
@@ -1310,7 +1318,15 @@
               "sourceBytes": 2467035,
               "modified": "2026-06-23T18:31:36"
             },
-            "tr_target": null,
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/2_stand_weave_basket/3/tr_target.webp",
+              "bytes": 65922,
+              "sourceBytes": 2695710,
+              "modified": "2026-06-25T20:22:43"
+            },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
@@ -1350,11 +1366,9 @@
               "modified": "2026-06-23T18:32:38"
             }
           },
-          "missing": [
-            "tr_target"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -1536,10 +1550,7 @@
           }
         }
       },
-      "issueTags": [
-        "set-3-core-incomplete",
-        "set-3-incomplete"
-      ]
+      "issueTags": []
     },
     {
       "number": 3,
@@ -19268,7 +19279,7 @@
       "issueTags": []
     }
   ],
-  "exportedAt": "2026-06-25T14:47:11",
+  "exportedAt": "2026-06-25T20:25:44",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,

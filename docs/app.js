@@ -934,6 +934,8 @@ function matchesFilters(dataset) {
   }
 
   switch (state.filter) {
+    case "requires-work":
+      return datasetRequiresWork(dataset);
     case "full-sets":
       return allSetsReady(dataset);
     case "set-incomplete":
@@ -951,6 +953,28 @@ function matchesFilters(dataset) {
     default:
       return true;
   }
+}
+
+function datasetRequiresWork(dataset) {
+  return visiblePicturesLacking(dataset) || visibleOpenComments(dataset);
+}
+
+function visiblePicturesLacking(dataset) {
+  const stems = state.expected?.length ? state.expected : DEFAULT_EXPECTED_IMAGES;
+  return visibleSetData(dataset).some(([, set]) => stems.some((stem) => !set.images?.[stem]));
+}
+
+function visibleOpenComments(dataset) {
+  const datasetNumber = String(dataset.number);
+  const visibleSets = new Set(selectedSetKeys());
+  return Object.entries(state.reviews).some(([key, entries]) => {
+    const [reviewDatasetNumber, setKey] = key.split(":");
+    return (
+      reviewDatasetNumber === datasetNumber &&
+      visibleSets.has(setKey) &&
+      entries.some((entry) => (entry.status ?? "open") === "open")
+    );
+  });
 }
 
 function allSetsReady(dataset) {
