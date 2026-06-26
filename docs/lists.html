@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gurung Experimental Lists</title>
-    <link rel="stylesheet" href="lists.css?v=b7560bacdcd3">
+    <link rel="stylesheet" href="lists.css?v=a0bd54cacf64">
   </head>
   <body>
     <header class="lists-topbar">
@@ -16,6 +16,14 @@
         <a href="index.html">Trial viewer</a>
         <a href="lists.html" aria-current="page">Lists</a>
       </nav>
+      <div class="experiment-tabs" role="tablist" aria-label="Experiment">
+        <button class="experiment-tab" type="button" role="tab" aria-selected="true" data-experiment="discourse">
+          Discourse
+        </button>
+        <button class="experiment-tab" type="button" role="tab" aria-selected="false" data-experiment="isolated" tabindex="-1">
+          Isolated
+        </button>
+      </div>
       <div class="toolbar" aria-label="List controls">
         <label class="search">
           <span>Search</span>
@@ -36,6 +44,7 @@
       <div class="empty-state">Loading lists...</div>
     </main>
 
-    <script src="lists.js?v=921cd2220bcb" defer></script>
+    <script src="lists.js?v=38ba97da6352" defer></script>
   </body>
 </html>
+
