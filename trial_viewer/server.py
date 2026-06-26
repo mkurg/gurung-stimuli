@@ -38,8 +38,12 @@ DOWNLOAD_TIMEOUT_SECONDS = 30
 CHROME_FETCH_TIMEOUT_SECONDS = 45
 STATIC_EXPORT_TIMEOUT_SECONDS = 180
 STATIC_PUBLISH_TIMEOUT_SECONDS = 120
+REMOTE_REVIEW_TIMEOUT_SECONDS = 30
 DEFAULT_STATIC_REMOTE = "apazent@204.168.154.216:/home/apazent/gurung-trial-viewer/site"
 DEFAULT_ASSET_BASE_URL = ""
+DEFAULT_REMOTE_REVIEW_SSH_HOST = "apazent@204.168.154.216"
+DEFAULT_REMOTE_REVIEW_URL = "http://127.0.0.1:8780/api/reviews"
+REMOTE_REVIEW_STATUS_MARKER = "__GURUNG_HTTP_STATUS__"
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
 SET_NUMBERS = [1, 2, 3, 4]
@@ -665,6 +669,69 @@ def completed_process_summary(result: subprocess.CompletedProcess[str]) -> str:
     return output[-3000:] if output else ""
 
 
+def remote_reviews_enabled() -> bool:
+    return env_flag("GURUNG_REMOTE_REVIEWS_VIA_SSH", True)
+
+
+def remote_review_request(method: str, payload: dict[str, object] | None = None) -> tuple[int, object]:
+    ssh = shutil.which("ssh")
+    if ssh is None:
+        raise RuntimeError("ssh executable not found.")
+
+    remote_host = os.environ.get("GURUNG_REMOTE_REVIEW_SSH_HOST", DEFAULT_REMOTE_REVIEW_SSH_HOST).strip()
+    remote_url = os.environ.get("GURUNG_REMOTE_REVIEW_URL", DEFAULT_REMOTE_REVIEW_URL).strip()
+    if not remote_host or not remote_url:
+        raise RuntimeError("Remote review SSH host or URL is not configured.")
+
+    curl_command = [
+        "curl",
+        "-sS",
+        "-w",
+        f"{REMOTE_REVIEW_STATUS_MARKER}%{{http_code}}",
+        "-X",
+        method,
+    ]
+    input_text = ""
+    if payload is not None:
+        input_text = json.dumps(payload)
+        curl_command.extend(["-H", "Content-Type: application/json", "--data-binary", "@-"])
+    curl_command.append(remote_url)
+
+    command = [
+        ssh,
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        remote_host,
+        *curl_command,
+    ]
+    try:
+        result = subprocess.run(
+            command,
+            input=input_text,
+            capture_output=True,
+            text=True,
+            timeout=int(os.environ.get("GURUNG_REMOTE_REVIEW_TIMEOUT", REMOTE_REVIEW_TIMEOUT_SECONDS)),
+            check=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise RuntimeError("Remote review proxy timed out.") from exc
+
+    if result.returncode != 0:
+        raise RuntimeError(completed_process_summary(result) or f"Remote review proxy failed with code {result.returncode}.")
+
+    body, separator, status_text = result.stdout.rpartition(REMOTE_REVIEW_STATUS_MARKER)
+    if not separator or not status_text.isdigit():
+        raise RuntimeError("Remote review proxy returned an invalid response.")
+
+    try:
+        parsed_body = json.loads(body) if body else {}
+    except json.JSONDecodeError as exc:
+        raise RuntimeError("Remote review proxy returned invalid JSON.") from exc
+    return int(status_text), parsed_body
+
+
 def run_static_export(data_root: Path) -> dict[str, object]:
     if not env_flag("GURUNG_STATIC_EXPORT_ON_UPLOAD", True):
         return {"ok": True, "skipped": True, "message": "Static export disabled."}
@@ -818,7 +885,7 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
             self.send_json(scan_datasets(self.data_root))
             return
         if parsed.path == "/api/reviews":
-            self.send_json(load_reviews(REVIEWS_FILE))
+            self.send_reviews()
             return
         if parsed.path.startswith("/image/"):
             self.send_image(parsed.path)
@@ -869,9 +936,9 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def send_json(self, payload: object) -> None:
+    def send_json(self, payload: object, status: HTTPStatus | int = HTTPStatus.OK) -> None:
         body = json.dumps(payload, indent=2).encode("utf-8")
-        self.send_response(HTTPStatus.OK)
+        self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
@@ -958,9 +1025,26 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         write_ideas(ideas)
         self.send_json({"ok": True, "idea": ideas.get(key), "key": key})
 
+    def send_reviews(self) -> None:
+        if remote_reviews_enabled():
+            self.send_remote_review_response("GET")
+            return
+        self.send_json(load_reviews(REVIEWS_FILE))
+
+    def send_remote_review_response(self, method: str, payload: dict[str, object] | None = None) -> None:
+        try:
+            status, result = remote_review_request(method, payload)
+        except RuntimeError as exc:
+            self.send_error_json(HTTPStatus.BAD_GATEWAY, f"Could not reach remote review server by SSH/IP: {exc}")
+            return
+        self.send_json(result, status)
+
     def save_review(self) -> None:
         payload = self.read_json_body()
         if payload is None:
+            return
+        if remote_reviews_enabled():
+            self.send_remote_review_response("POST", payload)
             return
 
         try:
@@ -978,6 +1062,9 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
         payload = self.read_json_body()
         if payload is None:
             return
+        if remote_reviews_enabled():
+            self.send_remote_review_response("PATCH", payload)
+            return
 
         try:
             result = set_review_status(REVIEWS_FILE, payload)
@@ -993,6 +1080,9 @@ class TrialViewerHandler(SimpleHTTPRequestHandler):
     def delete_saved_review(self) -> None:
         payload = self.read_json_body()
         if payload is None:
+            return
+        if remote_reviews_enabled():
+            self.send_remote_review_response("DELETE", payload)
             return
 
         try:

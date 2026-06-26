@@ -4,7 +4,8 @@ const FULL_SET_KEYS = ["1", "2", "3", "4"];
 const CORE_IMAGE_STEMS = ["ic_1", "coh_1", "coh_2", "tr_target", "it_target"];
 const MAX_DROP_FILE_BYTES = 24 * 1024 * 1024;
 const MAX_REVIEW_TEXT_LENGTH = 3000;
-const DEFAULT_REMOTE_REVIEW_API_BASE = "https://gurung.duckdns.org";
+const DEFAULT_REMOTE_REVIEW_API_BASE = "";
+const LEGACY_REMOTE_REVIEW_API_BASES = new Set(["https://gurung.duckdns.org"]);
 const REVIEW_STATUSES = new Set(["open", "on_review", "done", "deferred"]);
 const REVIEW_STATUS_ALIASES = new Map([
   ["on review", "on_review"],
@@ -308,7 +309,10 @@ function isLocalHost() {
 
 function reviewApiBase() {
   const globalBase = typeof window.GURUNG_REVIEW_API_BASE === "string" ? window.GURUNG_REVIEW_API_BASE : "";
-  const storedBase = safeLocalStorageGet("gurungReviewApiBase");
+  let storedBase = safeLocalStorageGet("gurungReviewApiBase").replace(/\/+$/, "");
+  if (isLocalHost() && LEGACY_REMOTE_REVIEW_API_BASES.has(storedBase)) {
+    storedBase = "";
+  }
   const base = storedBase || globalBase || (isLocalHost() ? DEFAULT_REMOTE_REVIEW_API_BASE : "");
   return base.replace(/\/+$/, "");
 }
