@@ -1,9 +1,16 @@
 {
-  "exportedAt": "2026-06-06T18:41:42",
+  "exportedAt": "2026-06-26T18:02:14",
   "sourceRoot": "local Drive export",
   "docsDir": "docs",
-  "converted": 0,
-  "skipped": 480,
+  "converted": 1,
+  "skipped": 959,
   "removedStaleAssets": 0,
-  "datasetCount": 30
+  "datasetCount": 30,
+  "sets": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "assetBaseUrl": ""
 }

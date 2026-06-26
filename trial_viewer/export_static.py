@@ -2,20 +2,22 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
 
-from server import WORKSPACE_DIR, resolve_data_root, scan_datasets
+from server import SET_NUMBERS, WORKSPACE_DIR, resolve_data_root, scan_datasets
 
 
 APP_DIR = Path(__file__).resolve().parent
 STATIC_DIR = APP_DIR / "static"
 DEFAULT_DOCS_DIR = WORKSPACE_DIR / "docs"
-VARIANTS = ("existing", "draft")
+DEFAULT_ASSET_BASE_URL = ""
 
 
 def safe_slug(value: str) -> str:
@@ -68,6 +70,11 @@ def convert_image(
     return True
 
 
+def asset_url(relative_path: str, asset_base_url: str) -> str:
+    base = asset_base_url.strip().rstrip("/")
+    return f"{base}/{relative_path}" if base else relative_path
+
+
 def exported_image_info(
     source: Path,
     destination: Path,
@@ -91,13 +98,14 @@ def exported_image_info(
 def replace_image_metadata(
     folder_slug: str,
     source_dir: Path,
-    variant_key: str,
+    set_key: str,
     image: dict[str, object] | None,
     docs_dir: Path,
     cwebp: str,
     max_width: int,
     quality: int,
     force: bool,
+    asset_base_url: str,
     expected_assets: set[Path],
     counters: dict[str, int],
 ) -> dict[str, object] | None:
@@ -107,8 +115,9 @@ def replace_image_metadata(
     source = source_dir / str(image["filename"])
     stem = str(image["stem"])
     output_name = f"{safe_slug(stem)}.webp"
-    output = docs_dir / "assets" / folder_slug / variant_key / output_name
-    url = f"assets/{folder_slug}/{variant_key}/{output_name}"
+    output = docs_dir / "assets" / folder_slug / set_key / output_name
+    relative_url = f"assets/{folder_slug}/{set_key}/{output_name}"
+    url = asset_url(relative_url, asset_base_url)
 
     converted = convert_image(source, output, cwebp, max_width, quality, force)
     expected_assets.add(output.resolve())
@@ -117,57 +126,62 @@ def replace_image_metadata(
     return exported_image_info(source, output, url, stem, str(image["filename"]))
 
 
-def convert_variant(
+def convert_set(
     dataset: dict[str, object],
-    variant_key: str,
+    set_key: str,
     docs_dir: Path,
     cwebp: str,
     max_width: int,
     quality: int,
     force: bool,
+    asset_base_url: str,
     expected_assets: set[Path],
     counters: dict[str, int],
 ) -> None:
-    variant = dataset[variant_key]
-    assert isinstance(variant, dict)
+    sets = dataset["sets"]
+    assert isinstance(sets, dict)
+    set_data = sets[set_key]
+    assert isinstance(set_data, dict)
 
     folder_slug = safe_slug(str(dataset["folderName"]))
-    source_dir = Path(str(variant["path"]))
-    variant["path"] = f"assets/{folder_slug}/{variant_key}"
+    source_dir = Path(str(set_data["path"]))
+    set_data["path"] = f"assets/{folder_slug}/{set_key}"
 
-    images = variant["images"]
+    images = set_data["images"]
     assert isinstance(images, dict)
     for stem, image in list(images.items()):
         images[stem] = replace_image_metadata(
             folder_slug,
             source_dir,
-            variant_key,
+            set_key,
             image,
             docs_dir,
             cwebp,
             max_width,
             quality,
             force,
+            asset_base_url,
             expected_assets,
             counters,
         )
 
-    variant["core"] = {stem: images[stem] for stem in variant["core"]}
-    variant["endings"] = {stem: images[stem] for stem in variant["endings"]}
+    set_data["core"] = {stem: images[stem] for stem in set_data["core"]}
+    set_data["endings"] = {stem: images[stem] for stem in set_data["endings"]}
 
-    extra = variant["extra"]
+    extra = set_data["extra"]
     assert isinstance(extra, list)
-    variant["extra"] = [
+    set_data["extra"] = [
         replace_image_metadata(
             folder_slug,
             source_dir,
-            variant_key,
+            set_key,
             image,
             docs_dir,
             cwebp,
             max_width,
             quality,
             force,
+            asset_base_url,
             expected_assets,
             counters,
         )
@@ -195,10 +209,31 @@ def clean_stale_assets(assets_dir: Path, expected_assets: set[Path]) -> int:
     return removed
 
 
+def asset_version(path: Path) -> str:
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    return digest[:12]
+
+
+def versioned_html(filename: str, assets: tuple[str, ...]) -> str:
+    html = (STATIC_DIR / filename).read_text(encoding="utf-8")
+    versions = {asset: asset_version(STATIC_DIR / asset) for asset in assets}
+    for filename, version in versions.items():
+        html = html.replace(filename, f"{filename}?v={version}")
+    return html
+
+
 def copy_static_files(docs_dir: Path) -> None:
     docs_dir.mkdir(parents=True, exist_ok=True)
-    for name in ("index.html", "styles.css", "app.js"):
+    for name in ("styles.css", "app.js", "lists.css", "lists.js"):
         shutil.copy2(STATIC_DIR / name, docs_dir / name)
+    (docs_dir / "index.html").write_text(
+        versioned_html("index.html", ("styles.css", "app.js")),
+        encoding="utf-8",
+    )
+    (docs_dir / "lists.html").write_text(
+        versioned_html("lists.html", ("lists.css", "lists.js")),
+        encoding="utf-8",
+    )
     (docs_dir / ".nojekyll").write_text("", encoding="utf-8")
 
 
@@ -221,6 +256,7 @@ def export_static(args: argparse.Namespace) -> dict[str, int | str]:
         "imageFormat": "webp",
         "maxWidth": args.max_width,
         "quality": args.quality,
+        "assetBaseUrl": args.asset_base_url,
     }
 
     copy_static_files(docs_dir)
@@ -231,15 +267,16 @@ def export_static(args: argparse.Namespace) -> dict[str, int | str]:
     for dataset in data["datasets"]:
         assert isinstance(dataset, dict)
         dataset["folderPath"] = f"assets/{safe_slug(str(dataset['folderName']))}"
-        for variant_key in VARIANTS:
-            convert_variant(
+        for set_number in SET_NUMBERS:
+            convert_set(
                 dataset,
-                variant_key,
+                str(set_number),
                 docs_dir,
                 cwebp,
                 args.max_width,
                 args.quality,
                 args.force,
+                args.asset_base_url,
                 expected_assets,
                 counters,
             )
@@ -257,6 +294,8 @@ def export_static(args: argparse.Namespace) -> dict[str, int | str]:
             "skipped": counters["skipped"],
             "removedStaleAssets": removed,
             "datasetCount": data["summary"]["datasetCount"],
+            "sets": SET_NUMBERS,
+            "assetBaseUrl": args.asset_base_url,
         },
     )
 
@@ -277,6 +316,14 @@ def main() -> int:
     parser.add_argument("--quality", type=int, default=76, help="WebP quality, 0-100.")
     parser.add_argument("--cwebp", default="cwebp", help="Path or name of the cwebp executable.")
     parser.add_argument("--force", action="store_true", help="Rebuild all WebP images.")
+    parser.add_argument(
+        "--asset-base-url",
+        default=os.environ.get("GURUNG_ASSET_BASE_URL", DEFAULT_ASSET_BASE_URL),
+        help=(
+            "Base URL for exported image URLs. Use an empty string for relative docs/assets URLs. "
+            "Default: relative URLs"
+        ),
+    )
     args = parser.parse_args()
 
     try:
