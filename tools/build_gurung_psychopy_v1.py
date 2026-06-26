@@ -541,6 +541,7 @@ def write_csv(path: Path, rows: list[dict[str, str]], fields: list[str]) -> None
 
 SHARED_CODE = r'''
 from pathlib import Path
+import atexit
 import csv
 import gc
 import queue
@@ -583,15 +584,15 @@ G_SEQUENCE_X_MARGIN = 0.02
 G_SEQUENCE_Y_MARGIN = 0.05
 G_SEQUENCE_GAP_RATIO = 0.12
 G_SEQUENCE_SIZE_COUNT = 5
-G_SEQUENCE_JITTER_POSITIONS = (
-    (-0.035, -0.018),
-    (-0.012, -0.018),
-    (0.012, -0.018),
-    (0.035, -0.018),
-    (-0.035, 0.018),
-    (-0.012, 0.018),
-    (0.012, 0.018),
-    (0.035, 0.018),
+G_SEQUENCE_JITTER_SLOTS = (
+    (-0.30, -0.018),
+    (-0.22, 0.018),
+    (-0.18, -0.018),
+    (-0.06, 0.018),
+    (0.06, -0.018),
+    (0.18, 0.018),
+    (0.22, -0.018),
+    (0.30, 0.018),
 )
 G_SEQUENCE_JITTER_STATE = {"bag": []}
 G_ARROW_MAX_SIZE = 0.045
@@ -611,7 +612,9 @@ G_AUDIO_PROBE_RATE = 0.10
 G_AUDIO_PROBE_LOCK_SEC = 10
 G_AUDIO_SPEAKER_IMAGE = "Stimuli/sound.png"
 G_AUDIO_SPEAKER_SIZE = (0.22, 0.22)
-G_RECORDING_STOP_GRACE_SEC = 0.6
+G_RECORDING_STOP_GRACE_SEC = 0.5
+G_LISTENER_RESPONSE_MIN_SEC = 10.0
+G_LISTENER_RESPONSE_DIRNAME = "listener responses"
 G_MAIN_BLOCK_SIZE = 40
 G_PRACTICE_TRIAL_COUNT = 10
 G_PRACTICE_PICTURE_AUDIO = {
@@ -633,6 +636,7 @@ G_PRACTICE_AFTER_TRIAL_AUDIO = {
     10: "Audio/chickencorn_erg.wav",
 }
 G_PRACTICE_SPEAKER_SCREEN_AFTER_TRIALS = {2}
+G_LAST_MAIN_TRIAL_INFO = {}
 
 
 def g_log(message):
@@ -643,12 +647,6 @@ def g_log(message):
             handle.write(text + "\n")
     except Exception:
         pass
-
-try:
-    event.globalKeys.add(key="escape", func=core.quit, name="gurung_escape_quit")
-except Exception as _gurung_global_key_error:
-    g_log(f"Global escape key was not registered: {_gurung_global_key_error}")
-
 
 def g_is_blank(value):
     if value is None:
@@ -670,6 +668,29 @@ def g_float(value, default=0.0):
         return float(value)
     except Exception:
         return default
+
+
+def g_key_names(keys):
+    names = []
+    for key in keys:
+        try:
+            names.append(key[0])
+        except Exception:
+            names.append(key)
+    return names
+
+
+def g_key_time(keys, key_name, default=None):
+    if default is None:
+        default = core.getTime()
+    for key in keys:
+        try:
+            if key[0] == key_name:
+                return g_float(key[-1], default)
+        except Exception:
+            if key == key_name:
+                return default
+    return default
 
 
 def g_practice_picture_audio(trial_index, segment_index):
@@ -879,34 +900,7 @@ def g_runtime_main_block_file(block_index):
 
 
 def g_choose_speaker():
-    if SpeakerDevice is None:
-        return None
-    try:
-        devices = SpeakerDevice.getAvailableDevices()
-    except Exception as err:
-        g_log(f"Could not list speaker devices: {err}")
-        return None
-    names = [g_text(device.get("deviceName") or device.get("name")) for device in devices]
-    g_log(f"Available speaker devices: {names}")
-    virtual_terms = ("blackhole", "soundflower", "loopback", "aggregate", "zoom", "teams")
-    preferred = []
-    fallback = []
-    for device in devices:
-        name = g_text(device.get("deviceName") or device.get("name"))
-        if not name:
-            continue
-        if any(term in name.lower() for term in virtual_terms):
-            fallback.append(name)
-        else:
-            preferred.append(name)
-    for name in preferred + fallback:
-        try:
-            speaker = SpeakerDevice(name=name, latencyClass=0)
-            g_log(f"Using speaker device: {speaker.name}")
-            return speaker
-        except Exception as err:
-            g_log(f"Could not open speaker {name!r}: {err}")
-    g_log("No usable speaker found; PsychoPy will use its default audio device.")
+    g_log("Using PsychoPy default speaker device.")
     return None
 
 
@@ -927,9 +921,23 @@ def g_session_recordings_dir():
     date_value = g_safe(expInfo.get("date") or expInfo.get("date|hid") or data.getDateStr())
     folder = G_RECORDINGS_ROOT / f"{participant}_{date_value}"
     folder.mkdir(parents=True, exist_ok=True)
+    (folder / G_LISTENER_RESPONSE_DIRNAME).mkdir(parents=True, exist_ok=True)
     expInfo["recordings_dir"] = str(folder)
     g_log(f"recordings_dir {folder}")
     return folder
+
+
+def g_listener_practice_stem(trial_index):
+    participant = g_safe(expInfo.get("participant", "participant"))
+    return f"{participant}_listener_practice_trial{int(trial_index):02d}"
+
+
+def g_listener_main_stem(trial_info):
+    participant = g_safe(expInfo.get("participant", "participant"))
+    trial_index = g_int((trial_info or {}).get("trial_index", 0), 0)
+    dataset_number = g_int((trial_info or {}).get("dataset_number", 0), 0)
+    condition_id = g_safe(g_text((trial_info or {}).get("condition_id", "unknown_condition")))
+    return f"{participant}_listener_main_trial{trial_index:03d}_imageset{dataset_number:02d}_condition_{condition_id}"
 
 
 def g_roles_and_paths():
@@ -954,7 +962,7 @@ def g_target_index(roles):
 def g_next_sequence_jitter():
     bag = G_SEQUENCE_JITTER_STATE.get("bag")
     if not bag:
-        bag = list(G_SEQUENCE_JITTER_POSITIONS)
+        bag = list(G_SEQUENCE_JITTER_SLOTS)
         _gurung_random.shuffle(bag)
         G_SEQUENCE_JITTER_STATE["bag"] = bag
     return bag.pop()
@@ -963,17 +971,22 @@ def g_next_sequence_jitter():
 def g_sequence_layout(win, roles):
     sequence_count = max(1, len(roles))
     size_count = max(G_SEQUENCE_SIZE_COUNT, sequence_count)
-    jitter_x_max = max(abs(pos[0]) for pos in G_SEQUENCE_JITTER_POSITIONS)
-    jitter_y_max = max(abs(pos[1]) for pos in G_SEQUENCE_JITTER_POSITIONS)
-    horizontal_room = max(0.1, g_window_aspect(win) - (2 * (G_SEQUENCE_X_MARGIN + jitter_x_max)))
+    jitter_x_width_max = max(abs(pos[0]) for pos in G_SEQUENCE_JITTER_SLOTS)
+    jitter_y_max = max(abs(pos[1]) for pos in G_SEQUENCE_JITTER_SLOTS)
+    horizontal_room = max(0.1, g_window_aspect(win) - (2 * G_SEQUENCE_X_MARGIN))
     vertical_room = max(0.1, 1.0 - (2 * (G_SEQUENCE_Y_MARGIN + jitter_y_max)))
-    width_from_horizontal = horizontal_room / (size_count + ((size_count - 1) * G_SEQUENCE_GAP_RATIO))
+    width_from_horizontal = horizontal_room / (
+        size_count
+        + ((size_count - 1) * G_SEQUENCE_GAP_RATIO)
+        + (2 * jitter_x_width_max)
+    )
     image_height = min(vertical_room, width_from_horizontal / G_IMAGE_ASPECT)
     image_width = image_height * G_IMAGE_ASPECT
     gap = image_width * G_SEQUENCE_GAP_RATIO
     step = image_width + gap
     row_center = (len(roles) - 1) / 2.0
-    jitter_x, jitter_y = g_next_sequence_jitter()
+    jitter_x_factor, jitter_y = g_next_sequence_jitter()
+    jitter_x = jitter_x_factor * image_width
     positions = [((idx - row_center) * step + jitter_x, jitter_y) for idx in range(len(roles))]
     arrow_size = min(G_ARROW_MAX_SIZE, max(0.02, gap * 0.9))
     return (image_width, image_height), positions, (arrow_size, arrow_size), (jitter_x, jitter_y)
@@ -1045,79 +1058,208 @@ def g_play_audio(path_value):
     if not path:
         return None
     g_log(f"play_audio {path}")
-    if G_SPEAKER is not None:
-        audio = sound.Sound(path, speaker=G_SPEAKER)
-    else:
-        audio = sound.Sound(path)
+    audio = sound.Sound(path)
     audio.play()
     return audio
 
 
 class GRecorder:
+    sample_rate = 48000
+
     def __init__(self, root):
         self.root = Path(root)
         self.root.mkdir(exist_ok=True)
+        self.full_path = self.root / "full_session.wav"
+        self.events_path = self.root / "recording_events.csv"
+        self.segments_path = self.root / "recording_segments.csv"
         self.stream = None
+        self.full_writer = None
         self.segments = []
         self.current_segment = None
         self.lock = threading.Lock()
+        self.log_lock = threading.Lock()
         self.write_queue = queue.Queue()
         self.close_event = threading.Event()
+        self.event_index = 0
+        self.segment_index = 0
+        self.total_frames = 0
+        self.last_callback_core_time = None
+        self.last_callback_end_sample = 0
+        self.finalized = False
+        self.full_blocks_since_flush = 0
+        self.event_handle = None
+        self.event_writer = None
+        self.writer_error = None
+        self._open_event_log()
         self.writer = threading.Thread(target=self._writer_loop, daemon=True)
         self.writer.start()
         self.closer = threading.Thread(target=self._closer_loop, daemon=True)
         self.closer.start()
+        if G_RECORDING_AVAILABLE:
+            self._ensure_stream()
+        else:
+            self._log_event("recording_unavailable", details="sounddevice/soundfile import failed")
 
-    def start(self, stem):
+    def start(self, stem, subdir=None):
         self.stop()
         if not G_RECORDING_AVAILABLE:
             return ""
         self._ensure_stream()
-        path = self.root / f"{g_safe(stem)}.wav"
-        segment = {"path": path, "frames": [], "stop_after": None}
+        if self.stream is None:
+            return ""
+        now = core.getTime()
+        sample = self._sample_index_now(event_core_time=now)
+        target_dir = self.root
+        if subdir:
+            target_dir = self.root / str(subdir)
+            target_dir.mkdir(parents=True, exist_ok=True)
+        path = target_dir / f"{g_safe(stem)}.wav"
         with self.lock:
+            self.segment_index += 1
+            segment = {
+                "id": self.segment_index,
+                "stem": g_safe(stem),
+                "path": path,
+                "full_session_path": self.full_path,
+                "requested_core_time": now,
+                "requested_stream_time": self._stream_time_unlocked(),
+                "requested_sample": sample,
+                "onset_scheduled": False,
+                "onset_core_time": None,
+                "onset_stream_time": None,
+                "onset_sample": None,
+                "stop_core_time": None,
+                "stop_stream_time": None,
+                "stop_sample": None,
+                "post_pad_sec": None,
+                "end_sample": None,
+                "clip_start_sample": None,
+                "clip_end_sample": None,
+                "written": False,
+                "written_core_time": None,
+                "n_frames": 0,
+                "status": "waiting_for_picture_onset",
+                "notes": "",
+            }
             self.segments.append(segment)
             self.current_segment = segment
-        g_log(f"rec_segment_start {path}")
+        self._log_event("segment_start_requested", segment, sample, details=str(path))
+        self._write_segments_log()
         return str(path)
+
+    def mark_onset_on_flip(self):
+        with self.lock:
+            segment = self.current_segment
+            if segment is None:
+                return
+            if segment.get("onset_scheduled") or segment.get("onset_sample") is not None:
+                return
+            segment["onset_scheduled"] = True
+            segment_id = segment["id"]
+        try:
+            win.callOnFlip(self._mark_segment_onset, segment_id)
+        except Exception as err:
+            self._mark_segment_onset(segment_id, note=f"callOnFlip_failed:{err}")
+
+    def _mark_segment_onset(self, segment_id, note=""):
+        now = core.getTime()
+        stream_time = self._stream_time()
+        sample = self._sample_index_now(stream_time=stream_time, event_core_time=now)
+        with self.lock:
+            segment = self._find_segment_unlocked(segment_id)
+            if segment is None or segment.get("onset_sample") is not None:
+                return
+            segment["onset_core_time"] = now
+            segment["onset_stream_time"] = stream_time
+            segment["onset_sample"] = sample
+            segment["status"] = "recording"
+            if note:
+                segment["notes"] = note
+        self._log_event("picture_onset", segment, sample, stream_time=stream_time, details=note)
+        self._write_segments_log()
 
     def _ensure_stream(self):
         if self.stream is not None:
+            return
+        if not G_RECORDING_AVAILABLE:
             return
 
         def callback(indata, frames, time_info, status):
             if status:
                 g_log(f"rec_callback_status {status}")
             block = indata.copy()
+            callback_core_time = core.getTime()
             with self.lock:
-                for segment in self.segments:
-                    segment["frames"].append(block)
+                block_start = self.total_frames
+                block_end = block_start + int(frames)
+                self.total_frames = block_end
+                self.last_callback_core_time = callback_core_time
+                self.last_callback_end_sample = block_end
+            self.write_queue.put(("full", block))
 
         g_log("rec_stream_open_start")
-        self.stream = _gurung_sd.InputStream(
-            samplerate=48000,
-            channels=1,
-            dtype="float32",
-            callback=callback,
-        )
-        self.stream.start()
-        g_log("rec_stream_open_done")
+        try:
+            self.full_writer = _gurung_sf.SoundFile(
+                str(self.full_path),
+                mode="w",
+                samplerate=self.sample_rate,
+                channels=1,
+            )
+            self.stream = _gurung_sd.InputStream(
+                samplerate=self.sample_rate,
+                channels=1,
+                dtype="float32",
+                callback=callback,
+            )
+            self.stream.start()
+            self._log_event("full_session_start", sample_index=0, details=str(self.full_path))
+            g_log("rec_stream_open_done")
+        except Exception as err:
+            g_log(f"rec_stream_open_failed {err}")
+            self._log_event("recording_open_failed", details=str(err))
+            self.stream = None
+            try:
+                if self.full_writer is not None:
+                    self.full_writer.close()
+            except Exception:
+                pass
+            self.full_writer = None
 
-    def stop(self, grace_sec=None):
+    def stop(self, grace_sec=None, event_core_time=None):
         if grace_sec is None:
             grace_sec = G_RECORDING_STOP_GRACE_SEC
+        now = core.getTime()
+        if event_core_time is None:
+            event_core_time = now
+        stream_time = self._stream_time()
+        sample = self._sample_index_now(stream_time=stream_time, event_core_time=event_core_time)
+        end_sample = sample + int(round(max(0.0, grace_sec) * self.sample_rate))
         with self.lock:
             segment = self.current_segment
             self.current_segment = None
             if segment is not None:
-                segment["stop_after"] = core.getTime() + max(0.0, grace_sec)
+                if segment.get("onset_sample") is None:
+                    segment["onset_sample"] = segment.get("requested_sample", sample)
+                    segment["onset_core_time"] = segment.get("requested_core_time", event_core_time)
+                    segment["onset_stream_time"] = segment.get("requested_stream_time", stream_time)
+                    segment["notes"] = "forced_onset_from_start_request"
+                segment["stop_core_time"] = event_core_time
+                segment["stop_stream_time"] = stream_time
+                segment["stop_sample"] = sample
+                segment["post_pad_sec"] = max(0.0, grace_sec)
+                segment["end_sample"] = max(int(segment["onset_sample"]), int(end_sample))
+                segment["status"] = "stopped_waiting_for_tail"
         if segment is None:
             return ""
         path = segment["path"]
-        g_log(f"rec_segment_stop_requested {path} grace={grace_sec:.3f}")
-        self.close_event.set()
-        if grace_sec <= 0:
-            self._flush_ready_segments(force=True)
+        self._log_event(
+            "segment_stop_requested",
+            segment,
+            sample,
+            stream_time=stream_time,
+            details=f"grace={grace_sec:.3f};event_core_time={event_core_time:.6f}",
+        )
+        self._write_segments_log()
         return str(path)
 
     def _closer_loop(self):
@@ -1127,80 +1269,382 @@ class GRecorder:
             self._flush_ready_segments()
 
     def _flush_ready_segments(self, force=False):
-        now = core.getTime()
-        ready = []
-        with self.lock:
-            remaining = []
-            for segment in self.segments:
-                stop_after = segment.get("stop_after")
-                if stop_after is not None and (force or now >= stop_after):
-                    ready.append(segment)
-                else:
-                    remaining.append(segment)
-            self.segments = remaining
-        for segment in ready:
-            path = segment["path"]
-            frames = list(segment["frames"])
-            if frames:
-                g_log(f"rec_segment_queue_write {path} frames={len(frames)}")
-                self.write_queue.put((str(path), frames))
+        return
 
     def _writer_loop(self):
         while True:
             item = self.write_queue.get()
-            if item is None:
-                return
-            path, frames = item
             try:
-                audio = _gurung_np.concatenate(frames, axis=0)
-                _gurung_sf.write(path, audio, 48000)
-                g_log(f"rec_segment_written {path}")
+                if item is None:
+                    self._close_full_writer()
+                    return
+                kind = item[0]
+                if kind == "full":
+                    self._write_full_block(item[1])
             except Exception as err:
-                g_log(f"rec_segment_write_failed {path}: {err}")
+                self.writer_error = err
+                g_log(f"rec_writer_loop_error {err}")
+            finally:
+                self.write_queue.task_done()
 
-    def abort(self):
-        self.stop(grace_sec=0.0)
-        self._flush_ready_segments(force=True)
+    def _write_full_block(self, block):
+        if self.full_writer is None:
+            return
+        self.full_writer.write(block)
+        self.full_blocks_since_flush += 1
+        if self.full_blocks_since_flush >= 10:
+            self.full_writer.flush()
+            self.full_blocks_since_flush = 0
+
+    def _write_segment_clips(self):
+        if not G_RECORDING_AVAILABLE:
+            return
+        if not self.full_path.exists():
+            self._log_event("segment_clip_failed", details=f"missing_full_session={self.full_path}")
+            return
+        try:
+            with _gurung_sf.SoundFile(str(self.full_path), mode="r") as full_audio:
+                available_frames = len(full_audio)
+                for segment in list(self.segments):
+                    if segment.get("onset_sample") is None:
+                        continue
+                    start_sample = max(0, int(segment.get("onset_sample") or 0))
+                    requested_end_sample = int(segment.get("end_sample") or available_frames)
+                    requested_end_sample = max(start_sample, requested_end_sample)
+                    clip_start = min(start_sample, available_frames)
+                    clip_end = min(requested_end_sample, available_frames)
+                    full_audio.seek(clip_start)
+                    audio = full_audio.read(clip_end - clip_start, dtype="float32", always_2d=True)
+                    _gurung_sf.write(str(segment["path"]), audio, full_audio.samplerate)
+                    status = "written"
+                    notes = g_text(segment.get("notes", ""))
+                    if requested_end_sample > available_frames:
+                        status = "written_truncated_at_experiment_stop"
+                        suffix = f"truncated_end_sample={requested_end_sample};available_frames={available_frames}"
+                        notes = f"{notes} {suffix}".strip()
+                    with self.lock:
+                        segment["clip_start_sample"] = clip_start
+                        segment["clip_end_sample"] = clip_end
+                        segment["written"] = True
+                        segment["written_core_time"] = core.getTime()
+                        segment["n_frames"] = int(audio.shape[0])
+                        segment["status"] = status
+                        segment["notes"] = notes
+                    self._log_event(
+                        "segment_written",
+                        segment,
+                        sample_index=clip_start,
+                        details=f"frames={int(audio.shape[0])} clip={clip_start}:{clip_end}",
+                    )
+        except Exception as err:
+            with self.lock:
+                for segment in self.segments:
+                    if not segment.get("written"):
+                        segment["status"] = "clip_failed"
+                        segment["notes"] = f"{segment.get('notes', '')} clip_failed:{err}".strip()
+            self._log_event("segment_clip_failed", details=str(err))
+        self._write_segments_log()
+
+    def _close_full_writer(self):
+        writer = self.full_writer
+        self.full_writer = None
+        if writer is None:
+            return
+        try:
+            writer.flush()
+        except Exception:
+            pass
+        try:
+            writer.close()
+            self._log_event("full_session_closed", sample_index=self._total_frames(), details=str(self.full_path))
+        except Exception as err:
+            g_log(f"rec_full_writer_close_failed {err}")
+
+    def _time_field(self, time_info, name):
+        try:
+            value = getattr(time_info, name)
+        except Exception:
+            try:
+                value = time_info[name]
+            except Exception:
+                return None
+        try:
+            return float(value)
+        except Exception:
+            return None
+
+    def _stream_time(self):
+        with self.lock:
+            return self._stream_time_unlocked()
+
+    def _stream_time_unlocked(self):
+        try:
+            if self.stream is not None:
+                return float(self.stream.time)
+        except Exception:
+            pass
+        return None
+
+    def _sample_index_now(self, stream_time=None, event_core_time=None):
+        with self.lock:
+            total_frames = self.total_frames
+            last_callback_core_time = self.last_callback_core_time
+            last_callback_end_sample = self.last_callback_end_sample
+            can_estimate = self.stream is not None and not self.finalized
+        if can_estimate and last_callback_core_time is not None:
+            if event_core_time is None:
+                event_core_time = core.getTime()
+            estimate = int(round(last_callback_end_sample + ((event_core_time - last_callback_core_time) * self.sample_rate)))
+            return max(0, estimate)
+        return int(total_frames)
+
+    def _total_frames(self):
+        with self.lock:
+            return int(self.total_frames)
+
+    def _find_segment_unlocked(self, segment_id):
+        for segment in self.segments:
+            if segment.get("id") == segment_id:
+                return segment
+        return None
+
+    def _open_event_log(self):
+        self.event_fields = (
+            "event_index",
+            "event_type",
+            "segment_id",
+            "stem",
+            "path",
+            "core_time",
+            "stream_time",
+            "sample_index",
+            "details",
+        )
+        self.segment_fields = (
+            "segment_id",
+            "stem",
+            "path",
+            "full_session_path",
+            "status",
+            "requested_core_time",
+            "requested_stream_time",
+            "requested_sample",
+            "onset_core_time",
+            "onset_stream_time",
+            "onset_sample",
+            "stop_core_time",
+            "stop_stream_time",
+            "stop_sample",
+            "post_pad_sec",
+            "end_sample",
+            "clip_start_sample",
+            "clip_end_sample",
+            "written_core_time",
+            "n_frames",
+            "notes",
+        )
+        try:
+            self.event_handle = self.events_path.open("w", encoding="utf-8", newline="")
+            self.event_writer = csv.DictWriter(self.event_handle, fieldnames=self.event_fields, lineterminator="\n")
+            self.event_writer.writeheader()
+            self.event_handle.flush()
+        except Exception as err:
+            g_log(f"recording_event_log_open_failed {err}")
+            self.event_handle = None
+            self.event_writer = None
+        self._write_segments_log()
+
+    def _format_value(self, value):
+        if value is None:
+            return ""
+        if isinstance(value, float):
+            return f"{value:.6f}"
+        return str(value)
+
+    def _log_event(self, event_type, segment=None, sample_index=None, stream_time=None, details=""):
+        core_time = core.getTime()
+        if stream_time is None:
+            stream_time = self._stream_time()
+        if sample_index is None:
+            sample_index = self._sample_index_now(stream_time=stream_time, event_core_time=core_time)
+        segment_id = ""
+        stem = ""
+        path = ""
+        if segment is not None:
+            segment_id = segment.get("id", "")
+            stem = segment.get("stem", "")
+            path = segment.get("path", "")
+        with self.log_lock:
+            self.event_index += 1
+            row = {
+                "event_index": self.event_index,
+                "event_type": event_type,
+                "segment_id": segment_id,
+                "stem": stem,
+                "path": path,
+                "core_time": self._format_value(core_time),
+                "stream_time": self._format_value(stream_time),
+                "sample_index": self._format_value(sample_index),
+                "details": details,
+            }
+            try:
+                if self.event_writer is not None:
+                    self.event_writer.writerow(row)
+                    self.event_handle.flush()
+            except Exception as err:
+                g_log(f"recording_event_log_write_failed {err}")
+        g_log(f"recording_event {event_type} segment={segment_id} sample={row['sample_index']} {details}")
+
+    def _segment_row(self, segment):
+        row = {}
+        for field in self.segment_fields:
+            if field == "segment_id":
+                value = segment.get("id")
+            else:
+                value = segment.get(field)
+            row[field] = self._format_value(value)
+        return row
+
+    def _write_segments_log(self):
+        try:
+            with self.log_lock:
+                with self.segments_path.open("w", encoding="utf-8", newline="") as handle:
+                    writer = csv.DictWriter(handle, fieldnames=self.segment_fields, lineterminator="\n")
+                    writer.writeheader()
+                    with self.lock:
+                        rows = [self._segment_row(segment) for segment in self.segments]
+                    writer.writerows(rows)
+        except Exception as err:
+            g_log(f"recording_segments_log_write_failed {err}")
+
+    def _wait_for_pending_tail(self):
+        deadline = core.getTime() + G_RECORDING_STOP_GRACE_SEC + 0.2
+        while core.getTime() < deadline:
+            with self.lock:
+                pending = [
+                    int(segment["end_sample"])
+                    for segment in self.segments
+                    if segment.get("end_sample") is not None and not segment.get("written")
+                ]
+                total_frames = self.total_frames
+            if not pending or max(pending) <= total_frames:
+                return
+            core.wait(0.02)
+
+    def _force_close_open_segments(self):
+        now = core.getTime()
+        sample = self._sample_index_now(event_core_time=now)
+        with self.lock:
+            for segment in self.segments:
+                if segment.get("written"):
+                    continue
+                if segment.get("onset_sample") is None:
+                    segment["onset_sample"] = segment.get("requested_sample", sample)
+                    segment["onset_core_time"] = segment.get("requested_core_time", now)
+                    segment["onset_stream_time"] = segment.get("requested_stream_time")
+                    segment["notes"] = "forced_onset_during_cleanup"
+                if segment.get("end_sample") is None:
+                    segment["stop_core_time"] = now
+                    segment["stop_stream_time"] = self._stream_time_unlocked()
+                    segment["stop_sample"] = sample
+                    segment["post_pad_sec"] = 0.0
+                    segment["end_sample"] = max(int(segment["onset_sample"]), int(sample))
+                    segment["status"] = "forced_stop_during_cleanup"
+
+    def finalize(self, wait_for_post_pad=True):
+        with self.lock:
+            if self.finalized:
+                return
+            self.finalized = True
+        self._log_event("recording_finalize_start", details=f"wait_for_post_pad={wait_for_post_pad}")
+        if self.current_segment is not None:
+            self.stop(grace_sec=0.0)
+        if wait_for_post_pad:
+            self._wait_for_pending_tail()
         stream = self.stream
         self.stream = None
         if stream is not None:
-            def close_stream():
-                try:
-                    g_log("rec_stream_abort_start")
-                    stream.abort()
-                    g_log("rec_stream_abort_done")
-                except Exception as err:
-                    g_log(f"rec_stream_abort_failed {err}")
-                try:
-                    stream.close()
-                    g_log("rec_stream_close_done")
-                except Exception as err:
-                    g_log(f"rec_stream_close_failed {err}")
+            try:
+                g_log("rec_stream_stop_start")
+                stream.stop()
+                g_log("rec_stream_stop_done")
+            except Exception as err:
+                g_log(f"rec_stream_stop_failed {err}")
+            try:
+                stream.close()
+                g_log("rec_stream_close_done")
+            except Exception as err:
+                g_log(f"rec_stream_close_failed {err}")
+        self._force_close_open_segments()
+        try:
+            self.write_queue.join()
+        except Exception as err:
+            g_log(f"rec_write_queue_join_failed {err}")
+        self.write_queue.put(None)
+        try:
+            self.write_queue.join()
+        except Exception:
+            pass
+        try:
+            self.writer.join(timeout=2.0)
+        except Exception:
+            pass
+        self._write_segment_clips()
+        self._write_segments_log()
+        self._log_event("recording_finalize_done", details=f"writer_error={self.writer_error}")
+        try:
+            if self.event_handle is not None:
+                self.event_handle.flush()
+                self.event_handle.close()
+        except Exception:
+            pass
 
-            threading.Thread(target=close_stream, daemon=True).start()
+    def abort(self):
+        self.finalize(wait_for_post_pad=False)
 
 
-def g_cleanup():
+def g_cleanup(wait_for_post_pad=True):
     try:
-        G_RECORDER.abort()
+        G_RECORDER.finalize(wait_for_post_pad=wait_for_post_pad)
     except Exception as err:
         g_log(f"Recorder cleanup failed: {err}")
-    try:
-        if G_SPEAKER is not None:
-            G_SPEAKER.close()
-    except Exception as err:
-        g_log(f"Speaker cleanup failed: {err}")
 
 
 G_RECORDINGS_DIR = g_session_recordings_dir()
 G_RECORDER = GRecorder(G_RECORDINGS_DIR)
+
+
+def g_abort_and_quit():
+    g_cleanup(wait_for_post_pad=True)
+    core.quit()
+
+
+try:
+    event.globalKeys.add(key="escape", func=g_abort_and_quit, name="gurung_escape_quit")
+except Exception as _gurung_global_key_error:
+    g_log(f"Global escape key was not registered: {_gurung_global_key_error}")
+
+
+try:
+    runAtExit.append(g_cleanup)
+except Exception as _gurung_run_at_exit_error:
+    g_log(f"Could not register recorder runAtExit cleanup: {_gurung_run_at_exit_error}")
+
+
+try:
+    atexit.register(g_cleanup)
+except Exception as _gurung_atexit_error:
+    g_log(f"Could not register recorder atexit cleanup: {_gurung_atexit_error}")
 '''
 
 
 INSTRUCTIONS_BEGIN = r'''
 win.color = "white"
 instruction_icon = visual.ImageStim(win, image=g_path("Stimuli/sound.png"), pos=(0, 0), size=(0.22, 0.22), interpolate=True)
-instruction_audio = g_play_audio("Audio/sequence_instr.wav")
+instruction_audio = None
+instruction_started = False
+instruction_clock = core.Clock()
+instruction_duration = 0.0
 event.clearEvents()
 '''
 
@@ -1208,15 +1652,26 @@ INSTRUCTIONS_EACH = r'''
 instruction_icon.draw()
 keys = event.getKeys(keyList=["space", "return", "escape"])
 if "escape" in keys:
-    core.quit()
+    g_abort_and_quit()
 if "return" in keys:
     if instruction_audio:
         instruction_audio.stop()
     instruction_audio = g_play_audio("Audio/sequence_instr.wav")
-if "space" in keys:
-    if instruction_audio:
-        instruction_audio.stop()
-    continueRoutine = False
+    instruction_started = True
+    instruction_clock.reset()
+    instruction_duration = g_float(instruction_audio.getDuration() if instruction_audio else 0, 0.0)
+    event.clearEvents()
+elif "space" in keys:
+    if not instruction_started:
+        instruction_audio = g_play_audio("Audio/sequence_instr.wav")
+        instruction_started = True
+        instruction_clock.reset()
+        instruction_duration = g_float(instruction_audio.getDuration() if instruction_audio else 0, 0.0)
+        event.clearEvents()
+    else:
+        if instruction_audio:
+            instruction_audio.stop()
+        continueRoutine = False
 '''
 
 PRACTICE_BEGIN = r'''
@@ -1238,10 +1693,20 @@ practice_phase = "between"
 practice_between_clock = core.Clock()
 practice_between_audio = None
 practice_between_audio_lock = G_AUDIO_PROBE_LOCK_SEC if practice_between_audio_value else 0.0
+practice_between_audio_duration = 0.0
+practice_between_is_question = bool(practice_between_audio_value and not practice_between_uses_speaker)
+practice_between_audio_done = not practice_between_is_question
+practice_listener_clock = core.Clock()
+practice_listener_audio_file = ""
+practice_listener_stem = ""
 practice_after_placeholder = None
 practice_after_between_image = ""
 practice_after_between_clock = core.Clock()
 practice_after_between_lock = 0.0
+practice_after_between_audio_duration = 0.0
+practice_after_question_audio_done = True
+practice_after_listener_clock = core.Clock()
+practice_after_listener_audio_file = ""
 practice_audio = None
 practice_audio_value = ""
 practice_audio_clock = core.Clock()
@@ -1251,6 +1716,7 @@ practice_segment_audio_started = False
 practice_segment_audio_lock = 0.0
 if practice_between_audio_value:
     practice_between_audio = g_play_audio(practice_between_audio_value)
+    practice_between_audio_duration = g_float(practice_between_audio.getDuration() if practice_between_audio else 0, 0.0)
 practice_between_clock.reset()
 thisExp.addData("practice_trial_index", G_PRACTICE_TRIAL_INDEX)
 thisExp.addData("practice_between_image", g_path(practice_between_display_image))
@@ -1261,13 +1727,47 @@ event.clearEvents()
 PRACTICE_EACH = r'''
 if practice_phase == "between":
     practice_placeholder.draw()
-    keys = event.getKeys(keyList=["space", "escape"])
-    if "escape" in keys:
-        G_RECORDER.abort()
-        core.quit()
-    if "space" in keys and practice_between_clock.getTime() >= practice_between_audio_lock:
+    if practice_between_is_question and not practice_between_audio_done and practice_between_clock.getTime() >= practice_between_audio_duration:
         if practice_between_audio:
             practice_between_audio.stop()
+        practice_between_audio = None
+        practice_listener_stem = g_listener_practice_stem(practice_previous_trial_index)
+        practice_listener_audio_file = G_RECORDER.start(practice_listener_stem, subdir=G_LISTENER_RESPONSE_DIRNAME)
+        practice_listener_clock.reset()
+        practice_between_audio_done = True
+        event.clearEvents()
+    keys = event.getKeys(keyList=["space", "return", "escape"], timeStamped=core.monotonicClock)
+    key_names = g_key_names(keys)
+    if "escape" in key_names:
+        g_abort_and_quit()
+    if practice_between_uses_speaker and "return" in key_names:
+        if practice_between_audio:
+            practice_between_audio.stop()
+        practice_between_audio = g_play_audio(practice_between_audio_value)
+        practice_between_audio_duration = g_float(practice_between_audio.getDuration() if practice_between_audio else 0, 0.0)
+        practice_between_clock.reset()
+        event.clearEvents()
+    if practice_between_uses_speaker:
+        practice_between_can_continue = "space" in key_names
+    elif practice_between_is_question:
+        practice_between_can_continue = (
+            practice_between_audio_done
+            and "space" in key_names
+            and practice_listener_clock.getTime() >= G_LISTENER_RESPONSE_MIN_SEC
+        )
+    else:
+        practice_between_can_continue = "space" in key_names
+    if practice_between_can_continue:
+        if practice_between_is_question:
+            stopped_listener_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
+            if stopped_listener_file:
+                practice_listener_audio_file = stopped_listener_file
+            thisExp.addData("practice_listener_reference_trial", practice_previous_trial_index)
+            thisExp.addData("practice_listener_response_audio", practice_listener_audio_file)
+            thisExp.addData("practice_listener_response_rt", practice_listener_clock.getTime())
+        if practice_between_audio:
+            practice_between_audio.stop()
+        practice_between_audio = None
         thisExp.addData("practice_between_rt", practice_between_clock.getTime())
         g_release_fullscreen_image(practice_placeholder)
         practice_placeholder = None
@@ -1290,6 +1790,7 @@ if practice_phase == "between":
         event.clearEvents()
 elif practice_phase == "segment":
     g_draw_sequence(practice_images, practice_arrows, practice_segment + 1)
+    G_RECORDER.mark_onset_on_flip()
     if practice_segment_audio_value and not practice_segment_audio_started:
         practice_audio_value = practice_segment_audio_value
         practice_audio = g_play_audio(practice_audio_value)
@@ -1297,15 +1798,15 @@ elif practice_phase == "segment":
         practice_segment_audio_lock = g_float(practice_audio.getDuration(), 0) if practice_audio else 0
         practice_segment_audio_started = True
         thisExp.addData(f"practice_seg{practice_segment + 1}_onset_audio", g_path(practice_audio_value))
-    keys = event.getKeys(keyList=["space", "escape"])
-    if "escape" in keys:
-        G_RECORDER.abort()
-        core.quit()
-    if "space" in keys and practice_audio_clock.getTime() >= practice_segment_audio_lock:
+    keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+    key_names = g_key_names(keys)
+    if "escape" in key_names:
+        g_abort_and_quit()
+    if "space" in key_names and practice_audio_clock.getTime() >= practice_segment_audio_lock:
         if practice_audio:
             practice_audio.stop()
         practice_audio = None
-        audio_file = G_RECORDER.stop()
+        audio_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
         seg = practice_segment + 1
         thisExp.addData(f"practice_seg{seg}_role", practice_roles[practice_segment])
         thisExp.addData(f"practice_seg{seg}_audio", audio_file)
@@ -1317,8 +1818,10 @@ elif practice_phase == "segment":
                 practice_after_placeholder = g_fullscreen_image(win, practice_after_between_image)
                 practice_audio = g_play_audio(practice_audio_value)
                 practice_audio_clock.reset()
+                practice_after_between_audio_duration = g_float(practice_audio.getDuration() if practice_audio else 0, 0.0)
                 practice_after_between_clock.reset()
-                practice_after_between_lock = G_AUDIO_PROBE_LOCK_SEC
+                practice_after_question_audio_done = False
+                practice_after_listener_audio_file = ""
                 thisExp.addData("practice_after_trial_audio", g_path(practice_audio_value))
                 thisExp.addData("practice_after_trial_between_image", g_path(practice_after_between_image))
             else:
@@ -1355,11 +1858,32 @@ elif practice_phase == "practice_audio":
         event.clearEvents()
 elif practice_phase == "practice_after_between":
     practice_after_placeholder.draw()
-    keys = event.getKeys(keyList=["space", "escape"])
-    if "escape" in keys:
-        G_RECORDER.abort()
-        core.quit()
-    if "space" in keys and practice_after_between_clock.getTime() >= practice_after_between_lock:
+    if not practice_after_question_audio_done and practice_audio_clock.getTime() >= practice_after_between_audio_duration:
+        if practice_audio:
+            practice_audio.stop()
+        practice_audio = None
+        practice_after_listener_audio_file = G_RECORDER.start(
+            g_listener_practice_stem(G_PRACTICE_TRIAL_INDEX),
+            subdir=G_LISTENER_RESPONSE_DIRNAME,
+        )
+        practice_after_listener_clock.reset()
+        practice_after_question_audio_done = True
+        event.clearEvents()
+    keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+    key_names = g_key_names(keys)
+    if "escape" in key_names:
+        g_abort_and_quit()
+    if (
+        "space" in key_names
+        and practice_after_question_audio_done
+        and practice_after_listener_clock.getTime() >= G_LISTENER_RESPONSE_MIN_SEC
+    ):
+        stopped_listener_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
+        if stopped_listener_file:
+            practice_after_listener_audio_file = stopped_listener_file
+        thisExp.addData("practice_listener_reference_trial", G_PRACTICE_TRIAL_INDEX)
+        thisExp.addData("practice_listener_response_audio", practice_after_listener_audio_file)
+        thisExp.addData("practice_listener_response_rt", practice_after_listener_clock.getTime())
         if practice_audio:
             practice_audio.stop()
         practice_audio = None
@@ -1395,10 +1919,17 @@ event.clearEvents()
 
 PRACTICE_DONE_EACH = r'''
 practice_done_icon.draw()
-keys = event.getKeys(keyList=["space", "escape"])
+keys = event.getKeys(keyList=["space", "return", "escape"])
 if "escape" in keys:
-    core.quit()
-if "space" in keys and practice_done_clock.getTime() >= practice_done_duration:
+    g_abort_and_quit()
+if "return" in keys:
+    if practice_done_audio:
+        practice_done_audio.stop()
+    practice_done_audio = g_play_audio("Audio/practice_end.wav")
+    practice_done_clock.reset()
+    practice_done_duration = g_float(practice_done_audio.getDuration() if practice_done_audio else 0, 0.0)
+    event.clearEvents()
+if "space" in keys:
     if practice_done_audio:
         practice_done_audio.stop()
     continueRoutine = False
@@ -1420,8 +1951,14 @@ main_between_audio_value = g_text(globals().get("between_audio", ""))
 main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
 main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
 main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+main_listener_reference = dict(G_LAST_MAIN_TRIAL_INFO) if G_LAST_MAIN_TRIAL_INFO else {}
+main_between_audio_duration = 0.0
+main_between_audio_done = not bool(main_between_audio_value)
+main_listener_clock = core.Clock()
+main_listener_audio_file = ""
 if main_between_audio_value:
     main_between_audio = g_play_audio(main_between_audio_value)
+    main_between_audio_duration = g_float(main_between_audio.getDuration() if main_between_audio else 0, 0.0)
 main_between_clock.reset()
 thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
 thisExp.addData("between_image", g_path(main_between_image))
@@ -1433,29 +1970,59 @@ event.clearEvents()
 MAIN_EACH = r'''
 if main_phase == "between":
     main_placeholder.draw()
-    keys = event.getKeys(keyList=["space", "escape"])
-    if "escape" in keys:
-        G_RECORDER.abort()
-        core.quit()
-    if "space" in keys and main_between_clock.getTime() >= main_audio_lock:
+    if main_between_audio_value and not main_between_audio_done and main_between_clock.getTime() >= main_between_audio_duration:
         if main_between_audio:
             main_between_audio.stop()
+        main_between_audio = None
+        main_listener_audio_file = G_RECORDER.start(
+            g_listener_main_stem(main_listener_reference),
+            subdir=G_LISTENER_RESPONSE_DIRNAME,
+        )
+        main_listener_clock.reset()
+        main_between_audio_done = True
+        event.clearEvents()
+    keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+    key_names = g_key_names(keys)
+    if "escape" in key_names:
+        g_abort_and_quit()
+    if main_between_audio_value:
+        main_between_can_continue = (
+            main_between_audio_done
+            and "space" in key_names
+            and main_listener_clock.getTime() >= G_LISTENER_RESPONSE_MIN_SEC
+        )
+    else:
+        main_between_can_continue = "space" in key_names and main_between_clock.getTime() >= main_audio_lock
+    if main_between_can_continue:
+        if main_between_audio_value:
+            stopped_listener_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
+            if stopped_listener_file:
+                main_listener_audio_file = stopped_listener_file
+            thisExp.addData("listener_reference_main_trial_index", g_int(main_listener_reference.get("trial_index", 0), 0))
+            thisExp.addData("listener_reference_dataset_number", g_int(main_listener_reference.get("dataset_number", 0), 0))
+            thisExp.addData("listener_reference_condition_id", g_text(main_listener_reference.get("condition_id", "")))
+            thisExp.addData("listener_response_audio", main_listener_audio_file)
+            thisExp.addData("listener_response_rt", main_listener_clock.getTime())
+        if main_between_audio:
+            main_between_audio.stop()
+        main_between_audio = None
         thisExp.addData("between_rt", main_between_clock.getTime())
         g_release_fullscreen_image(main_placeholder)
         main_placeholder = None
         main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
         main_phase = "segment"
-        main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
+        main_stem = f"{expInfo['participant']}_main_trial{G_MAIN_TRIAL_INDEX:03d}_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
         G_RECORDER.start(main_stem)
         event.clearEvents()
 elif main_phase == "segment":
     g_draw_sequence(main_images, main_arrows, main_segment + 1)
-    keys = event.getKeys(keyList=["space", "escape"])
-    if "escape" in keys:
-        G_RECORDER.abort()
-        core.quit()
-    if "space" in keys:
-        audio_file = G_RECORDER.stop()
+    G_RECORDER.mark_onset_on_flip()
+    keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+    key_names = g_key_names(keys)
+    if "escape" in key_names:
+        g_abort_and_quit()
+    if "space" in key_names:
+        audio_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
         seg = main_segment + 1
         thisExp.addData(f"seg{seg}_role", main_roles[main_segment])
         thisExp.addData(f"seg{seg}_audio", audio_file)
@@ -1463,7 +2030,7 @@ elif main_phase == "segment":
             continueRoutine = False
         else:
             main_segment += 1
-            main_stem = f"{expInfo['participant']}_main_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
+            main_stem = f"{expInfo['participant']}_main_trial{G_MAIN_TRIAL_INDEX:03d}_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
             G_RECORDER.start(main_stem)
         event.clearEvents()
 '''
@@ -1472,6 +2039,11 @@ MAIN_END = r'''
 G_RECORDER.stop()
 if main_between_audio:
     main_between_audio.stop()
+G_LAST_MAIN_TRIAL_INFO = {
+    "trial_index": G_MAIN_TRIAL_INDEX,
+    "dataset_number": main_dataset_number,
+    "condition_id": main_condition_id,
+}
 g_release_stims(main_images, main_arrows)
 g_release_fullscreen_image(main_placeholder)
 main_images = []
@@ -1490,14 +2062,14 @@ BREAK_EACH = r'''
 break_image.draw()
 keys = event.getKeys(keyList=["space", "escape"])
 if "escape" in keys:
-    core.quit()
+    g_abort_and_quit()
 if "space" in keys and break_clock.getTime() >= 30:
     continueRoutine = False
 '''
 
 END_BEGIN = r'''
 win.color = "white"
-finish_image = visual.ImageStim(win, image=g_path("Stimuli/finish.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
+finish_image = visual.ImageStim(win, image=g_path("Stimuli/finish.png"), pos=(0, 0), size=(0.55, 0.275), interpolate=True)
 finish_clock = core.Clock()
 event.clearEvents()
 '''
@@ -1742,16 +2314,20 @@ This is a first Builder-compatible draft based on the design described on 2026-0
 - Main trials: 30 datasets x 4 conditions = 120 trials.
 - Trial order: practice runs in CSV order; main picture sequences are shuffled as one 120-trial list at runtime, then split into 40/40/40 for the breaks.
 - Breaks: after trials 40 and 80.
-- Between-trial images: unique landscape photos sampled from `{BETWEEN_TRIALS_SOURCE}` and copied into `BetweenTrials/`; practice uses its assigned CSV images, the extra practice-end probe uses one more Nepal image, and main images are shuffled at runtime without reusing practice images.
-- Between-trial audio probes: 10% of main trials are selected at runtime; `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav` each occur on one third of those trials; lockout is 10 seconds; the first main Nepal screen after practice or any break can never be an audio-probe screen.
-- Practice fixed audio probes: after practice sequences 4, 7, and 10, the experiment plays `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav`, respectively, on Nepal-image screens with the same 10-second lock as main probes.
+- Between-trial images: unique landscape photos sampled from `{BETWEEN_TRIALS_SOURCE}` and copied into `BetweenTrials/`; practice uses its assigned CSV images except for the speaker-icon screen after practice sequence 2, the extra practice-end probe uses one more Nepal image, and main images are shuffled at runtime without reusing practice images.
+- Between-trial audio probes: 10% of main trials are selected at runtime; `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav` each occur on one third of those trials; the first main Nepal screen after practice or any break can never be an audio-probe screen.
+- Practice fixed audio probes: after practice sequence 2, the experiment plays `Audio/practice_end.wav` on the centered speaker-icon screen; after practice sequences 4, 7, and 10, it plays `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav`, respectively, on Nepal-image screens.
+- Speaker-icon audio screens can be replayed with Enter and can advance with Space even before the current playback finishes; the first instruction audio starts only after Space is pressed.
+- Nepal-image audio probes are treated as listener questions: the audio plays first, then listener-response recording starts automatically; Space ends the response and advances only after at least 10 seconds of recording.
 - Practice uses the numbered practice-story images in CSV order. Stories 1 and 2 start `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav` simultaneously with pictures 1, 2, and 3; stories 3-10 play `Audio/tsakyali.wav` before the last picture.
 - Breaks show `Stimuli/break.png`; space is locked for 30 seconds.
-- Main recordings are named with image set, condition, and picture identifier.
+- Main recordings are named with runtime main-trial number, image set, condition, and picture identifier.
 - Practice recordings are named with practice trial number and picture number.
+- Listener-response recordings are stored in `recordings/<participant>_<date-time>/listener responses/`; main listener filenames include participant, `listener`, runtime main-trial number, image set, and condition for the trial immediately before the question.
 - Microphone recordings are stored in `recordings/<participant>_<date-time>/` for each run.
+- Each recordings folder now also contains a continuous raw `full_session.wav`, `recording_events.csv`, and `recording_segments.csv`. The old per-picture response WAV files are still written with the same names, but they are clipped from the continuous recording using logged picture-onset and space-press sample indices, with a 0.5-second post-space tail.
 - Main PNGs are local packaged copies in `MainStimuli/`, downsampled to max `{MAIN_STIMULI_MAX_DIMENSION}px on the long edge. This avoids loading trial textures from the Google Drive cloud-storage mount during the run.
-- All sequence pictures use the same on-screen size across 3- and 4-picture trials; each sequence row is group-centered with a small randomized horizontal and vertical jitter.
+- All sequence pictures use the same on-screen size across 3- and 4-picture trials; each sequence row is group-centered with horizontal jitter capped at 30% of the picture width.
 
 Open `gurung_120_v1.psyexp` in PsychoPy Builder.
 
