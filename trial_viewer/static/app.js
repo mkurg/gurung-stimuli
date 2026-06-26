@@ -395,6 +395,11 @@ function normalizeReviews(payload) {
   };
 }
 
+function normalizeReviewMutationResult(result) {
+  const reviewsPayload = result?.reviews?.reviews ? result.reviews : result;
+  return normalizeReviews(reviewsPayload);
+}
+
 function normalizeReviewStatus(entry) {
   const status = normalizeReviewStatusValue(entry?.status);
   if (status) {
@@ -1618,7 +1623,7 @@ async function saveReview() {
     }
 
     const result = await response.json();
-    const payload = normalizeReviews(result.reviews ?? result);
+    const payload = normalizeReviewMutationResult(result);
     state.reviews = payload.reviews;
     state.reviewsUpdatedAt = payload.updatedAt;
     state.reviewStatus = "ok";
@@ -1670,7 +1675,7 @@ async function deleteReview(reviewId, button) {
     }
 
     const result = await response.json();
-    const payload = normalizeReviews(result.reviews ?? result);
+    const payload = normalizeReviewMutationResult(result);
     state.reviews = payload.reviews;
     state.reviewsUpdatedAt = payload.updatedAt;
     state.reviewStatus = "ok";
@@ -1708,7 +1713,7 @@ async function setReviewStatus(reviewId, status, button) {
     }
 
     const result = await response.json();
-    const payload = normalizeReviews(result.reviews ?? result);
+    const payload = normalizeReviewMutationResult(result);
     state.reviews = payload.reviews;
     state.reviewsUpdatedAt = payload.updatedAt;
     state.reviewStatus = "ok";

@@ -102,32 +102,32 @@
       },
       "3": {
         "folders": 30,
-        "complete": 28,
+        "complete": 30,
         "empty": 0,
-        "incomplete": 2,
-        "coreIncomplete": 2,
-        "needsEndings": 1,
+        "incomplete": 0,
+        "coreIncomplete": 0,
+        "needsEndings": 0,
         "extraImages": 0,
         "endings": {
-          "present": 87,
+          "present": 90,
           "total": 90,
-          "missing": 3,
-          "percent": 96.7
+          "missing": 0,
+          "percent": 100.0
         }
       },
       "4": {
         "folders": 30,
-        "complete": 27,
-        "empty": 1,
-        "incomplete": 3,
-        "coreIncomplete": 2,
-        "needsEndings": 2,
+        "complete": 30,
+        "empty": 0,
+        "incomplete": 0,
+        "coreIncomplete": 0,
+        "needsEndings": 0,
         "extraImages": 0,
         "endings": {
-          "present": 83,
+          "present": 90,
           "total": 90,
-          "missing": 7,
-          "percent": 92.2
+          "missing": 0,
+          "percent": 100.0
         }
       }
     },
@@ -146,22 +146,22 @@
         "percent": 100.0
       },
       "3": {
-        "present": 87,
+        "present": 90,
         "total": 90,
-        "missing": 3,
-        "percent": 96.7
+        "missing": 0,
+        "percent": 100.0
       },
       "4": {
-        "present": 83,
+        "present": 90,
         "total": 90,
-        "missing": 7,
-        "percent": 92.2
+        "missing": 0,
+        "percent": 100.0
       },
       "all": {
-        "present": 350,
+        "present": 360,
         "total": 360,
-        "missing": 10,
-        "percent": 97.2
+        "missing": 0,
+        "percent": 100.0
       }
     },
     "existingComplete": 30,
@@ -171,7 +171,7 @@
     "draftEmpty": 0,
     "draftNeedsEndings": 0
   },
-  "scannedAt": "2026-06-26T02:16:37",
+  "scannedAt": "2026-06-26T18:02:14",
   "datasets": [
     {
       "number": 1,
@@ -9643,7 +9643,7 @@
           "set": 4,
           "exists": true,
           "path": "assets/14_ascend_weave_raincoat/4",
-          "fileCount": 7,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -9708,7 +9708,15 @@
               "sourceBytes": 2848217,
               "modified": "2026-06-25T22:45:02"
             },
-            "end_ic_it": null
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/14_ascend_weave_raincoat/4/end_ic_it.webp",
+              "bytes": 73718,
+              "sourceBytes": 2644480,
+              "modified": "2026-06-26T15:27:23"
+            }
           },
           "core": {
             "ic_1": {
@@ -9776,13 +9784,19 @@
               "sourceBytes": 2848217,
               "modified": "2026-06-25T22:45:02"
             },
-            "end_ic_it": null
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/14_ascend_weave_raincoat/4/end_ic_it.webp",
+              "bytes": 73718,
+              "sourceBytes": 2644480,
+              "modified": "2026-06-26T15:27:23"
+            }
           },
-          "missing": [
-            "end_ic_it"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -9795,10 +9809,7 @@
           }
         }
       },
-      "issueTags": [
-        "set-4-incomplete",
-        "set-4-needs-endings"
-      ]
+      "issueTags": []
     },
     {
       "number": 15,
@@ -12209,7 +12220,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/18_yawn_put_on_cap/3",
-          "fileCount": 7,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -12238,7 +12249,15 @@
               "sourceBytes": 2422516,
               "modified": "2026-06-23T23:03:02"
             },
-            "tr_target": null,
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/18_yawn_put_on_cap/3/tr_target.webp",
+              "bytes": 34286,
+              "sourceBytes": 2570275,
+              "modified": "2026-06-26T15:46:43"
+            },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
@@ -12262,9 +12281,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "assets/18_yawn_put_on_cap/3/end_ic_tr.webp",
-              "bytes": 42948,
-              "sourceBytes": 2290075,
-              "modified": "2026-06-23T23:03:48"
+              "bytes": 47984,
+              "sourceBytes": 2188101,
+              "modified": "2026-06-26T15:59:35"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -12304,7 +12323,15 @@
               "sourceBytes": 2422516,
               "modified": "2026-06-23T23:03:02"
             },
-            "tr_target": null,
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/18_yawn_put_on_cap/3/tr_target.webp",
+              "bytes": 34286,
+              "sourceBytes": 2570275,
+              "modified": "2026-06-26T15:46:43"
+            },
             "it_target": {
               "filename": "it_target.webp",
               "originalFilename": "it_target.png",
@@ -12330,9 +12357,9 @@
               "originalFilename": "end_ic_tr.png",
               "stem": "end_ic_tr",
               "url": "assets/18_yawn_put_on_cap/3/end_ic_tr.webp",
-              "bytes": 42948,
-              "sourceBytes": 2290075,
-              "modified": "2026-06-23T23:03:48"
+              "bytes": 47984,
+              "sourceBytes": 2188101,
+              "modified": "2026-06-26T15:59:35"
             },
             "end_ic_it": {
               "filename": "end_ic_it.webp",
@@ -12344,11 +12371,9 @@
               "modified": "2026-06-23T23:03:52"
             }
           },
-          "missing": [
-            "tr_target"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -12530,10 +12555,7 @@
           }
         }
       },
-      "issueTags": [
-        "set-3-core-incomplete",
-        "set-3-incomplete"
-      ]
+      "issueTags": []
     },
     {
       "number": 19,
@@ -12935,9 +12957,9 @@
               "originalFilename": "end_coh_it.png",
               "stem": "end_coh_it",
               "url": "assets/19_sit_crack_egg/3/end_coh_it.webp",
-              "bytes": 34618,
-              "sourceBytes": 2329634,
-              "modified": "2026-06-22T14:59:45"
+              "bytes": 35778,
+              "sourceBytes": 2288504,
+              "modified": "2026-06-26T15:22:40"
             },
             "end_ic_tr": {
               "filename": "end_ic_tr.webp",
@@ -13011,9 +13033,9 @@
               "originalFilename": "end_coh_it.png",
               "stem": "end_coh_it",
               "url": "assets/19_sit_crack_egg/3/end_coh_it.webp",
-              "bytes": 34618,
-              "sourceBytes": 2329634,
-              "modified": "2026-06-22T14:59:45"
+              "bytes": 35778,
+              "sourceBytes": 2288504,
+              "modified": "2026-06-26T15:22:40"
             },
             "end_ic_tr": {
               "filename": "end_ic_tr.webp",
@@ -13587,9 +13609,9 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/20_come_plant_sapling/3/coh_1.webp",
-              "bytes": 97390,
-              "sourceBytes": 3084700,
-              "modified": "2026-06-16T17:17:21"
+              "bytes": 117118,
+              "sourceBytes": 3413472,
+              "modified": "2026-06-26T15:12:59"
             },
             "coh_2": {
               "filename": "coh_2.webp",
@@ -13641,9 +13663,9 @@
               "originalFilename": "end_ic_it.png",
               "stem": "end_ic_it",
               "url": "assets/20_come_plant_sapling/3/end_ic_it.webp",
-              "bytes": 83854,
-              "sourceBytes": 3140150,
-              "modified": "2026-06-22T10:51:43"
+              "bytes": 72004,
+              "sourceBytes": 2960766,
+              "modified": "2026-06-26T15:21:46"
             }
           },
           "core": {
@@ -13661,9 +13683,9 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/20_come_plant_sapling/3/coh_1.webp",
-              "bytes": 97390,
-              "sourceBytes": 3084700,
-              "modified": "2026-06-16T17:17:21"
+              "bytes": 117118,
+              "sourceBytes": 3413472,
+              "modified": "2026-06-26T15:12:59"
             },
             "coh_2": {
               "filename": "coh_2.webp",
@@ -13717,9 +13739,9 @@
               "originalFilename": "end_ic_it.png",
               "stem": "end_ic_it",
               "url": "assets/20_come_plant_sapling/3/end_ic_it.webp",
-              "bytes": 83854,
-              "sourceBytes": 3140150,
-              "modified": "2026-06-22T10:51:43"
+              "bytes": 72004,
+              "sourceBytes": 2960766,
+              "modified": "2026-06-26T15:21:46"
             }
           },
           "missing": [],
@@ -14425,7 +14447,7 @@
           "set": 4,
           "exists": true,
           "path": "assets/21_cough_burn_bottles/4",
-          "fileCount": 2,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -14441,16 +14463,64 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/21_cough_burn_bottles/4/coh_1.webp",
-              "bytes": 67684,
-              "sourceBytes": 2718187,
-              "modified": "2026-06-25T23:39:44"
+              "bytes": 63056,
+              "sourceBytes": 2663308,
+              "modified": "2026-06-26T17:59:50"
             },
-            "coh_2": null,
-            "tr_target": null,
-            "it_target": null,
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/21_cough_burn_bottles/4/coh_2.webp",
+              "bytes": 86644,
+              "sourceBytes": 2628812,
+              "modified": "2026-06-26T18:02:14"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/21_cough_burn_bottles/4/tr_target.webp",
+              "bytes": 57274,
+              "sourceBytes": 2486718,
+              "modified": "2026-06-26T17:58:11"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/21_cough_burn_bottles/4/it_target.webp",
+              "bytes": 27800,
+              "sourceBytes": 1895131,
+              "modified": "2026-06-26T17:57:44"
+            },
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/21_cough_burn_bottles/4/end_coh_it.webp",
+              "bytes": 66264,
+              "sourceBytes": 2548724,
+              "modified": "2026-06-26T17:59:36"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/21_cough_burn_bottles/4/end_ic_tr.webp",
+              "bytes": 66346,
+              "sourceBytes": 2569389,
+              "modified": "2026-06-26T18:01:09"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/21_cough_burn_bottles/4/end_ic_it.webp",
+              "bytes": 36802,
+              "sourceBytes": 2327197,
+              "modified": "2026-06-26T17:59:25"
+            }
           },
           "core": {
             "ic_1": {
@@ -14467,29 +14537,70 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/21_cough_burn_bottles/4/coh_1.webp",
-              "bytes": 67684,
-              "sourceBytes": 2718187,
-              "modified": "2026-06-25T23:39:44"
+              "bytes": 63056,
+              "sourceBytes": 2663308,
+              "modified": "2026-06-26T17:59:50"
             },
-            "coh_2": null,
-            "tr_target": null,
-            "it_target": null
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/21_cough_burn_bottles/4/coh_2.webp",
+              "bytes": 86644,
+              "sourceBytes": 2628812,
+              "modified": "2026-06-26T18:02:14"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/21_cough_burn_bottles/4/tr_target.webp",
+              "bytes": 57274,
+              "sourceBytes": 2486718,
+              "modified": "2026-06-26T17:58:11"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/21_cough_burn_bottles/4/it_target.webp",
+              "bytes": 27800,
+              "sourceBytes": 1895131,
+              "modified": "2026-06-26T17:57:44"
+            }
           },
           "endings": {
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/21_cough_burn_bottles/4/end_coh_it.webp",
+              "bytes": 66264,
+              "sourceBytes": 2548724,
+              "modified": "2026-06-26T17:59:36"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/21_cough_burn_bottles/4/end_ic_tr.webp",
+              "bytes": 66346,
+              "sourceBytes": 2569389,
+              "modified": "2026-06-26T18:01:09"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/21_cough_burn_bottles/4/end_ic_it.webp",
+              "bytes": 36802,
+              "sourceBytes": 2327197,
+              "modified": "2026-06-26T17:59:25"
+            }
           },
-          "missing": [
-            "coh_2",
-            "tr_target",
-            "it_target",
-            "end_coh_it",
-            "end_ic_tr",
-            "end_ic_it"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -14502,11 +14613,7 @@
           }
         }
       },
-      "issueTags": [
-        "set-4-core-incomplete",
-        "set-4-incomplete",
-        "set-4-needs-endings"
-      ]
+      "issueTags": []
     },
     {
       "number": 22,
@@ -16914,7 +17021,7 @@
           "set": 3,
           "exists": true,
           "path": "assets/25_yawn_lock_door/3",
-          "fileCount": 2,
+          "fileCount": 8,
           "images": {
             "ic_1": {
               "filename": "ic_1.webp",
@@ -16930,16 +17037,64 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/25_yawn_lock_door/3/coh_1.webp",
-              "bytes": 30738,
-              "sourceBytes": 2732210,
-              "modified": "2026-06-23T22:40:38"
+              "bytes": 60342,
+              "sourceBytes": 2991641,
+              "modified": "2026-06-26T16:25:37"
             },
-            "coh_2": null,
-            "tr_target": null,
-            "it_target": null,
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/25_yawn_lock_door/3/coh_2.webp",
+              "bytes": 66170,
+              "sourceBytes": 2992377,
+              "modified": "2026-06-26T16:25:49"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/25_yawn_lock_door/3/tr_target.webp",
+              "bytes": 43168,
+              "sourceBytes": 2603173,
+              "modified": "2026-06-26T16:25:53"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/25_yawn_lock_door/3/it_target.webp",
+              "bytes": 34870,
+              "sourceBytes": 2508764,
+              "modified": "2026-06-26T16:26:11"
+            },
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/25_yawn_lock_door/3/end_coh_it.webp",
+              "bytes": 63098,
+              "sourceBytes": 2912018,
+              "modified": "2026-06-26T16:26:20"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/25_yawn_lock_door/3/end_ic_tr.webp",
+              "bytes": 67216,
+              "sourceBytes": 2662571,
+              "modified": "2026-06-26T16:34:23"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/25_yawn_lock_door/3/end_ic_it.webp",
+              "bytes": 54986,
+              "sourceBytes": 2564171,
+              "modified": "2026-06-26T16:41:18"
+            }
           },
           "core": {
             "ic_1": {
@@ -16956,29 +17111,70 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/25_yawn_lock_door/3/coh_1.webp",
-              "bytes": 30738,
-              "sourceBytes": 2732210,
-              "modified": "2026-06-23T22:40:38"
+              "bytes": 60342,
+              "sourceBytes": 2991641,
+              "modified": "2026-06-26T16:25:37"
             },
-            "coh_2": null,
-            "tr_target": null,
-            "it_target": null
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/25_yawn_lock_door/3/coh_2.webp",
+              "bytes": 66170,
+              "sourceBytes": 2992377,
+              "modified": "2026-06-26T16:25:49"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/25_yawn_lock_door/3/tr_target.webp",
+              "bytes": 43168,
+              "sourceBytes": 2603173,
+              "modified": "2026-06-26T16:25:53"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/25_yawn_lock_door/3/it_target.webp",
+              "bytes": 34870,
+              "sourceBytes": 2508764,
+              "modified": "2026-06-26T16:26:11"
+            }
           },
           "endings": {
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/25_yawn_lock_door/3/end_coh_it.webp",
+              "bytes": 63098,
+              "sourceBytes": 2912018,
+              "modified": "2026-06-26T16:26:20"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/25_yawn_lock_door/3/end_ic_tr.webp",
+              "bytes": 67216,
+              "sourceBytes": 2662571,
+              "modified": "2026-06-26T16:34:23"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/25_yawn_lock_door/3/end_ic_it.webp",
+              "bytes": 54986,
+              "sourceBytes": 2564171,
+              "modified": "2026-06-26T16:41:18"
+            }
           },
-          "missing": [
-            "coh_2",
-            "tr_target",
-            "it_target",
-            "end_coh_it",
-            "end_ic_tr",
-            "end_ic_it"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -16994,41 +17190,160 @@
           "set": 4,
           "exists": true,
           "path": "assets/25_yawn_lock_door/4",
-          "fileCount": 0,
+          "fileCount": 8,
           "images": {
-            "ic_1": null,
-            "coh_1": null,
-            "coh_2": null,
-            "tr_target": null,
-            "it_target": null,
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "ic_1": {
+              "filename": "ic_1.webp",
+              "originalFilename": "ic_1.png",
+              "stem": "ic_1",
+              "url": "assets/25_yawn_lock_door/4/ic_1.webp",
+              "bytes": 42638,
+              "sourceBytes": 2602411,
+              "modified": "2026-06-26T15:53:04"
+            },
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "assets/25_yawn_lock_door/4/coh_1.webp",
+              "bytes": 36016,
+              "sourceBytes": 2722460,
+              "modified": "2026-06-26T16:29:40"
+            },
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/25_yawn_lock_door/4/coh_2.webp",
+              "bytes": 27348,
+              "sourceBytes": 2300310,
+              "modified": "2026-06-26T16:47:11"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/25_yawn_lock_door/4/tr_target.webp",
+              "bytes": 26942,
+              "sourceBytes": 2308138,
+              "modified": "2026-06-26T16:39:59"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/25_yawn_lock_door/4/it_target.webp",
+              "bytes": 30254,
+              "sourceBytes": 2245310,
+              "modified": "2026-06-26T16:49:32"
+            },
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/25_yawn_lock_door/4/end_coh_it.webp",
+              "bytes": 51988,
+              "sourceBytes": 2333304,
+              "modified": "2026-06-26T16:36:59"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/25_yawn_lock_door/4/end_ic_tr.webp",
+              "bytes": 45812,
+              "sourceBytes": 2329939,
+              "modified": "2026-06-26T16:30:07"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/25_yawn_lock_door/4/end_ic_it.webp",
+              "bytes": 110236,
+              "sourceBytes": 3188357,
+              "modified": "2026-06-26T16:30:00"
+            }
           },
           "core": {
-            "ic_1": null,
-            "coh_1": null,
-            "coh_2": null,
-            "tr_target": null,
-            "it_target": null
+            "ic_1": {
+              "filename": "ic_1.webp",
+              "originalFilename": "ic_1.png",
+              "stem": "ic_1",
+              "url": "assets/25_yawn_lock_door/4/ic_1.webp",
+              "bytes": 42638,
+              "sourceBytes": 2602411,
+              "modified": "2026-06-26T15:53:04"
+            },
+            "coh_1": {
+              "filename": "coh_1.webp",
+              "originalFilename": "coh_1.png",
+              "stem": "coh_1",
+              "url": "assets/25_yawn_lock_door/4/coh_1.webp",
+              "bytes": 36016,
+              "sourceBytes": 2722460,
+              "modified": "2026-06-26T16:29:40"
+            },
+            "coh_2": {
+              "filename": "coh_2.webp",
+              "originalFilename": "coh_2.png",
+              "stem": "coh_2",
+              "url": "assets/25_yawn_lock_door/4/coh_2.webp",
+              "bytes": 27348,
+              "sourceBytes": 2300310,
+              "modified": "2026-06-26T16:47:11"
+            },
+            "tr_target": {
+              "filename": "tr_target.webp",
+              "originalFilename": "tr_target.png",
+              "stem": "tr_target",
+              "url": "assets/25_yawn_lock_door/4/tr_target.webp",
+              "bytes": 26942,
+              "sourceBytes": 2308138,
+              "modified": "2026-06-26T16:39:59"
+            },
+            "it_target": {
+              "filename": "it_target.webp",
+              "originalFilename": "it_target.png",
+              "stem": "it_target",
+              "url": "assets/25_yawn_lock_door/4/it_target.webp",
+              "bytes": 30254,
+              "sourceBytes": 2245310,
+              "modified": "2026-06-26T16:49:32"
+            }
           },
           "endings": {
-            "end_coh_it": null,
-            "end_ic_tr": null,
-            "end_ic_it": null
+            "end_coh_it": {
+              "filename": "end_coh_it.webp",
+              "originalFilename": "end_coh_it.png",
+              "stem": "end_coh_it",
+              "url": "assets/25_yawn_lock_door/4/end_coh_it.webp",
+              "bytes": 51988,
+              "sourceBytes": 2333304,
+              "modified": "2026-06-26T16:36:59"
+            },
+            "end_ic_tr": {
+              "filename": "end_ic_tr.webp",
+              "originalFilename": "end_ic_tr.png",
+              "stem": "end_ic_tr",
+              "url": "assets/25_yawn_lock_door/4/end_ic_tr.webp",
+              "bytes": 45812,
+              "sourceBytes": 2329939,
+              "modified": "2026-06-26T16:30:07"
+            },
+            "end_ic_it": {
+              "filename": "end_ic_it.webp",
+              "originalFilename": "end_ic_it.png",
+              "stem": "end_ic_it",
+              "url": "assets/25_yawn_lock_door/4/end_ic_it.webp",
+              "bytes": 110236,
+              "sourceBytes": 3188357,
+              "modified": "2026-06-26T16:30:00"
+            }
           },
-          "missing": [
-            "ic_1",
-            "coh_1",
-            "coh_2",
-            "tr_target",
-            "it_target",
-            "end_coh_it",
-            "end_ic_tr",
-            "end_ic_it"
-          ],
+          "missing": [],
           "extra": [],
-          "complete": false,
+          "complete": true,
           "ideas": {
             "ic_1": null,
             "coh_1": null,
@@ -17041,13 +17356,7 @@
           }
         }
       },
-      "issueTags": [
-        "set-3-core-incomplete",
-        "set-3-incomplete",
-        "set-3-needs-endings",
-        "set-4-core-incomplete",
-        "set-4-empty"
-      ]
+      "issueTags": []
     },
     {
       "number": 26,
@@ -17075,9 +17384,9 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/26_sleep_drag_log/1/coh_1.webp",
-              "bytes": 40318,
-              "sourceBytes": 2237354,
-              "modified": "2026-06-06T10:23:46"
+              "bytes": 33228,
+              "sourceBytes": 2326008,
+              "modified": "2026-06-26T15:06:31"
             },
             "coh_2": {
               "filename": "coh_2.webp",
@@ -17149,9 +17458,9 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/26_sleep_drag_log/1/coh_1.webp",
-              "bytes": 40318,
-              "sourceBytes": 2237354,
-              "modified": "2026-06-06T10:23:46"
+              "bytes": 33228,
+              "sourceBytes": 2326008,
+              "modified": "2026-06-26T15:06:31"
             },
             "coh_2": {
               "filename": "coh_2.webp",
@@ -17413,9 +17722,9 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/26_sleep_drag_log/3/coh_1.webp",
-              "bytes": 58956,
-              "sourceBytes": 2607262,
-              "modified": "2026-06-23T22:57:48"
+              "bytes": 49582,
+              "sourceBytes": 2458682,
+              "modified": "2026-06-26T16:02:54"
             },
             "coh_2": {
               "filename": "coh_2.webp",
@@ -17440,9 +17749,9 @@
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "assets/26_sleep_drag_log/3/it_target.webp",
-              "bytes": 46366,
-              "sourceBytes": 2536626,
-              "modified": "2026-06-23T22:58:10"
+              "bytes": 42240,
+              "sourceBytes": 2480593,
+              "modified": "2026-06-26T14:56:37"
             },
             "end_coh_it": {
               "filename": "end_coh_it.webp",
@@ -17487,9 +17796,9 @@
               "originalFilename": "coh_1.png",
               "stem": "coh_1",
               "url": "assets/26_sleep_drag_log/3/coh_1.webp",
-              "bytes": 58956,
-              "sourceBytes": 2607262,
-              "modified": "2026-06-23T22:57:48"
+              "bytes": 49582,
+              "sourceBytes": 2458682,
+              "modified": "2026-06-26T16:02:54"
             },
             "coh_2": {
               "filename": "coh_2.webp",
@@ -17514,9 +17823,9 @@
               "originalFilename": "it_target.png",
               "stem": "it_target",
               "url": "assets/26_sleep_drag_log/3/it_target.webp",
-              "bytes": 46366,
-              "sourceBytes": 2536626,
-              "modified": "2026-06-23T22:58:10"
+              "bytes": 42240,
+              "sourceBytes": 2480593,
+              "modified": "2026-06-26T14:56:37"
             }
           },
           "endings": {
@@ -18089,9 +18398,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "assets/27_jump_pull_blanket/3/ic_1.webp",
-              "bytes": 103486,
-              "sourceBytes": 3342611,
-              "modified": "2026-06-23T21:53:47"
+              "bytes": 104634,
+              "sourceBytes": 3255138,
+              "modified": "2026-06-26T15:00:00"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -18163,9 +18472,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "assets/27_jump_pull_blanket/3/ic_1.webp",
-              "bytes": 103486,
-              "sourceBytes": 3342611,
-              "modified": "2026-06-23T21:53:47"
+              "bytes": 104634,
+              "sourceBytes": 3255138,
+              "modified": "2026-06-26T15:00:00"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -18774,9 +19083,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "assets/28_jump_peel_orange/3/ic_1.webp",
-              "bytes": 96114,
-              "sourceBytes": 3385999,
-              "modified": "2026-06-24T08:50:44"
+              "bytes": 91838,
+              "sourceBytes": 3177616,
+              "modified": "2026-06-26T15:46:14"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -18848,9 +19157,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "assets/28_jump_peel_orange/3/ic_1.webp",
-              "bytes": 96114,
-              "sourceBytes": 3385999,
-              "modified": "2026-06-24T08:50:44"
+              "bytes": 91838,
+              "sourceBytes": 3177616,
+              "modified": "2026-06-26T15:46:14"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -20147,9 +20456,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "assets/30_smile_make_momos/3/ic_1.webp",
-              "bytes": 91166,
-              "sourceBytes": 3385302,
-              "modified": "2026-06-24T09:00:06"
+              "bytes": 125258,
+              "sourceBytes": 3807111,
+              "modified": "2026-06-26T15:23:32"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -20221,9 +20530,9 @@
               "originalFilename": "ic_1.png",
               "stem": "ic_1",
               "url": "assets/30_smile_make_momos/3/ic_1.webp",
-              "bytes": 91166,
-              "sourceBytes": 3385302,
-              "modified": "2026-06-24T09:00:06"
+              "bytes": 125258,
+              "sourceBytes": 3807111,
+              "modified": "2026-06-26T15:23:32"
             },
             "coh_1": {
               "filename": "coh_1.webp",
@@ -20478,7 +20787,7 @@
       "issueTags": []
     }
   ],
-  "exportedAt": "2026-06-26T02:16:37",
+  "exportedAt": "2026-06-26T18:02:14",
   "export": {
     "imageFormat": "webp",
     "maxWidth": 640,

@@ -498,22 +498,55 @@ def fetch_chatgpt_image_with_chrome(source_url: str) -> bytes:
 """.strip()
 
     apple_script = """
+on isChatGptUrl(tabUrl)
+  set textUrl to tabUrl as text
+  if textUrl starts with "https://chatgpt.com" then return true
+  if textUrl starts with "https://chat.openai.com" then return true
+  return false
+end isChatGptUrl
+
 on run argv
   set jsCode to item 1 of argv
+  set sourceUrl to item 2 of argv
   tell application "Google Chrome"
     set targetTab to missing value
+    set temporaryTab to missing value
     repeat with browserWindow in windows
       repeat with browserTab in tabs of browserWindow
-        set tabUrl to URL of browserTab
-        if tabUrl starts with "https://chatgpt.com/" or tabUrl starts with "https://chat.openai.com/" then
-          set targetTab to browserTab
-          exit repeat
-        end if
+        try
+          set tabUrl to URL of browserTab
+          if my isChatGptUrl(tabUrl) then
+            set targetTab to browserTab
+            exit repeat
+          end if
+        end try
       end repeat
       if targetTab is not missing value then exit repeat
     end repeat
-    if targetTab is missing value then error "No open ChatGPT tab found in Google Chrome."
-    return execute targetTab javascript jsCode
+    if targetTab is missing value then
+      if (count of windows) = 0 then make new window
+      set targetWindow to front window
+      set temporaryTab to make new tab at end of tabs of targetWindow with properties {URL:sourceUrl}
+      set targetTab to temporaryTab
+      repeat with waitIndex from 1 to 80
+        delay 0.25
+        try
+          if loading of targetTab is false then exit repeat
+        end try
+      end repeat
+    end if
+    try
+      set responseText to execute targetTab javascript jsCode
+      if temporaryTab is not missing value then close temporaryTab
+      return responseText
+    on error errorMessage number errorNumber
+      if temporaryTab is not missing value then
+        try
+          close temporaryTab
+        end try
+      end if
+      error errorMessage number errorNumber
+    end try
   end tell
 end run
 """.strip()
@@ -523,7 +556,7 @@ end run
         script_path = Path(script_file.name)
     try:
         result = subprocess.run(
-            [osascript, str(script_path), js_code],
+            [osascript, str(script_path), js_code, source_url],
             capture_output=True,
             text=True,
             timeout=CHROME_FETCH_TIMEOUT_SECONDS,
@@ -539,7 +572,8 @@ end run
         hint = (
             "Protected ChatGPT image links need Chrome permission. "
             "In Chrome, enable View > Developer > Allow JavaScript from Apple Events, "
-            "keep a ChatGPT tab open, and try the drop again."
+            "keep Chrome logged in to ChatGPT, and try the drop again. "
+            "If that menu item already looks enabled, fully quit and reopen Chrome."
         )
         raise OSError(f"{hint} {details}".strip())
 
@@ -725,11 +759,22 @@ def remote_review_request(method: str, payload: dict[str, object] | None = None)
     if not separator or not status_text.isdigit():
         raise RuntimeError("Remote review proxy returned an invalid response.")
 
+    status = int(status_text)
+    clean_body = body.strip()
     try:
-        parsed_body = json.loads(body) if body else {}
+        parsed_body = json.loads(clean_body) if clean_body else {}
     except json.JSONDecodeError as exc:
-        raise RuntimeError("Remote review proxy returned invalid JSON.") from exc
-    return int(status_text), parsed_body
+        if method.upper() != "GET" and 200 <= status < 300:
+            _, reviews_payload = remote_review_request("GET")
+            return status, {"ok": True, "reviews": reviews_payload}
+        snippet = clean_body.replace("\n", " ")[:300]
+        detail = f": {snippet}" if snippet else ""
+        raise RuntimeError(f"Remote review proxy returned invalid JSON{detail}.") from exc
+
+    if method.upper() != "GET" and 200 <= status < 300 and not clean_body:
+        _, reviews_payload = remote_review_request("GET")
+        return status, {"ok": True, "reviews": reviews_payload}
+    return status, parsed_body
 
 
 def run_static_export(data_root: Path) -> dict[str, object]:
