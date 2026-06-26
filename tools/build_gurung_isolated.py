@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import os
 import json
 import math
 import shutil
@@ -20,13 +21,17 @@ import build_gurung_psychopy_v1 as discourse
 MAIN_FIELDS = [
     "trial_id",
     "source_trial_id",
+    "experiment_list",
     "dataset_number",
     "dataset_slug",
     "dataset_label",
+    "stimulus_set",
     "condition_id",
     "condition_name",
     "cohesion",
     "transitivity",
+    "condition_trigger",
+    "item_trigger",
     "target_image",
     "target_role",
 ]
@@ -44,61 +49,61 @@ REST_BEEP = "rest_beep.wav"
 ISOLATED_PRACTICE_ITEMS = [
     (
         "isolated_practice_01_orange_and_man",
-        "Stimuli/isolated_practice_01_orange_and_man.png",
+        "Stimuli/isolated_practice_01_orange_and_man.jpg",
         "orange_and_man",
         True,
     ),
     (
         "isolated_practice_02_woman_milking_goat",
-        "Stimuli/isolated_practice_02_woman_milking_goat.png",
+        "Stimuli/isolated_practice_02_woman_milking_goat.jpg",
         "woman_milking_goat",
         True,
     ),
     (
         "isolated_practice_03_boy_bicycle",
-        "Stimuli/isolated_practice_03_boy_bicycle.png",
+        "Stimuli/isolated_practice_03_boy_bicycle.jpg",
         "boy_bicycle",
         False,
     ),
     (
         "isolated_practice_04_woman_chopping_greens",
-        "Stimuli/isolated_practice_05_woman_chopping_greens.png",
+        "Stimuli/isolated_practice_05_woman_chopping_greens.jpg",
         "woman_chopping_greens",
         False,
     ),
     (
         "isolated_practice_05_old_man_corn",
-        "Stimuli/isolated_practice_04_old_man_corn.png",
+        "Stimuli/isolated_practice_04_old_man_corn.jpg",
         "old_man_corn",
         False,
     ),
     (
         "isolated_practice_06_woman_phone",
-        "Stimuli/isolated_practice_06_woman_phone.png",
+        "Stimuli/isolated_practice_06_woman_phone.jpg",
         "woman_phone",
         False,
     ),
     (
         "isolated_practice_07_man_motorcycle",
-        "Stimuli/isolated_practice_07_man_motorcycle.png",
+        "Stimuli/isolated_practice_07_man_motorcycle.jpg",
         "man_motorcycle",
         False,
     ),
     (
         "isolated_practice_08_butterfly_phone",
-        "Stimuli/isolated_practice_09_butterfly_phone.png",
+        "Stimuli/isolated_practice_09_butterfly_phone.jpg",
         "butterfly_phone",
         False,
     ),
     (
         "isolated_practice_09_badminton_wind",
-        "Stimuli/isolated_practice_10_badminton_wind.png",
+        "Stimuli/isolated_practice_10_badminton_wind.jpg",
         "badminton_wind",
         False,
     ),
     (
         "isolated_practice_10_girl_towel_old_man",
-        "Stimuli/isolated_practice_08_girl_towel_old_man.png",
+        "Stimuli/isolated_practice_08_girl_towel_old_man.jpg",
         "girl_towel_old_man",
         False,
     ),
@@ -128,25 +133,45 @@ def target_from_discourse_row(row: dict[str, str]) -> tuple[str, str]:
     raise ValueError(f"No target image in discourse trial {row.get('trial_id', '<unknown>')}")
 
 
-def build_main_rows(discourse_dir: Path) -> list[dict[str, str]]:
+def build_main_rows(discourse_dir: Path, list_id: str, image_prefix: str = ".") -> list[dict[str, str]]:
     rows = []
-    for source in read_csv(discourse_dir / "Conds" / "main_all_120.csv"):
+    if list_id not in discourse.LIST_RULES:
+        raise ValueError(f"Unknown experimental list: {list_id}")
+    selected_by_set = {
+        set_key: condition_ids[0]
+        for set_key, condition_ids in discourse.LIST_RULES[list_id].items()
+    }
+    source_path = discourse_dir / "Conds" / f"main_list{list_id}_all_240.csv"
+    for source in read_csv(source_path):
+        set_key = (source.get("stimulus_set") or "").strip()
+        if source.get("condition_id", "") != selected_by_set.get(set_key):
+            continue
         target_image, target_role = target_from_discourse_row(source)
+        if image_prefix and image_prefix != "." and not Path(target_image).is_absolute():
+            target_image = f"{image_prefix}/{target_image}".replace("\\", "/")
+        transitivity = source.get("transitivity", "")
+        condition_trigger = "1" if transitivity == "transitive" else "2"
         rows.append(
             {
-                "trial_id": f"isolated_{source.get('trial_id', '')}",
+                "trial_id": f"isolated_list{list_id}_{source.get('trial_id', '')}",
                 "source_trial_id": source.get("trial_id", ""),
+                "experiment_list": list_id,
                 "dataset_number": source.get("dataset_number", ""),
                 "dataset_slug": source.get("dataset_slug", ""),
                 "dataset_label": source.get("dataset_label", ""),
+                "stimulus_set": source.get("stimulus_set", ""),
                 "condition_id": source.get("condition_id", ""),
                 "condition_name": source.get("condition_name", ""),
                 "cohesion": source.get("cohesion", ""),
-                "transitivity": source.get("transitivity", ""),
+                "transitivity": transitivity,
+                "condition_trigger": condition_trigger,
+                "item_trigger": source.get("item_trigger", ""),
                 "target_image": target_image,
                 "target_role": target_role,
             }
         )
+    if len(rows) != 120:
+        raise ValueError(f"Expected 120 isolated rows for list {list_id}, got {len(rows)} from {source_path}")
     return rows
 
 
@@ -170,7 +195,7 @@ def build_practice_rows(discourse_dir: Path) -> list[dict[str, str]]:
 
 
 def copy_assets(discourse_dir: Path, out_dir: Path) -> None:
-    for dirname in ("Audio", "Stimuli", "MainStimuli"):
+    for dirname in ("Audio", "Stimuli"):
         source = discourse_dir / dirname
         target = out_dir / dirname
         if not source.is_dir():
@@ -288,12 +313,21 @@ def g_isolated_image_size(win):
     return (image_width, image_height)
 
 
+def g_isolated_main_stem(trial_index, dataset_number, condition_value):
+    return (
+        f"{g_participant_tag()}_isolated_main_{g_list_tag()}_trial{int(trial_index):03d}_"
+        f"imageset{int(dataset_number):02d}_cond_{g_transitivity_tag(condition_value)}"
+    )
+
+
 def g_isolated_prepare_runtime_main_blocks():
     if G_ISOLATED_RUNTIME_STATE.get("prepared"):
         return
-    rows = list(data.importConditions("Conds/isolated_main_all_120.csv"))
+    list_id = g_selected_list()
+    conditions_path = f"Conds/isolated_main_list{list_id}_all_120.csv"
+    rows = list(data.importConditions(conditions_path))
     if len(rows) != 120:
-        raise RuntimeError(f"Expected 120 isolated main trials, found {len(rows)}")
+        raise RuntimeError(f"Expected 120 isolated main trials in {conditions_path}, found {len(rows)}")
     _gurung_random.shuffle(rows)
     fieldnames = list(rows[0].keys())
     block_files = []
@@ -312,7 +346,7 @@ def g_isolated_prepare_runtime_main_blocks():
         block_files.append(str(block_path))
     G_ISOLATED_RUNTIME_STATE["files"] = block_files
     G_ISOLATED_RUNTIME_STATE["prepared"] = True
-    g_log(f"isolated_main_targets_shuffled count={len(rows)} block_sizes={block_sizes}")
+    g_log(f"isolated_main_targets_shuffled list={list_id} count={len(rows)} block_sizes={block_sizes}")
 
 
 def g_isolated_runtime_main_block_file(block_index):
@@ -403,7 +437,9 @@ def rest_blank_begin(label: str) -> str:
 win.color = "white"
 rest_blank_label = "{label}"
 rest_blank_clock = core.Clock()
+rest_blank_finish_trigger_sent = False
 thisExp.addData(f"{{rest_blank_label}}_start_core_time", core.getTime())
+g_trigger_on_flip(150, f"{{rest_blank_label}}_start")
 event.clearEvents()
 '''
 
@@ -413,6 +449,9 @@ keys = event.getKeys(keyList=["space", "escape"])
 if "escape" in keys:
     g_abort_and_quit()
 if "space" in keys or rest_blank_clock.getTime() >= G_REST_DURATION_SEC:
+    if not rest_blank_finish_trigger_sent:
+        g_send_trigger(150, f"{rest_blank_label}_finish")
+        rest_blank_finish_trigger_sent = True
     thisExp.addData(f"{rest_blank_label}_duration", rest_blank_clock.getTime())
     thisExp.addData(f"{rest_blank_label}_ended_by", "space" if "space" in keys else "timeout")
     continueRoutine = False
@@ -461,10 +500,7 @@ isolated_practice_audio_duration = g_float(isolated_practice_audio.getDuration()
 isolated_practice_audio_clock = core.Clock()
 isolated_practice_audio_started = False
 isolated_practice_clock = core.Clock()
-isolated_practice_stem = (
-    f"{g_safe(expInfo.get('participant', 'participant'))}_isolated_practice_"
-    f"{G_ISOLATED_PRACTICE_INDEX:02d}_{g_safe(globals().get('trial_id', 'practice'))}"
-)
+isolated_practice_stem = g_practice_stem(G_ISOLATED_PRACTICE_INDEX, 1)
 G_RECORDER.start(isolated_practice_stem)
 thisExp.addData("isolated_practice_index", G_ISOLATED_PRACTICE_INDEX)
 thisExp.addData("isolated_practice_image", isolated_practice_image_path)
@@ -522,33 +558,63 @@ isolated_main_image = visual.ImageStim(
 isolated_main_clock = core.Clock()
 isolated_main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
 isolated_main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+isolated_main_transitivity = g_text(globals().get("transitivity", isolated_main_condition_id))
 isolated_main_target_role = g_text(globals().get("target_role", "target"))
-isolated_main_stem = (
-    f"{g_safe(expInfo.get('participant', 'participant'))}_isolated_main_trial"
-    f"{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_imageset{isolated_main_dataset_number:02d}_"
-    f"condition_{g_safe(isolated_main_condition_id)}_{g_safe(isolated_main_target_role)}"
+isolated_main_stimulus_set = g_int(globals().get("stimulus_set", 0), 0)
+isolated_main_condition_trigger = g_int(globals().get("condition_trigger", 0), 0)
+isolated_main_item_trigger = g_int(globals().get("item_trigger", 0), 0)
+isolated_main_trigger_scheduled = False
+isolated_main_target_clock = core.Clock()
+isolated_main_target_state = {"started": False, "condition_sent": False, "item_sent": False}
+isolated_main_stem = g_isolated_main_stem(
+    G_ISOLATED_MAIN_TRIAL_INDEX,
+    isolated_main_dataset_number,
+    isolated_main_transitivity,
 )
 G_RECORDER.start(isolated_main_stem)
 thisExp.addData("isolated_main_trial_index", G_ISOLATED_MAIN_TRIAL_INDEX)
+thisExp.addData("experiment_list", g_selected_list())
 thisExp.addData("isolated_dataset_number", isolated_main_dataset_number)
+thisExp.addData("isolated_stimulus_set", isolated_main_stimulus_set)
 thisExp.addData("isolated_condition_id", isolated_main_condition_id)
 thisExp.addData("isolated_target_role", isolated_main_target_role)
 thisExp.addData("isolated_target_image", isolated_main_image_path)
+thisExp.addData("condition_trigger", isolated_main_condition_trigger)
+thisExp.addData("item_trigger", isolated_main_item_trigger)
 event.clearEvents()
 '''
 
 
 ISOLATED_MAIN_EACH = r'''
 isolated_main_image.draw()
-G_RECORDER.mark_onset_on_flip()
+if not isolated_main_trigger_scheduled:
+    G_RECORDER.mark_onset_on_flip()
+    g_trigger_on_flip(200, f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_target_onset")
+    win.callOnFlip(isolated_main_target_clock.reset)
+    win.callOnFlip(g_mark_clock_started, isolated_main_target_state)
+    isolated_main_trigger_scheduled = True
+if isolated_main_target_state.get("started"):
+    if (not isolated_main_target_state.get("condition_sent")) and isolated_main_target_clock.getTime() >= 0.200:
+        g_send_trigger(
+            isolated_main_condition_trigger,
+            f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_condition_{isolated_main_condition_trigger}",
+        )
+        isolated_main_target_state["condition_sent"] = True
+    if (not isolated_main_target_state.get("item_sent")) and isolated_main_target_clock.getTime() >= 0.400:
+        g_send_trigger(
+            isolated_main_item_trigger,
+            f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_item{isolated_main_item_trigger:03d}",
+        )
+        isolated_main_target_state["item_sent"] = True
 keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
 key_names = g_key_names(keys)
 if "escape" in key_names:
     g_abort_and_quit()
-if "space" in key_names:
+if "space" in key_names and isolated_main_target_state.get("item_sent"):
     isolated_main_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
     thisExp.addData("isolated_main_rt", isolated_main_clock.getTime())
     thisExp.addData("isolated_main_response_audio", isolated_main_file)
+    g_send_trigger(202, f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_end")
     continueRoutine = False
     event.clearEvents()
 '''
@@ -694,14 +760,18 @@ This is the isolated-picture version of the Gurung experiment.
 
 - Resting-state sequence comes before the experiment instruction screen: eyes-open prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, eyes-closed prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, ready prompt with the eyes-open icon.
 - Resting-state blank screens end automatically after 120 seconds, but Space can move forward earlier.
+- Resting-state blank intervals send/log trigger 150 at eyes-open start, eyes-open finish, eyes-closed start, and eyes-closed finish.
 - The isolated instruction screen uses `Audio/isolated_instr.wav`; the first Space starts audio, and a later Space advances.
-- Practice has 10 fixed single-picture trials in CSV order, using the `isolated_practice_*.png` files in `Stimuli/`.
+- Practice has 10 fixed single-picture trials in CSV order, using the `isolated_practice_*.jpg` files in `Stimuli/`.
 - Practice trials 1 and 2 are the voiced orange-picking and goat-milking pictures; they play `Audio/chickencorn_erg.wav` simultaneously with the picture. Practice trials 3-10 have no picture audio.
-- The main part has 120 isolated target-picture trials built from the Discourse main table. Target pictures are the `tr_target` or `it_target` image from each Discourse trial.
+- At the start dialog, choose experimental `list` 1 or 2. The main part has 120 isolated target-picture trials for the selected list, built from the Discourse list tables.
+- Main target pictures are JPEGs referenced from the Discourse `JpegStimuliFullRes/` package with relative paths.
 - Main trial order is reshuffled at runtime on every run, then split into 60 trials, a 30-second break, and 60 trials.
+- EEG triggers are logged to `recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv`. If `eeg_port` is filled in, the same trigger codes are also sent as single-byte serial pulses using `trigger_pulse_ms` as pulse duration.
+- Isolated main trigger codes: target picture onset 200, transitivity condition 1/2 at 200 ms after target onset, item 1-120 at 400 ms after target onset, trial-end button press 202.
 - There are no Nepal images, questions, or audio probes between isolated trials.
 - Picture size matches the Discourse sequence pictures, but isolated pictures have no jitter: every practice and main picture is always centered at `(0, 0)`.
-- Microphone recording uses the same continuous-session WAV and reproducible clipping scheme as the Discourse experiment.
+- Microphone recording uses the same continuous-session WAV and reproducible clipping scheme as the Discourse experiment. Practice recordings use names like `arrate_practice_08_pic01.wav`; main recordings use `isolated_main_l1` or `isolated_main_l2` and isolated `cond_tr`/`cond_it`.
 
 Open `gurung_isolated_v1.psyexp` in PsychoPy Builder.
 """
@@ -728,9 +798,14 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     (out_dir / "data").mkdir(exist_ok=True)
     (out_dir / "recordings").mkdir(exist_ok=True)
     copy_assets(discourse_dir, out_dir)
-    main_rows = build_main_rows(discourse_dir)
+    image_prefix = os.path.relpath(discourse_dir, out_dir).replace("\\", "/")
+    main_rows_by_list = {
+        list_id: build_main_rows(discourse_dir, list_id, image_prefix)
+        for list_id in sorted(discourse.LIST_RULES)
+    }
     practice_rows = build_practice_rows(discourse_dir)
-    write_csv(out_dir / "Conds" / "isolated_main_all_120.csv", main_rows, MAIN_FIELDS)
+    for list_id, main_rows in main_rows_by_list.items():
+        write_csv(out_dir / "Conds" / f"isolated_main_list{list_id}_all_120.csv", main_rows, MAIN_FIELDS)
     write_csv(out_dir / "Conds" / "isolated_practice.csv", practice_rows, PRACTICE_FIELDS)
     psyexp = build_psyexp(out_dir, template)
     write_readme(out_dir)
@@ -752,7 +827,8 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         "out_dir": manifest_path(out_dir),
         "psyexp": manifest_path(psyexp),
         "discourse_dir": manifest_path(discourse_dir),
-        "main_trials": len(main_rows),
+        "main_trials_per_list": 120,
+        "experimental_lists": sorted(discourse.LIST_RULES),
         "practice_trials": len(practice_rows),
         "main_blocks": [60, 60],
         "resting_state_seconds_each": 120,

@@ -54,8 +54,8 @@ Use the local viewer to edit those notes. The next static export bakes them into
 
 The current runnable PsychoPy experiments are included in the repo:
 
-- `psychopy_gurung_v1/`: Discourse experiment, 120 picture-sequence trials.
-- `psychopy_gurung_isolated/`: Isolated experiment, 120 single-target-picture trials plus resting-state screens.
+- `psychopy_gurung_v1/`: Discourse experiment, two selectable 240-trial picture-sequence lists.
+- `psychopy_gurung_isolated/`: Isolated experiment, two selectable 120-target-picture lists plus resting-state screens.
 
 Open these files in PsychoPy Builder:
 
@@ -64,7 +64,7 @@ psychopy_gurung_v1/gurung_120_v1.psyexp
 psychopy_gurung_isolated/gurung_isolated_v1.psyexp
 ```
 
-Both packages include the local audio, condition tables, packaged image stimuli, and current generated `*_lastrun.py` scripts needed to run from a cloned copy. Participant outputs are intentionally ignored by Git:
+The repo includes the local audio, condition tables, packaged JPEG main stimuli, and current generated `*_lastrun.py` scripts needed to run from a cloned copy. Participant outputs are intentionally ignored by Git:
 
 ```text
 psychopy_gurung_v1/data/
@@ -74,6 +74,35 @@ psychopy_gurung_isolated/recordings/
 ```
 
 The current experiments were built with PsychoPy `2026.1.3`; see `psychopy_requirements.txt` for Python package dependencies.
+
+### EEG Trigger Checks
+
+Each real run writes a trigger log here:
+
+```text
+psychopy_gurung_v1/recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv
+psychopy_gurung_isolated/recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv
+```
+
+The log includes trigger code, label, whether it was sent on a screen flip, COM port, serial status, pulse width, and whether the serial write succeeded.
+
+Before a session, validate the trigger coding in all condition files:
+
+```sh
+python tools/test_eeg_triggers.py --validate-only
+```
+
+To send a short known trigger sequence through the TriggerBox, replace `COM4` with the lab port:
+
+```sh
+python tools/test_eeg_triggers.py --smoke-only --port COM4 --pulse-ms 5
+```
+
+After a short real run, validate the run log. Add `--require-serial` when the TriggerBox was connected:
+
+```sh
+python tools/test_eeg_triggers.py --validate-only --log psychopy_gurung_v1/recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv --require-serial
+```
 
 To rebuild the isolated package inside the repo:
 

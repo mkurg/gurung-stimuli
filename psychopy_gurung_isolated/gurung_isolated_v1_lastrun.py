@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2026.1.3),
-    on June 25, 2026, at 16:15
+    on June 27, 2026, at 00:35
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -47,6 +47,9 @@ runAtExit = []
 expInfo = {
     'participant': f"{randint(0, 999999):06.0f}",
     'session': '001',
+    'list': '1',
+    'eeg_port': '',
+    'trigger_pulse_ms': '5',
     'date|hid': data.getDateStr(),
     'expName|hid': expName,
     'expVersion|hid': expVersion,
@@ -132,7 +135,7 @@ def setupData(expInfo, dataDir=None):
     thisExp = data.ExperimentHandler(
         name=expName, version=expVersion,
         extraInfo=expInfo, runtimeInfo=None,
-        originPath='C:\\Users\\Sofya\\Documents\\Isolated part\\psychopy_gurung_isolated\\gurung_isolated_v1_lastrun.py',
+        originPath='psychopy_gurung_isolated\\gurung_isolated_v1_lastrun.py',
         savePickle=True, saveWideText=True,
         dataFileName=dataDir + os.sep + filename, sortColumns='time'
     )
@@ -411,6 +414,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         print("Audio recording is unavailable:", _gurung_recording_error)
     
     try:
+        import serial as _gurung_serial
+    except Exception as _gurung_serial_error:
+        _gurung_serial = None
+        print("Serial trigger backend is unavailable:", _gurung_serial_error)
+    
+    try:
         from PIL import Image as _gurung_Image
         from PIL import ImageOps as _gurung_ImageOps
     except Exception as _gurung_image_import_error:
@@ -450,6 +459,15 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     G_BETWEEN_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
     G_BETWEEN_STATE = {"images": [], "index": 0}
     G_MAIN_RUNTIME_STATE = {"prepared": False, "files": []}
+    G_TRIGGER_STATE = {
+        "serial": None,
+        "log_path": None,
+        "header_written": False,
+        "pulse_ms": 5.0,
+        "port": "",
+        "serial_status": "not_initialized",
+        "trigger_index": 0,
+    }
     G_AUDIO_PROBE_FILES = (
         "Audio/tsakyali.wav",
         "Audio/bucketdog_noerg.wav",
@@ -462,6 +480,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     G_RECORDING_STOP_GRACE_SEC = 0.5
     G_LISTENER_RESPONSE_MIN_SEC = 10.0
     G_MAIN_BLOCK_SIZE = 40
+    G_MAIN_BLOCK_COUNT = 6
     G_PRACTICE_TRIAL_COUNT = 10
     G_PRACTICE_PICTURE_AUDIO = {
         1: {
@@ -557,6 +576,26 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             return int(float(value))
         except Exception:
             return default
+    
+    
+    def g_bool(value, default=False):
+        if g_is_blank(value):
+            return default
+        text = str(value).strip().lower()
+        if text in {"1", "true", "yes", "y", "on"}:
+            return True
+        if text in {"0", "false", "no", "n", "off"}:
+            return False
+        return default
+    
+    
+    def g_selected_list():
+        value = g_text(expInfo.get("list", "1")).lower().replace("list", "").strip()
+        if value not in {"1", "2"}:
+            g_log(f"invalid_experiment_list {value!r}; using list 1")
+            value = "1"
+        expInfo["list"] = value
+        return value
     
     
     def g_path(value):
@@ -678,16 +717,24 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     def g_prepare_runtime_main_blocks():
         if G_MAIN_RUNTIME_STATE.get("prepared"):
             return
-        rows = list(data.importConditions("Conds/main_all_120.csv"))
+        list_id = g_selected_list()
+        conditions_path = f"Conds/main_list{list_id}_all_240.csv"
+        rows = list(data.importConditions(conditions_path))
         if not rows:
-            raise RuntimeError("No main trials found in Conds/main_all_120.csv")
+            raise RuntimeError(f"No main trials found in {conditions_path}")
+        if len(rows) != G_MAIN_BLOCK_SIZE * G_MAIN_BLOCK_COUNT:
+            raise RuntimeError(
+                f"Expected {G_MAIN_BLOCK_SIZE * G_MAIN_BLOCK_COUNT} main trials in {conditions_path}, found {len(rows)}"
+            )
         _gurung_random.shuffle(rows)
         g_assign_runtime_audio_probes(rows)
         fieldnames = list(rows[0].keys())
         block_files = []
         block_sizes = []
-        for block_index in range(3):
-            block_rows = rows[block_index * 40 : (block_index + 1) * 40]
+        for block_index in range(G_MAIN_BLOCK_COUNT):
+            block_rows = rows[
+                block_index * G_MAIN_BLOCK_SIZE : (block_index + 1) * G_MAIN_BLOCK_SIZE
+            ]
             block_sizes.append(len(block_rows))
             block_path = G_DATA_DIR / f"runtime_main_block{block_index + 1}.csv"
             with block_path.open("w", newline="", encoding="utf-8") as handle:
@@ -698,7 +745,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             block_files.append(str(block_path))
         G_MAIN_RUNTIME_STATE["files"] = block_files
         G_MAIN_RUNTIME_STATE["prepared"] = True
-        g_log(f"runtime_main_sequences_shuffled count={len(rows)} block_sizes={block_sizes}")
+        g_log(f"runtime_main_sequences_shuffled list={list_id} count={len(rows)} block_sizes={block_sizes}")
     
     
     def g_assign_runtime_audio_probes(rows):
@@ -760,10 +807,40 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         return text.strip("._") or "item"
     
     
+    def g_participant_tag():
+        return g_safe(expInfo.get("participant", "participant"))
+    
+    
+    def g_list_tag():
+        return f"l{g_selected_list()}"
+    
+    
+    def g_transitivity_tag(value):
+        text = g_text(value).lower()
+        if text.startswith("tr") or text == "transitive":
+            return "tr"
+        if text.startswith("it") or text.startswith("itr") or text == "intransitive":
+            return "it"
+        return g_safe(text or "unknown")
+    
+    
+    def g_practice_stem(trial_index, picture_index):
+        return f"{g_participant_tag()}_practice_{int(trial_index):02d}_pic{int(picture_index):02d}"
+    
+    
+    def g_discourse_main_stem(trial_index, dataset_number, condition_id, picture_index, role):
+        return (
+            f"{g_participant_tag()}_main_{g_list_tag()}_trial{int(trial_index):03d}_"
+            f"imageset{int(dataset_number):02d}_cond_{g_safe(condition_id)}_"
+            f"pic{int(picture_index):02d}_{g_safe(role)}"
+        )
+    
+    
     def g_session_recordings_dir():
-        participant = g_safe(expInfo.get("participant", "participant"))
+        participant = g_participant_tag()
+        list_tag = g_list_tag()
         date_value = g_safe(expInfo.get("date") or expInfo.get("date|hid") or data.getDateStr())
-        folder = G_RECORDINGS_ROOT / f"{participant}_{date_value}"
+        folder = G_RECORDINGS_ROOT / f"{participant}_{list_tag}_{date_value}"
         folder.mkdir(parents=True, exist_ok=True)
         expInfo["recordings_dir"] = str(folder)
         g_log(f"recordings_dir {folder}")
@@ -771,16 +848,19 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     
     def g_listener_practice_stem(trial_index):
-        participant = g_safe(expInfo.get("participant", "participant"))
+        participant = g_participant_tag()
         return f"{participant}_listener_practice_trial{int(trial_index):02d}"
     
     
     def g_listener_main_stem(trial_info):
-        participant = g_safe(expInfo.get("participant", "participant"))
+        participant = g_participant_tag()
         trial_index = g_int((trial_info or {}).get("trial_index", 0), 0)
         dataset_number = g_int((trial_info or {}).get("dataset_number", 0), 0)
         condition_id = g_safe(g_text((trial_info or {}).get("condition_id", "unknown_condition")))
-        return f"{participant}_listener_main_trial{trial_index:03d}_imageset{dataset_number:02d}_condition_{condition_id}"
+        return (
+            f"{participant}_listener_main_{g_list_tag()}_trial{trial_index:03d}_"
+            f"imageset{dataset_number:02d}_cond_{condition_id}"
+        )
     
     
     def g_roles_and_paths():
@@ -904,6 +984,181 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         audio = sound.Sound(path)
         audio.play()
         return audio
+    
+    
+    def g_init_trigger_log(recordings_dir):
+        log_path = Path(recordings_dir) / "eeg_triggers.csv"
+        G_TRIGGER_STATE["log_path"] = log_path
+        G_TRIGGER_STATE["header_written"] = False
+        g_write_trigger_log_header()
+        g_init_serial_trigger()
+    
+    
+    def g_write_trigger_log_header():
+        log_path = G_TRIGGER_STATE.get("log_path")
+        if not log_path or G_TRIGGER_STATE.get("header_written"):
+            return
+        try:
+            with Path(log_path).open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(
+                    handle,
+                    fieldnames=[
+                        "trigger_index",
+                        "core_time",
+                        "trigger_code",
+                        "label",
+                        "send_mode",
+                        "serial_port",
+                        "serial_status",
+                        "serial_sent",
+                        "pulse_ms",
+                        "details",
+                    ],
+                    lineterminator="\n",
+                )
+                writer.writeheader()
+            G_TRIGGER_STATE["header_written"] = True
+        except Exception as err:
+            g_log(f"trigger_log_header_failed {err}")
+    
+    
+    def g_init_serial_trigger():
+        port = g_text(expInfo.get("eeg_port", ""))
+        pulse_ms = g_float(expInfo.get("trigger_pulse_ms", 5), 5.0)
+        G_TRIGGER_STATE["pulse_ms"] = max(0.0, pulse_ms)
+        G_TRIGGER_STATE["port"] = port
+        G_TRIGGER_STATE["trigger_index"] = 0
+        if not port:
+            G_TRIGGER_STATE["serial_status"] = "disabled_blank_port"
+            g_log("trigger_serial_disabled blank_eeg_port")
+            return
+        if _gurung_serial is None:
+            G_TRIGGER_STATE["serial_status"] = "unavailable_missing_pyserial"
+            g_log("trigger_serial_unavailable missing_pyserial")
+            return
+        try:
+            serial_port = _gurung_serial.Serial(port=port, baudrate=115200, timeout=0)
+            G_TRIGGER_STATE["serial"] = serial_port
+            G_TRIGGER_STATE["serial_status"] = "open"
+            g_log(f"trigger_serial_opened port={port} pulse_ms={G_TRIGGER_STATE['pulse_ms']}")
+        except Exception as err:
+            G_TRIGGER_STATE["serial"] = None
+            G_TRIGGER_STATE["serial_status"] = "open_failed"
+            g_log(f"trigger_serial_open_failed port={port} err={err}")
+    
+    
+    def g_close_serial_trigger():
+        serial_port = G_TRIGGER_STATE.get("serial")
+        G_TRIGGER_STATE["serial"] = None
+        if serial_port is None:
+            return
+        try:
+            serial_port.write(bytes([0]))
+        except Exception:
+            pass
+        try:
+            serial_port.close()
+            G_TRIGGER_STATE["serial_status"] = "closed"
+            g_log("trigger_serial_closed")
+        except Exception as err:
+            G_TRIGGER_STATE["serial_status"] = "close_failed"
+            g_log(f"trigger_serial_close_failed {err}")
+    
+    
+    def g_log_trigger(code, label="", send_mode="immediate", serial_sent=False, details=""):
+        log_path = G_TRIGGER_STATE.get("log_path")
+        if not log_path:
+            return
+        try:
+            g_write_trigger_log_header()
+            G_TRIGGER_STATE["trigger_index"] = int(G_TRIGGER_STATE.get("trigger_index", 0)) + 1
+            with Path(log_path).open("a", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(
+                    handle,
+                    fieldnames=[
+                        "trigger_index",
+                        "core_time",
+                        "trigger_code",
+                        "label",
+                        "send_mode",
+                        "serial_port",
+                        "serial_status",
+                        "serial_sent",
+                        "pulse_ms",
+                        "details",
+                    ],
+                    lineterminator="\n",
+                )
+                writer.writerow(
+                    {
+                        "trigger_index": G_TRIGGER_STATE["trigger_index"],
+                        "core_time": f"{core.getTime():.6f}",
+                        "trigger_code": int(code),
+                        "label": g_text(label),
+                        "send_mode": g_text(send_mode),
+                        "serial_port": g_text(G_TRIGGER_STATE.get("port", "")),
+                        "serial_status": g_text(G_TRIGGER_STATE.get("serial_status", "")),
+                        "serial_sent": "1" if serial_sent else "0",
+                        "pulse_ms": f"{g_float(G_TRIGGER_STATE.get('pulse_ms', 0), 0.0):.3f}",
+                        "details": details,
+                    }
+                )
+        except Exception as err:
+            g_log(f"trigger_log_write_failed {err}")
+    
+    
+    def g_send_trigger(code, label="", send_mode="immediate"):
+        code = g_int(code, 0)
+        if code <= 0 or code > 255:
+            g_log(f"trigger_invalid code={code} label={label}")
+            g_log_trigger(code, label, send_mode=send_mode, serial_sent=False, details="invalid_code")
+            return
+        serial_port = G_TRIGGER_STATE.get("serial")
+        serial_sent = False
+        details = g_text(G_TRIGGER_STATE.get("serial_status", ""))
+        if serial_port is not None:
+            try:
+                serial_port.write(bytes([code]))
+                serial_port.flush()
+                pulse_sec = max(0.0, g_float(G_TRIGGER_STATE.get("pulse_ms", 5.0), 5.0) / 1000.0)
+                if pulse_sec:
+                    core.wait(pulse_sec)
+                serial_port.write(bytes([0]))
+                serial_port.flush()
+                serial_sent = True
+                details = "serial_sent"
+            except Exception as err:
+                details = f"serial_error={err}"
+                G_TRIGGER_STATE["serial_status"] = "send_failed"
+                g_log(f"trigger_serial_send_failed code={code} label={label} err={err}")
+        g_log_trigger(code, label, send_mode=send_mode, serial_sent=serial_sent, details=details)
+        g_log(f"trigger code={code} label={label} mode={send_mode} serial_sent={serial_sent} details={details}")
+    
+    
+    def g_trigger_on_flip(code, label=""):
+        try:
+            win.callOnFlip(g_send_trigger, code, label, "on_flip")
+        except Exception as err:
+            g_log(f"trigger_call_on_flip_failed code={code} label={label} err={err}")
+            g_send_trigger(code, label, "on_flip_fallback")
+    
+    
+    def g_mark_clock_started(state):
+        state["started"] = True
+        state["core_time"] = core.getTime()
+    
+    
+    def g_discourse_segment_trigger(roles, segment_index):
+        target_index = int(g_target_index(roles))
+        if segment_index < target_index - 1:
+            return 198
+        if segment_index == target_index - 1:
+            return 199
+        if segment_index == target_index:
+            return 200
+        if segment_index > target_index:
+            return 201
+        return 0
     
     
     class GRecorder:
@@ -1451,9 +1706,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             G_RECORDER.finalize(wait_for_post_pad=wait_for_post_pad)
         except Exception as err:
             g_log(f"Recorder cleanup failed: {err}")
+        try:
+            g_close_serial_trigger()
+        except Exception as err:
+            g_log(f"Trigger cleanup failed: {err}")
     
     
     G_RECORDINGS_DIR = g_session_recordings_dir()
+    g_init_trigger_log(G_RECORDINGS_DIR)
     G_RECORDER = GRecorder(G_RECORDINGS_DIR)
     
     
@@ -1503,12 +1763,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         return (image_width, image_height)
     
     
+    def g_isolated_main_stem(trial_index, dataset_number, condition_value):
+        return (
+            f"{g_participant_tag()}_isolated_main_{g_list_tag()}_trial{int(trial_index):03d}_"
+            f"imageset{int(dataset_number):02d}_cond_{g_transitivity_tag(condition_value)}"
+        )
+    
+    
     def g_isolated_prepare_runtime_main_blocks():
         if G_ISOLATED_RUNTIME_STATE.get("prepared"):
             return
-        rows = list(data.importConditions("Conds/isolated_main_all_120.csv"))
+        list_id = g_selected_list()
+        conditions_path = f"Conds/isolated_main_list{list_id}_all_120.csv"
+        rows = list(data.importConditions(conditions_path))
         if len(rows) != 120:
-            raise RuntimeError(f"Expected 120 isolated main trials, found {len(rows)}")
+            raise RuntimeError(f"Expected 120 isolated main trials in {conditions_path}, found {len(rows)}")
         _gurung_random.shuffle(rows)
         fieldnames = list(rows[0].keys())
         block_files = []
@@ -1527,7 +1796,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             block_files.append(str(block_path))
         G_ISOLATED_RUNTIME_STATE["files"] = block_files
         G_ISOLATED_RUNTIME_STATE["prepared"] = True
-        g_log(f"isolated_main_targets_shuffled count={len(rows)} block_sizes={block_sizes}")
+        g_log(f"isolated_main_targets_shuffled list={list_id} count={len(rows)} block_sizes={block_sizes}")
     
     
     def g_isolated_runtime_main_block_file(block_index):
@@ -1849,7 +2118,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     win.color = "white"
     rest_blank_label = "rest_eyes_open"
     rest_blank_clock = core.Clock()
+    rest_blank_finish_trigger_sent = False
     thisExp.addData(f"{rest_blank_label}_start_core_time", core.getTime())
+    g_trigger_on_flip(150, f"{rest_blank_label}_start")
     event.clearEvents()
     
     # store start times for RestEyesOpen
@@ -1908,6 +2179,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if "escape" in keys:
             g_abort_and_quit()
         if "space" in keys or rest_blank_clock.getTime() >= G_REST_DURATION_SEC:
+            if not rest_blank_finish_trigger_sent:
+                g_send_trigger(150, f"{rest_blank_label}_finish")
+                rest_blank_finish_trigger_sent = True
             thisExp.addData(f"{rest_blank_label}_duration", rest_blank_clock.getTime())
             thisExp.addData(f"{rest_blank_label}_ended_by", "space" if "space" in keys else "timeout")
             continueRoutine = False
@@ -2232,7 +2506,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     win.color = "white"
     rest_blank_label = "rest_eyes_closed"
     rest_blank_clock = core.Clock()
+    rest_blank_finish_trigger_sent = False
     thisExp.addData(f"{rest_blank_label}_start_core_time", core.getTime())
+    g_trigger_on_flip(150, f"{rest_blank_label}_start")
     event.clearEvents()
     
     # store start times for RestEyesClosed
@@ -2291,6 +2567,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if "escape" in keys:
             g_abort_and_quit()
         if "space" in keys or rest_blank_clock.getTime() >= G_REST_DURATION_SEC:
+            if not rest_blank_finish_trigger_sent:
+                g_send_trigger(150, f"{rest_blank_label}_finish")
+                rest_blank_finish_trigger_sent = True
             thisExp.addData(f"{rest_blank_label}_duration", rest_blank_clock.getTime())
             thisExp.addData(f"{rest_blank_label}_ended_by", "space" if "space" in keys else "timeout")
             continueRoutine = False
@@ -2811,10 +3090,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         isolated_practice_audio_clock = core.Clock()
         isolated_practice_audio_started = False
         isolated_practice_clock = core.Clock()
-        isolated_practice_stem = (
-            f"{g_safe(expInfo.get('participant', 'participant'))}_isolated_practice_"
-            f"{G_ISOLATED_PRACTICE_INDEX:02d}_{g_safe(globals().get('trial_id', 'practice'))}"
-        )
+        isolated_practice_stem = g_practice_stem(G_ISOLATED_PRACTICE_INDEX, 1)
         G_RECORDER.start(isolated_practice_stem)
         thisExp.addData("isolated_practice_index", G_ISOLATED_PRACTICE_INDEX)
         thisExp.addData("isolated_practice_image", isolated_practice_image_path)
@@ -3166,18 +3442,29 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         isolated_main_clock = core.Clock()
         isolated_main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
         isolated_main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+        isolated_main_transitivity = g_text(globals().get("transitivity", isolated_main_condition_id))
         isolated_main_target_role = g_text(globals().get("target_role", "target"))
-        isolated_main_stem = (
-            f"{g_safe(expInfo.get('participant', 'participant'))}_isolated_main_trial"
-            f"{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_imageset{isolated_main_dataset_number:02d}_"
-            f"condition_{g_safe(isolated_main_condition_id)}_{g_safe(isolated_main_target_role)}"
+        isolated_main_stimulus_set = g_int(globals().get("stimulus_set", 0), 0)
+        isolated_main_condition_trigger = g_int(globals().get("condition_trigger", 0), 0)
+        isolated_main_item_trigger = g_int(globals().get("item_trigger", 0), 0)
+        isolated_main_trigger_scheduled = False
+        isolated_main_target_clock = core.Clock()
+        isolated_main_target_state = {"started": False, "condition_sent": False, "item_sent": False}
+        isolated_main_stem = g_isolated_main_stem(
+            G_ISOLATED_MAIN_TRIAL_INDEX,
+            isolated_main_dataset_number,
+            isolated_main_transitivity,
         )
         G_RECORDER.start(isolated_main_stem)
         thisExp.addData("isolated_main_trial_index", G_ISOLATED_MAIN_TRIAL_INDEX)
+        thisExp.addData("experiment_list", g_selected_list())
         thisExp.addData("isolated_dataset_number", isolated_main_dataset_number)
+        thisExp.addData("isolated_stimulus_set", isolated_main_stimulus_set)
         thisExp.addData("isolated_condition_id", isolated_main_condition_id)
         thisExp.addData("isolated_target_role", isolated_main_target_role)
         thisExp.addData("isolated_target_image", isolated_main_image_path)
+        thisExp.addData("condition_trigger", isolated_main_condition_trigger)
+        thisExp.addData("item_trigger", isolated_main_item_trigger)
         event.clearEvents()
         
         # store start times for MainTrial
@@ -3236,15 +3523,34 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Run 'Each Frame' code from main_trial_code
             
             isolated_main_image.draw()
-            G_RECORDER.mark_onset_on_flip()
+            if not isolated_main_trigger_scheduled:
+                G_RECORDER.mark_onset_on_flip()
+                g_trigger_on_flip(200, f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_target_onset")
+                win.callOnFlip(isolated_main_target_clock.reset)
+                win.callOnFlip(g_mark_clock_started, isolated_main_target_state)
+                isolated_main_trigger_scheduled = True
+            if isolated_main_target_state.get("started"):
+                if (not isolated_main_target_state.get("condition_sent")) and isolated_main_target_clock.getTime() >= 0.200:
+                    g_send_trigger(
+                        isolated_main_condition_trigger,
+                        f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_condition_{isolated_main_condition_trigger}",
+                    )
+                    isolated_main_target_state["condition_sent"] = True
+                if (not isolated_main_target_state.get("item_sent")) and isolated_main_target_clock.getTime() >= 0.400:
+                    g_send_trigger(
+                        isolated_main_item_trigger,
+                        f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_item{isolated_main_item_trigger:03d}",
+                    )
+                    isolated_main_target_state["item_sent"] = True
             keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
             key_names = g_key_names(keys)
             if "escape" in key_names:
                 g_abort_and_quit()
-            if "space" in key_names:
+            if "space" in key_names and isolated_main_target_state.get("item_sent"):
                 isolated_main_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
                 thisExp.addData("isolated_main_rt", isolated_main_clock.getTime())
                 thisExp.addData("isolated_main_response_audio", isolated_main_file)
+                g_send_trigger(202, f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_end")
                 continueRoutine = False
                 event.clearEvents()
             
@@ -3502,18 +3808,29 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         isolated_main_clock = core.Clock()
         isolated_main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
         isolated_main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+        isolated_main_transitivity = g_text(globals().get("transitivity", isolated_main_condition_id))
         isolated_main_target_role = g_text(globals().get("target_role", "target"))
-        isolated_main_stem = (
-            f"{g_safe(expInfo.get('participant', 'participant'))}_isolated_main_trial"
-            f"{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_imageset{isolated_main_dataset_number:02d}_"
-            f"condition_{g_safe(isolated_main_condition_id)}_{g_safe(isolated_main_target_role)}"
+        isolated_main_stimulus_set = g_int(globals().get("stimulus_set", 0), 0)
+        isolated_main_condition_trigger = g_int(globals().get("condition_trigger", 0), 0)
+        isolated_main_item_trigger = g_int(globals().get("item_trigger", 0), 0)
+        isolated_main_trigger_scheduled = False
+        isolated_main_target_clock = core.Clock()
+        isolated_main_target_state = {"started": False, "condition_sent": False, "item_sent": False}
+        isolated_main_stem = g_isolated_main_stem(
+            G_ISOLATED_MAIN_TRIAL_INDEX,
+            isolated_main_dataset_number,
+            isolated_main_transitivity,
         )
         G_RECORDER.start(isolated_main_stem)
         thisExp.addData("isolated_main_trial_index", G_ISOLATED_MAIN_TRIAL_INDEX)
+        thisExp.addData("experiment_list", g_selected_list())
         thisExp.addData("isolated_dataset_number", isolated_main_dataset_number)
+        thisExp.addData("isolated_stimulus_set", isolated_main_stimulus_set)
         thisExp.addData("isolated_condition_id", isolated_main_condition_id)
         thisExp.addData("isolated_target_role", isolated_main_target_role)
         thisExp.addData("isolated_target_image", isolated_main_image_path)
+        thisExp.addData("condition_trigger", isolated_main_condition_trigger)
+        thisExp.addData("item_trigger", isolated_main_item_trigger)
         event.clearEvents()
         
         # store start times for MainTrial
@@ -3572,15 +3889,34 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Run 'Each Frame' code from main_trial_code
             
             isolated_main_image.draw()
-            G_RECORDER.mark_onset_on_flip()
+            if not isolated_main_trigger_scheduled:
+                G_RECORDER.mark_onset_on_flip()
+                g_trigger_on_flip(200, f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_target_onset")
+                win.callOnFlip(isolated_main_target_clock.reset)
+                win.callOnFlip(g_mark_clock_started, isolated_main_target_state)
+                isolated_main_trigger_scheduled = True
+            if isolated_main_target_state.get("started"):
+                if (not isolated_main_target_state.get("condition_sent")) and isolated_main_target_clock.getTime() >= 0.200:
+                    g_send_trigger(
+                        isolated_main_condition_trigger,
+                        f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_condition_{isolated_main_condition_trigger}",
+                    )
+                    isolated_main_target_state["condition_sent"] = True
+                if (not isolated_main_target_state.get("item_sent")) and isolated_main_target_clock.getTime() >= 0.400:
+                    g_send_trigger(
+                        isolated_main_item_trigger,
+                        f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_item{isolated_main_item_trigger:03d}",
+                    )
+                    isolated_main_target_state["item_sent"] = True
             keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
             key_names = g_key_names(keys)
             if "escape" in key_names:
                 g_abort_and_quit()
-            if "space" in key_names:
+            if "space" in key_names and isolated_main_target_state.get("item_sent"):
                 isolated_main_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
                 thisExp.addData("isolated_main_rt", isolated_main_clock.getTime())
                 thisExp.addData("isolated_main_response_audio", isolated_main_file)
+                g_send_trigger(202, f"isolated_trial{G_ISOLATED_MAIN_TRIAL_INDEX:03d}_end")
                 continueRoutine = False
                 event.clearEvents()
             
