@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2026.1.3),
-    on June 25, 2026, at 15:52
+    on June 27, 2026, at 00:37
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -47,6 +47,9 @@ runAtExit = []
 expInfo = {
     'participant': f"{randint(0, 999999):06.0f}",
     'session': '001',
+    'list': '1',
+    'eeg_port': '',
+    'trigger_pulse_ms': '5',
     'date|hid': data.getDateStr(),
     'expName|hid': expName,
     'expVersion|hid': expVersion,
@@ -411,6 +414,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         print("Audio recording is unavailable:", _gurung_recording_error)
     
     try:
+        import serial as _gurung_serial
+    except Exception as _gurung_serial_error:
+        _gurung_serial = None
+        print("Serial trigger backend is unavailable:", _gurung_serial_error)
+    
+    try:
         from PIL import Image as _gurung_Image
         from PIL import ImageOps as _gurung_ImageOps
     except Exception as _gurung_image_import_error:
@@ -450,6 +459,15 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     G_BETWEEN_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
     G_BETWEEN_STATE = {"images": [], "index": 0}
     G_MAIN_RUNTIME_STATE = {"prepared": False, "files": []}
+    G_TRIGGER_STATE = {
+        "serial": None,
+        "log_path": None,
+        "header_written": False,
+        "pulse_ms": 5.0,
+        "port": "",
+        "serial_status": "not_initialized",
+        "trigger_index": 0,
+    }
     G_AUDIO_PROBE_FILES = (
         "Audio/tsakyali.wav",
         "Audio/bucketdog_noerg.wav",
@@ -463,6 +481,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     G_LISTENER_RESPONSE_MIN_SEC = 10.0
     G_LISTENER_RESPONSE_DIRNAME = "listener responses"
     G_MAIN_BLOCK_SIZE = 40
+    G_MAIN_BLOCK_COUNT = 6
     G_PRACTICE_TRIAL_COUNT = 10
     G_PRACTICE_PICTURE_AUDIO = {
         1: {
@@ -558,6 +577,26 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             return int(float(value))
         except Exception:
             return default
+    
+    
+    def g_bool(value, default=False):
+        if g_is_blank(value):
+            return default
+        text = str(value).strip().lower()
+        if text in {"1", "true", "yes", "y", "on"}:
+            return True
+        if text in {"0", "false", "no", "n", "off"}:
+            return False
+        return default
+    
+    
+    def g_selected_list():
+        value = g_text(expInfo.get("list", "1")).lower().replace("list", "").strip()
+        if value not in {"1", "2"}:
+            g_log(f"invalid_experiment_list {value!r}; using list 1")
+            value = "1"
+        expInfo["list"] = value
+        return value
     
     
     def g_path(value):
@@ -679,16 +718,24 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     def g_prepare_runtime_main_blocks():
         if G_MAIN_RUNTIME_STATE.get("prepared"):
             return
-        rows = list(data.importConditions("Conds/main_all_120.csv"))
+        list_id = g_selected_list()
+        conditions_path = f"Conds/main_list{list_id}_all_240.csv"
+        rows = list(data.importConditions(conditions_path))
         if not rows:
-            raise RuntimeError("No main trials found in Conds/main_all_120.csv")
+            raise RuntimeError(f"No main trials found in {conditions_path}")
+        if len(rows) != G_MAIN_BLOCK_SIZE * G_MAIN_BLOCK_COUNT:
+            raise RuntimeError(
+                f"Expected {G_MAIN_BLOCK_SIZE * G_MAIN_BLOCK_COUNT} main trials in {conditions_path}, found {len(rows)}"
+            )
         _gurung_random.shuffle(rows)
         g_assign_runtime_audio_probes(rows)
         fieldnames = list(rows[0].keys())
         block_files = []
         block_sizes = []
-        for block_index in range(3):
-            block_rows = rows[block_index * 40 : (block_index + 1) * 40]
+        for block_index in range(G_MAIN_BLOCK_COUNT):
+            block_rows = rows[
+                block_index * G_MAIN_BLOCK_SIZE : (block_index + 1) * G_MAIN_BLOCK_SIZE
+            ]
             block_sizes.append(len(block_rows))
             block_path = G_DATA_DIR / f"runtime_main_block{block_index + 1}.csv"
             with block_path.open("w", newline="", encoding="utf-8") as handle:
@@ -699,7 +746,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             block_files.append(str(block_path))
         G_MAIN_RUNTIME_STATE["files"] = block_files
         G_MAIN_RUNTIME_STATE["prepared"] = True
-        g_log(f"runtime_main_sequences_shuffled count={len(rows)} block_sizes={block_sizes}")
+        g_log(f"runtime_main_sequences_shuffled list={list_id} count={len(rows)} block_sizes={block_sizes}")
     
     
     def g_assign_runtime_audio_probes(rows):
@@ -763,10 +810,40 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         return text.strip("._") or "item"
     
     
+    def g_participant_tag():
+        return g_safe(expInfo.get("participant", "participant"))
+    
+    
+    def g_list_tag():
+        return f"l{g_selected_list()}"
+    
+    
+    def g_transitivity_tag(value):
+        text = g_text(value).lower()
+        if text.startswith("tr") or text == "transitive":
+            return "tr"
+        if text.startswith("it") or text.startswith("itr") or text == "intransitive":
+            return "it"
+        return g_safe(text or "unknown")
+    
+    
+    def g_practice_stem(trial_index, picture_index):
+        return f"{g_participant_tag()}_practice_{int(trial_index):02d}_pic{int(picture_index):02d}"
+    
+    
+    def g_discourse_main_stem(trial_index, dataset_number, condition_id, picture_index, role):
+        return (
+            f"{g_participant_tag()}_main_{g_list_tag()}_trial{int(trial_index):03d}_"
+            f"imageset{int(dataset_number):02d}_cond_{g_safe(condition_id)}_"
+            f"pic{int(picture_index):02d}_{g_safe(role)}"
+        )
+    
+    
     def g_session_recordings_dir():
-        participant = g_safe(expInfo.get("participant", "participant"))
+        participant = g_participant_tag()
+        list_tag = g_list_tag()
         date_value = g_safe(expInfo.get("date") or expInfo.get("date|hid") or data.getDateStr())
-        folder = G_RECORDINGS_ROOT / f"{participant}_{date_value}"
+        folder = G_RECORDINGS_ROOT / f"{participant}_{list_tag}_{date_value}"
         folder.mkdir(parents=True, exist_ok=True)
         (folder / G_LISTENER_RESPONSE_DIRNAME).mkdir(parents=True, exist_ok=True)
         expInfo["recordings_dir"] = str(folder)
@@ -775,16 +852,19 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     
     def g_listener_practice_stem(trial_index):
-        participant = g_safe(expInfo.get("participant", "participant"))
+        participant = g_participant_tag()
         return f"{participant}_listener_practice_trial{int(trial_index):02d}"
     
     
     def g_listener_main_stem(trial_info):
-        participant = g_safe(expInfo.get("participant", "participant"))
+        participant = g_participant_tag()
         trial_index = g_int((trial_info or {}).get("trial_index", 0), 0)
         dataset_number = g_int((trial_info or {}).get("dataset_number", 0), 0)
         condition_id = g_safe(g_text((trial_info or {}).get("condition_id", "unknown_condition")))
-        return f"{participant}_listener_main_trial{trial_index:03d}_imageset{dataset_number:02d}_condition_{condition_id}"
+        return (
+            f"{participant}_listener_main_{g_list_tag()}_trial{trial_index:03d}_"
+            f"imageset{dataset_number:02d}_cond_{condition_id}"
+        )
     
     
     def g_roles_and_paths():
@@ -908,6 +988,181 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         audio = sound.Sound(path)
         audio.play()
         return audio
+    
+    
+    def g_init_trigger_log(recordings_dir):
+        log_path = Path(recordings_dir) / "eeg_triggers.csv"
+        G_TRIGGER_STATE["log_path"] = log_path
+        G_TRIGGER_STATE["header_written"] = False
+        g_write_trigger_log_header()
+        g_init_serial_trigger()
+    
+    
+    def g_write_trigger_log_header():
+        log_path = G_TRIGGER_STATE.get("log_path")
+        if not log_path or G_TRIGGER_STATE.get("header_written"):
+            return
+        try:
+            with Path(log_path).open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(
+                    handle,
+                    fieldnames=[
+                        "trigger_index",
+                        "core_time",
+                        "trigger_code",
+                        "label",
+                        "send_mode",
+                        "serial_port",
+                        "serial_status",
+                        "serial_sent",
+                        "pulse_ms",
+                        "details",
+                    ],
+                    lineterminator="\n",
+                )
+                writer.writeheader()
+            G_TRIGGER_STATE["header_written"] = True
+        except Exception as err:
+            g_log(f"trigger_log_header_failed {err}")
+    
+    
+    def g_init_serial_trigger():
+        port = g_text(expInfo.get("eeg_port", ""))
+        pulse_ms = g_float(expInfo.get("trigger_pulse_ms", 5), 5.0)
+        G_TRIGGER_STATE["pulse_ms"] = max(0.0, pulse_ms)
+        G_TRIGGER_STATE["port"] = port
+        G_TRIGGER_STATE["trigger_index"] = 0
+        if not port:
+            G_TRIGGER_STATE["serial_status"] = "disabled_blank_port"
+            g_log("trigger_serial_disabled blank_eeg_port")
+            return
+        if _gurung_serial is None:
+            G_TRIGGER_STATE["serial_status"] = "unavailable_missing_pyserial"
+            g_log("trigger_serial_unavailable missing_pyserial")
+            return
+        try:
+            serial_port = _gurung_serial.Serial(port=port, baudrate=115200, timeout=0)
+            G_TRIGGER_STATE["serial"] = serial_port
+            G_TRIGGER_STATE["serial_status"] = "open"
+            g_log(f"trigger_serial_opened port={port} pulse_ms={G_TRIGGER_STATE['pulse_ms']}")
+        except Exception as err:
+            G_TRIGGER_STATE["serial"] = None
+            G_TRIGGER_STATE["serial_status"] = "open_failed"
+            g_log(f"trigger_serial_open_failed port={port} err={err}")
+    
+    
+    def g_close_serial_trigger():
+        serial_port = G_TRIGGER_STATE.get("serial")
+        G_TRIGGER_STATE["serial"] = None
+        if serial_port is None:
+            return
+        try:
+            serial_port.write(bytes([0]))
+        except Exception:
+            pass
+        try:
+            serial_port.close()
+            G_TRIGGER_STATE["serial_status"] = "closed"
+            g_log("trigger_serial_closed")
+        except Exception as err:
+            G_TRIGGER_STATE["serial_status"] = "close_failed"
+            g_log(f"trigger_serial_close_failed {err}")
+    
+    
+    def g_log_trigger(code, label="", send_mode="immediate", serial_sent=False, details=""):
+        log_path = G_TRIGGER_STATE.get("log_path")
+        if not log_path:
+            return
+        try:
+            g_write_trigger_log_header()
+            G_TRIGGER_STATE["trigger_index"] = int(G_TRIGGER_STATE.get("trigger_index", 0)) + 1
+            with Path(log_path).open("a", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(
+                    handle,
+                    fieldnames=[
+                        "trigger_index",
+                        "core_time",
+                        "trigger_code",
+                        "label",
+                        "send_mode",
+                        "serial_port",
+                        "serial_status",
+                        "serial_sent",
+                        "pulse_ms",
+                        "details",
+                    ],
+                    lineterminator="\n",
+                )
+                writer.writerow(
+                    {
+                        "trigger_index": G_TRIGGER_STATE["trigger_index"],
+                        "core_time": f"{core.getTime():.6f}",
+                        "trigger_code": int(code),
+                        "label": g_text(label),
+                        "send_mode": g_text(send_mode),
+                        "serial_port": g_text(G_TRIGGER_STATE.get("port", "")),
+                        "serial_status": g_text(G_TRIGGER_STATE.get("serial_status", "")),
+                        "serial_sent": "1" if serial_sent else "0",
+                        "pulse_ms": f"{g_float(G_TRIGGER_STATE.get('pulse_ms', 0), 0.0):.3f}",
+                        "details": details,
+                    }
+                )
+        except Exception as err:
+            g_log(f"trigger_log_write_failed {err}")
+    
+    
+    def g_send_trigger(code, label="", send_mode="immediate"):
+        code = g_int(code, 0)
+        if code <= 0 or code > 255:
+            g_log(f"trigger_invalid code={code} label={label}")
+            g_log_trigger(code, label, send_mode=send_mode, serial_sent=False, details="invalid_code")
+            return
+        serial_port = G_TRIGGER_STATE.get("serial")
+        serial_sent = False
+        details = g_text(G_TRIGGER_STATE.get("serial_status", ""))
+        if serial_port is not None:
+            try:
+                serial_port.write(bytes([code]))
+                serial_port.flush()
+                pulse_sec = max(0.0, g_float(G_TRIGGER_STATE.get("pulse_ms", 5.0), 5.0) / 1000.0)
+                if pulse_sec:
+                    core.wait(pulse_sec)
+                serial_port.write(bytes([0]))
+                serial_port.flush()
+                serial_sent = True
+                details = "serial_sent"
+            except Exception as err:
+                details = f"serial_error={err}"
+                G_TRIGGER_STATE["serial_status"] = "send_failed"
+                g_log(f"trigger_serial_send_failed code={code} label={label} err={err}")
+        g_log_trigger(code, label, send_mode=send_mode, serial_sent=serial_sent, details=details)
+        g_log(f"trigger code={code} label={label} mode={send_mode} serial_sent={serial_sent} details={details}")
+    
+    
+    def g_trigger_on_flip(code, label=""):
+        try:
+            win.callOnFlip(g_send_trigger, code, label, "on_flip")
+        except Exception as err:
+            g_log(f"trigger_call_on_flip_failed code={code} label={label} err={err}")
+            g_send_trigger(code, label, "on_flip_fallback")
+    
+    
+    def g_mark_clock_started(state):
+        state["started"] = True
+        state["core_time"] = core.getTime()
+    
+    
+    def g_discourse_segment_trigger(roles, segment_index):
+        target_index = int(g_target_index(roles))
+        if segment_index < target_index - 1:
+            return 198
+        if segment_index == target_index - 1:
+            return 199
+        if segment_index == target_index:
+            return 200
+        if segment_index > target_index:
+            return 201
+        return 0
     
     
     class GRecorder:
@@ -1455,9 +1710,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             G_RECORDER.finalize(wait_for_post_pad=wait_for_post_pad)
         except Exception as err:
             g_log(f"Recorder cleanup failed: {err}")
+        try:
+            g_close_serial_trigger()
+        except Exception as err:
+            g_log(f"Trigger cleanup failed: {err}")
     
     
     G_RECORDINGS_DIR = g_session_recordings_dir()
+    g_init_trigger_log(G_RECORDINGS_DIR)
     G_RECORDER = GRecorder(G_RECORDINGS_DIR)
     
     
@@ -1498,6 +1758,66 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     PracticeEnd_keep_alive = visual.ImageStim(
         win=win,
         name='PracticeEnd_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "MainTrial" ---
+    MainTrial_keep_alive = visual.ImageStim(
+        win=win,
+        name='MainTrial_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "Break" ---
+    Break_keep_alive = visual.ImageStim(
+        win=win,
+        name='Break_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "MainTrial" ---
+    MainTrial_keep_alive = visual.ImageStim(
+        win=win,
+        name='MainTrial_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "Break" ---
+    Break_keep_alive = visual.ImageStim(
+        win=win,
+        name='Break_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "MainTrial" ---
+    MainTrial_keep_alive = visual.ImageStim(
+        win=win,
+        name='MainTrial_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "Break" ---
+    Break_keep_alive = visual.ImageStim(
+        win=win,
+        name='Break_keep_alive', 
         image='Stimuli/sound.png', mask=None, anchor='center',
         ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
         color=[1,1,1], colorSpace='rgb', opacity=0.0,
@@ -1945,7 +2265,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         practice_segment_audio_value = g_practice_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment)
                         practice_segment_audio_started = False
                         practice_segment_audio_lock = 0.0
-                        practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
+                        practice_stem = g_practice_stem(G_PRACTICE_TRIAL_INDEX, practice_segment + 1)
                         G_RECORDER.start(practice_stem)
                     event.clearEvents()
             elif practice_phase == "segment":
@@ -2000,7 +2320,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             practice_segment_audio_value = g_practice_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment)
                             practice_segment_audio_started = False
                             practice_segment_audio_lock = 0.0
-                            practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
+                            practice_stem = g_practice_stem(G_PRACTICE_TRIAL_INDEX, practice_segment + 1)
                             G_RECORDER.start(practice_stem)
                     event.clearEvents()
             elif practice_phase == "practice_audio":
@@ -2013,7 +2333,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     practice_segment_audio_value = g_practice_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment)
                     practice_segment_audio_started = False
                     practice_segment_audio_lock = 0.0
-                    practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
+                    practice_stem = g_practice_stem(G_PRACTICE_TRIAL_INDEX, practice_segment + 1)
                     G_RECORDER.start(practice_stem)
                     event.clearEvents()
             elif practice_phase == "practice_after_between":
@@ -2328,19 +2648,30 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
         main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
         main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+        main_stimulus_set = g_int(globals().get("stimulus_set", 0), 0)
+        main_condition_trigger = g_int(globals().get("condition_trigger", 0), 0)
+        main_item_trigger = g_int(globals().get("item_trigger", 0), 0)
         main_listener_reference = dict(G_LAST_MAIN_TRIAL_INFO) if G_LAST_MAIN_TRIAL_INFO else {}
         main_between_audio_duration = 0.0
         main_between_audio_done = not bool(main_between_audio_value)
         main_listener_clock = core.Clock()
         main_listener_audio_file = ""
+        main_target_index = int(g_target_index(main_roles))
+        main_target_clock = core.Clock()
+        main_target_state = {"started": False, "condition_sent": False, "item_sent": False}
+        main_segment_trigger_scheduled = False
         if main_between_audio_value:
             main_between_audio = g_play_audio(main_between_audio_value)
             main_between_audio_duration = g_float(main_between_audio.getDuration() if main_between_audio else 0, 0.0)
         main_between_clock.reset()
         thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
+        thisExp.addData("experiment_list", g_selected_list())
         thisExp.addData("between_image", g_path(main_between_image))
         thisExp.addData("audio_probe", audio_probe)
         thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
+        thisExp.addData("stimulus_set", main_stimulus_set)
+        thisExp.addData("condition_trigger", main_condition_trigger)
+        thisExp.addData("item_trigger", main_item_trigger)
         event.clearEvents()
         
         # store start times for MainTrial
@@ -2441,27 +2772,67 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     main_placeholder = None
                     main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
                     main_phase = "segment"
-                    main_stem = f"{expInfo['participant']}_main_trial{G_MAIN_TRIAL_INDEX:03d}_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
+                    main_stem = g_discourse_main_stem(
+                        G_MAIN_TRIAL_INDEX,
+                        main_dataset_number,
+                        main_condition_id,
+                        main_segment + 1,
+                        main_roles[main_segment],
+                    )
                     G_RECORDER.start(main_stem)
+                    main_segment_trigger_scheduled = False
                     event.clearEvents()
             elif main_phase == "segment":
                 g_draw_sequence(main_images, main_arrows, main_segment + 1)
-                G_RECORDER.mark_onset_on_flip()
+                if not main_segment_trigger_scheduled:
+                    G_RECORDER.mark_onset_on_flip()
+                    main_segment_trigger = g_discourse_segment_trigger(main_roles, main_segment)
+                    if main_segment_trigger:
+                        g_trigger_on_flip(
+                            main_segment_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_set{main_stimulus_set}_seg{main_segment + 1}_{main_roles[main_segment]}",
+                        )
+                    if main_segment == main_target_index:
+                        win.callOnFlip(main_target_clock.reset)
+                        win.callOnFlip(g_mark_clock_started, main_target_state)
+                    main_segment_trigger_scheduled = True
+                if main_target_state.get("started"):
+                    if (not main_target_state.get("condition_sent")) and main_target_clock.getTime() >= 0.200:
+                        g_send_trigger(
+                            main_condition_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_condition_{main_condition_id}",
+                        )
+                        main_target_state["condition_sent"] = True
+                    if (not main_target_state.get("item_sent")) and main_target_clock.getTime() >= 0.400:
+                        g_send_trigger(
+                            main_item_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_item{main_item_trigger:03d}",
+                        )
+                        main_target_state["item_sent"] = True
                 keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
                 key_names = g_key_names(keys)
                 if "escape" in key_names:
                     g_abort_and_quit()
-                if "space" in key_names:
+                main_can_advance_segment = main_segment != main_target_index or main_target_state.get("item_sent")
+                if "space" in key_names and main_can_advance_segment:
                     audio_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
                     seg = main_segment + 1
                     thisExp.addData(f"seg{seg}_role", main_roles[main_segment])
                     thisExp.addData(f"seg{seg}_audio", audio_file)
                     if main_segment >= len(main_images) - 1:
+                        g_send_trigger(202, f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_end")
                         continueRoutine = False
                     else:
                         main_segment += 1
-                        main_stem = f"{expInfo['participant']}_main_trial{G_MAIN_TRIAL_INDEX:03d}_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
+                        main_stem = g_discourse_main_stem(
+                            G_MAIN_TRIAL_INDEX,
+                            main_dataset_number,
+                            main_condition_id,
+                            main_segment + 1,
+                            main_roles[main_segment],
+                        )
                         G_RECORDER.start(main_stem)
+                        main_segment_trigger_scheduled = False
                     event.clearEvents()
             
             
@@ -2730,19 +3101,30 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
         main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
         main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+        main_stimulus_set = g_int(globals().get("stimulus_set", 0), 0)
+        main_condition_trigger = g_int(globals().get("condition_trigger", 0), 0)
+        main_item_trigger = g_int(globals().get("item_trigger", 0), 0)
         main_listener_reference = dict(G_LAST_MAIN_TRIAL_INFO) if G_LAST_MAIN_TRIAL_INFO else {}
         main_between_audio_duration = 0.0
         main_between_audio_done = not bool(main_between_audio_value)
         main_listener_clock = core.Clock()
         main_listener_audio_file = ""
+        main_target_index = int(g_target_index(main_roles))
+        main_target_clock = core.Clock()
+        main_target_state = {"started": False, "condition_sent": False, "item_sent": False}
+        main_segment_trigger_scheduled = False
         if main_between_audio_value:
             main_between_audio = g_play_audio(main_between_audio_value)
             main_between_audio_duration = g_float(main_between_audio.getDuration() if main_between_audio else 0, 0.0)
         main_between_clock.reset()
         thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
+        thisExp.addData("experiment_list", g_selected_list())
         thisExp.addData("between_image", g_path(main_between_image))
         thisExp.addData("audio_probe", audio_probe)
         thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
+        thisExp.addData("stimulus_set", main_stimulus_set)
+        thisExp.addData("condition_trigger", main_condition_trigger)
+        thisExp.addData("item_trigger", main_item_trigger)
         event.clearEvents()
         
         # store start times for MainTrial
@@ -2843,27 +3225,67 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     main_placeholder = None
                     main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
                     main_phase = "segment"
-                    main_stem = f"{expInfo['participant']}_main_trial{G_MAIN_TRIAL_INDEX:03d}_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
+                    main_stem = g_discourse_main_stem(
+                        G_MAIN_TRIAL_INDEX,
+                        main_dataset_number,
+                        main_condition_id,
+                        main_segment + 1,
+                        main_roles[main_segment],
+                    )
                     G_RECORDER.start(main_stem)
+                    main_segment_trigger_scheduled = False
                     event.clearEvents()
             elif main_phase == "segment":
                 g_draw_sequence(main_images, main_arrows, main_segment + 1)
-                G_RECORDER.mark_onset_on_flip()
+                if not main_segment_trigger_scheduled:
+                    G_RECORDER.mark_onset_on_flip()
+                    main_segment_trigger = g_discourse_segment_trigger(main_roles, main_segment)
+                    if main_segment_trigger:
+                        g_trigger_on_flip(
+                            main_segment_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_set{main_stimulus_set}_seg{main_segment + 1}_{main_roles[main_segment]}",
+                        )
+                    if main_segment == main_target_index:
+                        win.callOnFlip(main_target_clock.reset)
+                        win.callOnFlip(g_mark_clock_started, main_target_state)
+                    main_segment_trigger_scheduled = True
+                if main_target_state.get("started"):
+                    if (not main_target_state.get("condition_sent")) and main_target_clock.getTime() >= 0.200:
+                        g_send_trigger(
+                            main_condition_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_condition_{main_condition_id}",
+                        )
+                        main_target_state["condition_sent"] = True
+                    if (not main_target_state.get("item_sent")) and main_target_clock.getTime() >= 0.400:
+                        g_send_trigger(
+                            main_item_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_item{main_item_trigger:03d}",
+                        )
+                        main_target_state["item_sent"] = True
                 keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
                 key_names = g_key_names(keys)
                 if "escape" in key_names:
                     g_abort_and_quit()
-                if "space" in key_names:
+                main_can_advance_segment = main_segment != main_target_index or main_target_state.get("item_sent")
+                if "space" in key_names and main_can_advance_segment:
                     audio_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
                     seg = main_segment + 1
                     thisExp.addData(f"seg{seg}_role", main_roles[main_segment])
                     thisExp.addData(f"seg{seg}_audio", audio_file)
                     if main_segment >= len(main_images) - 1:
+                        g_send_trigger(202, f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_end")
                         continueRoutine = False
                     else:
                         main_segment += 1
-                        main_stem = f"{expInfo['participant']}_main_trial{G_MAIN_TRIAL_INDEX:03d}_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
+                        main_stem = g_discourse_main_stem(
+                            G_MAIN_TRIAL_INDEX,
+                            main_dataset_number,
+                            main_condition_id,
+                            main_segment + 1,
+                            main_roles[main_segment],
+                        )
                         G_RECORDER.start(main_stem)
+                        main_segment_trigger_scheduled = False
                     event.clearEvents()
             
             
@@ -3132,19 +3554,30 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
         main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
         main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+        main_stimulus_set = g_int(globals().get("stimulus_set", 0), 0)
+        main_condition_trigger = g_int(globals().get("condition_trigger", 0), 0)
+        main_item_trigger = g_int(globals().get("item_trigger", 0), 0)
         main_listener_reference = dict(G_LAST_MAIN_TRIAL_INFO) if G_LAST_MAIN_TRIAL_INFO else {}
         main_between_audio_duration = 0.0
         main_between_audio_done = not bool(main_between_audio_value)
         main_listener_clock = core.Clock()
         main_listener_audio_file = ""
+        main_target_index = int(g_target_index(main_roles))
+        main_target_clock = core.Clock()
+        main_target_state = {"started": False, "condition_sent": False, "item_sent": False}
+        main_segment_trigger_scheduled = False
         if main_between_audio_value:
             main_between_audio = g_play_audio(main_between_audio_value)
             main_between_audio_duration = g_float(main_between_audio.getDuration() if main_between_audio else 0, 0.0)
         main_between_clock.reset()
         thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
+        thisExp.addData("experiment_list", g_selected_list())
         thisExp.addData("between_image", g_path(main_between_image))
         thisExp.addData("audio_probe", audio_probe)
         thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
+        thisExp.addData("stimulus_set", main_stimulus_set)
+        thisExp.addData("condition_trigger", main_condition_trigger)
+        thisExp.addData("item_trigger", main_item_trigger)
         event.clearEvents()
         
         # store start times for MainTrial
@@ -3245,27 +3678,67 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     main_placeholder = None
                     main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
                     main_phase = "segment"
-                    main_stem = f"{expInfo['participant']}_main_trial{G_MAIN_TRIAL_INDEX:03d}_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
+                    main_stem = g_discourse_main_stem(
+                        G_MAIN_TRIAL_INDEX,
+                        main_dataset_number,
+                        main_condition_id,
+                        main_segment + 1,
+                        main_roles[main_segment],
+                    )
                     G_RECORDER.start(main_stem)
+                    main_segment_trigger_scheduled = False
                     event.clearEvents()
             elif main_phase == "segment":
                 g_draw_sequence(main_images, main_arrows, main_segment + 1)
-                G_RECORDER.mark_onset_on_flip()
+                if not main_segment_trigger_scheduled:
+                    G_RECORDER.mark_onset_on_flip()
+                    main_segment_trigger = g_discourse_segment_trigger(main_roles, main_segment)
+                    if main_segment_trigger:
+                        g_trigger_on_flip(
+                            main_segment_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_set{main_stimulus_set}_seg{main_segment + 1}_{main_roles[main_segment]}",
+                        )
+                    if main_segment == main_target_index:
+                        win.callOnFlip(main_target_clock.reset)
+                        win.callOnFlip(g_mark_clock_started, main_target_state)
+                    main_segment_trigger_scheduled = True
+                if main_target_state.get("started"):
+                    if (not main_target_state.get("condition_sent")) and main_target_clock.getTime() >= 0.200:
+                        g_send_trigger(
+                            main_condition_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_condition_{main_condition_id}",
+                        )
+                        main_target_state["condition_sent"] = True
+                    if (not main_target_state.get("item_sent")) and main_target_clock.getTime() >= 0.400:
+                        g_send_trigger(
+                            main_item_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_item{main_item_trigger:03d}",
+                        )
+                        main_target_state["item_sent"] = True
                 keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
                 key_names = g_key_names(keys)
                 if "escape" in key_names:
                     g_abort_and_quit()
-                if "space" in key_names:
+                main_can_advance_segment = main_segment != main_target_index or main_target_state.get("item_sent")
+                if "space" in key_names and main_can_advance_segment:
                     audio_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
                     seg = main_segment + 1
                     thisExp.addData(f"seg{seg}_role", main_roles[main_segment])
                     thisExp.addData(f"seg{seg}_audio", audio_file)
                     if main_segment >= len(main_images) - 1:
+                        g_send_trigger(202, f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_end")
                         continueRoutine = False
                     else:
                         main_segment += 1
-                        main_stem = f"{expInfo['participant']}_main_trial{G_MAIN_TRIAL_INDEX:03d}_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
+                        main_stem = g_discourse_main_stem(
+                            G_MAIN_TRIAL_INDEX,
+                            main_dataset_number,
+                            main_condition_id,
+                            main_segment + 1,
+                            main_roles[main_segment],
+                        )
                         G_RECORDER.start(main_stem)
+                        main_segment_trigger_scheduled = False
                     event.clearEvents()
             
             
@@ -3346,6 +3819,1365 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         
     # completed 1.0 repeats of 'MainBlock3'
     MainBlock3.status = FINISHED
+    
+    if thisSession is not None:
+        # if running in a Session with a Liaison client, send data up to now
+        thisSession.sendExperimentData()
+    
+    # --- Prepare to start Routine "Break" ---
+    # create an object to store info about Routine Break
+    Break = data.Routine(
+        name='Break',
+        components=[Break_keep_alive],
+    )
+    Break.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from break_code
+    
+    win.color = "white"
+    break_image = visual.ImageStim(win, image=g_path("Stimuli/break.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
+    break_clock = core.Clock()
+    event.clearEvents()
+    
+    # store start times for Break
+    Break.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    Break.tStart = globalClock.getTime(format='float')
+    Break.status = STARTED
+    thisExp.addData('Break.started', Break.tStart)
+    Break.maxDuration = None
+    # keep track of which components have finished
+    BreakComponents = Break.components
+    for thisComponent in Break.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "Break" ---
+    thisExp.currentRoutine = Break
+    Break.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *Break_keep_alive* updates
+        
+        # if Break_keep_alive is starting this frame...
+        if Break_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            Break_keep_alive.frameNStart = frameN  # exact frame index
+            Break_keep_alive.tStart = t  # local t and not account for scr refresh
+            Break_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(Break_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'Break_keep_alive.started')
+            # update status
+            Break_keep_alive.status = STARTED
+            Break_keep_alive.setAutoDraw(True)
+        
+        # if Break_keep_alive is active this frame...
+        if Break_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from break_code
+        
+        break_image.draw()
+        keys = event.getKeys(keyList=["space", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "space" in keys and break_clock.getTime() >= 30:
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=Break,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            Break.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if Break.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in Break.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "Break" ---
+    for thisComponent in Break.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for Break
+    Break.tStop = globalClock.getTime(format='float')
+    Break.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('Break.stopped', Break.tStop)
+    thisExp.nextEntry()
+    # the Routine "Break" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # set up handler to look after randomisation of conditions etc
+    MainBlock4 = data.TrialHandler2(
+        name='MainBlock4',
+        nReps=1.0, 
+        method='sequential', 
+        extraInfo=expInfo, 
+        originPath=-1, 
+        trialList=data.importConditions(g_runtime_main_block_file(4)), 
+        seed=None, 
+        isTrials=True, 
+    )
+    thisExp.addLoop(MainBlock4)  # add the loop to the experiment
+    thisMainBlock4 = MainBlock4.trialList[0]  # so we can initialise stimuli with some values
+    # abbreviate parameter names if possible (e.g. rgb = thisMainBlock4.rgb)
+    if thisMainBlock4 != None:
+        for paramName in thisMainBlock4:
+            globals()[paramName] = thisMainBlock4[paramName]
+    if thisSession is not None:
+        # if running in a Session with a Liaison client, send data up to now
+        thisSession.sendExperimentData()
+    
+    for thisMainBlock4 in MainBlock4:
+        MainBlock4.status = STARTED
+        if hasattr(thisMainBlock4, 'status'):
+            thisMainBlock4.status = STARTED
+        currentLoop = MainBlock4
+        thisExp.timestampOnFlip(win, 'thisRow.t', format=globalClock.format)
+        if thisSession is not None:
+            # if running in a Session with a Liaison client, send data up to now
+            thisSession.sendExperimentData()
+        # abbreviate parameter names if possible (e.g. rgb = thisMainBlock4.rgb)
+        if thisMainBlock4 != None:
+            for paramName in thisMainBlock4:
+                globals()[paramName] = thisMainBlock4[paramName]
+        
+        # --- Prepare to start Routine "MainTrial" ---
+        # create an object to store info about Routine MainTrial
+        MainTrial = data.Routine(
+            name='MainTrial',
+            components=[MainTrial_keep_alive],
+        )
+        MainTrial.status = NOT_STARTED
+        continueRoutine = True
+        # update component parameters for each repeat
+        # Run 'Begin Routine' code from main_trial_code
+        
+        G_MAIN_TRIAL_INDEX += 1
+        win.color = "white"
+        main_between_image = g_next_between_image()
+        main_placeholder = g_fullscreen_image(win, main_between_image)
+        main_roles, main_paths = g_roles_and_paths()
+        main_images = []
+        main_arrows = []
+        main_segment = 0
+        main_phase = "between"
+        main_between_clock = core.Clock()
+        main_between_audio = None
+        main_between_audio_value = g_text(globals().get("between_audio", ""))
+        main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
+        main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
+        main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+        main_stimulus_set = g_int(globals().get("stimulus_set", 0), 0)
+        main_condition_trigger = g_int(globals().get("condition_trigger", 0), 0)
+        main_item_trigger = g_int(globals().get("item_trigger", 0), 0)
+        main_listener_reference = dict(G_LAST_MAIN_TRIAL_INFO) if G_LAST_MAIN_TRIAL_INFO else {}
+        main_between_audio_duration = 0.0
+        main_between_audio_done = not bool(main_between_audio_value)
+        main_listener_clock = core.Clock()
+        main_listener_audio_file = ""
+        main_target_index = int(g_target_index(main_roles))
+        main_target_clock = core.Clock()
+        main_target_state = {"started": False, "condition_sent": False, "item_sent": False}
+        main_segment_trigger_scheduled = False
+        if main_between_audio_value:
+            main_between_audio = g_play_audio(main_between_audio_value)
+            main_between_audio_duration = g_float(main_between_audio.getDuration() if main_between_audio else 0, 0.0)
+        main_between_clock.reset()
+        thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
+        thisExp.addData("experiment_list", g_selected_list())
+        thisExp.addData("between_image", g_path(main_between_image))
+        thisExp.addData("audio_probe", audio_probe)
+        thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
+        thisExp.addData("stimulus_set", main_stimulus_set)
+        thisExp.addData("condition_trigger", main_condition_trigger)
+        thisExp.addData("item_trigger", main_item_trigger)
+        event.clearEvents()
+        
+        # store start times for MainTrial
+        MainTrial.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+        MainTrial.tStart = globalClock.getTime(format='float')
+        MainTrial.status = STARTED
+        thisExp.addData('MainTrial.started', MainTrial.tStart)
+        MainTrial.maxDuration = None
+        # keep track of which components have finished
+        MainTrialComponents = MainTrial.components
+        for thisComponent in MainTrial.components:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        frameN = -1
+        
+        # --- Run Routine "MainTrial" ---
+        thisExp.currentRoutine = MainTrial
+        MainTrial.forceEnded = routineForceEnded = not continueRoutine
+        while continueRoutine:
+            # if trial has changed, end Routine now
+            if hasattr(thisMainBlock4, 'status') and thisMainBlock4.status == STOPPING:
+                continueRoutine = False
+            # get current time
+            t = routineTimer.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # *MainTrial_keep_alive* updates
+            
+            # if MainTrial_keep_alive is starting this frame...
+            if MainTrial_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                MainTrial_keep_alive.frameNStart = frameN  # exact frame index
+                MainTrial_keep_alive.tStart = t  # local t and not account for scr refresh
+                MainTrial_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(MainTrial_keep_alive, 'tStartRefresh')  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, 'MainTrial_keep_alive.started')
+                # update status
+                MainTrial_keep_alive.status = STARTED
+                MainTrial_keep_alive.setAutoDraw(True)
+            
+            # if MainTrial_keep_alive is active this frame...
+            if MainTrial_keep_alive.status == STARTED:
+                # update params
+                pass
+            # Run 'Each Frame' code from main_trial_code
+            
+            if main_phase == "between":
+                main_placeholder.draw()
+                if main_between_audio_value and not main_between_audio_done and main_between_clock.getTime() >= main_between_audio_duration:
+                    if main_between_audio:
+                        main_between_audio.stop()
+                    main_between_audio = None
+                    main_listener_audio_file = G_RECORDER.start(
+                        g_listener_main_stem(main_listener_reference),
+                        subdir=G_LISTENER_RESPONSE_DIRNAME,
+                    )
+                    main_listener_clock.reset()
+                    main_between_audio_done = True
+                    event.clearEvents()
+                keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+                key_names = g_key_names(keys)
+                if "escape" in key_names:
+                    g_abort_and_quit()
+                if main_between_audio_value:
+                    main_between_can_continue = (
+                        main_between_audio_done
+                        and "space" in key_names
+                        and main_listener_clock.getTime() >= G_LISTENER_RESPONSE_MIN_SEC
+                    )
+                else:
+                    main_between_can_continue = "space" in key_names and main_between_clock.getTime() >= main_audio_lock
+                if main_between_can_continue:
+                    if main_between_audio_value:
+                        stopped_listener_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
+                        if stopped_listener_file:
+                            main_listener_audio_file = stopped_listener_file
+                        thisExp.addData("listener_reference_main_trial_index", g_int(main_listener_reference.get("trial_index", 0), 0))
+                        thisExp.addData("listener_reference_dataset_number", g_int(main_listener_reference.get("dataset_number", 0), 0))
+                        thisExp.addData("listener_reference_condition_id", g_text(main_listener_reference.get("condition_id", "")))
+                        thisExp.addData("listener_response_audio", main_listener_audio_file)
+                        thisExp.addData("listener_response_rt", main_listener_clock.getTime())
+                    if main_between_audio:
+                        main_between_audio.stop()
+                    main_between_audio = None
+                    thisExp.addData("between_rt", main_between_clock.getTime())
+                    g_release_fullscreen_image(main_placeholder)
+                    main_placeholder = None
+                    main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
+                    main_phase = "segment"
+                    main_stem = g_discourse_main_stem(
+                        G_MAIN_TRIAL_INDEX,
+                        main_dataset_number,
+                        main_condition_id,
+                        main_segment + 1,
+                        main_roles[main_segment],
+                    )
+                    G_RECORDER.start(main_stem)
+                    main_segment_trigger_scheduled = False
+                    event.clearEvents()
+            elif main_phase == "segment":
+                g_draw_sequence(main_images, main_arrows, main_segment + 1)
+                if not main_segment_trigger_scheduled:
+                    G_RECORDER.mark_onset_on_flip()
+                    main_segment_trigger = g_discourse_segment_trigger(main_roles, main_segment)
+                    if main_segment_trigger:
+                        g_trigger_on_flip(
+                            main_segment_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_set{main_stimulus_set}_seg{main_segment + 1}_{main_roles[main_segment]}",
+                        )
+                    if main_segment == main_target_index:
+                        win.callOnFlip(main_target_clock.reset)
+                        win.callOnFlip(g_mark_clock_started, main_target_state)
+                    main_segment_trigger_scheduled = True
+                if main_target_state.get("started"):
+                    if (not main_target_state.get("condition_sent")) and main_target_clock.getTime() >= 0.200:
+                        g_send_trigger(
+                            main_condition_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_condition_{main_condition_id}",
+                        )
+                        main_target_state["condition_sent"] = True
+                    if (not main_target_state.get("item_sent")) and main_target_clock.getTime() >= 0.400:
+                        g_send_trigger(
+                            main_item_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_item{main_item_trigger:03d}",
+                        )
+                        main_target_state["item_sent"] = True
+                keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+                key_names = g_key_names(keys)
+                if "escape" in key_names:
+                    g_abort_and_quit()
+                main_can_advance_segment = main_segment != main_target_index or main_target_state.get("item_sent")
+                if "space" in key_names and main_can_advance_segment:
+                    audio_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
+                    seg = main_segment + 1
+                    thisExp.addData(f"seg{seg}_role", main_roles[main_segment])
+                    thisExp.addData(f"seg{seg}_audio", audio_file)
+                    if main_segment >= len(main_images) - 1:
+                        g_send_trigger(202, f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_end")
+                        continueRoutine = False
+                    else:
+                        main_segment += 1
+                        main_stem = g_discourse_main_stem(
+                            G_MAIN_TRIAL_INDEX,
+                            main_dataset_number,
+                            main_condition_id,
+                            main_segment + 1,
+                            main_roles[main_segment],
+                        )
+                        G_RECORDER.start(main_stem)
+                        main_segment_trigger_scheduled = False
+                    event.clearEvents()
+            
+            
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
+            if thisExp.status == FINISHED or endExpNow:
+                endExperiment(thisExp, win=win)
+                return
+            # pause experiment here if requested
+            if thisExp.status == PAUSED:
+                pauseExperiment(
+                    thisExp=thisExp, 
+                    win=win, 
+                    timers=[routineTimer, globalClock], 
+                    currentRoutine=MainTrial,
+                )
+                # skip the frame we paused on
+                continue
+            
+            # has a Component requested the Routine to end?
+            if not continueRoutine:
+                MainTrial.forceEnded = routineForceEnded = True
+            # has the Routine been forcibly ended?
+            if MainTrial.forceEnded or routineForceEnded:
+                break
+            # has every Component finished?
+            continueRoutine = False
+            for thisComponent in MainTrial.components:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # --- Ending Routine "MainTrial" ---
+        for thisComponent in MainTrial.components:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        # store stop times for MainTrial
+        MainTrial.tStop = globalClock.getTime(format='float')
+        MainTrial.tStopRefresh = tThisFlipGlobal
+        thisExp.addData('MainTrial.stopped', MainTrial.tStop)
+        # Run 'End Routine' code from main_trial_code
+        
+        G_RECORDER.stop()
+        if main_between_audio:
+            main_between_audio.stop()
+        G_LAST_MAIN_TRIAL_INFO = {
+            "trial_index": G_MAIN_TRIAL_INDEX,
+            "dataset_number": main_dataset_number,
+            "condition_id": main_condition_id,
+        }
+        g_release_stims(main_images, main_arrows)
+        g_release_fullscreen_image(main_placeholder)
+        main_images = []
+        main_arrows = []
+        main_placeholder = None
+        
+        # the Routine "MainTrial" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+        # mark thisMainBlock4 as finished
+        if hasattr(thisMainBlock4, 'status'):
+            thisMainBlock4.status = FINISHED
+        # if awaiting a pause, pause now
+        if MainBlock4.status == PAUSED:
+            thisExp.status = PAUSED
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[globalClock], 
+            )
+            # once done pausing, restore running status
+            MainBlock4.status = STARTED
+        thisExp.nextEntry()
+        
+    # completed 1.0 repeats of 'MainBlock4'
+    MainBlock4.status = FINISHED
+    
+    if thisSession is not None:
+        # if running in a Session with a Liaison client, send data up to now
+        thisSession.sendExperimentData()
+    
+    # --- Prepare to start Routine "Break" ---
+    # create an object to store info about Routine Break
+    Break = data.Routine(
+        name='Break',
+        components=[Break_keep_alive],
+    )
+    Break.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from break_code
+    
+    win.color = "white"
+    break_image = visual.ImageStim(win, image=g_path("Stimuli/break.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
+    break_clock = core.Clock()
+    event.clearEvents()
+    
+    # store start times for Break
+    Break.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    Break.tStart = globalClock.getTime(format='float')
+    Break.status = STARTED
+    thisExp.addData('Break.started', Break.tStart)
+    Break.maxDuration = None
+    # keep track of which components have finished
+    BreakComponents = Break.components
+    for thisComponent in Break.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "Break" ---
+    thisExp.currentRoutine = Break
+    Break.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *Break_keep_alive* updates
+        
+        # if Break_keep_alive is starting this frame...
+        if Break_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            Break_keep_alive.frameNStart = frameN  # exact frame index
+            Break_keep_alive.tStart = t  # local t and not account for scr refresh
+            Break_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(Break_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'Break_keep_alive.started')
+            # update status
+            Break_keep_alive.status = STARTED
+            Break_keep_alive.setAutoDraw(True)
+        
+        # if Break_keep_alive is active this frame...
+        if Break_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from break_code
+        
+        break_image.draw()
+        keys = event.getKeys(keyList=["space", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "space" in keys and break_clock.getTime() >= 30:
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=Break,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            Break.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if Break.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in Break.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "Break" ---
+    for thisComponent in Break.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for Break
+    Break.tStop = globalClock.getTime(format='float')
+    Break.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('Break.stopped', Break.tStop)
+    thisExp.nextEntry()
+    # the Routine "Break" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # set up handler to look after randomisation of conditions etc
+    MainBlock5 = data.TrialHandler2(
+        name='MainBlock5',
+        nReps=1.0, 
+        method='sequential', 
+        extraInfo=expInfo, 
+        originPath=-1, 
+        trialList=data.importConditions(g_runtime_main_block_file(5)), 
+        seed=None, 
+        isTrials=True, 
+    )
+    thisExp.addLoop(MainBlock5)  # add the loop to the experiment
+    thisMainBlock5 = MainBlock5.trialList[0]  # so we can initialise stimuli with some values
+    # abbreviate parameter names if possible (e.g. rgb = thisMainBlock5.rgb)
+    if thisMainBlock5 != None:
+        for paramName in thisMainBlock5:
+            globals()[paramName] = thisMainBlock5[paramName]
+    if thisSession is not None:
+        # if running in a Session with a Liaison client, send data up to now
+        thisSession.sendExperimentData()
+    
+    for thisMainBlock5 in MainBlock5:
+        MainBlock5.status = STARTED
+        if hasattr(thisMainBlock5, 'status'):
+            thisMainBlock5.status = STARTED
+        currentLoop = MainBlock5
+        thisExp.timestampOnFlip(win, 'thisRow.t', format=globalClock.format)
+        if thisSession is not None:
+            # if running in a Session with a Liaison client, send data up to now
+            thisSession.sendExperimentData()
+        # abbreviate parameter names if possible (e.g. rgb = thisMainBlock5.rgb)
+        if thisMainBlock5 != None:
+            for paramName in thisMainBlock5:
+                globals()[paramName] = thisMainBlock5[paramName]
+        
+        # --- Prepare to start Routine "MainTrial" ---
+        # create an object to store info about Routine MainTrial
+        MainTrial = data.Routine(
+            name='MainTrial',
+            components=[MainTrial_keep_alive],
+        )
+        MainTrial.status = NOT_STARTED
+        continueRoutine = True
+        # update component parameters for each repeat
+        # Run 'Begin Routine' code from main_trial_code
+        
+        G_MAIN_TRIAL_INDEX += 1
+        win.color = "white"
+        main_between_image = g_next_between_image()
+        main_placeholder = g_fullscreen_image(win, main_between_image)
+        main_roles, main_paths = g_roles_and_paths()
+        main_images = []
+        main_arrows = []
+        main_segment = 0
+        main_phase = "between"
+        main_between_clock = core.Clock()
+        main_between_audio = None
+        main_between_audio_value = g_text(globals().get("between_audio", ""))
+        main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
+        main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
+        main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+        main_stimulus_set = g_int(globals().get("stimulus_set", 0), 0)
+        main_condition_trigger = g_int(globals().get("condition_trigger", 0), 0)
+        main_item_trigger = g_int(globals().get("item_trigger", 0), 0)
+        main_listener_reference = dict(G_LAST_MAIN_TRIAL_INFO) if G_LAST_MAIN_TRIAL_INFO else {}
+        main_between_audio_duration = 0.0
+        main_between_audio_done = not bool(main_between_audio_value)
+        main_listener_clock = core.Clock()
+        main_listener_audio_file = ""
+        main_target_index = int(g_target_index(main_roles))
+        main_target_clock = core.Clock()
+        main_target_state = {"started": False, "condition_sent": False, "item_sent": False}
+        main_segment_trigger_scheduled = False
+        if main_between_audio_value:
+            main_between_audio = g_play_audio(main_between_audio_value)
+            main_between_audio_duration = g_float(main_between_audio.getDuration() if main_between_audio else 0, 0.0)
+        main_between_clock.reset()
+        thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
+        thisExp.addData("experiment_list", g_selected_list())
+        thisExp.addData("between_image", g_path(main_between_image))
+        thisExp.addData("audio_probe", audio_probe)
+        thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
+        thisExp.addData("stimulus_set", main_stimulus_set)
+        thisExp.addData("condition_trigger", main_condition_trigger)
+        thisExp.addData("item_trigger", main_item_trigger)
+        event.clearEvents()
+        
+        # store start times for MainTrial
+        MainTrial.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+        MainTrial.tStart = globalClock.getTime(format='float')
+        MainTrial.status = STARTED
+        thisExp.addData('MainTrial.started', MainTrial.tStart)
+        MainTrial.maxDuration = None
+        # keep track of which components have finished
+        MainTrialComponents = MainTrial.components
+        for thisComponent in MainTrial.components:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        frameN = -1
+        
+        # --- Run Routine "MainTrial" ---
+        thisExp.currentRoutine = MainTrial
+        MainTrial.forceEnded = routineForceEnded = not continueRoutine
+        while continueRoutine:
+            # if trial has changed, end Routine now
+            if hasattr(thisMainBlock5, 'status') and thisMainBlock5.status == STOPPING:
+                continueRoutine = False
+            # get current time
+            t = routineTimer.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # *MainTrial_keep_alive* updates
+            
+            # if MainTrial_keep_alive is starting this frame...
+            if MainTrial_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                MainTrial_keep_alive.frameNStart = frameN  # exact frame index
+                MainTrial_keep_alive.tStart = t  # local t and not account for scr refresh
+                MainTrial_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(MainTrial_keep_alive, 'tStartRefresh')  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, 'MainTrial_keep_alive.started')
+                # update status
+                MainTrial_keep_alive.status = STARTED
+                MainTrial_keep_alive.setAutoDraw(True)
+            
+            # if MainTrial_keep_alive is active this frame...
+            if MainTrial_keep_alive.status == STARTED:
+                # update params
+                pass
+            # Run 'Each Frame' code from main_trial_code
+            
+            if main_phase == "between":
+                main_placeholder.draw()
+                if main_between_audio_value and not main_between_audio_done and main_between_clock.getTime() >= main_between_audio_duration:
+                    if main_between_audio:
+                        main_between_audio.stop()
+                    main_between_audio = None
+                    main_listener_audio_file = G_RECORDER.start(
+                        g_listener_main_stem(main_listener_reference),
+                        subdir=G_LISTENER_RESPONSE_DIRNAME,
+                    )
+                    main_listener_clock.reset()
+                    main_between_audio_done = True
+                    event.clearEvents()
+                keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+                key_names = g_key_names(keys)
+                if "escape" in key_names:
+                    g_abort_and_quit()
+                if main_between_audio_value:
+                    main_between_can_continue = (
+                        main_between_audio_done
+                        and "space" in key_names
+                        and main_listener_clock.getTime() >= G_LISTENER_RESPONSE_MIN_SEC
+                    )
+                else:
+                    main_between_can_continue = "space" in key_names and main_between_clock.getTime() >= main_audio_lock
+                if main_between_can_continue:
+                    if main_between_audio_value:
+                        stopped_listener_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
+                        if stopped_listener_file:
+                            main_listener_audio_file = stopped_listener_file
+                        thisExp.addData("listener_reference_main_trial_index", g_int(main_listener_reference.get("trial_index", 0), 0))
+                        thisExp.addData("listener_reference_dataset_number", g_int(main_listener_reference.get("dataset_number", 0), 0))
+                        thisExp.addData("listener_reference_condition_id", g_text(main_listener_reference.get("condition_id", "")))
+                        thisExp.addData("listener_response_audio", main_listener_audio_file)
+                        thisExp.addData("listener_response_rt", main_listener_clock.getTime())
+                    if main_between_audio:
+                        main_between_audio.stop()
+                    main_between_audio = None
+                    thisExp.addData("between_rt", main_between_clock.getTime())
+                    g_release_fullscreen_image(main_placeholder)
+                    main_placeholder = None
+                    main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
+                    main_phase = "segment"
+                    main_stem = g_discourse_main_stem(
+                        G_MAIN_TRIAL_INDEX,
+                        main_dataset_number,
+                        main_condition_id,
+                        main_segment + 1,
+                        main_roles[main_segment],
+                    )
+                    G_RECORDER.start(main_stem)
+                    main_segment_trigger_scheduled = False
+                    event.clearEvents()
+            elif main_phase == "segment":
+                g_draw_sequence(main_images, main_arrows, main_segment + 1)
+                if not main_segment_trigger_scheduled:
+                    G_RECORDER.mark_onset_on_flip()
+                    main_segment_trigger = g_discourse_segment_trigger(main_roles, main_segment)
+                    if main_segment_trigger:
+                        g_trigger_on_flip(
+                            main_segment_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_set{main_stimulus_set}_seg{main_segment + 1}_{main_roles[main_segment]}",
+                        )
+                    if main_segment == main_target_index:
+                        win.callOnFlip(main_target_clock.reset)
+                        win.callOnFlip(g_mark_clock_started, main_target_state)
+                    main_segment_trigger_scheduled = True
+                if main_target_state.get("started"):
+                    if (not main_target_state.get("condition_sent")) and main_target_clock.getTime() >= 0.200:
+                        g_send_trigger(
+                            main_condition_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_condition_{main_condition_id}",
+                        )
+                        main_target_state["condition_sent"] = True
+                    if (not main_target_state.get("item_sent")) and main_target_clock.getTime() >= 0.400:
+                        g_send_trigger(
+                            main_item_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_item{main_item_trigger:03d}",
+                        )
+                        main_target_state["item_sent"] = True
+                keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+                key_names = g_key_names(keys)
+                if "escape" in key_names:
+                    g_abort_and_quit()
+                main_can_advance_segment = main_segment != main_target_index or main_target_state.get("item_sent")
+                if "space" in key_names and main_can_advance_segment:
+                    audio_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
+                    seg = main_segment + 1
+                    thisExp.addData(f"seg{seg}_role", main_roles[main_segment])
+                    thisExp.addData(f"seg{seg}_audio", audio_file)
+                    if main_segment >= len(main_images) - 1:
+                        g_send_trigger(202, f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_end")
+                        continueRoutine = False
+                    else:
+                        main_segment += 1
+                        main_stem = g_discourse_main_stem(
+                            G_MAIN_TRIAL_INDEX,
+                            main_dataset_number,
+                            main_condition_id,
+                            main_segment + 1,
+                            main_roles[main_segment],
+                        )
+                        G_RECORDER.start(main_stem)
+                        main_segment_trigger_scheduled = False
+                    event.clearEvents()
+            
+            
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
+            if thisExp.status == FINISHED or endExpNow:
+                endExperiment(thisExp, win=win)
+                return
+            # pause experiment here if requested
+            if thisExp.status == PAUSED:
+                pauseExperiment(
+                    thisExp=thisExp, 
+                    win=win, 
+                    timers=[routineTimer, globalClock], 
+                    currentRoutine=MainTrial,
+                )
+                # skip the frame we paused on
+                continue
+            
+            # has a Component requested the Routine to end?
+            if not continueRoutine:
+                MainTrial.forceEnded = routineForceEnded = True
+            # has the Routine been forcibly ended?
+            if MainTrial.forceEnded or routineForceEnded:
+                break
+            # has every Component finished?
+            continueRoutine = False
+            for thisComponent in MainTrial.components:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # --- Ending Routine "MainTrial" ---
+        for thisComponent in MainTrial.components:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        # store stop times for MainTrial
+        MainTrial.tStop = globalClock.getTime(format='float')
+        MainTrial.tStopRefresh = tThisFlipGlobal
+        thisExp.addData('MainTrial.stopped', MainTrial.tStop)
+        # Run 'End Routine' code from main_trial_code
+        
+        G_RECORDER.stop()
+        if main_between_audio:
+            main_between_audio.stop()
+        G_LAST_MAIN_TRIAL_INFO = {
+            "trial_index": G_MAIN_TRIAL_INDEX,
+            "dataset_number": main_dataset_number,
+            "condition_id": main_condition_id,
+        }
+        g_release_stims(main_images, main_arrows)
+        g_release_fullscreen_image(main_placeholder)
+        main_images = []
+        main_arrows = []
+        main_placeholder = None
+        
+        # the Routine "MainTrial" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+        # mark thisMainBlock5 as finished
+        if hasattr(thisMainBlock5, 'status'):
+            thisMainBlock5.status = FINISHED
+        # if awaiting a pause, pause now
+        if MainBlock5.status == PAUSED:
+            thisExp.status = PAUSED
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[globalClock], 
+            )
+            # once done pausing, restore running status
+            MainBlock5.status = STARTED
+        thisExp.nextEntry()
+        
+    # completed 1.0 repeats of 'MainBlock5'
+    MainBlock5.status = FINISHED
+    
+    if thisSession is not None:
+        # if running in a Session with a Liaison client, send data up to now
+        thisSession.sendExperimentData()
+    
+    # --- Prepare to start Routine "Break" ---
+    # create an object to store info about Routine Break
+    Break = data.Routine(
+        name='Break',
+        components=[Break_keep_alive],
+    )
+    Break.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from break_code
+    
+    win.color = "white"
+    break_image = visual.ImageStim(win, image=g_path("Stimuli/break.png"), pos=(0, 0), size=(0.55, 0.55), interpolate=True)
+    break_clock = core.Clock()
+    event.clearEvents()
+    
+    # store start times for Break
+    Break.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    Break.tStart = globalClock.getTime(format='float')
+    Break.status = STARTED
+    thisExp.addData('Break.started', Break.tStart)
+    Break.maxDuration = None
+    # keep track of which components have finished
+    BreakComponents = Break.components
+    for thisComponent in Break.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "Break" ---
+    thisExp.currentRoutine = Break
+    Break.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *Break_keep_alive* updates
+        
+        # if Break_keep_alive is starting this frame...
+        if Break_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            Break_keep_alive.frameNStart = frameN  # exact frame index
+            Break_keep_alive.tStart = t  # local t and not account for scr refresh
+            Break_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(Break_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'Break_keep_alive.started')
+            # update status
+            Break_keep_alive.status = STARTED
+            Break_keep_alive.setAutoDraw(True)
+        
+        # if Break_keep_alive is active this frame...
+        if Break_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from break_code
+        
+        break_image.draw()
+        keys = event.getKeys(keyList=["space", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "space" in keys and break_clock.getTime() >= 30:
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=Break,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            Break.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if Break.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in Break.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "Break" ---
+    for thisComponent in Break.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for Break
+    Break.tStop = globalClock.getTime(format='float')
+    Break.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('Break.stopped', Break.tStop)
+    thisExp.nextEntry()
+    # the Routine "Break" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # set up handler to look after randomisation of conditions etc
+    MainBlock6 = data.TrialHandler2(
+        name='MainBlock6',
+        nReps=1.0, 
+        method='sequential', 
+        extraInfo=expInfo, 
+        originPath=-1, 
+        trialList=data.importConditions(g_runtime_main_block_file(6)), 
+        seed=None, 
+        isTrials=True, 
+    )
+    thisExp.addLoop(MainBlock6)  # add the loop to the experiment
+    thisMainBlock6 = MainBlock6.trialList[0]  # so we can initialise stimuli with some values
+    # abbreviate parameter names if possible (e.g. rgb = thisMainBlock6.rgb)
+    if thisMainBlock6 != None:
+        for paramName in thisMainBlock6:
+            globals()[paramName] = thisMainBlock6[paramName]
+    if thisSession is not None:
+        # if running in a Session with a Liaison client, send data up to now
+        thisSession.sendExperimentData()
+    
+    for thisMainBlock6 in MainBlock6:
+        MainBlock6.status = STARTED
+        if hasattr(thisMainBlock6, 'status'):
+            thisMainBlock6.status = STARTED
+        currentLoop = MainBlock6
+        thisExp.timestampOnFlip(win, 'thisRow.t', format=globalClock.format)
+        if thisSession is not None:
+            # if running in a Session with a Liaison client, send data up to now
+            thisSession.sendExperimentData()
+        # abbreviate parameter names if possible (e.g. rgb = thisMainBlock6.rgb)
+        if thisMainBlock6 != None:
+            for paramName in thisMainBlock6:
+                globals()[paramName] = thisMainBlock6[paramName]
+        
+        # --- Prepare to start Routine "MainTrial" ---
+        # create an object to store info about Routine MainTrial
+        MainTrial = data.Routine(
+            name='MainTrial',
+            components=[MainTrial_keep_alive],
+        )
+        MainTrial.status = NOT_STARTED
+        continueRoutine = True
+        # update component parameters for each repeat
+        # Run 'Begin Routine' code from main_trial_code
+        
+        G_MAIN_TRIAL_INDEX += 1
+        win.color = "white"
+        main_between_image = g_next_between_image()
+        main_placeholder = g_fullscreen_image(win, main_between_image)
+        main_roles, main_paths = g_roles_and_paths()
+        main_images = []
+        main_arrows = []
+        main_segment = 0
+        main_phase = "between"
+        main_between_clock = core.Clock()
+        main_between_audio = None
+        main_between_audio_value = g_text(globals().get("between_audio", ""))
+        main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
+        main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
+        main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+        main_stimulus_set = g_int(globals().get("stimulus_set", 0), 0)
+        main_condition_trigger = g_int(globals().get("condition_trigger", 0), 0)
+        main_item_trigger = g_int(globals().get("item_trigger", 0), 0)
+        main_listener_reference = dict(G_LAST_MAIN_TRIAL_INFO) if G_LAST_MAIN_TRIAL_INFO else {}
+        main_between_audio_duration = 0.0
+        main_between_audio_done = not bool(main_between_audio_value)
+        main_listener_clock = core.Clock()
+        main_listener_audio_file = ""
+        main_target_index = int(g_target_index(main_roles))
+        main_target_clock = core.Clock()
+        main_target_state = {"started": False, "condition_sent": False, "item_sent": False}
+        main_segment_trigger_scheduled = False
+        if main_between_audio_value:
+            main_between_audio = g_play_audio(main_between_audio_value)
+            main_between_audio_duration = g_float(main_between_audio.getDuration() if main_between_audio else 0, 0.0)
+        main_between_clock.reset()
+        thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
+        thisExp.addData("experiment_list", g_selected_list())
+        thisExp.addData("between_image", g_path(main_between_image))
+        thisExp.addData("audio_probe", audio_probe)
+        thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
+        thisExp.addData("stimulus_set", main_stimulus_set)
+        thisExp.addData("condition_trigger", main_condition_trigger)
+        thisExp.addData("item_trigger", main_item_trigger)
+        event.clearEvents()
+        
+        # store start times for MainTrial
+        MainTrial.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+        MainTrial.tStart = globalClock.getTime(format='float')
+        MainTrial.status = STARTED
+        thisExp.addData('MainTrial.started', MainTrial.tStart)
+        MainTrial.maxDuration = None
+        # keep track of which components have finished
+        MainTrialComponents = MainTrial.components
+        for thisComponent in MainTrial.components:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        frameN = -1
+        
+        # --- Run Routine "MainTrial" ---
+        thisExp.currentRoutine = MainTrial
+        MainTrial.forceEnded = routineForceEnded = not continueRoutine
+        while continueRoutine:
+            # if trial has changed, end Routine now
+            if hasattr(thisMainBlock6, 'status') and thisMainBlock6.status == STOPPING:
+                continueRoutine = False
+            # get current time
+            t = routineTimer.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # *MainTrial_keep_alive* updates
+            
+            # if MainTrial_keep_alive is starting this frame...
+            if MainTrial_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                MainTrial_keep_alive.frameNStart = frameN  # exact frame index
+                MainTrial_keep_alive.tStart = t  # local t and not account for scr refresh
+                MainTrial_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(MainTrial_keep_alive, 'tStartRefresh')  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, 'MainTrial_keep_alive.started')
+                # update status
+                MainTrial_keep_alive.status = STARTED
+                MainTrial_keep_alive.setAutoDraw(True)
+            
+            # if MainTrial_keep_alive is active this frame...
+            if MainTrial_keep_alive.status == STARTED:
+                # update params
+                pass
+            # Run 'Each Frame' code from main_trial_code
+            
+            if main_phase == "between":
+                main_placeholder.draw()
+                if main_between_audio_value and not main_between_audio_done and main_between_clock.getTime() >= main_between_audio_duration:
+                    if main_between_audio:
+                        main_between_audio.stop()
+                    main_between_audio = None
+                    main_listener_audio_file = G_RECORDER.start(
+                        g_listener_main_stem(main_listener_reference),
+                        subdir=G_LISTENER_RESPONSE_DIRNAME,
+                    )
+                    main_listener_clock.reset()
+                    main_between_audio_done = True
+                    event.clearEvents()
+                keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+                key_names = g_key_names(keys)
+                if "escape" in key_names:
+                    g_abort_and_quit()
+                if main_between_audio_value:
+                    main_between_can_continue = (
+                        main_between_audio_done
+                        and "space" in key_names
+                        and main_listener_clock.getTime() >= G_LISTENER_RESPONSE_MIN_SEC
+                    )
+                else:
+                    main_between_can_continue = "space" in key_names and main_between_clock.getTime() >= main_audio_lock
+                if main_between_can_continue:
+                    if main_between_audio_value:
+                        stopped_listener_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
+                        if stopped_listener_file:
+                            main_listener_audio_file = stopped_listener_file
+                        thisExp.addData("listener_reference_main_trial_index", g_int(main_listener_reference.get("trial_index", 0), 0))
+                        thisExp.addData("listener_reference_dataset_number", g_int(main_listener_reference.get("dataset_number", 0), 0))
+                        thisExp.addData("listener_reference_condition_id", g_text(main_listener_reference.get("condition_id", "")))
+                        thisExp.addData("listener_response_audio", main_listener_audio_file)
+                        thisExp.addData("listener_response_rt", main_listener_clock.getTime())
+                    if main_between_audio:
+                        main_between_audio.stop()
+                    main_between_audio = None
+                    thisExp.addData("between_rt", main_between_clock.getTime())
+                    g_release_fullscreen_image(main_placeholder)
+                    main_placeholder = None
+                    main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
+                    main_phase = "segment"
+                    main_stem = g_discourse_main_stem(
+                        G_MAIN_TRIAL_INDEX,
+                        main_dataset_number,
+                        main_condition_id,
+                        main_segment + 1,
+                        main_roles[main_segment],
+                    )
+                    G_RECORDER.start(main_stem)
+                    main_segment_trigger_scheduled = False
+                    event.clearEvents()
+            elif main_phase == "segment":
+                g_draw_sequence(main_images, main_arrows, main_segment + 1)
+                if not main_segment_trigger_scheduled:
+                    G_RECORDER.mark_onset_on_flip()
+                    main_segment_trigger = g_discourse_segment_trigger(main_roles, main_segment)
+                    if main_segment_trigger:
+                        g_trigger_on_flip(
+                            main_segment_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_set{main_stimulus_set}_seg{main_segment + 1}_{main_roles[main_segment]}",
+                        )
+                    if main_segment == main_target_index:
+                        win.callOnFlip(main_target_clock.reset)
+                        win.callOnFlip(g_mark_clock_started, main_target_state)
+                    main_segment_trigger_scheduled = True
+                if main_target_state.get("started"):
+                    if (not main_target_state.get("condition_sent")) and main_target_clock.getTime() >= 0.200:
+                        g_send_trigger(
+                            main_condition_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_condition_{main_condition_id}",
+                        )
+                        main_target_state["condition_sent"] = True
+                    if (not main_target_state.get("item_sent")) and main_target_clock.getTime() >= 0.400:
+                        g_send_trigger(
+                            main_item_trigger,
+                            f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_item{main_item_trigger:03d}",
+                        )
+                        main_target_state["item_sent"] = True
+                keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+                key_names = g_key_names(keys)
+                if "escape" in key_names:
+                    g_abort_and_quit()
+                main_can_advance_segment = main_segment != main_target_index or main_target_state.get("item_sent")
+                if "space" in key_names and main_can_advance_segment:
+                    audio_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
+                    seg = main_segment + 1
+                    thisExp.addData(f"seg{seg}_role", main_roles[main_segment])
+                    thisExp.addData(f"seg{seg}_audio", audio_file)
+                    if main_segment >= len(main_images) - 1:
+                        g_send_trigger(202, f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_end")
+                        continueRoutine = False
+                    else:
+                        main_segment += 1
+                        main_stem = g_discourse_main_stem(
+                            G_MAIN_TRIAL_INDEX,
+                            main_dataset_number,
+                            main_condition_id,
+                            main_segment + 1,
+                            main_roles[main_segment],
+                        )
+                        G_RECORDER.start(main_stem)
+                        main_segment_trigger_scheduled = False
+                    event.clearEvents()
+            
+            
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
+            if thisExp.status == FINISHED or endExpNow:
+                endExperiment(thisExp, win=win)
+                return
+            # pause experiment here if requested
+            if thisExp.status == PAUSED:
+                pauseExperiment(
+                    thisExp=thisExp, 
+                    win=win, 
+                    timers=[routineTimer, globalClock], 
+                    currentRoutine=MainTrial,
+                )
+                # skip the frame we paused on
+                continue
+            
+            # has a Component requested the Routine to end?
+            if not continueRoutine:
+                MainTrial.forceEnded = routineForceEnded = True
+            # has the Routine been forcibly ended?
+            if MainTrial.forceEnded or routineForceEnded:
+                break
+            # has every Component finished?
+            continueRoutine = False
+            for thisComponent in MainTrial.components:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # --- Ending Routine "MainTrial" ---
+        for thisComponent in MainTrial.components:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        # store stop times for MainTrial
+        MainTrial.tStop = globalClock.getTime(format='float')
+        MainTrial.tStopRefresh = tThisFlipGlobal
+        thisExp.addData('MainTrial.stopped', MainTrial.tStop)
+        # Run 'End Routine' code from main_trial_code
+        
+        G_RECORDER.stop()
+        if main_between_audio:
+            main_between_audio.stop()
+        G_LAST_MAIN_TRIAL_INFO = {
+            "trial_index": G_MAIN_TRIAL_INDEX,
+            "dataset_number": main_dataset_number,
+            "condition_id": main_condition_id,
+        }
+        g_release_stims(main_images, main_arrows)
+        g_release_fullscreen_image(main_placeholder)
+        main_images = []
+        main_arrows = []
+        main_placeholder = None
+        
+        # the Routine "MainTrial" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+        # mark thisMainBlock6 as finished
+        if hasattr(thisMainBlock6, 'status'):
+            thisMainBlock6.status = FINISHED
+        # if awaiting a pause, pause now
+        if MainBlock6.status == PAUSED:
+            thisExp.status = PAUSED
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[globalClock], 
+            )
+            # once done pausing, restore running status
+            MainBlock6.status = STARTED
+        thisExp.nextEntry()
+        
+    # completed 1.0 repeats of 'MainBlock6'
+    MainBlock6.status = FINISHED
     
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now

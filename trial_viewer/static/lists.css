@@ -43,7 +43,7 @@ select {
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: minmax(190px, 1fr) auto minmax(320px, 1.5fr);
+  grid-template-columns: minmax(190px, 1fr) auto auto minmax(320px, 1.5fr);
   align-items: end;
   gap: 16px;
   padding: 16px 24px;
@@ -104,6 +104,39 @@ h3 {
 .page-links a[aria-current="page"] {
   background: rgba(15, 118, 110, 0.24);
   color: var(--teal-dark);
+}
+
+.experiment-tabs {
+  display: inline-flex;
+  gap: 6px;
+  justify-content: center;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.experiment-tab {
+  min-height: 30px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.experiment-tab:hover,
+.experiment-tab[aria-selected="true"] {
+  background: rgba(15, 118, 110, 0.24);
+  color: var(--teal-dark);
+}
+
+.experiment-tab:focus-visible {
+  outline: 2px solid var(--teal-dark);
+  outline-offset: 2px;
 }
 
 .toolbar {
@@ -221,6 +254,10 @@ h3 {
   grid-template-columns: repeat(2, minmax(560px, 1fr));
   gap: 16px;
   min-width: 1140px;
+}
+
+.isolated-board .seq-step {
+  flex-basis: clamp(76px, 6vw, 108px);
 }
 
 .list-column {
@@ -461,6 +498,7 @@ h3 {
   }
 
   .page-links,
+  .experiment-tabs,
   .toolbar {
     justify-content: start;
   }

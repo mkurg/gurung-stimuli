@@ -16,3 +16,6 @@ backups/
 reviews.gz.b64
 reviews.restored-from-screenshots*.json
 trial_viewer/reviews.json
+trigger_test_logs/
+local_site_*.log
+psychopy_gurung_isolated/trigger_logs/

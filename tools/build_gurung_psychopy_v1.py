@@ -37,9 +37,31 @@ TRIAL_PATHS = [
     ("tr_ic", "transitive_incohesive", "incohesive", "transitive", ["ic_1", "tr_target", "end_ic_tr"]),
     ("it_ic", "intransitive_incohesive", "incohesive", "intransitive", ["ic_1", "it_target", "end_ic_it"]),
 ]
+TRIAL_PATH_BY_ID = {condition_id: trial_path for condition_id, *trial_path in TRIAL_PATHS}
+LIST_RULES = {
+    "1": {
+        "1": ["it_coh", "tr_ic"],
+        "2": ["tr_coh", "it_ic"],
+        "3": ["tr_coh", "it_ic"],
+        "4": ["it_coh", "tr_ic"],
+    },
+    "2": {
+        "1": ["tr_coh", "it_ic"],
+        "2": ["it_coh", "tr_ic"],
+        "3": ["it_coh", "tr_ic"],
+        "4": ["tr_coh", "it_ic"],
+    },
+}
+CONDITION_TRIGGERS = {
+    "tr_coh": 1,
+    "tr_ic": 2,
+    "it_coh": 3,
+    "it_ic": 4,
+}
 MAIN_FIELDS = [
     "trial_id",
     "random_order",
+    "experiment_list",
     "dataset_number",
     "dataset_slug",
     "dataset_label",
@@ -48,6 +70,8 @@ MAIN_FIELDS = [
     "condition_name",
     "cohesion",
     "transitivity",
+    "condition_trigger",
+    "item_trigger",
     "n_images",
     "img1",
     "img1_role",
@@ -79,6 +103,7 @@ PRACTICE_FIELDS = [
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 MAIN_STIMULI_MAX_DIMENSION = 900
+JPEG_STIMULI_DIRNAME = "JpegStimuliFullRes"
 BETWEEN_TRIALS_SOURCE = Path("between_trials") / "Nepal 2025"
 BETWEEN_TRIALS_MAX_DIMENSION = 1920
 PRACTICE_STORIES = [
@@ -284,6 +309,47 @@ def scan_dataset_set1(source_root: Path) -> list[dict[str, object]]:
     return datasets
 
 
+def scan_jpeg_stimuli(jpeg_root: Path) -> list[dict[str, object]]:
+    datasets: list[dict[str, object]] = []
+    missing: list[str] = []
+    if not jpeg_root.is_dir():
+        raise FileNotFoundError(f"JPEG stimulus folder not found: {jpeg_root}")
+    for folder in sorted(jpeg_root.iterdir(), key=lambda path: natural_key(path.name)):
+        if not folder.is_dir():
+            continue
+        parsed = parse_dataset_folder(folder)
+        if not parsed:
+            continue
+        number, label = parsed
+        image_paths: dict[tuple[int, str], str] = {}
+        for set_number in range(1, 5):
+            set_folder = folder / str(set_number)
+            if not set_folder.is_dir():
+                missing.append(str(set_folder))
+                continue
+            for stem in EXPECTED_IMAGES:
+                image = set_folder / f"{stem}.jpg"
+                if not image.is_file():
+                    missing.append(str(image))
+                image_paths[(set_number, stem)] = (
+                    f"{JPEG_STIMULI_DIRNAME}/{folder.name}/{set_number}/{stem}.jpg"
+                )
+        datasets.append(
+            {
+                "number": number,
+                "label": label,
+                "slug": f"{number:03d}_{slugify(label)}",
+                "folder": folder,
+                "image_paths": image_paths,
+            }
+        )
+    if missing:
+        raise FileNotFoundError("Missing expected JPEG stimuli:\n" + "\n".join(missing[:80]))
+    if len(datasets) != 30:
+        raise ValueError(f"Expected 30 JPEG stimulus datasets, found {len(datasets)}")
+    return datasets
+
+
 def copy_assets(out_dir: Path, old_dir: Path) -> None:
     audio_dir = out_dir / "Audio"
     stim_dir = out_dir / "Stimuli"
@@ -301,8 +367,9 @@ def copy_assets(out_dir: Path, old_dir: Path) -> None:
         if not audio_path.is_file():
             print(f"Warning: audio probe file missing from package: {audio_path}")
 
+    legacy_stimuli = {"arrow.png", "break.png", "finish.png", "sound.png", "sound.jpg"}
     for path in sorted((old_dir / "old_stimuli").iterdir(), key=lambda item: item.name):
-        if path.is_file():
+        if path.is_file() and path.name in legacy_stimuli:
             shutil.copy2(path, stim_dir / path.name)
 
     probe_source = audio_dir / "tsakyali.wav"
@@ -374,6 +441,13 @@ def copy_or_downsample_image(source: Path, target: Path, max_dimension: int) -> 
             resize_image_with_powershell(source, target, max_dimension)
         except Exception:
             shutil.copy2(source, target)
+
+
+def ensure_practice_jpegs(out_dir: Path) -> None:
+    stim_dir = out_dir / "Stimuli"
+    practice_sources = sorted(stim_dir.glob("practice_*.png")) + sorted(stim_dir.glob("isolated_practice_*.png"))
+    for source in practice_sources:
+        copy_or_downsample_image(source, source.with_suffix(".jpg"), MAIN_STIMULI_MAX_DIMENSION)
 
 
 def copy_main_stimuli(out_dir: Path, datasets: list[dict[str, object]]) -> dict[tuple[int, str], str]:
@@ -465,41 +539,49 @@ def prepare_between_images(out_dir: Path, required_count: int) -> list[str]:
 def build_main_rows(
     datasets: list[dict[str, object]],
     between_images: list[str],
-    main_stimuli: dict[tuple[int, str], str],
+    list_id: str,
 ) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
+    if list_id not in LIST_RULES:
+        raise ValueError(f"Unknown experimental list: {list_id}")
     for dataset in datasets:
         number = int(dataset["number"])
         label = str(dataset["label"])
-        for condition_id, condition_name, cohesion, transitivity, steps in TRIAL_PATHS:
-            row = {
-                "trial_id": f"d{number:03d}_set1_{condition_id}",
-                "random_order": "",
-                "dataset_number": str(number),
-                "dataset_slug": str(dataset["slug"]),
-                "dataset_label": label.replace(" ", "_"),
-                "stimulus_set": "1",
-                "condition_id": condition_id,
-                "condition_name": condition_name,
-                "cohesion": cohesion,
-                "transitivity": transitivity,
-                "n_images": str(len(steps)),
-                "between_image": "",
-                "audio_probe": "0",
-                "between_audio": "",
-                "between_audio_lock_sec": "0",
-                "source_dataset_folder": str(dataset["folder"]),
-            }
-            for index in range(1, 5):
-                row[f"img{index}"] = ""
-                row[f"img{index}_role"] = ""
-            for index, stem in enumerate(steps, start=1):
-                row[f"img{index}"] = main_stimuli[(number, stem)]
-                row[f"img{index}_role"] = stem
-            rows.append(row)
+        image_paths = dataset["image_paths"]
+        for set_number in range(1, 5):
+            set_key = str(set_number)
+            for condition_id in LIST_RULES[list_id][set_key]:
+                condition_name, cohesion, transitivity, steps = TRIAL_PATH_BY_ID[condition_id]
+                item_trigger = ((number - 1) * 4) + set_number
+                row = {
+                    "trial_id": f"d{number:03d}_set{set_number}_{condition_id}_list{list_id}",
+                    "random_order": "",
+                    "experiment_list": list_id,
+                    "dataset_number": str(number),
+                    "dataset_slug": str(dataset["slug"]),
+                    "dataset_label": label.replace(" ", "_"),
+                    "stimulus_set": str(set_number),
+                    "condition_id": condition_id,
+                    "condition_name": condition_name,
+                    "cohesion": cohesion,
+                    "transitivity": transitivity,
+                    "condition_trigger": str(CONDITION_TRIGGERS[condition_id]),
+                    "item_trigger": str(item_trigger),
+                    "n_images": str(len(steps)),
+                    "between_image": "",
+                    "audio_probe": "0",
+                    "between_audio": "",
+                    "between_audio_lock_sec": "0",
+                    "source_dataset_folder": str(dataset["folder"]),
+                }
+                for index in range(1, 5):
+                    row[f"img{index}"] = ""
+                    row[f"img{index}_role"] = ""
+                for index, stem in enumerate(steps, start=1):
+                    row[f"img{index}"] = image_paths[(set_number, stem)]
+                    row[f"img{index}_role"] = stem
+                rows.append(row)
 
-    rng = random.Random(RANDOM_SEED)
-    rng.shuffle(rows)
     if len(between_images) < len(rows):
         raise ValueError(f"Need {len(rows)} unique main between-trial images, got {len(between_images)}")
     for index, (row, between_image) in enumerate(zip(rows, between_images), start=1):
@@ -521,7 +603,7 @@ def build_practice_rows(between_images: list[str]) -> list[dict[str, str]]:
         for image_index in range(1, 5):
             if image_index <= image_count:
                 row[f"img{image_index}"] = (
-                    f"Stimuli/practice_{index:02d}_pic{image_index:02d}_{story_slug}.png"
+                    f"Stimuli/practice_{index:02d}_pic{image_index:02d}_{story_slug}.jpg"
                 )
                 row[f"img{image_index}_role"] = f"practice_{image_index}"
             else:
@@ -564,6 +646,12 @@ except Exception as _gurung_recording_error:
     print("Audio recording is unavailable:", _gurung_recording_error)
 
 try:
+    import serial as _gurung_serial
+except Exception as _gurung_serial_error:
+    _gurung_serial = None
+    print("Serial trigger backend is unavailable:", _gurung_serial_error)
+
+try:
     from PIL import Image as _gurung_Image
     from PIL import ImageOps as _gurung_ImageOps
 except Exception as _gurung_image_import_error:
@@ -603,6 +691,15 @@ G_FULLSCREEN_CACHE = {"stim": None}
 G_BETWEEN_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
 G_BETWEEN_STATE = {"images": [], "index": 0}
 G_MAIN_RUNTIME_STATE = {"prepared": False, "files": []}
+G_TRIGGER_STATE = {
+    "serial": None,
+    "log_path": None,
+    "header_written": False,
+    "pulse_ms": 5.0,
+    "port": "",
+    "serial_status": "not_initialized",
+    "trigger_index": 0,
+}
 G_AUDIO_PROBE_FILES = (
     "Audio/tsakyali.wav",
     "Audio/bucketdog_noerg.wav",
@@ -616,6 +713,7 @@ G_RECORDING_STOP_GRACE_SEC = 0.5
 G_LISTENER_RESPONSE_MIN_SEC = 10.0
 G_LISTENER_RESPONSE_DIRNAME = "listener responses"
 G_MAIN_BLOCK_SIZE = 40
+G_MAIN_BLOCK_COUNT = 6
 G_PRACTICE_TRIAL_COUNT = 10
 G_PRACTICE_PICTURE_AUDIO = {
     1: {
@@ -711,6 +809,26 @@ def g_int(value, default=0):
         return int(float(value))
     except Exception:
         return default
+
+
+def g_bool(value, default=False):
+    if g_is_blank(value):
+        return default
+    text = str(value).strip().lower()
+    if text in {"1", "true", "yes", "y", "on"}:
+        return True
+    if text in {"0", "false", "no", "n", "off"}:
+        return False
+    return default
+
+
+def g_selected_list():
+    value = g_text(expInfo.get("list", "1")).lower().replace("list", "").strip()
+    if value not in {"1", "2"}:
+        g_log(f"invalid_experiment_list {value!r}; using list 1")
+        value = "1"
+    expInfo["list"] = value
+    return value
 
 
 def g_path(value):
@@ -832,16 +950,24 @@ def g_next_between_image():
 def g_prepare_runtime_main_blocks():
     if G_MAIN_RUNTIME_STATE.get("prepared"):
         return
-    rows = list(data.importConditions("Conds/main_all_120.csv"))
+    list_id = g_selected_list()
+    conditions_path = f"Conds/main_list{list_id}_all_240.csv"
+    rows = list(data.importConditions(conditions_path))
     if not rows:
-        raise RuntimeError("No main trials found in Conds/main_all_120.csv")
+        raise RuntimeError(f"No main trials found in {conditions_path}")
+    if len(rows) != G_MAIN_BLOCK_SIZE * G_MAIN_BLOCK_COUNT:
+        raise RuntimeError(
+            f"Expected {G_MAIN_BLOCK_SIZE * G_MAIN_BLOCK_COUNT} main trials in {conditions_path}, found {len(rows)}"
+        )
     _gurung_random.shuffle(rows)
     g_assign_runtime_audio_probes(rows)
     fieldnames = list(rows[0].keys())
     block_files = []
     block_sizes = []
-    for block_index in range(3):
-        block_rows = rows[block_index * 40 : (block_index + 1) * 40]
+    for block_index in range(G_MAIN_BLOCK_COUNT):
+        block_rows = rows[
+            block_index * G_MAIN_BLOCK_SIZE : (block_index + 1) * G_MAIN_BLOCK_SIZE
+        ]
         block_sizes.append(len(block_rows))
         block_path = G_DATA_DIR / f"runtime_main_block{block_index + 1}.csv"
         with block_path.open("w", newline="", encoding="utf-8") as handle:
@@ -852,7 +978,7 @@ def g_prepare_runtime_main_blocks():
         block_files.append(str(block_path))
     G_MAIN_RUNTIME_STATE["files"] = block_files
     G_MAIN_RUNTIME_STATE["prepared"] = True
-    g_log(f"runtime_main_sequences_shuffled count={len(rows)} block_sizes={block_sizes}")
+    g_log(f"runtime_main_sequences_shuffled list={list_id} count={len(rows)} block_sizes={block_sizes}")
 
 
 def g_assign_runtime_audio_probes(rows):
@@ -916,10 +1042,40 @@ def g_safe(value):
     return text.strip("._") or "item"
 
 
+def g_participant_tag():
+    return g_safe(expInfo.get("participant", "participant"))
+
+
+def g_list_tag():
+    return f"l{g_selected_list()}"
+
+
+def g_transitivity_tag(value):
+    text = g_text(value).lower()
+    if text.startswith("tr") or text == "transitive":
+        return "tr"
+    if text.startswith("it") or text.startswith("itr") or text == "intransitive":
+        return "it"
+    return g_safe(text or "unknown")
+
+
+def g_practice_stem(trial_index, picture_index):
+    return f"{g_participant_tag()}_practice_{int(trial_index):02d}_pic{int(picture_index):02d}"
+
+
+def g_discourse_main_stem(trial_index, dataset_number, condition_id, picture_index, role):
+    return (
+        f"{g_participant_tag()}_main_{g_list_tag()}_trial{int(trial_index):03d}_"
+        f"imageset{int(dataset_number):02d}_cond_{g_safe(condition_id)}_"
+        f"pic{int(picture_index):02d}_{g_safe(role)}"
+    )
+
+
 def g_session_recordings_dir():
-    participant = g_safe(expInfo.get("participant", "participant"))
+    participant = g_participant_tag()
+    list_tag = g_list_tag()
     date_value = g_safe(expInfo.get("date") or expInfo.get("date|hid") or data.getDateStr())
-    folder = G_RECORDINGS_ROOT / f"{participant}_{date_value}"
+    folder = G_RECORDINGS_ROOT / f"{participant}_{list_tag}_{date_value}"
     folder.mkdir(parents=True, exist_ok=True)
     (folder / G_LISTENER_RESPONSE_DIRNAME).mkdir(parents=True, exist_ok=True)
     expInfo["recordings_dir"] = str(folder)
@@ -928,16 +1084,19 @@ def g_session_recordings_dir():
 
 
 def g_listener_practice_stem(trial_index):
-    participant = g_safe(expInfo.get("participant", "participant"))
+    participant = g_participant_tag()
     return f"{participant}_listener_practice_trial{int(trial_index):02d}"
 
 
 def g_listener_main_stem(trial_info):
-    participant = g_safe(expInfo.get("participant", "participant"))
+    participant = g_participant_tag()
     trial_index = g_int((trial_info or {}).get("trial_index", 0), 0)
     dataset_number = g_int((trial_info or {}).get("dataset_number", 0), 0)
     condition_id = g_safe(g_text((trial_info or {}).get("condition_id", "unknown_condition")))
-    return f"{participant}_listener_main_trial{trial_index:03d}_imageset{dataset_number:02d}_condition_{condition_id}"
+    return (
+        f"{participant}_listener_main_{g_list_tag()}_trial{trial_index:03d}_"
+        f"imageset{dataset_number:02d}_cond_{condition_id}"
+    )
 
 
 def g_roles_and_paths():
@@ -1061,6 +1220,181 @@ def g_play_audio(path_value):
     audio = sound.Sound(path)
     audio.play()
     return audio
+
+
+def g_init_trigger_log(recordings_dir):
+    log_path = Path(recordings_dir) / "eeg_triggers.csv"
+    G_TRIGGER_STATE["log_path"] = log_path
+    G_TRIGGER_STATE["header_written"] = False
+    g_write_trigger_log_header()
+    g_init_serial_trigger()
+
+
+def g_write_trigger_log_header():
+    log_path = G_TRIGGER_STATE.get("log_path")
+    if not log_path or G_TRIGGER_STATE.get("header_written"):
+        return
+    try:
+        with Path(log_path).open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(
+                handle,
+                fieldnames=[
+                    "trigger_index",
+                    "core_time",
+                    "trigger_code",
+                    "label",
+                    "send_mode",
+                    "serial_port",
+                    "serial_status",
+                    "serial_sent",
+                    "pulse_ms",
+                    "details",
+                ],
+                lineterminator="\n",
+            )
+            writer.writeheader()
+        G_TRIGGER_STATE["header_written"] = True
+    except Exception as err:
+        g_log(f"trigger_log_header_failed {err}")
+
+
+def g_init_serial_trigger():
+    port = g_text(expInfo.get("eeg_port", ""))
+    pulse_ms = g_float(expInfo.get("trigger_pulse_ms", 5), 5.0)
+    G_TRIGGER_STATE["pulse_ms"] = max(0.0, pulse_ms)
+    G_TRIGGER_STATE["port"] = port
+    G_TRIGGER_STATE["trigger_index"] = 0
+    if not port:
+        G_TRIGGER_STATE["serial_status"] = "disabled_blank_port"
+        g_log("trigger_serial_disabled blank_eeg_port")
+        return
+    if _gurung_serial is None:
+        G_TRIGGER_STATE["serial_status"] = "unavailable_missing_pyserial"
+        g_log("trigger_serial_unavailable missing_pyserial")
+        return
+    try:
+        serial_port = _gurung_serial.Serial(port=port, baudrate=115200, timeout=0)
+        G_TRIGGER_STATE["serial"] = serial_port
+        G_TRIGGER_STATE["serial_status"] = "open"
+        g_log(f"trigger_serial_opened port={port} pulse_ms={G_TRIGGER_STATE['pulse_ms']}")
+    except Exception as err:
+        G_TRIGGER_STATE["serial"] = None
+        G_TRIGGER_STATE["serial_status"] = "open_failed"
+        g_log(f"trigger_serial_open_failed port={port} err={err}")
+
+
+def g_close_serial_trigger():
+    serial_port = G_TRIGGER_STATE.get("serial")
+    G_TRIGGER_STATE["serial"] = None
+    if serial_port is None:
+        return
+    try:
+        serial_port.write(bytes([0]))
+    except Exception:
+        pass
+    try:
+        serial_port.close()
+        G_TRIGGER_STATE["serial_status"] = "closed"
+        g_log("trigger_serial_closed")
+    except Exception as err:
+        G_TRIGGER_STATE["serial_status"] = "close_failed"
+        g_log(f"trigger_serial_close_failed {err}")
+
+
+def g_log_trigger(code, label="", send_mode="immediate", serial_sent=False, details=""):
+    log_path = G_TRIGGER_STATE.get("log_path")
+    if not log_path:
+        return
+    try:
+        g_write_trigger_log_header()
+        G_TRIGGER_STATE["trigger_index"] = int(G_TRIGGER_STATE.get("trigger_index", 0)) + 1
+        with Path(log_path).open("a", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(
+                handle,
+                fieldnames=[
+                    "trigger_index",
+                    "core_time",
+                    "trigger_code",
+                    "label",
+                    "send_mode",
+                    "serial_port",
+                    "serial_status",
+                    "serial_sent",
+                    "pulse_ms",
+                    "details",
+                ],
+                lineterminator="\n",
+            )
+            writer.writerow(
+                {
+                    "trigger_index": G_TRIGGER_STATE["trigger_index"],
+                    "core_time": f"{core.getTime():.6f}",
+                    "trigger_code": int(code),
+                    "label": g_text(label),
+                    "send_mode": g_text(send_mode),
+                    "serial_port": g_text(G_TRIGGER_STATE.get("port", "")),
+                    "serial_status": g_text(G_TRIGGER_STATE.get("serial_status", "")),
+                    "serial_sent": "1" if serial_sent else "0",
+                    "pulse_ms": f"{g_float(G_TRIGGER_STATE.get('pulse_ms', 0), 0.0):.3f}",
+                    "details": details,
+                }
+            )
+    except Exception as err:
+        g_log(f"trigger_log_write_failed {err}")
+
+
+def g_send_trigger(code, label="", send_mode="immediate"):
+    code = g_int(code, 0)
+    if code <= 0 or code > 255:
+        g_log(f"trigger_invalid code={code} label={label}")
+        g_log_trigger(code, label, send_mode=send_mode, serial_sent=False, details="invalid_code")
+        return
+    serial_port = G_TRIGGER_STATE.get("serial")
+    serial_sent = False
+    details = g_text(G_TRIGGER_STATE.get("serial_status", ""))
+    if serial_port is not None:
+        try:
+            serial_port.write(bytes([code]))
+            serial_port.flush()
+            pulse_sec = max(0.0, g_float(G_TRIGGER_STATE.get("pulse_ms", 5.0), 5.0) / 1000.0)
+            if pulse_sec:
+                core.wait(pulse_sec)
+            serial_port.write(bytes([0]))
+            serial_port.flush()
+            serial_sent = True
+            details = "serial_sent"
+        except Exception as err:
+            details = f"serial_error={err}"
+            G_TRIGGER_STATE["serial_status"] = "send_failed"
+            g_log(f"trigger_serial_send_failed code={code} label={label} err={err}")
+    g_log_trigger(code, label, send_mode=send_mode, serial_sent=serial_sent, details=details)
+    g_log(f"trigger code={code} label={label} mode={send_mode} serial_sent={serial_sent} details={details}")
+
+
+def g_trigger_on_flip(code, label=""):
+    try:
+        win.callOnFlip(g_send_trigger, code, label, "on_flip")
+    except Exception as err:
+        g_log(f"trigger_call_on_flip_failed code={code} label={label} err={err}")
+        g_send_trigger(code, label, "on_flip_fallback")
+
+
+def g_mark_clock_started(state):
+    state["started"] = True
+    state["core_time"] = core.getTime()
+
+
+def g_discourse_segment_trigger(roles, segment_index):
+    target_index = int(g_target_index(roles))
+    if segment_index < target_index - 1:
+        return 198
+    if segment_index == target_index - 1:
+        return 199
+    if segment_index == target_index:
+        return 200
+    if segment_index > target_index:
+        return 201
+    return 0
 
 
 class GRecorder:
@@ -1608,9 +1942,14 @@ def g_cleanup(wait_for_post_pad=True):
         G_RECORDER.finalize(wait_for_post_pad=wait_for_post_pad)
     except Exception as err:
         g_log(f"Recorder cleanup failed: {err}")
+    try:
+        g_close_serial_trigger()
+    except Exception as err:
+        g_log(f"Trigger cleanup failed: {err}")
 
 
 G_RECORDINGS_DIR = g_session_recordings_dir()
+g_init_trigger_log(G_RECORDINGS_DIR)
 G_RECORDER = GRecorder(G_RECORDINGS_DIR)
 
 
@@ -1785,7 +2124,7 @@ if practice_phase == "between":
             practice_segment_audio_value = g_practice_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment)
             practice_segment_audio_started = False
             practice_segment_audio_lock = 0.0
-            practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
+            practice_stem = g_practice_stem(G_PRACTICE_TRIAL_INDEX, practice_segment + 1)
             G_RECORDER.start(practice_stem)
         event.clearEvents()
 elif practice_phase == "segment":
@@ -1840,7 +2179,7 @@ elif practice_phase == "segment":
                 practice_segment_audio_value = g_practice_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment)
                 practice_segment_audio_started = False
                 practice_segment_audio_lock = 0.0
-                practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
+                practice_stem = g_practice_stem(G_PRACTICE_TRIAL_INDEX, practice_segment + 1)
                 G_RECORDER.start(practice_stem)
         event.clearEvents()
 elif practice_phase == "practice_audio":
@@ -1853,7 +2192,7 @@ elif practice_phase == "practice_audio":
         practice_segment_audio_value = g_practice_picture_audio(G_PRACTICE_TRIAL_INDEX, practice_segment)
         practice_segment_audio_started = False
         practice_segment_audio_lock = 0.0
-        practice_stem = f"{expInfo['participant']}_practice_{G_PRACTICE_TRIAL_INDEX:02d}_pic{practice_segment + 1:02d}_{practice_roles[practice_segment]}"
+        practice_stem = g_practice_stem(G_PRACTICE_TRIAL_INDEX, practice_segment + 1)
         G_RECORDER.start(practice_stem)
         event.clearEvents()
 elif practice_phase == "practice_after_between":
@@ -1951,19 +2290,30 @@ main_between_audio_value = g_text(globals().get("between_audio", ""))
 main_audio_lock = g_float(globals().get("between_audio_lock_sec", 0), 0.0)
 main_dataset_number = g_int(globals().get("dataset_number", 0), 0)
 main_condition_id = g_text(globals().get("condition_id", "unknown_condition"))
+main_stimulus_set = g_int(globals().get("stimulus_set", 0), 0)
+main_condition_trigger = g_int(globals().get("condition_trigger", 0), 0)
+main_item_trigger = g_int(globals().get("item_trigger", 0), 0)
 main_listener_reference = dict(G_LAST_MAIN_TRIAL_INFO) if G_LAST_MAIN_TRIAL_INFO else {}
 main_between_audio_duration = 0.0
 main_between_audio_done = not bool(main_between_audio_value)
 main_listener_clock = core.Clock()
 main_listener_audio_file = ""
+main_target_index = int(g_target_index(main_roles))
+main_target_clock = core.Clock()
+main_target_state = {"started": False, "condition_sent": False, "item_sent": False}
+main_segment_trigger_scheduled = False
 if main_between_audio_value:
     main_between_audio = g_play_audio(main_between_audio_value)
     main_between_audio_duration = g_float(main_between_audio.getDuration() if main_between_audio else 0, 0.0)
 main_between_clock.reset()
 thisExp.addData("main_trial_index", G_MAIN_TRIAL_INDEX)
+thisExp.addData("experiment_list", g_selected_list())
 thisExp.addData("between_image", g_path(main_between_image))
 thisExp.addData("audio_probe", audio_probe)
 thisExp.addData("between_audio", g_path(main_between_audio_value) if main_between_audio_value else "")
+thisExp.addData("stimulus_set", main_stimulus_set)
+thisExp.addData("condition_trigger", main_condition_trigger)
+thisExp.addData("item_trigger", main_item_trigger)
 event.clearEvents()
 '''
 
@@ -2011,27 +2361,67 @@ if main_phase == "between":
         main_placeholder = None
         main_images, main_arrows = g_make_sequence(win, main_roles, main_paths)
         main_phase = "segment"
-        main_stem = f"{expInfo['participant']}_main_trial{G_MAIN_TRIAL_INDEX:03d}_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
+        main_stem = g_discourse_main_stem(
+            G_MAIN_TRIAL_INDEX,
+            main_dataset_number,
+            main_condition_id,
+            main_segment + 1,
+            main_roles[main_segment],
+        )
         G_RECORDER.start(main_stem)
+        main_segment_trigger_scheduled = False
         event.clearEvents()
 elif main_phase == "segment":
     g_draw_sequence(main_images, main_arrows, main_segment + 1)
-    G_RECORDER.mark_onset_on_flip()
+    if not main_segment_trigger_scheduled:
+        G_RECORDER.mark_onset_on_flip()
+        main_segment_trigger = g_discourse_segment_trigger(main_roles, main_segment)
+        if main_segment_trigger:
+            g_trigger_on_flip(
+                main_segment_trigger,
+                f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_set{main_stimulus_set}_seg{main_segment + 1}_{main_roles[main_segment]}",
+            )
+        if main_segment == main_target_index:
+            win.callOnFlip(main_target_clock.reset)
+            win.callOnFlip(g_mark_clock_started, main_target_state)
+        main_segment_trigger_scheduled = True
+    if main_target_state.get("started"):
+        if (not main_target_state.get("condition_sent")) and main_target_clock.getTime() >= 0.200:
+            g_send_trigger(
+                main_condition_trigger,
+                f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_condition_{main_condition_id}",
+            )
+            main_target_state["condition_sent"] = True
+        if (not main_target_state.get("item_sent")) and main_target_clock.getTime() >= 0.400:
+            g_send_trigger(
+                main_item_trigger,
+                f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_item{main_item_trigger:03d}",
+            )
+            main_target_state["item_sent"] = True
     keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
     key_names = g_key_names(keys)
     if "escape" in key_names:
         g_abort_and_quit()
-    if "space" in key_names:
+    main_can_advance_segment = main_segment != main_target_index or main_target_state.get("item_sent")
+    if "space" in key_names and main_can_advance_segment:
         audio_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
         seg = main_segment + 1
         thisExp.addData(f"seg{seg}_role", main_roles[main_segment])
         thisExp.addData(f"seg{seg}_audio", audio_file)
         if main_segment >= len(main_images) - 1:
+            g_send_trigger(202, f"discourse_trial{G_MAIN_TRIAL_INDEX:03d}_end")
             continueRoutine = False
         else:
             main_segment += 1
-            main_stem = f"{expInfo['participant']}_main_trial{G_MAIN_TRIAL_INDEX:03d}_imageset{main_dataset_number:02d}_condition_{main_condition_id}_pic{main_segment + 1:02d}_{main_roles[main_segment]}"
+            main_stem = g_discourse_main_stem(
+                G_MAIN_TRIAL_INDEX,
+                main_dataset_number,
+                main_condition_id,
+                main_segment + 1,
+                main_roles[main_segment],
+            )
             G_RECORDER.start(main_stem)
+            main_segment_trigger_scheduled = False
         event.clearEvents()
 '''
 
@@ -2219,7 +2609,10 @@ def patch_settings(settings: ET.Element) -> None:
         if name == "expName":
             param.set("val", "gurung_120_v1")
         elif name == "Experiment info":
-            param.set("val", "{'participant': 'f\"{randint(0, 999999):06.0f}\"', 'session': '001'}")
+            param.set(
+                "val",
+                "{'participant': 'f\"{randint(0, 999999):06.0f}\"', 'session': '001', 'list': '1', 'eeg_port': '', 'trigger_pulse_ms': '5'}",
+            )
             param.set("valType", "code")
         elif name == "color":
             param.set("val", "$(1.0000, 1.0000, 1.0000)")
@@ -2286,17 +2679,12 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
     ET.SubElement(flow, "Routine", name="PracticeTrial")
     ET.SubElement(flow, "LoopTerminator", name="PracticeLoop")
     ET.SubElement(flow, "Routine", name="PracticeEnd")
-    loop_initiator(flow, "MainBlock1", "$g_runtime_main_block_file(1)", loop_type="sequential")
-    ET.SubElement(flow, "Routine", name="MainTrial")
-    ET.SubElement(flow, "LoopTerminator", name="MainBlock1")
-    ET.SubElement(flow, "Routine", name="Break")
-    loop_initiator(flow, "MainBlock2", "$g_runtime_main_block_file(2)", loop_type="sequential")
-    ET.SubElement(flow, "Routine", name="MainTrial")
-    ET.SubElement(flow, "LoopTerminator", name="MainBlock2")
-    ET.SubElement(flow, "Routine", name="Break")
-    loop_initiator(flow, "MainBlock3", "$g_runtime_main_block_file(3)", loop_type="sequential")
-    ET.SubElement(flow, "Routine", name="MainTrial")
-    ET.SubElement(flow, "LoopTerminator", name="MainBlock3")
+    for block_index in range(1, 7):
+        loop_initiator(flow, f"MainBlock{block_index}", f"$g_runtime_main_block_file({block_index})", loop_type="sequential")
+        ET.SubElement(flow, "Routine", name="MainTrial")
+        ET.SubElement(flow, "LoopTerminator", name=f"MainBlock{block_index}")
+        if block_index < 6:
+            ET.SubElement(flow, "Routine", name="Break")
     ET.SubElement(flow, "Routine", name="EndExperiment")
 
     ET.indent(root, space="  ")
@@ -2306,36 +2694,31 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
 
 
 def write_readme(out_dir: Path, source_root: Path) -> None:
-    text = f"""# Gurung PsychoPy 120-Trial First Draft
+    text = f"""# Gurung PsychoPy Discourse Experiment
 
-This is a first Builder-compatible draft based on the design described on 2026-06-06.
+This is the Builder-compatible discourse experiment.
 
-- Stimulus source: set/folder `1` from the Gurung trial viewer data.
-- Main trials: 30 datasets x 4 conditions = 120 trials.
-- Trial order: practice runs in CSV order; main picture sequences are shuffled as one 120-trial list at runtime, then split into 40/40/40 for the breaks.
-- Breaks: after trials 40 and 80.
+- Main picture stimuli are the committed JPEGs under `{JPEG_STIMULI_DIRNAME}/`.
+- At the start dialog, choose experimental `list` 1 or 2. Each list has 240 picture-sequence trials.
+- Trial order: practice runs in CSV order; the selected main list is shuffled at runtime on every run, then split into 40/40/40/40/40/40 for the breaks.
+- Breaks: after trials 40, 80, 120, 160, and 200.
 - Between-trial images: unique landscape photos sampled from `{BETWEEN_TRIALS_SOURCE}` and copied into `BetweenTrials/`; practice uses its assigned CSV images except for the speaker-icon screen after practice sequence 2, the extra practice-end probe uses one more Nepal image, and main images are shuffled at runtime without reusing practice images.
 - Between-trial audio probes: 10% of main trials are selected at runtime; `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav` each occur on one third of those trials; the first main Nepal screen after practice or any break can never be an audio-probe screen.
+- EEG triggers are logged to `recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv`. If `eeg_port` is filled in, the same trigger codes are also sent as single-byte serial pulses using `trigger_pulse_ms` as pulse duration.
+- Discourse trigger codes: optional early pre-target picture 198, picture before target 199, target picture 200, condition 1-4 at 200 ms after target onset, item 1-120 at 400 ms after target onset, optional post-target picture 201, trial-end button press 202.
 - Practice fixed audio probes: after practice sequence 2, the experiment plays `Audio/practice_end.wav` on the centered speaker-icon screen; after practice sequences 4, 7, and 10, it plays `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav`, respectively, on Nepal-image screens.
 - Speaker-icon audio screens can be replayed with Enter and can advance with Space even before the current playback finishes; the first instruction audio starts only after Space is pressed.
 - Nepal-image audio probes are treated as listener questions: the audio plays first, then listener-response recording starts automatically; Space ends the response and advances only after at least 10 seconds of recording.
 - Practice uses the numbered practice-story images in CSV order. Stories 1 and 2 start `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav` simultaneously with pictures 1, 2, and 3; stories 3-10 play `Audio/tsakyali.wav` before the last picture.
 - Breaks show `Stimuli/break.png`; space is locked for 30 seconds.
-- Main recordings are named with runtime main-trial number, image set, condition, and picture identifier.
-- Practice recordings are named with practice trial number and picture number.
-- Listener-response recordings are stored in `recordings/<participant>_<date-time>/listener responses/`; main listener filenames include participant, `listener`, runtime main-trial number, image set, and condition for the trial immediately before the question.
-- Microphone recordings are stored in `recordings/<participant>_<date-time>/` for each run.
+- Main recordings are named with runtime main-trial number, list tag, image set, `cond`, and picture identifier.
+- Practice recordings are named with participant, practice trial number, and picture number, for example `arrate_practice_08_pic02.wav`.
+- Listener-response recordings are stored in `recordings/<participant>_l<list>_<date-time>/listener responses/`; main listener filenames include participant, `listener`, list tag, runtime main-trial number, image set, and `cond` for the trial immediately before the question.
+- Microphone recordings are stored in `recordings/<participant>_l<list>_<date-time>/` for each run.
 - Each recordings folder now also contains a continuous raw `full_session.wav`, `recording_events.csv`, and `recording_segments.csv`. The old per-picture response WAV files are still written with the same names, but they are clipped from the continuous recording using logged picture-onset and space-press sample indices, with a 0.5-second post-space tail.
-- Main PNGs are local packaged copies in `MainStimuli/`, downsampled to max `{MAIN_STIMULI_MAX_DIMENSION}px on the long edge. This avoids loading trial textures from the Google Drive cloud-storage mount during the run.
 - All sequence pictures use the same on-screen size across 3- and 4-picture trials; each sequence row is group-centered with horizontal jitter capped at 30% of the picture width.
 
 Open `gurung_120_v1.psyexp` in PsychoPy Builder.
-
-Source root used:
-
-```text
-{source_root}
-```
 
 The main trial routine uses a Code Component because trials may contain either 3 or 4 images.
 """
@@ -2351,7 +2734,7 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     preserved_dirs: dict[str, Path] = {}
     if out_dir.exists() and args.clean:
         preserve_root = Path(tempfile.mkdtemp(prefix="gurung_psychopy_preserve_"))
-        for dirname in ("Audio", "data", "recordings"):
+        for dirname in ("Audio", "data", "recordings", "Stimuli", JPEG_STIMULI_DIRNAME):
             source = out_dir / dirname
             if source.exists():
                 target = preserve_root / dirname
@@ -2361,21 +2744,26 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     out_dir.mkdir(parents=True, exist_ok=True)
     for dirname, source in preserved_dirs.items():
         shutil.move(str(source), str(out_dir / dirname))
-    datasets = scan_dataset_set1(source_root)
     copy_assets(out_dir, old_dir)
-    main_stimuli = copy_main_stimuli(out_dir, datasets)
+    ensure_practice_jpegs(out_dir)
+    datasets = scan_jpeg_stimuli(out_dir / JPEG_STIMULI_DIRNAME)
 
-    required_between_count = PRACTICE_TRIAL_COUNT + PRACTICE_EXTRA_BETWEEN_COUNT + (len(datasets) * len(TRIAL_PATHS))
+    main_trials_per_list = len(datasets) * 4 * 2
+    required_between_count = PRACTICE_TRIAL_COUNT + PRACTICE_EXTRA_BETWEEN_COUNT + main_trials_per_list
     between_images = prepare_between_images(out_dir, required_between_count)
     practice_between_images = between_images[:PRACTICE_TRIAL_COUNT]
     main_between_images = between_images[PRACTICE_TRIAL_COUNT:]
-    main_rows = build_main_rows(datasets, main_between_images, main_stimuli)
+    main_rows_by_list = {
+        list_id: build_main_rows(datasets, main_between_images, list_id)
+        for list_id in sorted(LIST_RULES)
+    }
     practice_rows = build_practice_rows(practice_between_images)
     conds = out_dir / "Conds"
-    write_csv(conds / "main_all_120.csv", main_rows, MAIN_FIELDS)
-    for block_index in range(3):
-        block_rows = main_rows[block_index * 40 : (block_index + 1) * 40]
-        write_csv(conds / f"main_block{block_index + 1}.csv", block_rows, MAIN_FIELDS)
+    for list_id, main_rows in main_rows_by_list.items():
+        write_csv(conds / f"main_list{list_id}_all_240.csv", main_rows, MAIN_FIELDS)
+        for block_index in range(6):
+            block_rows = main_rows[block_index * 40 : (block_index + 1) * 40]
+            write_csv(conds / f"main_list{list_id}_block{block_index + 1}.csv", block_rows, MAIN_FIELDS)
     write_csv(conds / "practice.csv", practice_rows, PRACTICE_FIELDS)
     psyexp = build_psyexp(out_dir, template)
     write_readme(out_dir, source_root)
@@ -2384,18 +2772,18 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "out_dir": str(out_dir),
         "psyexp": str(psyexp),
-        "source_root": str(source_root),
+        "jpeg_stimuli_root": str(out_dir / JPEG_STIMULI_DIRNAME),
         "random_seed": RANDOM_SEED,
-        "main_trials": len(main_rows),
+        "main_trials_per_list": main_trials_per_list,
+        "experimental_lists": sorted(LIST_RULES),
         "practice_trials": len(practice_rows),
-        "runtime_audio_probe_trials": int(round(len(main_rows) * AUDIO_PROBE_RATE)),
+        "runtime_audio_probe_trials_per_list": int(round(main_trials_per_list * AUDIO_PROBE_RATE)),
         "runtime_audio_probe_files": AUDIO_PROBE_FILES,
         "between_trial_images": len(between_images),
         "between_trial_source": str(BETWEEN_TRIALS_SOURCE),
         "between_trial_max_dimension": BETWEEN_TRIALS_MAX_DIMENSION,
-        "main_stimuli_images": len(main_stimuli),
-        "main_stimuli_max_dimension": MAIN_STIMULI_MAX_DIMENSION,
-        "blocks": [40, 40, 40],
+        "jpeg_stimuli_images": len(datasets) * 4 * len(EXPECTED_IMAGES),
+        "blocks_per_list": [40, 40, 40, 40, 40, 40],
     }
     (out_dir / "package_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     return manifest

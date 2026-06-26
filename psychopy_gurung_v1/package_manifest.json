@@ -1,18 +1,29 @@
 {
-  "generated_at": "2026-06-06T22:01:38",
-  "out_dir": "/Users/matveikurzukov/gurung/psychopy_gurung_v1",
-  "psyexp": "/Users/matveikurzukov/gurung/psychopy_gurung_v1/gurung_120_v1.psyexp",
-  "source_root": "/Users/matveikurzukov/Library/CloudStorage/GoogleDrive-apazent@gmail.com/.shortcut-targets-by-id/1exBA-7XrpLfZc6s8oGNYTbmjGsu5dT6p/Gurung stimuli",
+  "generated_at": "2026-06-26T21:11:51",
+  "out_dir": "C:\\Users\\Sofya\\Documents\\Discourse part\\gurung-stimuli\\psychopy_gurung_v1",
+  "psyexp": "C:\\Users\\Sofya\\Documents\\Discourse part\\gurung-stimuli\\psychopy_gurung_v1\\gurung_120_v1.psyexp",
+  "jpeg_stimuli_root": "C:\\Users\\Sofya\\Documents\\Discourse part\\gurung-stimuli\\psychopy_gurung_v1\\JpegStimuliFullRes",
   "random_seed": 20260606,
-  "main_trials": 120,
+  "main_trials_per_list": 240,
+  "experimental_lists": [
+    "1",
+    "2"
+  ],
   "practice_trials": 10,
-  "audio_probe_trials": 12,
-  "between_trial_images": 131,
-  "between_trial_source": "between_trials/Nepal 2025",
+  "runtime_audio_probe_trials_per_list": 24,
+  "runtime_audio_probe_files": [
+    "Audio/tsakyali.wav",
+    "Audio/bucketdog_noerg.wav",
+    "Audio/chickencorn_erg.wav"
+  ],
+  "between_trial_images": 251,
+  "between_trial_source": "between_trials\\Nepal 2025",
   "between_trial_max_dimension": 1920,
-  "main_stimuli_images": 240,
-  "main_stimuli_max_dimension": 900,
-  "blocks": [
+  "jpeg_stimuli_images": 960,
+  "blocks_per_list": [
+    40,
+    40,
+    40,
     40,
     40,
     40
