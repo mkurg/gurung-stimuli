@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2026.1.3),
-    on June 27, 2026, at 00:35
+    on June 27, 2026, at 11:52
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -135,7 +135,7 @@ def setupData(expInfo, dataDir=None):
     thisExp = data.ExperimentHandler(
         name=expName, version=expVersion,
         extraInfo=expInfo, runtimeInfo=None,
-        originPath='psychopy_gurung_isolated\\gurung_isolated_v1_lastrun.py',
+        originPath='C:\\Users\\Sofya\\Documents\\Discourse part\\gurung-stimuli\\psychopy_gurung_isolated\\gurung_isolated_v1_lastrun.py',
         savePickle=True, saveWideText=True,
         dataFileName=dataDir + os.sep + filename, sortColumns='time'
     )
@@ -1939,6 +1939,76 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
     
+    # --- Initialize components for Routine "PostRestEyesOpenPrompt" ---
+    PostRestEyesOpenPrompt_keep_alive = visual.ImageStim(
+        win=win,
+        name='PostRestEyesOpenPrompt_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "PostRestEyesOpen" ---
+    PostRestEyesOpen_keep_alive = visual.ImageStim(
+        win=win,
+        name='PostRestEyesOpen_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "RestBeep" ---
+    RestBeep_keep_alive = visual.ImageStim(
+        win=win,
+        name='RestBeep_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "PostRestEyesClosedPrompt" ---
+    PostRestEyesClosedPrompt_keep_alive = visual.ImageStim(
+        win=win,
+        name='PostRestEyesClosedPrompt_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "PostRestEyesClosed" ---
+    PostRestEyesClosed_keep_alive = visual.ImageStim(
+        win=win,
+        name='PostRestEyesClosed_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "RestBeep" ---
+    RestBeep_keep_alive = visual.ImageStim(
+        win=win,
+        name='RestBeep_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "PostRestReadyPrompt" ---
+    PostRestReadyPrompt_keep_alive = visual.ImageStim(
+        win=win,
+        name='PostRestReadyPrompt_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
     # create some handy timers
     
     # global clock to track the time since experiment started
@@ -2117,10 +2187,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     rest_blank_label = "rest_eyes_open"
+    rest_blank_trigger_code = 150
     rest_blank_clock = core.Clock()
     rest_blank_finish_trigger_sent = False
     thisExp.addData(f"{rest_blank_label}_start_core_time", core.getTime())
-    g_trigger_on_flip(150, f"{rest_blank_label}_start")
+    g_trigger_on_flip(rest_blank_trigger_code, f"{rest_blank_label}_start")
     event.clearEvents()
     
     # store start times for RestEyesOpen
@@ -2180,7 +2251,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             g_abort_and_quit()
         if "space" in keys or rest_blank_clock.getTime() >= G_REST_DURATION_SEC:
             if not rest_blank_finish_trigger_sent:
-                g_send_trigger(150, f"{rest_blank_label}_finish")
+                g_send_trigger(rest_blank_trigger_code, f"{rest_blank_label}_finish")
                 rest_blank_finish_trigger_sent = True
             thisExp.addData(f"{rest_blank_label}_duration", rest_blank_clock.getTime())
             thisExp.addData(f"{rest_blank_label}_ended_by", "space" if "space" in keys else "timeout")
@@ -2505,10 +2576,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     rest_blank_label = "rest_eyes_closed"
+    rest_blank_trigger_code = 150
     rest_blank_clock = core.Clock()
     rest_blank_finish_trigger_sent = False
     thisExp.addData(f"{rest_blank_label}_start_core_time", core.getTime())
-    g_trigger_on_flip(150, f"{rest_blank_label}_start")
+    g_trigger_on_flip(rest_blank_trigger_code, f"{rest_blank_label}_start")
     event.clearEvents()
     
     # store start times for RestEyesClosed
@@ -2568,7 +2640,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             g_abort_and_quit()
         if "space" in keys or rest_blank_clock.getTime() >= G_REST_DURATION_SEC:
             if not rest_blank_finish_trigger_sent:
-                g_send_trigger(150, f"{rest_blank_label}_finish")
+                g_send_trigger(rest_blank_trigger_code, f"{rest_blank_label}_finish")
                 rest_blank_finish_trigger_sent = True
             thisExp.addData(f"{rest_blank_label}_duration", rest_blank_clock.getTime())
             thisExp.addData(f"{rest_blank_label}_ended_by", "space" if "space" in keys else "timeout")
@@ -4112,6 +4184,919 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     thisExp.addData('EndExperiment.stopped', EndExperiment.tStop)
     thisExp.nextEntry()
     # the Routine "EndExperiment" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # --- Prepare to start Routine "PostRestEyesOpenPrompt" ---
+    # create an object to store info about Routine PostRestEyesOpenPrompt
+    PostRestEyesOpenPrompt = data.Routine(
+        name='PostRestEyesOpenPrompt',
+        components=[PostRestEyesOpenPrompt_keep_alive],
+    )
+    PostRestEyesOpenPrompt.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from post_rest_open_prompt_code
+    
+    win.color = "white"
+    rest_prompt_label = "post_rest_eyes_open"
+    rest_prompt_audio_value = "Audio/probe_placeholder.wav"
+    rest_prompt_icon = visual.ImageStim(win, image=g_path("Stimuli/eyes_open.png"), pos=(0, 0), size=(0.44, 0.44), interpolate=True)
+    rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
+    rest_prompt_clock = core.Clock()
+    thisExp.addData(f"{rest_prompt_label}_prompt_audio", g_path(rest_prompt_audio_value))
+    event.clearEvents()
+    
+    # store start times for PostRestEyesOpenPrompt
+    PostRestEyesOpenPrompt.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    PostRestEyesOpenPrompt.tStart = globalClock.getTime(format='float')
+    PostRestEyesOpenPrompt.status = STARTED
+    thisExp.addData('PostRestEyesOpenPrompt.started', PostRestEyesOpenPrompt.tStart)
+    PostRestEyesOpenPrompt.maxDuration = None
+    # keep track of which components have finished
+    PostRestEyesOpenPromptComponents = PostRestEyesOpenPrompt.components
+    for thisComponent in PostRestEyesOpenPrompt.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "PostRestEyesOpenPrompt" ---
+    thisExp.currentRoutine = PostRestEyesOpenPrompt
+    PostRestEyesOpenPrompt.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *PostRestEyesOpenPrompt_keep_alive* updates
+        
+        # if PostRestEyesOpenPrompt_keep_alive is starting this frame...
+        if PostRestEyesOpenPrompt_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            PostRestEyesOpenPrompt_keep_alive.frameNStart = frameN  # exact frame index
+            PostRestEyesOpenPrompt_keep_alive.tStart = t  # local t and not account for scr refresh
+            PostRestEyesOpenPrompt_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(PostRestEyesOpenPrompt_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'PostRestEyesOpenPrompt_keep_alive.started')
+            # update status
+            PostRestEyesOpenPrompt_keep_alive.status = STARTED
+            PostRestEyesOpenPrompt_keep_alive.setAutoDraw(True)
+        
+        # if PostRestEyesOpenPrompt_keep_alive is active this frame...
+        if PostRestEyesOpenPrompt_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from post_rest_open_prompt_code
+        
+        rest_prompt_icon.draw()
+        keys = event.getKeys(keyList=["space", "return", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "return" in keys:
+            if rest_prompt_audio:
+                rest_prompt_audio.stop()
+            rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
+            rest_prompt_clock.reset()
+            event.clearEvents()
+        elif "space" in keys:
+            if rest_prompt_audio:
+                rest_prompt_audio.stop()
+            thisExp.addData(f"{rest_prompt_label}_prompt_rt", rest_prompt_clock.getTime())
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=PostRestEyesOpenPrompt,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            PostRestEyesOpenPrompt.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if PostRestEyesOpenPrompt.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in PostRestEyesOpenPrompt.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "PostRestEyesOpenPrompt" ---
+    for thisComponent in PostRestEyesOpenPrompt.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for PostRestEyesOpenPrompt
+    PostRestEyesOpenPrompt.tStop = globalClock.getTime(format='float')
+    PostRestEyesOpenPrompt.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('PostRestEyesOpenPrompt.stopped', PostRestEyesOpenPrompt.tStop)
+    thisExp.nextEntry()
+    # the Routine "PostRestEyesOpenPrompt" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # --- Prepare to start Routine "PostRestEyesOpen" ---
+    # create an object to store info about Routine PostRestEyesOpen
+    PostRestEyesOpen = data.Routine(
+        name='PostRestEyesOpen',
+        components=[PostRestEyesOpen_keep_alive],
+    )
+    PostRestEyesOpen.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from post_rest_open_code
+    
+    win.color = "white"
+    rest_blank_label = "post_rest_eyes_open"
+    rest_blank_trigger_code = 151
+    rest_blank_clock = core.Clock()
+    rest_blank_finish_trigger_sent = False
+    thisExp.addData(f"{rest_blank_label}_start_core_time", core.getTime())
+    g_trigger_on_flip(rest_blank_trigger_code, f"{rest_blank_label}_start")
+    event.clearEvents()
+    
+    # store start times for PostRestEyesOpen
+    PostRestEyesOpen.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    PostRestEyesOpen.tStart = globalClock.getTime(format='float')
+    PostRestEyesOpen.status = STARTED
+    thisExp.addData('PostRestEyesOpen.started', PostRestEyesOpen.tStart)
+    PostRestEyesOpen.maxDuration = None
+    # keep track of which components have finished
+    PostRestEyesOpenComponents = PostRestEyesOpen.components
+    for thisComponent in PostRestEyesOpen.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "PostRestEyesOpen" ---
+    thisExp.currentRoutine = PostRestEyesOpen
+    PostRestEyesOpen.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *PostRestEyesOpen_keep_alive* updates
+        
+        # if PostRestEyesOpen_keep_alive is starting this frame...
+        if PostRestEyesOpen_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            PostRestEyesOpen_keep_alive.frameNStart = frameN  # exact frame index
+            PostRestEyesOpen_keep_alive.tStart = t  # local t and not account for scr refresh
+            PostRestEyesOpen_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(PostRestEyesOpen_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'PostRestEyesOpen_keep_alive.started')
+            # update status
+            PostRestEyesOpen_keep_alive.status = STARTED
+            PostRestEyesOpen_keep_alive.setAutoDraw(True)
+        
+        # if PostRestEyesOpen_keep_alive is active this frame...
+        if PostRestEyesOpen_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from post_rest_open_code
+        
+        keys = event.getKeys(keyList=["space", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "space" in keys or rest_blank_clock.getTime() >= G_REST_DURATION_SEC:
+            if not rest_blank_finish_trigger_sent:
+                g_send_trigger(rest_blank_trigger_code, f"{rest_blank_label}_finish")
+                rest_blank_finish_trigger_sent = True
+            thisExp.addData(f"{rest_blank_label}_duration", rest_blank_clock.getTime())
+            thisExp.addData(f"{rest_blank_label}_ended_by", "space" if "space" in keys else "timeout")
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=PostRestEyesOpen,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            PostRestEyesOpen.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if PostRestEyesOpen.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in PostRestEyesOpen.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "PostRestEyesOpen" ---
+    for thisComponent in PostRestEyesOpen.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for PostRestEyesOpen
+    PostRestEyesOpen.tStop = globalClock.getTime(format='float')
+    PostRestEyesOpen.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('PostRestEyesOpen.stopped', PostRestEyesOpen.tStop)
+    thisExp.nextEntry()
+    # the Routine "PostRestEyesOpen" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # --- Prepare to start Routine "RestBeep" ---
+    # create an object to store info about Routine RestBeep
+    RestBeep = data.Routine(
+        name='RestBeep',
+        components=[RestBeep_keep_alive],
+    )
+    RestBeep.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from rest_beep_code
+    
+    win.color = "white"
+    rest_beep_audio = g_play_audio("Audio/rest_beep.wav")
+    rest_beep_clock = core.Clock()
+    rest_beep_duration = g_float(rest_beep_audio.getDuration() if rest_beep_audio else 1.3, 1.3)
+    event.clearEvents()
+    
+    # store start times for RestBeep
+    RestBeep.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    RestBeep.tStart = globalClock.getTime(format='float')
+    RestBeep.status = STARTED
+    thisExp.addData('RestBeep.started', RestBeep.tStart)
+    RestBeep.maxDuration = None
+    # keep track of which components have finished
+    RestBeepComponents = RestBeep.components
+    for thisComponent in RestBeep.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "RestBeep" ---
+    thisExp.currentRoutine = RestBeep
+    RestBeep.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *RestBeep_keep_alive* updates
+        
+        # if RestBeep_keep_alive is starting this frame...
+        if RestBeep_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            RestBeep_keep_alive.frameNStart = frameN  # exact frame index
+            RestBeep_keep_alive.tStart = t  # local t and not account for scr refresh
+            RestBeep_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(RestBeep_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'RestBeep_keep_alive.started')
+            # update status
+            RestBeep_keep_alive.status = STARTED
+            RestBeep_keep_alive.setAutoDraw(True)
+        
+        # if RestBeep_keep_alive is active this frame...
+        if RestBeep_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from rest_beep_code
+        
+        keys = event.getKeys(keyList=["space", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "space" in keys or rest_beep_clock.getTime() >= rest_beep_duration:
+            if rest_beep_audio:
+                rest_beep_audio.stop()
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=RestBeep,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            RestBeep.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if RestBeep.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in RestBeep.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "RestBeep" ---
+    for thisComponent in RestBeep.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for RestBeep
+    RestBeep.tStop = globalClock.getTime(format='float')
+    RestBeep.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('RestBeep.stopped', RestBeep.tStop)
+    thisExp.nextEntry()
+    # the Routine "RestBeep" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # --- Prepare to start Routine "PostRestEyesClosedPrompt" ---
+    # create an object to store info about Routine PostRestEyesClosedPrompt
+    PostRestEyesClosedPrompt = data.Routine(
+        name='PostRestEyesClosedPrompt',
+        components=[PostRestEyesClosedPrompt_keep_alive],
+    )
+    PostRestEyesClosedPrompt.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from post_rest_closed_prompt_code
+    
+    win.color = "white"
+    rest_prompt_label = "post_rest_eyes_closed"
+    rest_prompt_audio_value = "Audio/probe_placeholder.wav"
+    rest_prompt_icon = visual.ImageStim(win, image=g_path("Stimuli/eyes_closed.png"), pos=(0, 0), size=(0.44, 0.44), interpolate=True)
+    rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
+    rest_prompt_clock = core.Clock()
+    thisExp.addData(f"{rest_prompt_label}_prompt_audio", g_path(rest_prompt_audio_value))
+    event.clearEvents()
+    
+    # store start times for PostRestEyesClosedPrompt
+    PostRestEyesClosedPrompt.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    PostRestEyesClosedPrompt.tStart = globalClock.getTime(format='float')
+    PostRestEyesClosedPrompt.status = STARTED
+    thisExp.addData('PostRestEyesClosedPrompt.started', PostRestEyesClosedPrompt.tStart)
+    PostRestEyesClosedPrompt.maxDuration = None
+    # keep track of which components have finished
+    PostRestEyesClosedPromptComponents = PostRestEyesClosedPrompt.components
+    for thisComponent in PostRestEyesClosedPrompt.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "PostRestEyesClosedPrompt" ---
+    thisExp.currentRoutine = PostRestEyesClosedPrompt
+    PostRestEyesClosedPrompt.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *PostRestEyesClosedPrompt_keep_alive* updates
+        
+        # if PostRestEyesClosedPrompt_keep_alive is starting this frame...
+        if PostRestEyesClosedPrompt_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            PostRestEyesClosedPrompt_keep_alive.frameNStart = frameN  # exact frame index
+            PostRestEyesClosedPrompt_keep_alive.tStart = t  # local t and not account for scr refresh
+            PostRestEyesClosedPrompt_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(PostRestEyesClosedPrompt_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'PostRestEyesClosedPrompt_keep_alive.started')
+            # update status
+            PostRestEyesClosedPrompt_keep_alive.status = STARTED
+            PostRestEyesClosedPrompt_keep_alive.setAutoDraw(True)
+        
+        # if PostRestEyesClosedPrompt_keep_alive is active this frame...
+        if PostRestEyesClosedPrompt_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from post_rest_closed_prompt_code
+        
+        rest_prompt_icon.draw()
+        keys = event.getKeys(keyList=["space", "return", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "return" in keys:
+            if rest_prompt_audio:
+                rest_prompt_audio.stop()
+            rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
+            rest_prompt_clock.reset()
+            event.clearEvents()
+        elif "space" in keys:
+            if rest_prompt_audio:
+                rest_prompt_audio.stop()
+            thisExp.addData(f"{rest_prompt_label}_prompt_rt", rest_prompt_clock.getTime())
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=PostRestEyesClosedPrompt,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            PostRestEyesClosedPrompt.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if PostRestEyesClosedPrompt.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in PostRestEyesClosedPrompt.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "PostRestEyesClosedPrompt" ---
+    for thisComponent in PostRestEyesClosedPrompt.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for PostRestEyesClosedPrompt
+    PostRestEyesClosedPrompt.tStop = globalClock.getTime(format='float')
+    PostRestEyesClosedPrompt.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('PostRestEyesClosedPrompt.stopped', PostRestEyesClosedPrompt.tStop)
+    thisExp.nextEntry()
+    # the Routine "PostRestEyesClosedPrompt" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # --- Prepare to start Routine "PostRestEyesClosed" ---
+    # create an object to store info about Routine PostRestEyesClosed
+    PostRestEyesClosed = data.Routine(
+        name='PostRestEyesClosed',
+        components=[PostRestEyesClosed_keep_alive],
+    )
+    PostRestEyesClosed.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from post_rest_closed_code
+    
+    win.color = "white"
+    rest_blank_label = "post_rest_eyes_closed"
+    rest_blank_trigger_code = 151
+    rest_blank_clock = core.Clock()
+    rest_blank_finish_trigger_sent = False
+    thisExp.addData(f"{rest_blank_label}_start_core_time", core.getTime())
+    g_trigger_on_flip(rest_blank_trigger_code, f"{rest_blank_label}_start")
+    event.clearEvents()
+    
+    # store start times for PostRestEyesClosed
+    PostRestEyesClosed.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    PostRestEyesClosed.tStart = globalClock.getTime(format='float')
+    PostRestEyesClosed.status = STARTED
+    thisExp.addData('PostRestEyesClosed.started', PostRestEyesClosed.tStart)
+    PostRestEyesClosed.maxDuration = None
+    # keep track of which components have finished
+    PostRestEyesClosedComponents = PostRestEyesClosed.components
+    for thisComponent in PostRestEyesClosed.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "PostRestEyesClosed" ---
+    thisExp.currentRoutine = PostRestEyesClosed
+    PostRestEyesClosed.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *PostRestEyesClosed_keep_alive* updates
+        
+        # if PostRestEyesClosed_keep_alive is starting this frame...
+        if PostRestEyesClosed_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            PostRestEyesClosed_keep_alive.frameNStart = frameN  # exact frame index
+            PostRestEyesClosed_keep_alive.tStart = t  # local t and not account for scr refresh
+            PostRestEyesClosed_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(PostRestEyesClosed_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'PostRestEyesClosed_keep_alive.started')
+            # update status
+            PostRestEyesClosed_keep_alive.status = STARTED
+            PostRestEyesClosed_keep_alive.setAutoDraw(True)
+        
+        # if PostRestEyesClosed_keep_alive is active this frame...
+        if PostRestEyesClosed_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from post_rest_closed_code
+        
+        keys = event.getKeys(keyList=["space", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "space" in keys or rest_blank_clock.getTime() >= G_REST_DURATION_SEC:
+            if not rest_blank_finish_trigger_sent:
+                g_send_trigger(rest_blank_trigger_code, f"{rest_blank_label}_finish")
+                rest_blank_finish_trigger_sent = True
+            thisExp.addData(f"{rest_blank_label}_duration", rest_blank_clock.getTime())
+            thisExp.addData(f"{rest_blank_label}_ended_by", "space" if "space" in keys else "timeout")
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=PostRestEyesClosed,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            PostRestEyesClosed.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if PostRestEyesClosed.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in PostRestEyesClosed.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "PostRestEyesClosed" ---
+    for thisComponent in PostRestEyesClosed.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for PostRestEyesClosed
+    PostRestEyesClosed.tStop = globalClock.getTime(format='float')
+    PostRestEyesClosed.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('PostRestEyesClosed.stopped', PostRestEyesClosed.tStop)
+    thisExp.nextEntry()
+    # the Routine "PostRestEyesClosed" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # --- Prepare to start Routine "RestBeep" ---
+    # create an object to store info about Routine RestBeep
+    RestBeep = data.Routine(
+        name='RestBeep',
+        components=[RestBeep_keep_alive],
+    )
+    RestBeep.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from rest_beep_code
+    
+    win.color = "white"
+    rest_beep_audio = g_play_audio("Audio/rest_beep.wav")
+    rest_beep_clock = core.Clock()
+    rest_beep_duration = g_float(rest_beep_audio.getDuration() if rest_beep_audio else 1.3, 1.3)
+    event.clearEvents()
+    
+    # store start times for RestBeep
+    RestBeep.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    RestBeep.tStart = globalClock.getTime(format='float')
+    RestBeep.status = STARTED
+    thisExp.addData('RestBeep.started', RestBeep.tStart)
+    RestBeep.maxDuration = None
+    # keep track of which components have finished
+    RestBeepComponents = RestBeep.components
+    for thisComponent in RestBeep.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "RestBeep" ---
+    thisExp.currentRoutine = RestBeep
+    RestBeep.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *RestBeep_keep_alive* updates
+        
+        # if RestBeep_keep_alive is starting this frame...
+        if RestBeep_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            RestBeep_keep_alive.frameNStart = frameN  # exact frame index
+            RestBeep_keep_alive.tStart = t  # local t and not account for scr refresh
+            RestBeep_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(RestBeep_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'RestBeep_keep_alive.started')
+            # update status
+            RestBeep_keep_alive.status = STARTED
+            RestBeep_keep_alive.setAutoDraw(True)
+        
+        # if RestBeep_keep_alive is active this frame...
+        if RestBeep_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from rest_beep_code
+        
+        keys = event.getKeys(keyList=["space", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "space" in keys or rest_beep_clock.getTime() >= rest_beep_duration:
+            if rest_beep_audio:
+                rest_beep_audio.stop()
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=RestBeep,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            RestBeep.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if RestBeep.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in RestBeep.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "RestBeep" ---
+    for thisComponent in RestBeep.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for RestBeep
+    RestBeep.tStop = globalClock.getTime(format='float')
+    RestBeep.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('RestBeep.stopped', RestBeep.tStop)
+    thisExp.nextEntry()
+    # the Routine "RestBeep" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # --- Prepare to start Routine "PostRestReadyPrompt" ---
+    # create an object to store info about Routine PostRestReadyPrompt
+    PostRestReadyPrompt = data.Routine(
+        name='PostRestReadyPrompt',
+        components=[PostRestReadyPrompt_keep_alive],
+    )
+    PostRestReadyPrompt.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from post_rest_ready_prompt_code
+    
+    win.color = "white"
+    rest_prompt_label = "post_rest_ready"
+    rest_prompt_audio_value = "Audio/probe_placeholder.wav"
+    rest_prompt_icon = visual.ImageStim(win, image=g_path("Stimuli/eyes_open.png"), pos=(0, 0), size=(0.44, 0.44), interpolate=True)
+    rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
+    rest_prompt_clock = core.Clock()
+    thisExp.addData(f"{rest_prompt_label}_prompt_audio", g_path(rest_prompt_audio_value))
+    event.clearEvents()
+    
+    # store start times for PostRestReadyPrompt
+    PostRestReadyPrompt.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    PostRestReadyPrompt.tStart = globalClock.getTime(format='float')
+    PostRestReadyPrompt.status = STARTED
+    thisExp.addData('PostRestReadyPrompt.started', PostRestReadyPrompt.tStart)
+    PostRestReadyPrompt.maxDuration = None
+    # keep track of which components have finished
+    PostRestReadyPromptComponents = PostRestReadyPrompt.components
+    for thisComponent in PostRestReadyPrompt.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "PostRestReadyPrompt" ---
+    thisExp.currentRoutine = PostRestReadyPrompt
+    PostRestReadyPrompt.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *PostRestReadyPrompt_keep_alive* updates
+        
+        # if PostRestReadyPrompt_keep_alive is starting this frame...
+        if PostRestReadyPrompt_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            PostRestReadyPrompt_keep_alive.frameNStart = frameN  # exact frame index
+            PostRestReadyPrompt_keep_alive.tStart = t  # local t and not account for scr refresh
+            PostRestReadyPrompt_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(PostRestReadyPrompt_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'PostRestReadyPrompt_keep_alive.started')
+            # update status
+            PostRestReadyPrompt_keep_alive.status = STARTED
+            PostRestReadyPrompt_keep_alive.setAutoDraw(True)
+        
+        # if PostRestReadyPrompt_keep_alive is active this frame...
+        if PostRestReadyPrompt_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from post_rest_ready_prompt_code
+        
+        rest_prompt_icon.draw()
+        keys = event.getKeys(keyList=["space", "return", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "return" in keys:
+            if rest_prompt_audio:
+                rest_prompt_audio.stop()
+            rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
+            rest_prompt_clock.reset()
+            event.clearEvents()
+        elif "space" in keys:
+            if rest_prompt_audio:
+                rest_prompt_audio.stop()
+            thisExp.addData(f"{rest_prompt_label}_prompt_rt", rest_prompt_clock.getTime())
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=PostRestReadyPrompt,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            PostRestReadyPrompt.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if PostRestReadyPrompt.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in PostRestReadyPrompt.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "PostRestReadyPrompt" ---
+    for thisComponent in PostRestReadyPrompt.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for PostRestReadyPrompt
+    PostRestReadyPrompt.tStop = globalClock.getTime(format='float')
+    PostRestReadyPrompt.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('PostRestReadyPrompt.stopped', PostRestReadyPrompt.tStop)
+    thisExp.nextEntry()
+    # the Routine "PostRestReadyPrompt" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
     
     # mark experiment as finished

@@ -432,14 +432,15 @@ elif "space" in keys:
 '''
 
 
-def rest_blank_begin(label: str) -> str:
+def rest_blank_begin(label: str, trigger_code: int = 150) -> str:
     return f'''
 win.color = "white"
 rest_blank_label = "{label}"
+rest_blank_trigger_code = {int(trigger_code)}
 rest_blank_clock = core.Clock()
 rest_blank_finish_trigger_sent = False
 thisExp.addData(f"{{rest_blank_label}}_start_core_time", core.getTime())
-g_trigger_on_flip(150, f"{{rest_blank_label}}_start")
+g_trigger_on_flip(rest_blank_trigger_code, f"{{rest_blank_label}}_start")
 event.clearEvents()
 '''
 
@@ -450,7 +451,7 @@ if "escape" in keys:
     g_abort_and_quit()
 if "space" in keys or rest_blank_clock.getTime() >= G_REST_DURATION_SEC:
     if not rest_blank_finish_trigger_sent:
-        g_send_trigger(150, f"{rest_blank_label}_finish")
+        g_send_trigger(rest_blank_trigger_code, f"{rest_blank_label}_finish")
         rest_blank_finish_trigger_sent = True
     thisExp.addData(f"{rest_blank_label}_duration", rest_blank_clock.getTime())
     thisExp.addData(f"{rest_blank_label}_ended_by", "space" if "space" in keys else "timeout")
@@ -724,6 +725,41 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
     )
     add_routine(routines, "Break", "break_code", begin_routine=discourse.BREAK_BEGIN, each_frame=discourse.BREAK_EACH)
     add_routine(routines, "EndExperiment", "end_code", begin_routine=discourse.END_BEGIN, each_frame=discourse.END_EACH)
+    add_routine(
+        routines,
+        "PostRestEyesOpenPrompt",
+        "post_rest_open_prompt_code",
+        begin_routine=rest_prompt_begin("post_rest_eyes_open", "Stimuli/eyes_open.png", "Audio/probe_placeholder.wav"),
+        each_frame=REST_PROMPT_EACH,
+    )
+    add_routine(
+        routines,
+        "PostRestEyesOpen",
+        "post_rest_open_code",
+        begin_routine=rest_blank_begin("post_rest_eyes_open", trigger_code=151),
+        each_frame=REST_BLANK_EACH,
+    )
+    add_routine(
+        routines,
+        "PostRestEyesClosedPrompt",
+        "post_rest_closed_prompt_code",
+        begin_routine=rest_prompt_begin("post_rest_eyes_closed", "Stimuli/eyes_closed.png", "Audio/probe_placeholder.wav"),
+        each_frame=REST_PROMPT_EACH,
+    )
+    add_routine(
+        routines,
+        "PostRestEyesClosed",
+        "post_rest_closed_code",
+        begin_routine=rest_blank_begin("post_rest_eyes_closed", trigger_code=151),
+        each_frame=REST_BLANK_EACH,
+    )
+    add_routine(
+        routines,
+        "PostRestReadyPrompt",
+        "post_rest_ready_prompt_code",
+        begin_routine=rest_prompt_begin("post_rest_ready", "Stimuli/eyes_open.png", "Audio/probe_placeholder.wav"),
+        each_frame=REST_PROMPT_EACH,
+    )
 
     flow = ET.SubElement(root, "Flow")
     ET.SubElement(flow, "Routine", name="RestEyesOpenPrompt")
@@ -746,6 +782,13 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
     ET.SubElement(flow, "Routine", name="MainTrial")
     ET.SubElement(flow, "LoopTerminator", name="MainBlock2")
     ET.SubElement(flow, "Routine", name="EndExperiment")
+    ET.SubElement(flow, "Routine", name="PostRestEyesOpenPrompt")
+    ET.SubElement(flow, "Routine", name="PostRestEyesOpen")
+    ET.SubElement(flow, "Routine", name="RestBeep")
+    ET.SubElement(flow, "Routine", name="PostRestEyesClosedPrompt")
+    ET.SubElement(flow, "Routine", name="PostRestEyesClosed")
+    ET.SubElement(flow, "Routine", name="RestBeep")
+    ET.SubElement(flow, "Routine", name="PostRestReadyPrompt")
 
     ET.indent(root, space="  ")
     path = out_dir / "gurung_isolated_v1.psyexp"
@@ -758,9 +801,9 @@ def write_readme(out_dir: Path) -> None:
 
 This is the isolated-picture version of the Gurung experiment.
 
-- Resting-state sequence comes before the experiment instruction screen: eyes-open prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, eyes-closed prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, ready prompt with the eyes-open icon.
+- Resting-state sequence comes before the experiment instruction screen: eyes-open prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, eyes-closed prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, ready prompt with the eyes-open icon. The same resting-state sequence runs again after the finish-flags screen at task end.
 - Resting-state blank screens end automatically after 120 seconds, but Space can move forward earlier.
-- Resting-state blank intervals send/log trigger 150 at eyes-open start, eyes-open finish, eyes-closed start, and eyes-closed finish.
+- Pre-task resting-state blank intervals send/log trigger 150 at eyes-open start, eyes-open finish, eyes-closed start, and eyes-closed finish; post-task resting-state blank intervals use trigger 151 for the same four events.
 - The isolated instruction screen uses `Audio/isolated_instr.wav`; the first Space starts audio, and a later Space advances.
 - Practice has 10 fixed single-picture trials in CSV order, using the `isolated_practice_*.jpg` files in `Stimuli/`.
 - Practice trials 1 and 2 are the voiced orange-picking and goat-milking pictures; they play `Audio/chickencorn_erg.wav` simultaneously with the picture. Practice trials 3-10 have no picture audio.

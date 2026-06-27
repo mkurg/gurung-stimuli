@@ -2,9 +2,9 @@
 
 This is the isolated-picture version of the Gurung experiment.
 
-- Resting-state sequence comes before the experiment instruction screen: eyes-open prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, eyes-closed prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, ready prompt with the eyes-open icon.
+- Resting-state sequence comes before the experiment instruction screen: eyes-open prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, eyes-closed prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, ready prompt with the eyes-open icon. The same resting-state sequence runs again after the finish-flags screen at task end.
 - Resting-state blank screens end automatically after 120 seconds, but Space can move forward earlier.
-- Resting-state blank intervals send/log trigger 150 at eyes-open start, eyes-open finish, eyes-closed start, and eyes-closed finish.
+- Pre-task resting-state blank intervals send/log trigger 150 at eyes-open start, eyes-open finish, eyes-closed start, and eyes-closed finish; post-task resting-state blank intervals use trigger 151 for the same four events.
 - The isolated instruction screen uses `Audio/isolated_instr.wav`; the first Space starts audio, and a later Space advances.
 - Practice has 10 fixed single-picture trials in CSV order, using the `isolated_practice_*.jpg` files in `Stimuli/`.
 - Practice trials 1 and 2 are the voiced orange-picking and goat-milking pictures; they play `Audio/chickencorn_erg.wav` simultaneously with the picture. Practice trials 3-10 have no picture audio.

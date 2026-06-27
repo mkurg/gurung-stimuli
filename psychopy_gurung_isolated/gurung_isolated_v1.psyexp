@@ -166,9 +166,9 @@
         <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
         <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
         <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
-        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;rest_blank_label = &quot;rest_eyes_open&quot;&#10;rest_blank_clock = core.Clock()&#10;rest_blank_finish_trigger_sent = False&#10;thisExp.addData(f&quot;{rest_blank_label}_start_core_time&quot;, core.getTime())&#10;g_trigger_on_flip(150, f&quot;{rest_blank_label}_start&quot;)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;rest_blank_label = &quot;rest_eyes_open&quot;&#10;rest_blank_trigger_code = 150&#10;rest_blank_clock = core.Clock()&#10;rest_blank_finish_trigger_sent = False&#10;thisExp.addData(f&quot;{rest_blank_label}_start_core_time&quot;, core.getTime())&#10;g_trigger_on_flip(rest_blank_trigger_code, f&quot;{rest_blank_label}_start&quot;)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
         <Param name="Code Type" val="Py" valType="str" updates="None" />
-        <Param name="Each Frame" val="&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    g_abort_and_quit()&#10;if &quot;space&quot; in keys or rest_blank_clock.getTime() &gt;= G_REST_DURATION_SEC:&#10;    if not rest_blank_finish_trigger_sent:&#10;        g_send_trigger(150, f&quot;{rest_blank_label}_finish&quot;)&#10;        rest_blank_finish_trigger_sent = True&#10;    thisExp.addData(f&quot;{rest_blank_label}_duration&quot;, rest_blank_clock.getTime())&#10;    thisExp.addData(f&quot;{rest_blank_label}_ended_by&quot;, &quot;space&quot; if &quot;space&quot; in keys else &quot;timeout&quot;)&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each Frame" val="&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    g_abort_and_quit()&#10;if &quot;space&quot; in keys or rest_blank_clock.getTime() &gt;= G_REST_DURATION_SEC:&#10;    if not rest_blank_finish_trigger_sent:&#10;        g_send_trigger(rest_blank_trigger_code, f&quot;{rest_blank_label}_finish&quot;)&#10;        rest_blank_finish_trigger_sent = True&#10;    thisExp.addData(f&quot;{rest_blank_label}_duration&quot;, rest_blank_clock.getTime())&#10;    thisExp.addData(f&quot;{rest_blank_label}_ended_by&quot;, &quot;space&quot; if &quot;space&quot; in keys else &quot;timeout&quot;)&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
         <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
         <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
         <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
@@ -355,9 +355,9 @@
         <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
         <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
         <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
-        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;rest_blank_label = &quot;rest_eyes_closed&quot;&#10;rest_blank_clock = core.Clock()&#10;rest_blank_finish_trigger_sent = False&#10;thisExp.addData(f&quot;{rest_blank_label}_start_core_time&quot;, core.getTime())&#10;g_trigger_on_flip(150, f&quot;{rest_blank_label}_start&quot;)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;rest_blank_label = &quot;rest_eyes_closed&quot;&#10;rest_blank_trigger_code = 150&#10;rest_blank_clock = core.Clock()&#10;rest_blank_finish_trigger_sent = False&#10;thisExp.addData(f&quot;{rest_blank_label}_start_core_time&quot;, core.getTime())&#10;g_trigger_on_flip(rest_blank_trigger_code, f&quot;{rest_blank_label}_start&quot;)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
         <Param name="Code Type" val="Py" valType="str" updates="None" />
-        <Param name="Each Frame" val="&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    g_abort_and_quit()&#10;if &quot;space&quot; in keys or rest_blank_clock.getTime() &gt;= G_REST_DURATION_SEC:&#10;    if not rest_blank_finish_trigger_sent:&#10;        g_send_trigger(150, f&quot;{rest_blank_label}_finish&quot;)&#10;        rest_blank_finish_trigger_sent = True&#10;    thisExp.addData(f&quot;{rest_blank_label}_duration&quot;, rest_blank_clock.getTime())&#10;    thisExp.addData(f&quot;{rest_blank_label}_ended_by&quot;, &quot;space&quot; if &quot;space&quot; in keys else &quot;timeout&quot;)&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each Frame" val="&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    g_abort_and_quit()&#10;if &quot;space&quot; in keys or rest_blank_clock.getTime() &gt;= G_REST_DURATION_SEC:&#10;    if not rest_blank_finish_trigger_sent:&#10;        g_send_trigger(rest_blank_trigger_code, f&quot;{rest_blank_label}_finish&quot;)&#10;        rest_blank_finish_trigger_sent = True&#10;    thisExp.addData(f&quot;{rest_blank_label}_duration&quot;, rest_blank_clock.getTime())&#10;    thisExp.addData(f&quot;{rest_blank_label}_ended_by&quot;, &quot;space&quot; if &quot;space&quot; in keys else &quot;timeout&quot;)&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
         <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
         <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
         <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
@@ -808,6 +808,321 @@
         <Param name="name" val="end_code" valType="code" updates="None" />
       </CodeComponent>
     </Routine>
+    <Routine name="PostRestEyesOpenPrompt">
+      <RoutineSettingsComponent name="PostRestEyesOpenPrompt" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="PostRestEyesOpenPrompt" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="PostRestEyesOpenPrompt_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="PostRestEyesOpenPrompt_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="post_rest_open_prompt_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;rest_prompt_label = &quot;post_rest_eyes_open&quot;&#10;rest_prompt_audio_value = &quot;Audio/probe_placeholder.wav&quot;&#10;rest_prompt_icon = visual.ImageStim(win, image=g_path(&quot;Stimuli/eyes_open.png&quot;), pos=(0, 0), size=(0.44, 0.44), interpolate=True)&#10;rest_prompt_audio = g_play_audio(rest_prompt_audio_value)&#10;rest_prompt_clock = core.Clock()&#10;thisExp.addData(f&quot;{rest_prompt_label}_prompt_audio&quot;, g_path(rest_prompt_audio_value))&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;rest_prompt_icon.draw()&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;return&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    g_abort_and_quit()&#10;if &quot;return&quot; in keys:&#10;    if rest_prompt_audio:&#10;        rest_prompt_audio.stop()&#10;    rest_prompt_audio = g_play_audio(rest_prompt_audio_value)&#10;    rest_prompt_clock.reset()&#10;    event.clearEvents()&#10;elif &quot;space&quot; in keys:&#10;    if rest_prompt_audio:&#10;        rest_prompt_audio.stop()&#10;    thisExp.addData(f&quot;{rest_prompt_label}_prompt_rt&quot;, rest_prompt_clock.getTime())&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="post_rest_open_prompt_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+    <Routine name="PostRestEyesOpen">
+      <RoutineSettingsComponent name="PostRestEyesOpen" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="PostRestEyesOpen" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="PostRestEyesOpen_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="PostRestEyesOpen_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="post_rest_open_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;rest_blank_label = &quot;post_rest_eyes_open&quot;&#10;rest_blank_trigger_code = 151&#10;rest_blank_clock = core.Clock()&#10;rest_blank_finish_trigger_sent = False&#10;thisExp.addData(f&quot;{rest_blank_label}_start_core_time&quot;, core.getTime())&#10;g_trigger_on_flip(rest_blank_trigger_code, f&quot;{rest_blank_label}_start&quot;)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    g_abort_and_quit()&#10;if &quot;space&quot; in keys or rest_blank_clock.getTime() &gt;= G_REST_DURATION_SEC:&#10;    if not rest_blank_finish_trigger_sent:&#10;        g_send_trigger(rest_blank_trigger_code, f&quot;{rest_blank_label}_finish&quot;)&#10;        rest_blank_finish_trigger_sent = True&#10;    thisExp.addData(f&quot;{rest_blank_label}_duration&quot;, rest_blank_clock.getTime())&#10;    thisExp.addData(f&quot;{rest_blank_label}_ended_by&quot;, &quot;space&quot; if &quot;space&quot; in keys else &quot;timeout&quot;)&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="post_rest_open_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+    <Routine name="PostRestEyesClosedPrompt">
+      <RoutineSettingsComponent name="PostRestEyesClosedPrompt" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="PostRestEyesClosedPrompt" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="PostRestEyesClosedPrompt_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="PostRestEyesClosedPrompt_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="post_rest_closed_prompt_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;rest_prompt_label = &quot;post_rest_eyes_closed&quot;&#10;rest_prompt_audio_value = &quot;Audio/probe_placeholder.wav&quot;&#10;rest_prompt_icon = visual.ImageStim(win, image=g_path(&quot;Stimuli/eyes_closed.png&quot;), pos=(0, 0), size=(0.44, 0.44), interpolate=True)&#10;rest_prompt_audio = g_play_audio(rest_prompt_audio_value)&#10;rest_prompt_clock = core.Clock()&#10;thisExp.addData(f&quot;{rest_prompt_label}_prompt_audio&quot;, g_path(rest_prompt_audio_value))&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;rest_prompt_icon.draw()&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;return&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    g_abort_and_quit()&#10;if &quot;return&quot; in keys:&#10;    if rest_prompt_audio:&#10;        rest_prompt_audio.stop()&#10;    rest_prompt_audio = g_play_audio(rest_prompt_audio_value)&#10;    rest_prompt_clock.reset()&#10;    event.clearEvents()&#10;elif &quot;space&quot; in keys:&#10;    if rest_prompt_audio:&#10;        rest_prompt_audio.stop()&#10;    thisExp.addData(f&quot;{rest_prompt_label}_prompt_rt&quot;, rest_prompt_clock.getTime())&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="post_rest_closed_prompt_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+    <Routine name="PostRestEyesClosed">
+      <RoutineSettingsComponent name="PostRestEyesClosed" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="PostRestEyesClosed" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="PostRestEyesClosed_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="PostRestEyesClosed_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="post_rest_closed_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;rest_blank_label = &quot;post_rest_eyes_closed&quot;&#10;rest_blank_trigger_code = 151&#10;rest_blank_clock = core.Clock()&#10;rest_blank_finish_trigger_sent = False&#10;thisExp.addData(f&quot;{rest_blank_label}_start_core_time&quot;, core.getTime())&#10;g_trigger_on_flip(rest_blank_trigger_code, f&quot;{rest_blank_label}_start&quot;)&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    g_abort_and_quit()&#10;if &quot;space&quot; in keys or rest_blank_clock.getTime() &gt;= G_REST_DURATION_SEC:&#10;    if not rest_blank_finish_trigger_sent:&#10;        g_send_trigger(rest_blank_trigger_code, f&quot;{rest_blank_label}_finish&quot;)&#10;        rest_blank_finish_trigger_sent = True&#10;    thisExp.addData(f&quot;{rest_blank_label}_duration&quot;, rest_blank_clock.getTime())&#10;    thisExp.addData(f&quot;{rest_blank_label}_ended_by&quot;, &quot;space&quot; if &quot;space&quot; in keys else &quot;timeout&quot;)&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="post_rest_closed_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+    <Routine name="PostRestReadyPrompt">
+      <RoutineSettingsComponent name="PostRestReadyPrompt" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="PostRestReadyPrompt" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <ImageComponent name="PostRestReadyPrompt_keep_alive" plugin="None">
+        <Param name="anchor" val="center" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="constant" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="contrast" val="1" valType="num" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="draggable" val="False" valType="code" updates="constant" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="flipHoriz" val="False" valType="bool" updates="constant" />
+        <Param name="flipVert" val="False" valType="bool" updates="constant" />
+        <Param name="image" val="Stimuli/sound.png" valType="file" updates="constant" />
+        <Param name="interpolate" val="linear" valType="str" updates="constant" />
+        <Param name="mask" val="" valType="str" updates="constant" />
+        <Param name="name" val="PostRestReadyPrompt_keep_alive" valType="code" updates="None" />
+        <Param name="opacity" val="0" valType="num" updates="constant" />
+        <Param name="ori" val="0" valType="num" updates="constant" />
+        <Param name="pos" val="(0, 0)" valType="list" updates="constant" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="size" val="(0.01, 0.01)" valType="list" updates="constant" />
+        <Param name="startEstim" val="" valType="code" updates="None" />
+        <Param name="startType" val="time (s)" valType="str" updates="None" />
+        <Param name="startVal" val="0.0" valType="code" updates="None" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="syncScreenRefresh" val="True" valType="bool" updates="None" />
+        <Param name="texture resolution" val="128" valType="num" updates="constant" />
+        <Param name="units" val="from exp settings" valType="str" updates="None" />
+        <Param name="validator" val="" valType="code" updates="None" />
+      </ImageComponent>
+      <CodeComponent name="post_rest_ready_prompt_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;win.color = &quot;white&quot;&#10;rest_prompt_label = &quot;post_rest_ready&quot;&#10;rest_prompt_audio_value = &quot;Audio/probe_placeholder.wav&quot;&#10;rest_prompt_icon = visual.ImageStim(win, image=g_path(&quot;Stimuli/eyes_open.png&quot;), pos=(0, 0), size=(0.44, 0.44), interpolate=True)&#10;rest_prompt_audio = g_play_audio(rest_prompt_audio_value)&#10;rest_prompt_clock = core.Clock()&#10;thisExp.addData(f&quot;{rest_prompt_label}_prompt_audio&quot;, g_path(rest_prompt_audio_value))&#10;event.clearEvents()&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="&#10;rest_prompt_icon.draw()&#10;keys = event.getKeys(keyList=[&quot;space&quot;, &quot;return&quot;, &quot;escape&quot;])&#10;if &quot;escape&quot; in keys:&#10;    g_abort_and_quit()&#10;if &quot;return&quot; in keys:&#10;    if rest_prompt_audio:&#10;        rest_prompt_audio.stop()&#10;    rest_prompt_audio = g_play_audio(rest_prompt_audio_value)&#10;    rest_prompt_clock.reset()&#10;    event.clearEvents()&#10;elif &quot;space&quot; in keys:&#10;    if rest_prompt_audio:&#10;        rest_prompt_audio.stop()&#10;    thisExp.addData(f&quot;{rest_prompt_label}_prompt_rt&quot;, rest_prompt_clock.getTime())&#10;    continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="post_rest_ready_prompt_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
   </Routines>
   <Flow>
     <Routine name="RestEyesOpenPrompt" />
@@ -860,5 +1175,12 @@
     <Routine name="MainTrial" />
     <LoopTerminator name="MainBlock2" />
     <Routine name="EndExperiment" />
+    <Routine name="PostRestEyesOpenPrompt" />
+    <Routine name="PostRestEyesOpen" />
+    <Routine name="RestBeep" />
+    <Routine name="PostRestEyesClosedPrompt" />
+    <Routine name="PostRestEyesClosed" />
+    <Routine name="RestBeep" />
+    <Routine name="PostRestReadyPrompt" />
   </Flow>
 </PsychoPy2experiment>
