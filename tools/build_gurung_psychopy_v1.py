@@ -353,10 +353,8 @@ def scan_jpeg_stimuli(jpeg_root: Path) -> list[dict[str, object]]:
 def copy_assets(out_dir: Path, old_dir: Path) -> None:
     audio_dir = out_dir / "Audio"
     stim_dir = out_dir / "Stimuli"
-    placeholder_dir = out_dir / "Placeholders"
     audio_dir.mkdir(parents=True, exist_ok=True)
     stim_dir.mkdir(parents=True, exist_ok=True)
-    placeholder_dir.mkdir(parents=True, exist_ok=True)
 
     for path in sorted((old_dir / "Audio").iterdir(), key=lambda item: item.name):
         if path.is_file():
@@ -375,10 +373,6 @@ def copy_assets(out_dir: Path, old_dir: Path) -> None:
     probe_source = audio_dir / "tsakyali.wav"
     if probe_source.is_file():
         shutil.copy2(probe_source, audio_dir / "probe_placeholder.wav")
-
-    placeholder_source = stim_dir / "break.png"
-    for index in range(1, 121):
-        shutil.copy2(placeholder_source, placeholder_dir / f"between_{index:03d}.png")
 
 
 def resize_image_with_powershell(source: Path, target: Path, max_dimension: int) -> None:
@@ -441,59 +435,6 @@ def copy_or_downsample_image(source: Path, target: Path, max_dimension: int) -> 
             resize_image_with_powershell(source, target, max_dimension)
         except Exception:
             shutil.copy2(source, target)
-
-
-def ensure_practice_jpegs(out_dir: Path) -> None:
-    stim_dir = out_dir / "Stimuli"
-    practice_sources = sorted(stim_dir.glob("practice_*.png")) + sorted(stim_dir.glob("isolated_practice_*.png"))
-    for source in practice_sources:
-        copy_or_downsample_image(source, source.with_suffix(".jpg"), MAIN_STIMULI_MAX_DIMENSION)
-
-
-def copy_main_stimuli(out_dir: Path, datasets: list[dict[str, object]]) -> dict[tuple[int, str], str]:
-    main_dir = out_dir / "MainStimuli"
-    manifest_rows: list[dict[str, str]] = []
-    relative_paths: dict[tuple[int, str], str] = {}
-    for dataset in datasets:
-        number = int(dataset["number"])
-        slug = str(dataset["slug"])
-        label = str(dataset["label"])
-        set_folder = Path(dataset["set_folder"])
-        target_dir = main_dir / slug
-        for stem in EXPECTED_IMAGES:
-            source = set_folder / f"{stem}.png"
-            target = target_dir / f"{stem}.png"
-            copy_or_downsample_image(source, target, MAIN_STIMULI_MAX_DIMENSION)
-            relative_path = f"MainStimuli/{slug}/{stem}.png"
-            relative_paths[(number, stem)] = relative_path
-            manifest_rows.append(
-                {
-                    "dataset_number": str(number),
-                    "dataset_slug": slug,
-                    "dataset_label": label,
-                    "image_role": stem,
-                    "package_path": relative_path,
-                    "source_path": str(source),
-                }
-            )
-
-    manifest_path = main_dir / "main_stimuli_manifest.csv"
-    with manifest_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(
-            handle,
-            fieldnames=[
-                "dataset_number",
-                "dataset_slug",
-                "dataset_label",
-                "image_role",
-                "package_path",
-                "source_path",
-            ],
-            lineterminator="\n",
-        )
-        writer.writeheader()
-        writer.writerows(manifest_rows)
-    return relative_paths
 
 
 def list_landscape_between_sources(source_dir: Path) -> list[Path]:
@@ -2745,7 +2686,6 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     for dirname, source in preserved_dirs.items():
         shutil.move(str(source), str(out_dir / dirname))
     copy_assets(out_dir, old_dir)
-    ensure_practice_jpegs(out_dir)
     datasets = scan_jpeg_stimuli(out_dir / JPEG_STIMULI_DIRNAME)
 
     main_trials_per_list = len(datasets) * 4 * 2
