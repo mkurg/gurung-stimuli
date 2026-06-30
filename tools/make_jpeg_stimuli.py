@@ -15,6 +15,7 @@ from pathlib import Path
 GOOGLE_DRIVE_ID = "1exBA-7XrpLfZc6s8oGNYTbmjGsu5dT6p"
 DEFAULT_QUALITY = 85
 DEFAULT_SETS = ("1", "2", "3", "4")
+DEFAULT_MTIME_TOLERANCE_SECONDS = 1.0
 
 
 def default_google_drive_root() -> Path:
@@ -42,6 +43,17 @@ def parse_sets(value: str) -> tuple[str, ...]:
     if not sets:
         raise argparse.ArgumentTypeError("At least one set id is required.")
     return sets
+
+
+def parse_size(value: str) -> tuple[int, int]:
+    match = re.fullmatch(r"(\d+)x(\d+)", value.strip().lower())
+    if not match:
+        raise argparse.ArgumentTypeError("Use WIDTHxHEIGHT, for example 1024x1536.")
+    width = int(match.group(1))
+    height = int(match.group(2))
+    if width < 1 or height < 1:
+        raise argparse.ArgumentTypeError("Width and height must be positive.")
+    return width, height
 
 
 def natural_key(value: str) -> list[object]:
@@ -95,11 +107,8 @@ def convert_png_to_jpeg(
     target: Path,
     quality: int,
     resize_long_edge: int | None,
-    overwrite: bool,
+    target_size: tuple[int, int] | None,
 ) -> str:
-    if target.exists() and not overwrite:
-        return "skipped_exists"
-
     target.parent.mkdir(parents=True, exist_ok=True)
     command = [
         "magick",
@@ -108,16 +117,44 @@ def convert_png_to_jpeg(
         "-colorspace",
         "sRGB",
         "-strip",
-        "-sampling-factor",
-        "4:2:0",
-        "-quality",
-        str(quality),
     ]
+    if target_size is not None:
+        width, height = target_size
+        command.extend(["-resize", f"{width}x{height}^", "-gravity", "center", "-extent", f"{width}x{height}"])
     if resize_long_edge is not None:
         command.extend(["-resize", f"{resize_long_edge}x{resize_long_edge}>"])
+    command.extend(
+        [
+            "-sampling-factor",
+            "4:2:0",
+            "-quality",
+            str(quality),
+        ]
+    )
     command.append(str(target))
     subprocess.run(command, check=True)
     return "converted"
+
+
+def should_convert(
+    source: Path,
+    target: Path,
+    overwrite: bool,
+    refresh_stale_or_wrong_size: bool,
+    target_size: tuple[int, int] | None,
+    mtime_tolerance_seconds: float,
+) -> bool:
+    if overwrite or not target.exists():
+        return True
+    if not refresh_stale_or_wrong_size:
+        return False
+    if target.stat().st_mtime + mtime_tolerance_seconds < source.stat().st_mtime:
+        return True
+    if target_size is not None:
+        target_width, target_height, _ = identify_image(target)
+        if (target_width, target_height) != target_size:
+            return True
+    return False
 
 
 def build_rows(
@@ -126,7 +163,10 @@ def build_rows(
     files: list[Path],
     quality: int,
     resize_long_edge: int | None,
+    target_size: tuple[int, int] | None,
     overwrite: bool,
+    refresh_stale_or_wrong_size: bool,
+    mtime_tolerance_seconds: float,
     dry_run: bool,
 ) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
@@ -135,7 +175,15 @@ def build_rows(
         relative_target = relative_source.with_suffix(".jpg")
         target = output_root / relative_target
         source_width, source_height, source_colorspace = identify_image(source)
-        status = "dry_run"
+        needs_convert = should_convert(
+            source=source,
+            target=target,
+            overwrite=overwrite,
+            refresh_stale_or_wrong_size=refresh_stale_or_wrong_size,
+            target_size=target_size,
+            mtime_tolerance_seconds=mtime_tolerance_seconds,
+        )
+        status = "would_convert" if needs_convert else "would_skip_exists"
         target_width = ""
         target_height = ""
         target_colorspace = ""
@@ -143,7 +191,10 @@ def build_rows(
         target_sha256 = ""
 
         if not dry_run:
-            status = convert_png_to_jpeg(source, target, quality, resize_long_edge, overwrite)
+            if needs_convert:
+                status = convert_png_to_jpeg(source, target, quality, resize_long_edge, target_size)
+            else:
+                status = "skipped_exists"
             if target.is_file():
                 width, height, colorspace = identify_image(target)
                 target_width = str(width)
@@ -195,6 +246,8 @@ def write_manifest(output_root: Path, rows: list[dict[str, str]], args: argparse
                 f"output_root={output_root}",
                 f"quality={args.quality}",
                 f"resize_long_edge={args.resize_long_edge or ''}",
+                f"target_size={'' if args.target_size is None else f'{args.target_size[0]}x{args.target_size[1]}'}",
+                f"refresh_stale_or_wrong_size={args.refresh_stale_or_wrong_size}",
                 f"dry_run={args.dry_run}",
                 f"files={len(rows)}",
                 f"converted_or_existing={len(converted_rows)}",
@@ -241,7 +294,23 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--sets", type=parse_sets, default=DEFAULT_SETS, help="Comma-separated set folders for Google Drive preset.")
     parser.add_argument("--quality", type=int, default=DEFAULT_QUALITY, help="JPEG quality, default 85.")
     parser.add_argument("--resize-long-edge", type=int, help="Optional max long edge. Omit to preserve full resolution.")
+    parser.add_argument(
+        "--target-size",
+        type=parse_size,
+        help="Normalize output to exact WIDTHxHEIGHT without stretching, using resize-to-cover and center crop.",
+    )
     parser.add_argument("--overwrite", action="store_true", help="Regenerate existing JPEGs.")
+    parser.add_argument(
+        "--refresh-stale-or-wrong-size",
+        action="store_true",
+        help="Regenerate existing JPEGs when the source PNG is newer or the target does not match --target-size.",
+    )
+    parser.add_argument(
+        "--mtime-tolerance-seconds",
+        type=float,
+        default=DEFAULT_MTIME_TOLERANCE_SECONDS,
+        help="How much older a JPEG may be before it is treated as stale.",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Only scan and write no outputs.")
     parser.add_argument("--sample", type=int, help="Convert a deterministic random sample instead of all files.")
     parser.add_argument("--seed", type=int, default=20260626, help="Random seed for --sample.")
@@ -256,6 +325,10 @@ def main() -> None:
     args = parse_args()
     if not (1 <= args.quality <= 100):
         raise SystemExit("--quality must be between 1 and 100.")
+    if args.target_size is not None and args.resize_long_edge is not None:
+        raise SystemExit("--target-size and --resize-long-edge cannot be used together.")
+    if args.mtime_tolerance_seconds < 0:
+        raise SystemExit("--mtime-tolerance-seconds cannot be negative.")
 
     source_root, output_root = choose_source_and_output(args)
     if not source_root.is_dir():
@@ -271,7 +344,10 @@ def main() -> None:
         files=files,
         quality=args.quality,
         resize_long_edge=args.resize_long_edge,
+        target_size=args.target_size,
         overwrite=args.overwrite,
+        refresh_stale_or_wrong_size=args.refresh_stale_or_wrong_size,
+        mtime_tolerance_seconds=args.mtime_tolerance_seconds,
         dry_run=args.dry_run,
     )
     if not args.dry_run:
@@ -279,11 +355,16 @@ def main() -> None:
 
     converted = sum(1 for row in rows if row["status"] == "converted")
     skipped = sum(1 for row in rows if row["status"].startswith("skipped"))
+    would_convert = sum(1 for row in rows if row["status"] == "would_convert")
+    would_skip = sum(1 for row in rows if row["status"].startswith("would_skip"))
     target_sizes = [int(row["target_bytes"]) for row in rows if row["target_bytes"]]
     average_kb = (sum(target_sizes) / len(target_sizes) / 1024) if target_sizes else 0
     print(f"source_root={source_root}")
     print(f"output_root={output_root}")
-    print(f"files={len(rows)} converted={converted} skipped={skipped} average_jpeg_kb={average_kb:.1f}")
+    print(
+        f"files={len(rows)} converted={converted} skipped={skipped} "
+        f"would_convert={would_convert} would_skip={would_skip} average_jpeg_kb={average_kb:.1f}"
+    )
     if not args.dry_run:
         print(f"manifest={output_root / 'jpeg_stimuli_manifest.csv'}")
 
