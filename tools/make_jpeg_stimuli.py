@@ -15,6 +15,7 @@ from pathlib import Path
 GOOGLE_DRIVE_ID = "1exBA-7XrpLfZc6s8oGNYTbmjGsu5dT6p"
 DEFAULT_QUALITY = 85
 DEFAULT_SETS = ("1", "2", "3", "4")
+DEFAULT_TARGET_SIZE = (1024, 1536)
 DEFAULT_MTIME_TOLERANCE_SECONDS = 1.0
 
 
@@ -297,13 +298,29 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--target-size",
         type=parse_size,
-        help="Normalize output to exact WIDTHxHEIGHT without stretching, using resize-to-cover and center crop.",
+        help=(
+            "Normalize output to exact WIDTHxHEIGHT without stretching, using resize-to-cover and center crop. "
+            "For the default Google Drive preset, omitted means 1024x1536."
+        ),
+    )
+    parser.add_argument(
+        "--preserve-source-size",
+        action="store_true",
+        help="Do not apply the default 1024x1536 normalization for the Google Drive preset.",
     )
     parser.add_argument("--overwrite", action="store_true", help="Regenerate existing JPEGs.")
     parser.add_argument(
         "--refresh-stale-or-wrong-size",
+        dest="refresh_stale_or_wrong_size",
         action="store_true",
-        help="Regenerate existing JPEGs when the source PNG is newer or the target does not match --target-size.",
+        default=None,
+        help="Regenerate existing JPEGs when the source PNG is newer or the target does not match --target-size. Default on for the Google Drive preset.",
+    )
+    parser.add_argument(
+        "--no-refresh-stale-or-wrong-size",
+        dest="refresh_stale_or_wrong_size",
+        action="store_false",
+        help="Do not refresh existing JPEGs unless they are missing or --overwrite is set.",
     )
     parser.add_argument(
         "--mtime-tolerance-seconds",
@@ -325,6 +342,12 @@ def main() -> None:
     args = parse_args()
     if not (1 <= args.quality <= 100):
         raise SystemExit("--quality must be between 1 and 100.")
+    if args.preserve_source_size and (args.target_size is not None or args.resize_long_edge is not None):
+        raise SystemExit("--preserve-source-size cannot be combined with --target-size or --resize-long-edge.")
+    if args.target_size is None and args.preset == "google-drive-numbered-sets" and not args.preserve_source_size:
+        args.target_size = DEFAULT_TARGET_SIZE
+    if args.refresh_stale_or_wrong_size is None:
+        args.refresh_stale_or_wrong_size = args.preset == "google-drive-numbered-sets"
     if args.target_size is not None and args.resize_long_edge is not None:
         raise SystemExit("--target-size and --resize-long-edge cannot be used together.")
     if args.mtime_tolerance_seconds < 0:
