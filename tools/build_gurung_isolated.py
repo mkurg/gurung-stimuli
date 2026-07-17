@@ -51,61 +51,61 @@ ISOLATED_PRACTICE_ITEMS = [
         "isolated_practice_01_orange_and_man",
         "Stimuli/isolated_practice_01_orange_and_man.jpg",
         "orange_and_man",
-        True,
+        "Audio/new_isol_man_orange.wav",
     ),
     (
         "isolated_practice_02_woman_milking_goat",
         "Stimuli/isolated_practice_02_woman_milking_goat.jpg",
         "woman_milking_goat",
-        True,
+        "Audio/new_isol_milk_goat.wav",
     ),
     (
         "isolated_practice_03_boy_bicycle",
         "Stimuli/isolated_practice_03_boy_bicycle.jpg",
         "boy_bicycle",
-        False,
+        "",
     ),
     (
         "isolated_practice_04_woman_chopping_greens",
         "Stimuli/isolated_practice_05_woman_chopping_greens.jpg",
         "woman_chopping_greens",
-        False,
+        "",
     ),
     (
         "isolated_practice_05_old_man_corn",
         "Stimuli/isolated_practice_04_old_man_corn.jpg",
         "old_man_corn",
-        False,
+        "",
     ),
     (
         "isolated_practice_06_woman_phone",
         "Stimuli/isolated_practice_06_woman_phone.jpg",
         "woman_phone",
-        False,
+        "",
     ),
     (
         "isolated_practice_07_man_motorcycle",
         "Stimuli/isolated_practice_07_man_motorcycle.jpg",
         "man_motorcycle",
-        False,
+        "",
     ),
     (
         "isolated_practice_08_butterfly_phone",
         "Stimuli/isolated_practice_09_butterfly_phone.jpg",
         "butterfly_phone",
-        False,
+        "",
     ),
     (
         "isolated_practice_09_badminton_wind",
         "Stimuli/isolated_practice_10_badminton_wind.jpg",
         "badminton_wind",
-        False,
+        "",
     ),
     (
         "isolated_practice_10_girl_towel_old_man",
         "Stimuli/isolated_practice_08_girl_towel_old_man.jpg",
         "girl_towel_old_man",
-        False,
+        "",
     ),
 ]
 
@@ -178,7 +178,7 @@ def build_main_rows(discourse_dir: Path, list_id: str, image_prefix: str = ".") 
 def build_practice_rows(discourse_dir: Path) -> list[dict[str, str]]:
     rows = []
     stimuli_dir = discourse_dir / "Stimuli"
-    for practice_index, (trial_id, target_image, target_role, is_voiced) in enumerate(ISOLATED_PRACTICE_ITEMS, start=1):
+    for practice_index, (trial_id, target_image, target_role, practice_audio) in enumerate(ISOLATED_PRACTICE_ITEMS, start=1):
         if not (stimuli_dir / Path(target_image).name).is_file():
             raise FileNotFoundError(stimuli_dir / Path(target_image).name)
         rows.append(
@@ -187,7 +187,7 @@ def build_practice_rows(discourse_dir: Path) -> list[dict[str, str]]:
                 "practice_index": str(practice_index),
                 "target_image": target_image,
                 "target_role": target_role,
-                "practice_audio": "Audio/chickencorn_erg.wav" if is_voiced else "",
+                "practice_audio": practice_audio,
                 "source_n_images": "1",
             }
         )
@@ -479,6 +479,20 @@ if "space" in keys or rest_beep_clock.getTime() >= rest_beep_duration:
 '''
 
 
+ISOLATED_PRACTICE_MID_BEGIN = discourse.PRACTICE_DONE_BEGIN.replace(
+    "Audio/new_disc_instr3.wav", "Audio/new_isol_instr2.wav"
+)
+ISOLATED_PRACTICE_MID_EACH = discourse.PRACTICE_DONE_EACH.replace(
+    "Audio/new_disc_instr3.wav", "Audio/new_isol_instr2.wav"
+)
+ISOLATED_PRACTICE_DONE_BEGIN = discourse.PRACTICE_DONE_BEGIN.replace(
+    "Audio/new_disc_instr3.wav", "Audio/new_isol_instr3.wav"
+)
+ISOLATED_PRACTICE_DONE_EACH = discourse.PRACTICE_DONE_EACH.replace(
+    "Audio/new_disc_instr3.wav", "Audio/new_isol_instr3.wav"
+)
+
+
 ISOLATED_PRACTICE_BEGIN = r'''
 G_ISOLATED_PRACTICE_INDEX += 1
 win.color = "white"
@@ -661,7 +675,7 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
         "RestEyesOpenPrompt",
         "rest_open_prompt_code",
         begin_experiment=isolated_shared_code(),
-        begin_routine=rest_prompt_begin("rest_eyes_open", "Stimuli/eyes_open.png", "Audio/tsakyali.wav"),
+        begin_routine=rest_prompt_begin("rest_eyes_open", "Stimuli/eyes_open.png", "Audio/new_isol_rs_eyesopen_start.wav"),
         each_frame=REST_PROMPT_EACH,
     )
     add_routine(
@@ -676,7 +690,7 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
         routines,
         "RestEyesClosedPrompt",
         "rest_closed_prompt_code",
-        begin_routine=rest_prompt_begin("rest_eyes_closed", "Stimuli/eyes_closed.png", "Audio/tsakyali.wav"),
+        begin_routine=rest_prompt_begin("rest_eyes_closed", "Stimuli/eyes_closed.png", "Audio/new_isol_rs_eyesclosed_start.wav"),
         each_frame=REST_PROMPT_EACH,
     )
     add_routine(
@@ -690,14 +704,14 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
         routines,
         "RestReadyPrompt",
         "rest_ready_prompt_code",
-        begin_routine=rest_prompt_begin("rest_ready", "Stimuli/eyes_open.png", "Audio/probe_placeholder.wav"),
+        begin_routine=rest_prompt_begin("rest_ready", "Stimuli/eyes_open.png", "Audio/new_isol_rs_eyesclosed_finish.wav"),
         each_frame=REST_PROMPT_EACH,
     )
     add_routine(
         routines,
         "Instructions",
         "instructions_code",
-        begin_routine=instruction_begin("Audio/isolated_instr.wav"),
+        begin_routine=instruction_begin("Audio/new_isol_instr1.wav"),
         each_frame=INSTRUCTION_EACH,
     )
     add_routine(
@@ -710,10 +724,17 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
     )
     add_routine(
         routines,
+        "PracticeMidInstruction",
+        "practice_mid_instruction_code",
+        begin_routine=ISOLATED_PRACTICE_MID_BEGIN,
+        each_frame=ISOLATED_PRACTICE_MID_EACH,
+    )
+    add_routine(
+        routines,
         "PracticeEnd",
         "practice_end_code",
-        begin_routine=discourse.PRACTICE_DONE_BEGIN,
-        each_frame=discourse.PRACTICE_DONE_EACH,
+        begin_routine=ISOLATED_PRACTICE_DONE_BEGIN,
+        each_frame=ISOLATED_PRACTICE_DONE_EACH,
     )
     add_routine(
         routines,
@@ -729,7 +750,7 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
         routines,
         "PostRestEyesOpenPrompt",
         "post_rest_open_prompt_code",
-        begin_routine=rest_prompt_begin("post_rest_eyes_open", "Stimuli/eyes_open.png", "Audio/probe_placeholder.wav"),
+        begin_routine=rest_prompt_begin("post_rest_eyes_open", "Stimuli/eyes_open.png", "Audio/new_isol_rs_eyesopen_start.wav"),
         each_frame=REST_PROMPT_EACH,
     )
     add_routine(
@@ -743,7 +764,7 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
         routines,
         "PostRestEyesClosedPrompt",
         "post_rest_closed_prompt_code",
-        begin_routine=rest_prompt_begin("post_rest_eyes_closed", "Stimuli/eyes_closed.png", "Audio/probe_placeholder.wav"),
+        begin_routine=rest_prompt_begin("post_rest_eyes_closed", "Stimuli/eyes_closed.png", "Audio/new_isol_rs_eyesclosed_start.wav"),
         each_frame=REST_PROMPT_EACH,
     )
     add_routine(
@@ -757,7 +778,7 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
         routines,
         "PostRestReadyPrompt",
         "post_rest_ready_prompt_code",
-        begin_routine=rest_prompt_begin("post_rest_ready", "Stimuli/eyes_open.png", "Audio/probe_placeholder.wav"),
+        begin_routine=rest_prompt_begin("post_rest_ready", "Stimuli/eyes_open.png", "Audio/new_isol_rs_eyesclosed_finish.wav"),
         each_frame=REST_PROMPT_EACH,
     )
 
@@ -770,9 +791,13 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
     ET.SubElement(flow, "Routine", name="RestBeep")
     ET.SubElement(flow, "Routine", name="RestReadyPrompt")
     ET.SubElement(flow, "Routine", name="Instructions")
-    discourse.loop_initiator(flow, "PracticeLoop", "Conds/isolated_practice.csv", loop_type="sequential")
+    discourse.loop_initiator(flow, "PracticeVoicedLoop", "Conds/isolated_practice_voiced.csv", loop_type="sequential")
     ET.SubElement(flow, "Routine", name="PracticeTrial")
-    ET.SubElement(flow, "LoopTerminator", name="PracticeLoop")
+    ET.SubElement(flow, "LoopTerminator", name="PracticeVoicedLoop")
+    ET.SubElement(flow, "Routine", name="PracticeMidInstruction")
+    discourse.loop_initiator(flow, "PracticeUnvoicedLoop", "Conds/isolated_practice_unvoiced.csv", loop_type="sequential")
+    ET.SubElement(flow, "Routine", name="PracticeTrial")
+    ET.SubElement(flow, "LoopTerminator", name="PracticeUnvoicedLoop")
     ET.SubElement(flow, "Routine", name="PracticeEnd")
     discourse.loop_initiator(flow, "MainBlock1", "$g_isolated_runtime_main_block_file(1)", loop_type="sequential")
     ET.SubElement(flow, "Routine", name="MainTrial")
@@ -804,9 +829,9 @@ This is the isolated-picture version of the Gurung experiment.
 - Resting-state sequence comes before the experiment instruction screen: eyes-open prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, eyes-closed prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, ready prompt with the eyes-open icon. The same resting-state sequence runs again after the finish-flags screen at task end.
 - Resting-state blank screens end automatically after 120 seconds, but Space can move forward earlier.
 - Pre-task resting-state blank intervals send/log trigger 150 at eyes-open start, eyes-open finish, eyes-closed start, and eyes-closed finish; post-task resting-state blank intervals use trigger 151 for the same four events.
-- The isolated instruction screen uses `Audio/isolated_instr.wav`; the first Space starts audio, and a later Space advances.
-- Practice has 10 fixed single-picture trials in CSV order, using the `isolated_practice_*.jpg` files in `Stimuli/`.
-- Practice trials 1 and 2 are the voiced orange-picking and goat-milking pictures; they play `Audio/chickencorn_erg.wav` simultaneously with the picture. Practice trials 3-10 have no picture audio.
+- Isolated practice uses three speaker instruction screens: `Audio/new_isol_instr1.wav` before practice trials 1-2, `Audio/new_isol_instr2.wav` before practice trials 3-10, and `Audio/new_isol_instr3.wav` after practice before the main task.
+- Practice has 10 fixed single-picture trials in CSV order, using the `isolated_practice_*.jpg` files in `Stimuli/`; the flow runs `isolated_practice_voiced.csv` followed by `isolated_practice_unvoiced.csv`.
+- Practice trials 1 and 2 are the voiced orange-picking and goat-milking pictures; they play `Audio/new_isol_man_orange.wav` and `Audio/new_isol_milk_goat.wav` simultaneously with the picture. Practice trials 3-10 have no picture audio.
 - At the start dialog, choose experimental `list` 1 or 2. The main part has 120 isolated target-picture trials for the selected list, built from the Discourse list tables.
 - Main target pictures are JPEGs referenced from the Discourse `JpegStimuliFullRes/` package with relative paths.
 - Main trial order is reshuffled at runtime on every run, then split into 60 trials, a 30-second break, and 60 trials.
@@ -850,6 +875,8 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     for list_id, main_rows in main_rows_by_list.items():
         write_csv(out_dir / "Conds" / f"isolated_main_list{list_id}_all_120.csv", main_rows, MAIN_FIELDS)
     write_csv(out_dir / "Conds" / "isolated_practice.csv", practice_rows, PRACTICE_FIELDS)
+    write_csv(out_dir / "Conds" / "isolated_practice_voiced.csv", practice_rows[:2], PRACTICE_FIELDS)
+    write_csv(out_dir / "Conds" / "isolated_practice_unvoiced.csv", practice_rows[2:], PRACTICE_FIELDS)
     psyexp = build_psyexp(out_dir, template)
     write_readme(out_dir)
     tools_dir = out_dir / "tools"
@@ -873,6 +900,7 @@ def build(args: argparse.Namespace) -> dict[str, object]:
         "main_trials_per_list": 120,
         "experimental_lists": sorted(discourse.LIST_RULES),
         "practice_trials": len(practice_rows),
+        "practice_blocks": [2, 8],
         "main_blocks": [60, 60],
         "resting_state_seconds_each": 120,
     }

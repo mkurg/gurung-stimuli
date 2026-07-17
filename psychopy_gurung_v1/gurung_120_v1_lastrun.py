@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2026.1.3),
-    on June 27, 2026, at 00:37
+    on July 17, 2026, at 17:58
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -469,9 +469,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         "trigger_index": 0,
     }
     G_AUDIO_PROBE_FILES = (
-        "Audio/tsakyali.wav",
-        "Audio/bucketdog_noerg.wav",
-        "Audio/chickencorn_erg.wav",
+        "Audio/new_disc_q_animal.wav",
+        "Audio/new_disc_q_how_many.wav",
+        "Audio/new_disc_q_what_happened.wav",
+        "Audio/new_disc_q_who.wav",
     )
     G_AUDIO_PROBE_RATE = 0.10
     G_AUDIO_PROBE_LOCK_SEC = 10
@@ -485,21 +486,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     G_PRACTICE_TRIAL_COUNT = 10
     G_PRACTICE_PICTURE_AUDIO = {
         1: {
-            0: "Audio/tsakyali.wav",
-            1: "Audio/bucketdog_noerg.wav",
-            2: "Audio/chickencorn_erg.wav",
+            0: "Audio/new_disc_orange_1.wav",
+            1: "Audio/new_disc_orange_2.wav",
+            2: "Audio/new_disc_orange_3.wav",
         },
         2: {
-            0: "Audio/tsakyali.wav",
-            1: "Audio/bucketdog_noerg.wav",
-            2: "Audio/chickencorn_erg.wav",
+            0: "Audio/new_disc_towel_1.wav",
+            1: "Audio/new_disc_towel_2.wav",
+            2: "Audio/new_disc_towel_3.wav",
         },
     }
     G_PRACTICE_AFTER_TRIAL_AUDIO = {
-        2: "Audio/practice_end.wav",
-        4: "Audio/tsakyali.wav",
-        7: "Audio/bucketdog_noerg.wav",
-        10: "Audio/chickencorn_erg.wav",
+        2: "Audio/new_disc_instr2.wav",
+        4: "Audio/new_disc_q_what_happened.wav",
+        7: "Audio/new_disc_q_who.wav",
+        10: "Audio/new_disc_q_how_many.wav",
     }
     G_PRACTICE_SPEAKER_SCREEN_AFTER_TRIALS = {2}
     G_LAST_MAIN_TRIAL_INFO = {}
@@ -566,7 +567,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     def g_practice_pre_picture_audio(trial_index, segment_index, image_count):
         if trial_index not in G_PRACTICE_PICTURE_AUDIO and segment_index == image_count - 1:
-            return "Audio/tsakyali.wav"
+            return "Audio/new_disc_tsakyali.wav"
         return ""
     
     
@@ -1992,14 +1993,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if "return" in keys:
             if instruction_audio:
                 instruction_audio.stop()
-            instruction_audio = g_play_audio("Audio/sequence_instr.wav")
+            instruction_audio = g_play_audio("Audio/new_disc_instr1.wav")
             instruction_started = True
             instruction_clock.reset()
             instruction_duration = g_float(instruction_audio.getDuration() if instruction_audio else 0, 0.0)
             event.clearEvents()
         elif "space" in keys:
             if not instruction_started:
-                instruction_audio = g_play_audio("Audio/sequence_instr.wav")
+                instruction_audio = g_play_audio("Audio/new_disc_instr1.wav")
                 instruction_started = True
                 instruction_clock.reset()
                 instruction_duration = g_float(instruction_audio.getDuration() if instruction_audio else 0, 0.0)
@@ -2467,7 +2468,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     practice_done_icon = visual.ImageStim(win, image=g_path("Stimuli/sound.png"), pos=(0, 0), size=(0.22, 0.22), interpolate=True)
-    practice_done_audio = g_play_audio("Audio/practice_end.wav")
+    practice_done_audio = g_play_audio("Audio/new_disc_instr3.wav")
     practice_done_clock = core.Clock()
     practice_done_duration = g_float(practice_done_audio.getDuration() if practice_done_audio else 0, 0.0)
     event.clearEvents()
@@ -2531,7 +2532,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if "return" in keys:
             if practice_done_audio:
                 practice_done_audio.stop()
-            practice_done_audio = g_play_audio("Audio/practice_end.wav")
+            practice_done_audio = g_play_audio("Audio/new_disc_instr3.wav")
             practice_done_clock.reset()
             practice_done_duration = g_float(practice_done_audio.getDuration() if practice_done_audio else 0, 0.0)
             event.clearEvents()
