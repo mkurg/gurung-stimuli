@@ -12,9 +12,10 @@
   "practice_trials": 10,
   "runtime_audio_probe_trials_per_list": 24,
   "runtime_audio_probe_files": [
-    "Audio/tsakyali.wav",
-    "Audio/bucketdog_noerg.wav",
-    "Audio/chickencorn_erg.wav"
+    "Audio/new_disc_q_animal.wav",
+    "Audio/new_disc_q_how_many.wav",
+    "Audio/new_disc_q_what_happened.wav",
+    "Audio/new_disc_q_who.wav"
   ],
   "between_trial_images": 251,
   "between_trial_source": "between_trials\\Nepal 2025",

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2026.1.3),
-    on June 27, 2026, at 11:52
+    on July 17, 2026, at 17:53
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -469,9 +469,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         "trigger_index": 0,
     }
     G_AUDIO_PROBE_FILES = (
-        "Audio/tsakyali.wav",
-        "Audio/bucketdog_noerg.wav",
-        "Audio/chickencorn_erg.wav",
+        "Audio/new_disc_q_animal.wav",
+        "Audio/new_disc_q_how_many.wav",
+        "Audio/new_disc_q_what_happened.wav",
+        "Audio/new_disc_q_who.wav",
     )
     G_AUDIO_PROBE_RATE = 0.10
     G_AUDIO_PROBE_LOCK_SEC = 10
@@ -484,21 +485,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     G_PRACTICE_TRIAL_COUNT = 10
     G_PRACTICE_PICTURE_AUDIO = {
         1: {
-            0: "Audio/tsakyali.wav",
-            1: "Audio/bucketdog_noerg.wav",
-            2: "Audio/chickencorn_erg.wav",
+            0: "Audio/new_disc_orange_1.wav",
+            1: "Audio/new_disc_orange_2.wav",
+            2: "Audio/new_disc_orange_3.wav",
         },
         2: {
-            0: "Audio/tsakyali.wav",
-            1: "Audio/bucketdog_noerg.wav",
-            2: "Audio/chickencorn_erg.wav",
+            0: "Audio/new_disc_towel_1.wav",
+            1: "Audio/new_disc_towel_2.wav",
+            2: "Audio/new_disc_towel_3.wav",
         },
     }
     G_PRACTICE_AFTER_TRIAL_AUDIO = {
-        2: "Audio/practice_end.wav",
-        4: "Audio/tsakyali.wav",
-        7: "Audio/bucketdog_noerg.wav",
-        10: "Audio/chickencorn_erg.wav",
+        2: "Audio/new_disc_instr2.wav",
+        4: "Audio/new_disc_q_what_happened.wav",
+        7: "Audio/new_disc_q_who.wav",
+        10: "Audio/new_disc_q_how_many.wav",
     }
     G_PRACTICE_SPEAKER_SCREEN_AFTER_TRIALS = {2}
     G_LAST_MAIN_TRIAL_INFO = {}
@@ -565,7 +566,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     def g_practice_pre_picture_audio(trial_index, segment_index, image_count):
         if trial_index not in G_PRACTICE_PICTURE_AUDIO and segment_index == image_count - 1:
-            return "Audio/tsakyali.wav"
+            return "Audio/new_disc_tsakyali.wav"
         return ""
     
     
@@ -1889,6 +1890,26 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
     
+    # --- Initialize components for Routine "PracticeMidInstruction" ---
+    PracticeMidInstruction_keep_alive = visual.ImageStim(
+        win=win,
+        name='PracticeMidInstruction_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
+    # --- Initialize components for Routine "PracticeTrial" ---
+    PracticeTrial_keep_alive = visual.ImageStim(
+        win=win,
+        name='PracticeTrial_keep_alive', 
+        image='Stimuli/sound.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, 0), draggable=False, size=(0.01, 0.01),
+        color=[1,1,1], colorSpace='rgb', opacity=0.0,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=0.0)
+    
     # --- Initialize components for Routine "PracticeEnd" ---
     PracticeEnd_keep_alive = visual.ImageStim(
         win=win,
@@ -2052,7 +2073,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     rest_prompt_label = "rest_eyes_open"
-    rest_prompt_audio_value = "Audio/tsakyali.wav"
+    rest_prompt_audio_value = "Audio/new_isol_rs_eyesopen_start.wav"
     rest_prompt_icon = visual.ImageStim(win, image=g_path("Stimuli/eyes_open.png"), pos=(0, 0), size=(0.44, 0.44), interpolate=True)
     rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
     rest_prompt_clock = core.Clock()
@@ -2441,7 +2462,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     rest_prompt_label = "rest_eyes_closed"
-    rest_prompt_audio_value = "Audio/tsakyali.wav"
+    rest_prompt_audio_value = "Audio/new_isol_rs_eyesclosed_start.wav"
     rest_prompt_icon = visual.ImageStim(win, image=g_path("Stimuli/eyes_closed.png"), pos=(0, 0), size=(0.44, 0.44), interpolate=True)
     rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
     rest_prompt_clock = core.Clock()
@@ -2830,7 +2851,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     rest_prompt_label = "rest_ready"
-    rest_prompt_audio_value = "Audio/probe_placeholder.wav"
+    rest_prompt_audio_value = "Audio/new_isol_rs_eyesclosed_finish.wav"
     rest_prompt_icon = visual.ImageStim(win, image=g_path("Stimuli/eyes_open.png"), pos=(0, 0), size=(0.44, 0.44), interpolate=True)
     rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
     rest_prompt_clock = core.Clock()
@@ -2965,7 +2986,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     instruction_icon = visual.ImageStim(win, image=g_path("Stimuli/sound.png"), pos=(0, 0), size=(0.22, 0.22), interpolate=True)
-    instruction_audio_value = "Audio/isolated_instr.wav"
+    instruction_audio_value = "Audio/new_isol_instr1.wav"
     instruction_audio = None
     instruction_started = False
     instruction_clock = core.Clock()
@@ -3096,39 +3117,39 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
-    PracticeLoop = data.TrialHandler2(
-        name='PracticeLoop',
+    PracticeVoicedLoop = data.TrialHandler2(
+        name='PracticeVoicedLoop',
         nReps=1.0, 
         method='sequential', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('Conds/isolated_practice.csv'), 
+        trialList=data.importConditions('Conds/isolated_practice_voiced.csv'), 
         seed=None, 
         isTrials=True, 
     )
-    thisExp.addLoop(PracticeLoop)  # add the loop to the experiment
-    thisPracticeLoop = PracticeLoop.trialList[0]  # so we can initialise stimuli with some values
-    # abbreviate parameter names if possible (e.g. rgb = thisPracticeLoop.rgb)
-    if thisPracticeLoop != None:
-        for paramName in thisPracticeLoop:
-            globals()[paramName] = thisPracticeLoop[paramName]
+    thisExp.addLoop(PracticeVoicedLoop)  # add the loop to the experiment
+    thisPracticeVoicedLoop = PracticeVoicedLoop.trialList[0]  # so we can initialise stimuli with some values
+    # abbreviate parameter names if possible (e.g. rgb = thisPracticeVoicedLoop.rgb)
+    if thisPracticeVoicedLoop != None:
+        for paramName in thisPracticeVoicedLoop:
+            globals()[paramName] = thisPracticeVoicedLoop[paramName]
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now
         thisSession.sendExperimentData()
     
-    for thisPracticeLoop in PracticeLoop:
-        PracticeLoop.status = STARTED
-        if hasattr(thisPracticeLoop, 'status'):
-            thisPracticeLoop.status = STARTED
-        currentLoop = PracticeLoop
+    for thisPracticeVoicedLoop in PracticeVoicedLoop:
+        PracticeVoicedLoop.status = STARTED
+        if hasattr(thisPracticeVoicedLoop, 'status'):
+            thisPracticeVoicedLoop.status = STARTED
+        currentLoop = PracticeVoicedLoop
         thisExp.timestampOnFlip(win, 'thisRow.t', format=globalClock.format)
         if thisSession is not None:
             # if running in a Session with a Liaison client, send data up to now
             thisSession.sendExperimentData()
-        # abbreviate parameter names if possible (e.g. rgb = thisPracticeLoop.rgb)
-        if thisPracticeLoop != None:
-            for paramName in thisPracticeLoop:
-                globals()[paramName] = thisPracticeLoop[paramName]
+        # abbreviate parameter names if possible (e.g. rgb = thisPracticeVoicedLoop.rgb)
+        if thisPracticeVoicedLoop != None:
+            for paramName in thisPracticeVoicedLoop:
+                globals()[paramName] = thisPracticeVoicedLoop[paramName]
         
         # --- Prepare to start Routine "PracticeTrial" ---
         # create an object to store info about Routine PracticeTrial
@@ -3194,7 +3215,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         PracticeTrial.forceEnded = routineForceEnded = not continueRoutine
         while continueRoutine:
             # if trial has changed, end Routine now
-            if hasattr(thisPracticeLoop, 'status') and thisPracticeLoop.status == STOPPING:
+            if hasattr(thisPracticeVoicedLoop, 'status') and thisPracticeVoicedLoop.status == STOPPING:
                 continueRoutine = False
             # get current time
             t = routineTimer.getTime()
@@ -3300,11 +3321,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         
         # the Routine "PracticeTrial" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
-        # mark thisPracticeLoop as finished
-        if hasattr(thisPracticeLoop, 'status'):
-            thisPracticeLoop.status = FINISHED
+        # mark thisPracticeVoicedLoop as finished
+        if hasattr(thisPracticeVoicedLoop, 'status'):
+            thisPracticeVoicedLoop.status = FINISHED
         # if awaiting a pause, pause now
-        if PracticeLoop.status == PAUSED:
+        if PracticeVoicedLoop.status == PAUSED:
             thisExp.status = PAUSED
             pauseExperiment(
                 thisExp=thisExp, 
@@ -3312,11 +3333,371 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 timers=[globalClock], 
             )
             # once done pausing, restore running status
-            PracticeLoop.status = STARTED
+            PracticeVoicedLoop.status = STARTED
         thisExp.nextEntry()
         
-    # completed 1.0 repeats of 'PracticeLoop'
-    PracticeLoop.status = FINISHED
+    # completed 1.0 repeats of 'PracticeVoicedLoop'
+    PracticeVoicedLoop.status = FINISHED
+    
+    if thisSession is not None:
+        # if running in a Session with a Liaison client, send data up to now
+        thisSession.sendExperimentData()
+    
+    # --- Prepare to start Routine "PracticeMidInstruction" ---
+    # create an object to store info about Routine PracticeMidInstruction
+    PracticeMidInstruction = data.Routine(
+        name='PracticeMidInstruction',
+        components=[PracticeMidInstruction_keep_alive],
+    )
+    PracticeMidInstruction.status = NOT_STARTED
+    continueRoutine = True
+    # update component parameters for each repeat
+    # Run 'Begin Routine' code from practice_mid_instruction_code
+    
+    win.color = "white"
+    practice_done_icon = visual.ImageStim(win, image=g_path("Stimuli/sound.png"), pos=(0, 0), size=(0.22, 0.22), interpolate=True)
+    practice_done_audio = g_play_audio("Audio/new_isol_instr2.wav")
+    practice_done_clock = core.Clock()
+    practice_done_duration = g_float(practice_done_audio.getDuration() if practice_done_audio else 0, 0.0)
+    event.clearEvents()
+    
+    # store start times for PracticeMidInstruction
+    PracticeMidInstruction.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+    PracticeMidInstruction.tStart = globalClock.getTime(format='float')
+    PracticeMidInstruction.status = STARTED
+    thisExp.addData('PracticeMidInstruction.started', PracticeMidInstruction.tStart)
+    PracticeMidInstruction.maxDuration = None
+    # keep track of which components have finished
+    PracticeMidInstructionComponents = PracticeMidInstruction.components
+    for thisComponent in PracticeMidInstruction.components:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    frameN = -1
+    
+    # --- Run Routine "PracticeMidInstruction" ---
+    thisExp.currentRoutine = PracticeMidInstruction
+    PracticeMidInstruction.forceEnded = routineForceEnded = not continueRoutine
+    while continueRoutine:
+        # get current time
+        t = routineTimer.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *PracticeMidInstruction_keep_alive* updates
+        
+        # if PracticeMidInstruction_keep_alive is starting this frame...
+        if PracticeMidInstruction_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            PracticeMidInstruction_keep_alive.frameNStart = frameN  # exact frame index
+            PracticeMidInstruction_keep_alive.tStart = t  # local t and not account for scr refresh
+            PracticeMidInstruction_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(PracticeMidInstruction_keep_alive, 'tStartRefresh')  # time at next scr refresh
+            # add timestamp to datafile
+            thisExp.timestampOnFlip(win, 'PracticeMidInstruction_keep_alive.started')
+            # update status
+            PracticeMidInstruction_keep_alive.status = STARTED
+            PracticeMidInstruction_keep_alive.setAutoDraw(True)
+        
+        # if PracticeMidInstruction_keep_alive is active this frame...
+        if PracticeMidInstruction_keep_alive.status == STARTED:
+            # update params
+            pass
+        # Run 'Each Frame' code from practice_mid_instruction_code
+        
+        practice_done_icon.draw()
+        keys = event.getKeys(keyList=["space", "return", "escape"])
+        if "escape" in keys:
+            g_abort_and_quit()
+        if "return" in keys:
+            if practice_done_audio:
+                practice_done_audio.stop()
+            practice_done_audio = g_play_audio("Audio/new_isol_instr2.wav")
+            practice_done_clock.reset()
+            practice_done_duration = g_float(practice_done_audio.getDuration() if practice_done_audio else 0, 0.0)
+            event.clearEvents()
+        if "space" in keys:
+            if practice_done_audio:
+                practice_done_audio.stop()
+            continueRoutine = False
+        
+        
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
+        if thisExp.status == FINISHED or endExpNow:
+            endExperiment(thisExp, win=win)
+            return
+        # pause experiment here if requested
+        if thisExp.status == PAUSED:
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[routineTimer, globalClock], 
+                currentRoutine=PracticeMidInstruction,
+            )
+            # skip the frame we paused on
+            continue
+        
+        # has a Component requested the Routine to end?
+        if not continueRoutine:
+            PracticeMidInstruction.forceEnded = routineForceEnded = True
+        # has the Routine been forcibly ended?
+        if PracticeMidInstruction.forceEnded or routineForceEnded:
+            break
+        # has every Component finished?
+        continueRoutine = False
+        for thisComponent in PracticeMidInstruction.components:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # --- Ending Routine "PracticeMidInstruction" ---
+    for thisComponent in PracticeMidInstruction.components:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # store stop times for PracticeMidInstruction
+    PracticeMidInstruction.tStop = globalClock.getTime(format='float')
+    PracticeMidInstruction.tStopRefresh = tThisFlipGlobal
+    thisExp.addData('PracticeMidInstruction.stopped', PracticeMidInstruction.tStop)
+    thisExp.nextEntry()
+    # the Routine "PracticeMidInstruction" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    
+    # set up handler to look after randomisation of conditions etc
+    PracticeUnvoicedLoop = data.TrialHandler2(
+        name='PracticeUnvoicedLoop',
+        nReps=1.0, 
+        method='sequential', 
+        extraInfo=expInfo, 
+        originPath=-1, 
+        trialList=data.importConditions('Conds/isolated_practice_unvoiced.csv'), 
+        seed=None, 
+        isTrials=True, 
+    )
+    thisExp.addLoop(PracticeUnvoicedLoop)  # add the loop to the experiment
+    thisPracticeUnvoicedLoop = PracticeUnvoicedLoop.trialList[0]  # so we can initialise stimuli with some values
+    # abbreviate parameter names if possible (e.g. rgb = thisPracticeUnvoicedLoop.rgb)
+    if thisPracticeUnvoicedLoop != None:
+        for paramName in thisPracticeUnvoicedLoop:
+            globals()[paramName] = thisPracticeUnvoicedLoop[paramName]
+    if thisSession is not None:
+        # if running in a Session with a Liaison client, send data up to now
+        thisSession.sendExperimentData()
+    
+    for thisPracticeUnvoicedLoop in PracticeUnvoicedLoop:
+        PracticeUnvoicedLoop.status = STARTED
+        if hasattr(thisPracticeUnvoicedLoop, 'status'):
+            thisPracticeUnvoicedLoop.status = STARTED
+        currentLoop = PracticeUnvoicedLoop
+        thisExp.timestampOnFlip(win, 'thisRow.t', format=globalClock.format)
+        if thisSession is not None:
+            # if running in a Session with a Liaison client, send data up to now
+            thisSession.sendExperimentData()
+        # abbreviate parameter names if possible (e.g. rgb = thisPracticeUnvoicedLoop.rgb)
+        if thisPracticeUnvoicedLoop != None:
+            for paramName in thisPracticeUnvoicedLoop:
+                globals()[paramName] = thisPracticeUnvoicedLoop[paramName]
+        
+        # --- Prepare to start Routine "PracticeTrial" ---
+        # create an object to store info about Routine PracticeTrial
+        PracticeTrial = data.Routine(
+            name='PracticeTrial',
+            components=[PracticeTrial_keep_alive],
+        )
+        PracticeTrial.status = NOT_STARTED
+        continueRoutine = True
+        # update component parameters for each repeat
+        # Run 'Begin Routine' code from practice_trial_code
+        
+        G_ISOLATED_PRACTICE_INDEX += 1
+        win.color = "white"
+        isolated_practice_image_path = g_path(target_image)
+        isolated_practice_image = visual.ImageStim(
+            win,
+            image=isolated_practice_image_path,
+            pos=(0, 0),
+            size=g_isolated_image_size(win),
+            interpolate=True,
+        )
+        isolated_practice_audio_value = g_text(globals().get("practice_audio", ""))
+        isolated_practice_audio = None
+        if isolated_practice_audio_value:
+            try:
+                isolated_practice_audio = sound.Sound(g_path(isolated_practice_audio_value))
+            except Exception as err:
+                g_log(f"practice_audio_load_failed {isolated_practice_audio_value}: {err}")
+        isolated_practice_audio_duration = g_float(isolated_practice_audio.getDuration() if isolated_practice_audio else 0, 0.0)
+        isolated_practice_audio_clock = core.Clock()
+        isolated_practice_audio_started = False
+        isolated_practice_clock = core.Clock()
+        isolated_practice_stem = g_practice_stem(G_ISOLATED_PRACTICE_INDEX, 1)
+        G_RECORDER.start(isolated_practice_stem)
+        thisExp.addData("isolated_practice_index", G_ISOLATED_PRACTICE_INDEX)
+        thisExp.addData("isolated_practice_image", isolated_practice_image_path)
+        thisExp.addData("isolated_practice_audio", g_path(isolated_practice_audio_value) if isolated_practice_audio_value else "")
+        event.clearEvents()
+        
+        # store start times for PracticeTrial
+        PracticeTrial.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+        PracticeTrial.tStart = globalClock.getTime(format='float')
+        PracticeTrial.status = STARTED
+        thisExp.addData('PracticeTrial.started', PracticeTrial.tStart)
+        PracticeTrial.maxDuration = None
+        # keep track of which components have finished
+        PracticeTrialComponents = PracticeTrial.components
+        for thisComponent in PracticeTrial.components:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        frameN = -1
+        
+        # --- Run Routine "PracticeTrial" ---
+        thisExp.currentRoutine = PracticeTrial
+        PracticeTrial.forceEnded = routineForceEnded = not continueRoutine
+        while continueRoutine:
+            # if trial has changed, end Routine now
+            if hasattr(thisPracticeUnvoicedLoop, 'status') and thisPracticeUnvoicedLoop.status == STOPPING:
+                continueRoutine = False
+            # get current time
+            t = routineTimer.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # *PracticeTrial_keep_alive* updates
+            
+            # if PracticeTrial_keep_alive is starting this frame...
+            if PracticeTrial_keep_alive.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                PracticeTrial_keep_alive.frameNStart = frameN  # exact frame index
+                PracticeTrial_keep_alive.tStart = t  # local t and not account for scr refresh
+                PracticeTrial_keep_alive.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(PracticeTrial_keep_alive, 'tStartRefresh')  # time at next scr refresh
+                # add timestamp to datafile
+                thisExp.timestampOnFlip(win, 'PracticeTrial_keep_alive.started')
+                # update status
+                PracticeTrial_keep_alive.status = STARTED
+                PracticeTrial_keep_alive.setAutoDraw(True)
+            
+            # if PracticeTrial_keep_alive is active this frame...
+            if PracticeTrial_keep_alive.status == STARTED:
+                # update params
+                pass
+            # Run 'Each Frame' code from practice_trial_code
+            
+            isolated_practice_image.draw()
+            G_RECORDER.mark_onset_on_flip()
+            if isolated_practice_audio is not None and not isolated_practice_audio_started:
+                win.callOnFlip(isolated_practice_audio.play)
+                win.callOnFlip(isolated_practice_audio_clock.reset)
+                isolated_practice_audio_started = True
+            keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+            key_names = g_key_names(keys)
+            if "escape" in key_names:
+                g_abort_and_quit()
+            isolated_practice_audio_done = (
+                isolated_practice_audio is None
+                or (isolated_practice_audio_started and isolated_practice_audio_clock.getTime() >= isolated_practice_audio_duration)
+            )
+            if "space" in key_names and isolated_practice_audio_done:
+                isolated_practice_file = G_RECORDER.stop(event_core_time=g_key_time(keys, "space"))
+                thisExp.addData("isolated_practice_rt", isolated_practice_clock.getTime())
+                thisExp.addData("isolated_practice_response_audio", isolated_practice_file)
+                if isolated_practice_audio:
+                    isolated_practice_audio.stop()
+                continueRoutine = False
+                event.clearEvents()
+            
+            
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
+            if thisExp.status == FINISHED or endExpNow:
+                endExperiment(thisExp, win=win)
+                return
+            # pause experiment here if requested
+            if thisExp.status == PAUSED:
+                pauseExperiment(
+                    thisExp=thisExp, 
+                    win=win, 
+                    timers=[routineTimer, globalClock], 
+                    currentRoutine=PracticeTrial,
+                )
+                # skip the frame we paused on
+                continue
+            
+            # has a Component requested the Routine to end?
+            if not continueRoutine:
+                PracticeTrial.forceEnded = routineForceEnded = True
+            # has the Routine been forcibly ended?
+            if PracticeTrial.forceEnded or routineForceEnded:
+                break
+            # has every Component finished?
+            continueRoutine = False
+            for thisComponent in PracticeTrial.components:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # --- Ending Routine "PracticeTrial" ---
+        for thisComponent in PracticeTrial.components:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        # store stop times for PracticeTrial
+        PracticeTrial.tStop = globalClock.getTime(format='float')
+        PracticeTrial.tStopRefresh = tThisFlipGlobal
+        thisExp.addData('PracticeTrial.stopped', PracticeTrial.tStop)
+        # Run 'End Routine' code from practice_trial_code
+        
+        G_RECORDER.stop()
+        if isolated_practice_audio:
+            isolated_practice_audio.stop()
+        g_release_stims([isolated_practice_image])
+        isolated_practice_image = None
+        
+        # the Routine "PracticeTrial" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+        # mark thisPracticeUnvoicedLoop as finished
+        if hasattr(thisPracticeUnvoicedLoop, 'status'):
+            thisPracticeUnvoicedLoop.status = FINISHED
+        # if awaiting a pause, pause now
+        if PracticeUnvoicedLoop.status == PAUSED:
+            thisExp.status = PAUSED
+            pauseExperiment(
+                thisExp=thisExp, 
+                win=win, 
+                timers=[globalClock], 
+            )
+            # once done pausing, restore running status
+            PracticeUnvoicedLoop.status = STARTED
+        thisExp.nextEntry()
+        
+    # completed 1.0 repeats of 'PracticeUnvoicedLoop'
+    PracticeUnvoicedLoop.status = FINISHED
     
     if thisSession is not None:
         # if running in a Session with a Liaison client, send data up to now
@@ -3335,7 +3716,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     practice_done_icon = visual.ImageStim(win, image=g_path("Stimuli/sound.png"), pos=(0, 0), size=(0.22, 0.22), interpolate=True)
-    practice_done_audio = g_play_audio("Audio/practice_end.wav")
+    practice_done_audio = g_play_audio("Audio/new_isol_instr3.wav")
     practice_done_clock = core.Clock()
     practice_done_duration = g_float(practice_done_audio.getDuration() if practice_done_audio else 0, 0.0)
     event.clearEvents()
@@ -3399,7 +3780,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if "return" in keys:
             if practice_done_audio:
                 practice_done_audio.stop()
-            practice_done_audio = g_play_audio("Audio/practice_end.wav")
+            practice_done_audio = g_play_audio("Audio/new_isol_instr3.wav")
             practice_done_clock.reset()
             practice_done_duration = g_float(practice_done_audio.getDuration() if practice_done_audio else 0, 0.0)
             event.clearEvents()
@@ -4199,7 +4580,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     rest_prompt_label = "post_rest_eyes_open"
-    rest_prompt_audio_value = "Audio/probe_placeholder.wav"
+    rest_prompt_audio_value = "Audio/new_isol_rs_eyesopen_start.wav"
     rest_prompt_icon = visual.ImageStim(win, image=g_path("Stimuli/eyes_open.png"), pos=(0, 0), size=(0.44, 0.44), interpolate=True)
     rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
     rest_prompt_clock = core.Clock()
@@ -4588,7 +4969,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     rest_prompt_label = "post_rest_eyes_closed"
-    rest_prompt_audio_value = "Audio/probe_placeholder.wav"
+    rest_prompt_audio_value = "Audio/new_isol_rs_eyesclosed_start.wav"
     rest_prompt_icon = visual.ImageStim(win, image=g_path("Stimuli/eyes_closed.png"), pos=(0, 0), size=(0.44, 0.44), interpolate=True)
     rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
     rest_prompt_clock = core.Clock()
@@ -4977,7 +5358,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     win.color = "white"
     rest_prompt_label = "post_rest_ready"
-    rest_prompt_audio_value = "Audio/probe_placeholder.wav"
+    rest_prompt_audio_value = "Audio/new_isol_rs_eyesclosed_finish.wav"
     rest_prompt_icon = visual.ImageStim(win, image=g_path("Stimuli/eyes_open.png"), pos=(0, 0), size=(0.44, 0.44), interpolate=True)
     rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
     rest_prompt_clock = core.Clock()

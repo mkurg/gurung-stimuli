@@ -121,9 +121,10 @@ PRACTICE_STORIES = [
 PRACTICE_TRIAL_COUNT = len(PRACTICE_STORIES)
 PRACTICE_EXTRA_BETWEEN_COUNT = 1
 AUDIO_PROBE_FILES = [
-    "Audio/tsakyali.wav",
-    "Audio/bucketdog_noerg.wav",
-    "Audio/chickencorn_erg.wav",
+    "Audio/new_disc_q_animal.wav",
+    "Audio/new_disc_q_how_many.wav",
+    "Audio/new_disc_q_what_happened.wav",
+    "Audio/new_disc_q_who.wav",
 ]
 AUDIO_PROBE_RATE = 0.10
 AUDIO_PROBE_LOCK_SEC = 10
@@ -370,7 +371,7 @@ def copy_assets(out_dir: Path, old_dir: Path) -> None:
         if path.is_file() and path.name in legacy_stimuli:
             shutil.copy2(path, stim_dir / path.name)
 
-    probe_source = audio_dir / "tsakyali.wav"
+    probe_source = audio_dir / "new_disc_tsakyali.wav"
     if probe_source.is_file():
         shutil.copy2(probe_source, audio_dir / "probe_placeholder.wav")
 
@@ -642,9 +643,10 @@ G_TRIGGER_STATE = {
     "trigger_index": 0,
 }
 G_AUDIO_PROBE_FILES = (
-    "Audio/tsakyali.wav",
-    "Audio/bucketdog_noerg.wav",
-    "Audio/chickencorn_erg.wav",
+    "Audio/new_disc_q_animal.wav",
+    "Audio/new_disc_q_how_many.wav",
+    "Audio/new_disc_q_what_happened.wav",
+    "Audio/new_disc_q_who.wav",
 )
 G_AUDIO_PROBE_RATE = 0.10
 G_AUDIO_PROBE_LOCK_SEC = 10
@@ -658,21 +660,21 @@ G_MAIN_BLOCK_COUNT = 6
 G_PRACTICE_TRIAL_COUNT = 10
 G_PRACTICE_PICTURE_AUDIO = {
     1: {
-        0: "Audio/tsakyali.wav",
-        1: "Audio/bucketdog_noerg.wav",
-        2: "Audio/chickencorn_erg.wav",
+        0: "Audio/new_disc_orange_1.wav",
+        1: "Audio/new_disc_orange_2.wav",
+        2: "Audio/new_disc_orange_3.wav",
     },
     2: {
-        0: "Audio/tsakyali.wav",
-        1: "Audio/bucketdog_noerg.wav",
-        2: "Audio/chickencorn_erg.wav",
+        0: "Audio/new_disc_towel_1.wav",
+        1: "Audio/new_disc_towel_2.wav",
+        2: "Audio/new_disc_towel_3.wav",
     },
 }
 G_PRACTICE_AFTER_TRIAL_AUDIO = {
-    2: "Audio/practice_end.wav",
-    4: "Audio/tsakyali.wav",
-    7: "Audio/bucketdog_noerg.wav",
-    10: "Audio/chickencorn_erg.wav",
+    2: "Audio/new_disc_instr2.wav",
+    4: "Audio/new_disc_q_what_happened.wav",
+    7: "Audio/new_disc_q_who.wav",
+    10: "Audio/new_disc_q_how_many.wav",
 }
 G_PRACTICE_SPEAKER_SCREEN_AFTER_TRIALS = {2}
 G_LAST_MAIN_TRIAL_INFO = {}
@@ -739,7 +741,7 @@ def g_practice_picture_audio(trial_index, segment_index):
 
 def g_practice_pre_picture_audio(trial_index, segment_index, image_count):
     if trial_index not in G_PRACTICE_PICTURE_AUDIO and segment_index == image_count - 1:
-        return "Audio/tsakyali.wav"
+        return "Audio/new_disc_tsakyali.wav"
     return ""
 
 
@@ -1936,14 +1938,14 @@ if "escape" in keys:
 if "return" in keys:
     if instruction_audio:
         instruction_audio.stop()
-    instruction_audio = g_play_audio("Audio/sequence_instr.wav")
+    instruction_audio = g_play_audio("Audio/new_disc_instr1.wav")
     instruction_started = True
     instruction_clock.reset()
     instruction_duration = g_float(instruction_audio.getDuration() if instruction_audio else 0, 0.0)
     event.clearEvents()
 elif "space" in keys:
     if not instruction_started:
-        instruction_audio = g_play_audio("Audio/sequence_instr.wav")
+        instruction_audio = g_play_audio("Audio/new_disc_instr1.wav")
         instruction_started = True
         instruction_clock.reset()
         instruction_duration = g_float(instruction_audio.getDuration() if instruction_audio else 0, 0.0)
@@ -2191,7 +2193,7 @@ practice_after_placeholder = None
 PRACTICE_DONE_BEGIN = r'''
 win.color = "white"
 practice_done_icon = visual.ImageStim(win, image=g_path("Stimuli/sound.png"), pos=(0, 0), size=(0.22, 0.22), interpolate=True)
-practice_done_audio = g_play_audio("Audio/practice_end.wav")
+practice_done_audio = g_play_audio("Audio/new_disc_instr3.wav")
 practice_done_clock = core.Clock()
 practice_done_duration = g_float(practice_done_audio.getDuration() if practice_done_audio else 0, 0.0)
 event.clearEvents()
@@ -2205,7 +2207,7 @@ if "escape" in keys:
 if "return" in keys:
     if practice_done_audio:
         practice_done_audio.stop()
-    practice_done_audio = g_play_audio("Audio/practice_end.wav")
+    practice_done_audio = g_play_audio("Audio/new_disc_instr3.wav")
     practice_done_clock.reset()
     practice_done_duration = g_float(practice_done_audio.getDuration() if practice_done_audio else 0, 0.0)
     event.clearEvents()
@@ -2644,13 +2646,13 @@ This is the Builder-compatible discourse experiment.
 - Trial order: practice runs in CSV order; the selected main list is shuffled at runtime on every run, then split into 40/40/40/40/40/40 for the breaks.
 - Breaks: after trials 40, 80, 120, 160, and 200.
 - Between-trial images: unique landscape photos sampled from `{BETWEEN_TRIALS_SOURCE}` and copied into `BetweenTrials/`; practice uses its assigned CSV images except for the speaker-icon screen after practice sequence 2, the extra practice-end probe uses one more Nepal image, and main images are shuffled at runtime without reusing practice images.
-- Between-trial audio probes: 10% of main trials are selected at runtime; `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav` each occur on one third of those trials; the first main Nepal screen after practice or any break can never be an audio-probe screen.
+- Between-trial audio probes: 10% of main trials are selected at runtime; the four `Audio/new_disc_q_*.wav` questions each occur 6 times per 240-trial list; the first main Nepal screen after practice or any break can never be an audio-probe screen.
 - EEG triggers are logged to `recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv`. If `eeg_port` is filled in, the same trigger codes are also sent as single-byte serial pulses using `trigger_pulse_ms` as pulse duration.
 - Discourse trigger codes: optional early pre-target picture 198, picture before target 199, target picture 200, condition 1-4 at 200 ms after target onset, item 1-120 at 400 ms after target onset, optional post-target picture 201, trial-end button press 202.
-- Practice fixed audio probes: after practice sequence 2, the experiment plays `Audio/practice_end.wav` on the centered speaker-icon screen; after practice sequences 4, 7, and 10, it plays `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav`, respectively, on Nepal-image screens.
+- Practice fixed audio probes: after practice sequence 2, the experiment plays `Audio/new_disc_instr2.wav` on the centered speaker-icon screen; after practice sequences 4, 7, and 10, it plays three of the `Audio/new_disc_q_*.wav` questions on Nepal-image screens.
 - Speaker-icon audio screens can be replayed with Enter and can advance with Space even before the current playback finishes; the first instruction audio starts only after Space is pressed.
 - Nepal-image audio probes are treated as listener questions: the audio plays first, then listener-response recording starts automatically; Space ends the response and advances only after at least 10 seconds of recording.
-- Practice uses the numbered practice-story images in CSV order. Stories 1 and 2 start `Audio/tsakyali.wav`, `Audio/bucketdog_noerg.wav`, and `Audio/chickencorn_erg.wav` simultaneously with pictures 1, 2, and 3; stories 3-10 play `Audio/tsakyali.wav` before the last picture.
+- Practice uses the numbered practice-story images in CSV order. Stories 1 and 2 start the matching `Audio/new_disc_orange_*.wav` and `Audio/new_disc_towel_*.wav` files simultaneously with pictures 1, 2, and 3; stories 3-10 play `Audio/new_disc_tsakyali.wav` before the last picture.
 - Breaks show `Stimuli/break.png`; space is locked for 30 seconds.
 - Main recordings are named with runtime main-trial number, list tag, image set, `cond`, and picture identifier.
 - Practice recordings are named with participant, practice trial number, and picture number, for example `arrate_practice_08_pic02.wav`.
