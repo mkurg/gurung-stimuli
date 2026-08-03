@@ -106,7 +106,6 @@ MAIN_STIMULI_MAX_DIMENSION = 900
 JPEG_STIMULI_DIRNAME = "JpegStimuliFullRes"
 BETWEEN_TRIALS_SOURCE = Path.home() / "Documents" / "Exp pics"
 BETWEEN_TRIALS_MAX_DIMENSION = 1920
-BETWEEN_TRIALS_PACKAGE_COUNT = 251
 PRACTICE_STORIES = [
     ("orange_and_man", 3),
     ("girl_towel_and_old_man", 3),
@@ -2760,7 +2759,6 @@ def build(args: argparse.Namespace) -> dict[str, object]:
     main_trials_per_list = len(datasets) * 4 * 2
     main_between_count = main_trials_per_list - MAIN_BREAK_COUNT
     required_between_count = PRACTICE_PHOTO_BETWEEN_COUNT + PRACTICE_EXTRA_BETWEEN_COUNT + main_between_count
-    required_between_count = max(required_between_count, BETWEEN_TRIALS_PACKAGE_COUNT)
     between_images = prepare_between_images(out_dir, required_between_count)
     main_rows_by_list = {
         list_id: build_main_rows(datasets, list_id)
