@@ -216,7 +216,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--jpeg-root",
         type=Path,
-        default=Path("psychopy_gurung_v1/JpegStimuliFullRes"),
+        default=Path("discourse part/JpegStimuliFullRes"),
         help="JPEG mirror root to check.",
     )
     parser.add_argument("--sets", type=parse_sets, default=DEFAULT_SETS, help="Comma-separated set folders to scan.")

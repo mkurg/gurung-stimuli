@@ -83,11 +83,11 @@ def discover_all_pngs(source_root: Path) -> list[Path]:
 
 def choose_source_and_output(args: argparse.Namespace) -> tuple[Path, Path]:
     if args.preset == "main-stimuli":
-        source_root = Path(args.source_root or "psychopy_gurung_v1/MainStimuli").expanduser().resolve()
-        output_root = Path(args.output_root or "psychopy_gurung_v1/MainStimuliJpeg").expanduser().resolve()
+        source_root = Path(args.source_root or "discourse part/MainStimuli").expanduser().resolve()
+        output_root = Path(args.output_root or "discourse part/MainStimuliJpeg").expanduser().resolve()
     else:
         source_root = Path(args.source_root or default_google_drive_root()).expanduser().resolve()
-        output_root = Path(args.output_root or "psychopy_gurung_v1/JpegStimuliFullRes").expanduser().resolve()
+        output_root = Path(args.output_root or "discourse part/JpegStimuliFullRes").expanduser().resolve()
     return source_root, output_root
 
 
@@ -230,7 +230,7 @@ def write_manifest(output_root: Path, rows: list[dict[str, str]], args: argparse
     output_root.mkdir(parents=True, exist_ok=True)
     manifest = output_root / "jpeg_stimuli_manifest.csv"
     with manifest.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 

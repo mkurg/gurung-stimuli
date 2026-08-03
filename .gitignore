@@ -1,21 +1,16 @@
 .DS_Store
 __pycache__/
 *.pyc
-psychopy_gurung/data/
-psychopy_gurung/recordings/
-psychopy_gurung/Stimuli/
-psychopy_gurung_v1/data/
-psychopy_gurung_v1/recordings/
-psychopy_gurung_v1/debug_gurung_runtime.log
-psychopy_gurung_isolated/data/
-psychopy_gurung_isolated/recordings/
-psychopy_gurung_isolated/debug_gurung_runtime.log
-psychopy_gurung_isolated/__pycache__/
-between_trials/Nepal 2025/
+discourse part/data/
+discourse part/recordings/
+discourse part/debug_gurung_runtime.log
+isolated part/data/
+isolated part/recordings/
+isolated part/debug_gurung_runtime.log
+isolated part/__pycache__/
 backups/
 reviews.gz.b64
 reviews.restored-from-screenshots*.json
 trial_viewer/reviews.json
-trigger_test_logs/
 local_site_*.log
-psychopy_gurung_isolated/trigger_logs/
+isolated part/trigger_logs/
