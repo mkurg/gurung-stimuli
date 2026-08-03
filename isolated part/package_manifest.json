@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-07-31T09:09:04",
+  "out_dir": "isolated part",
+  "psyexp": "isolated part/isolated_part.psyexp",
+  "discourse_dir": "discourse part",
+  "main_trials_per_list": 120,
+  "experimental_lists": [
+    "1",
+    "2"
+  ],
+  "practice_trials": 10,
+  "practice_blocks": [
+    2,
+    8
+  ],
+  "main_blocks": [
+    60,
+    60
+  ],
+  "resting_state_seconds_each": 120
+}

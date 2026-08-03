@@ -59,7 +59,7 @@ def check_image(repo: Path, package_dir: Path, image_value: str, row_label: str,
 
 
 def validate_discourse(repo: Path, errors: list[str]) -> None:
-    package_dir = repo / "psychopy_gurung_v1"
+    package_dir = repo / "discourse part"
     for list_id in (1, 2):
         path = package_dir / "Conds" / f"main_list{list_id}_all_240.csv"
         expect(path.is_file(), f"missing discourse list file: {path}", errors)
@@ -98,7 +98,7 @@ def validate_discourse(repo: Path, errors: list[str]) -> None:
 
 
 def validate_isolated(repo: Path, errors: list[str]) -> None:
-    package_dir = repo / "psychopy_gurung_isolated"
+    package_dir = repo / "isolated part"
     for list_id in (1, 2):
         path = package_dir / "Conds" / f"isolated_main_list{list_id}_all_120.csv"
         expect(path.is_file(), f"missing isolated list file: {path}", errors)

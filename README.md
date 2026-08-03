@@ -1,6 +1,10 @@
-# Gurung Experimental Trial Viewer
+# Ergativity EEG
 
-This repository contains two versions of the same trial-review interface:
+This repository contains the current PsychoPy experiments plus the trial-review interface.
+
+## Trial Viewer
+
+The viewer has two versions:
 
 - `trial_viewer/`: local working viewer that scans the Google Drive-backed stimuli folder live.
 - `docs/`: static GitHub Pages export, including lightweight WebP image copies in `docs/assets/`.
@@ -54,23 +58,23 @@ Use the local viewer to edit those notes. The next static export bakes them into
 
 The current runnable PsychoPy experiments are included in the repo:
 
-- `psychopy_gurung_v1/`: Discourse experiment, two selectable 240-trial picture-sequence lists.
-- `psychopy_gurung_isolated/`: Isolated experiment, two selectable 120-target-picture lists plus resting-state screens.
+- `discourse part/`: Discourse experiment, two selectable 240-trial picture-sequence lists.
+- `isolated part/`: Isolated experiment, two selectable 120-target-picture lists plus resting-state screens.
 
 Open these files in PsychoPy Builder:
 
 ```text
-psychopy_gurung_v1/gurung_120_v1.psyexp
-psychopy_gurung_isolated/gurung_isolated_v1.psyexp
+discourse part/discourse_part.psyexp
+isolated part/isolated_part.psyexp
 ```
 
 The repo includes the local audio, condition tables, packaged JPEG main stimuli, and current generated `*_lastrun.py` scripts needed to run from a cloned copy. Participant outputs are intentionally ignored by Git:
 
 ```text
-psychopy_gurung_v1/data/
-psychopy_gurung_v1/recordings/
-psychopy_gurung_isolated/data/
-psychopy_gurung_isolated/recordings/
+discourse part/data/
+discourse part/recordings/
+isolated part/data/
+isolated part/recordings/
 ```
 
 The current experiments were built with PsychoPy `2026.1.3`; see `psychopy_requirements.txt` for Python package dependencies.
@@ -80,8 +84,8 @@ The current experiments were built with PsychoPy `2026.1.3`; see `psychopy_requi
 Each real run writes a trigger log here:
 
 ```text
-psychopy_gurung_v1/recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv
-psychopy_gurung_isolated/recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv
+discourse part/recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv
+isolated part/recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv
 ```
 
 The log includes trigger code, label, whether it was sent on a screen flip, COM port, serial status, pulse width, and whether the serial write succeeded.
@@ -101,7 +105,7 @@ python tools/test_eeg_triggers.py --smoke-only --port COM4 --pulse-ms 5
 After a short real run, validate the run log. Add `--require-serial` when the TriggerBox was connected:
 
 ```sh
-python tools/test_eeg_triggers.py --validate-only --log psychopy_gurung_v1/recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv --require-serial
+python tools/test_eeg_triggers.py --validate-only --log "discourse part/recordings/<participant>_l<list>_<date-time>/eeg_triggers.csv" --require-serial
 ```
 
 To rebuild the isolated package inside the repo:
@@ -109,26 +113,6 @@ To rebuild the isolated package inside the repo:
 ```sh
 python tools/build_gurung_isolated.py
 ```
-
-The older workspace package is generated in:
-
-```text
-psychopy_gurung/
-```
-
-To rebuild the older package:
-
-```sh
-python3 tools/build_psychopy_package.py --out psychopy_gurung
-```
-
-A normalized image-copy package for running from Google Drive was also generated under the Gurung stimuli folder:
-
-```text
-Gurung stimuli/PsychoPy package 2026-06-06/
-```
-
-It contains `Stimuli/set1/...`, `Stimuli/set2/...`, the same condition tables, and `gurung_experiment.py` with relative image paths.
 
 ## Publish on GitHub
 

@@ -369,18 +369,23 @@ instruction_audio = None
 instruction_started = False
 instruction_clock = core.Clock()
 instruction_duration = 0.0
+instruction_first_play_complete = False
+instruction_replay_unlocked = False
 event.clearEvents()
 '''
 
 
 INSTRUCTION_EACH = r'''
 instruction_icon.draw()
+if instruction_started and not instruction_first_play_complete and instruction_clock.getTime() >= instruction_duration:
+    instruction_first_play_complete = True
 keys = event.getKeys(keyList=["space", "return", "escape"])
 if "escape" in keys:
     g_abort_and_quit()
 if "return" in keys:
     if instruction_audio:
         instruction_audio.stop()
+    instruction_replay_unlocked = instruction_started or instruction_first_play_complete
     instruction_audio = g_play_audio(instruction_audio_value)
     instruction_started = True
     instruction_clock.reset()
@@ -394,9 +399,10 @@ elif "space" in keys:
         instruction_duration = g_float(instruction_audio.getDuration() if instruction_audio else 0, 0.0)
         event.clearEvents()
     else:
-        if instruction_audio:
-            instruction_audio.stop()
-        continueRoutine = False
+        if instruction_first_play_complete or instruction_replay_unlocked:
+            if instruction_audio:
+                instruction_audio.stop()
+            continueRoutine = False
 '''
 
 
@@ -408,6 +414,9 @@ rest_prompt_audio_value = "{audio}"
 rest_prompt_icon = visual.ImageStim(win, image=g_path("{icon}"), pos=(0, 0), size=(0.44, 0.44), interpolate=True)
 rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
 rest_prompt_clock = core.Clock()
+rest_prompt_duration = g_float(rest_prompt_audio.getDuration() if rest_prompt_audio else 0, 0.0)
+rest_prompt_first_play_complete = False
+rest_prompt_replay_unlocked = False
 thisExp.addData(f"{{rest_prompt_label}}_prompt_audio", g_path(rest_prompt_audio_value))
 event.clearEvents()
 '''
@@ -415,20 +424,24 @@ event.clearEvents()
 
 REST_PROMPT_EACH = r'''
 rest_prompt_icon.draw()
+if not rest_prompt_first_play_complete and rest_prompt_clock.getTime() >= rest_prompt_duration:
+    rest_prompt_first_play_complete = True
 keys = event.getKeys(keyList=["space", "return", "escape"])
 if "escape" in keys:
     g_abort_and_quit()
 if "return" in keys:
     if rest_prompt_audio:
         rest_prompt_audio.stop()
+    rest_prompt_replay_unlocked = True
     rest_prompt_audio = g_play_audio(rest_prompt_audio_value)
     rest_prompt_clock.reset()
     event.clearEvents()
 elif "space" in keys:
-    if rest_prompt_audio:
-        rest_prompt_audio.stop()
-    thisExp.addData(f"{rest_prompt_label}_prompt_rt", rest_prompt_clock.getTime())
-    continueRoutine = False
+    if rest_prompt_first_play_complete or rest_prompt_replay_unlocked:
+        if rest_prompt_audio:
+            rest_prompt_audio.stop()
+        thisExp.addData(f"{rest_prompt_label}_prompt_rt", rest_prompt_clock.getTime())
+        continueRoutine = False
 '''
 
 
@@ -647,7 +660,7 @@ def patch_settings(settings: ET.Element) -> None:
     for param in settings.findall("Param"):
         name = param.get("name")
         if name == "expName":
-            param.set("val", "gurung_isolated_v1")
+            param.set("val", "isolated_part")
         elif name == "Data filename":
             param.set("val", "u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])")
         elif name == "Window size (pixels)":
@@ -750,7 +763,7 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
         routines,
         "PostRestEyesOpenPrompt",
         "post_rest_open_prompt_code",
-        begin_routine=rest_prompt_begin("post_rest_eyes_open", "Stimuli/eyes_open.png", "Audio/new_isol_rs_eyesopen_start.wav"),
+        begin_routine=rest_prompt_begin("post_rest_eyes_open", "Stimuli/eyes_open.png", "Audio/new_isol_final_rs_1.wav"),
         each_frame=REST_PROMPT_EACH,
     )
     add_routine(
@@ -778,7 +791,7 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
         routines,
         "PostRestReadyPrompt",
         "post_rest_ready_prompt_code",
-        begin_routine=rest_prompt_begin("post_rest_ready", "Stimuli/eyes_open.png", "Audio/new_isol_rs_eyesclosed_finish.wav"),
+        begin_routine=rest_prompt_begin("post_rest_ready", "Stimuli/eyes_open.png", "Audio/new_isol_final_rs_3.wav"),
         each_frame=REST_PROMPT_EACH,
     )
 
@@ -816,7 +829,7 @@ def build_psyexp(out_dir: Path, template: Path) -> Path:
     ET.SubElement(flow, "Routine", name="PostRestReadyPrompt")
 
     ET.indent(root, space="  ")
-    path = out_dir / "gurung_isolated_v1.psyexp"
+    path = out_dir / "isolated_part.psyexp"
     ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)
     return path
 
@@ -826,7 +839,7 @@ def write_readme(out_dir: Path) -> None:
 
 This is the isolated-picture version of the Gurung experiment.
 
-- Resting-state sequence comes before the experiment instruction screen: eyes-open prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, eyes-closed prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, ready prompt with the eyes-open icon. The same resting-state sequence runs again after the finish-flags screen at task end.
+- Resting-state sequence comes before the experiment instruction screen: eyes-open prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, eyes-closed prompt, 2-minute blank screen, 1.3-second xylophone-style tritone chime, ready prompt with the eyes-open icon. The same resting-state sequence runs again after the finish-flags screen at task end, using the final-rest prompt audio files for final eyes-open and ready prompts.
 - Resting-state blank screens end automatically after 120 seconds, but Space can move forward earlier.
 - Pre-task resting-state blank intervals send/log trigger 150 at eyes-open start, eyes-open finish, eyes-closed start, and eyes-closed finish; post-task resting-state blank intervals use trigger 151 for the same four events.
 - Isolated practice uses three speaker instruction screens: `Audio/new_isol_instr1.wav` before practice trials 1-2, `Audio/new_isol_instr2.wav` before practice trials 3-10, and `Audio/new_isol_instr3.wav` after practice before the main task.
@@ -841,7 +854,7 @@ This is the isolated-picture version of the Gurung experiment.
 - Picture size matches the Discourse sequence pictures, but isolated pictures have no jitter: every practice and main picture is always centered at `(0, 0)`.
 - Microphone recording uses the same continuous-session WAV and reproducible clipping scheme as the Discourse experiment. Practice recordings use names like `arrate_practice_08_pic01.wav`; main recordings use `isolated_main_l1` or `isolated_main_l2` and isolated `cond_tr`/`cond_it`.
 
-Open `gurung_isolated_v1.psyexp` in PsychoPy Builder.
+Open `isolated_part.psyexp` in PsychoPy Builder.
 """
     (out_dir / "README.md").write_text(readme, encoding="utf-8")
 
@@ -912,9 +925,9 @@ def parse_args() -> argparse.Namespace:
     repo_default = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", default=str(repo_default))
-    parser.add_argument("--discourse-dir", default="psychopy_gurung_v1")
-    parser.add_argument("--out", default="psychopy_gurung_isolated")
-    parser.add_argument("--template", default="psychopy_gurung_v1/gurung_120_v1.psyexp")
+    parser.add_argument("--discourse-dir", default="discourse part")
+    parser.add_argument("--out", default="isolated part")
+    parser.add_argument("--template", default="discourse part/discourse_part.psyexp")
     return parser.parse_args()
 
 
