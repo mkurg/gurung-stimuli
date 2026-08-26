@@ -19,6 +19,8 @@ COND_DIR = RECOVERY_DIR / "Conds"
 TRIALS_CSV = COND_DIR / "recovery_261_first80_trials.csv"
 SCRIPT_PATH = RECOVERY_DIR / "recovery_261_first80.py"
 README_PATH = RECOVERY_DIR / "README_recovery_261_first80.md"
+RECOVERY_BETWEEN_TRIAL_IMAGE_COUNT = 90
+BETWEEN_TRIAL_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
 
 EXACT_TRIAL_IDS = [
     "d013_set4_it_coh_list1",
@@ -174,6 +176,12 @@ except Exception as _recording_error:
     RECORDING_AVAILABLE = False
     print("Audio recording is unavailable:", _recording_error)
 
+try:
+    from PIL import Image as _Image
+except Exception as _image_error:
+    _Image = None
+    print("Image-size backend is unavailable:", _image_error)
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 DISCOURSE_ROOT = REPO_ROOT / "discourse part"
@@ -201,6 +209,8 @@ SEQUENCE_JITTER_SLOTS = [
 ARROW_MAX_SIZE = 0.045
 BREAK_MIN_SEC = 30.0
 RECORDING_STOP_GRACE_SEC = 0.5
+BETWEEN_TRIAL_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
+BETWEEN_TRIAL_STATE = {"images": [], "index": 0}
 
 TRIGGER_FIRST_PRETARGET = 198
 TRIGGER_PRETARGET = 199
@@ -323,6 +333,81 @@ def asset_path(relative_value):
     if local_path.is_file():
         return str(local_path)
     return str(DISCOURSE_ROOT / path)
+
+
+def image_aspect(path):
+    if _Image is None:
+        return 1.5
+    try:
+        with _Image.open(path) as image:
+            width, height = image.size
+        if height:
+            return float(width) / float(height)
+    except Exception as err:
+        log_debug(f"image_aspect_failed path={path} error={err}")
+    return 1.5
+
+
+def fullscreen_image_size(win, path, margin=0.04):
+    screen_aspect = window_aspect(win)
+    available_h = max(0.1, 1.0 - (2.0 * margin))
+    available_w = max(0.1, screen_aspect - (2.0 * margin))
+    aspect = image_aspect(path)
+    height = min(available_h, available_w / max(aspect, 0.01))
+    width = height * aspect
+    return (width, height)
+
+
+def init_between_trial_images():
+    between_dir = SCRIPT_DIR / "BetweenTrials"
+    images = []
+    if between_dir.is_dir():
+        for path in sorted(between_dir.iterdir()):
+            if path.is_file() and path.suffix.lower() in BETWEEN_TRIAL_IMAGE_EXTS:
+                images.append(f"BetweenTrials/{path.name}")
+    if len(images) < 78:
+        raise RuntimeError(
+            f"Need at least 78 between-trial village images in {between_dir}; found {len(images)}"
+        )
+    random.shuffle(images)
+    BETWEEN_TRIAL_STATE["images"] = images
+    BETWEEN_TRIAL_STATE["index"] = 0
+    log_debug(f"between_trial_images_ready count={len(images)}")
+
+
+def next_between_trial_image():
+    images = BETWEEN_TRIAL_STATE.get("images") or []
+    index = int(BETWEEN_TRIAL_STATE.get("index", 0))
+    if index >= len(images):
+        raise RuntimeError("No unused between-trial village images remain for this run")
+    BETWEEN_TRIAL_STATE["index"] = index + 1
+    return images[index]
+
+
+def show_between_trial_image(win, runtime_order):
+    image_value = next_between_trial_image()
+    image_path = asset_path(image_value)
+    image_stim = visual.ImageStim(
+        win,
+        image=image_path,
+        pos=(0, 0),
+        size=fullscreen_image_size(win, image_path),
+        interpolate=True,
+    )
+    event.clearEvents()
+    while True:
+        win.color = "white"
+        image_stim.draw()
+        win.flip()
+        keys = event.getKeys(keyList=["space", "escape"])
+        if "escape" in keys:
+            release_stims([image_stim])
+            raise KeyboardInterrupt
+        if "space" in keys:
+            event.clearEvents()
+            log_debug(f"between_trial_image_shown after_runtime={runtime_order:03d} image={image_value}")
+            release_stims([image_stim])
+            return
 
 
 def log_debug(message):
@@ -1414,6 +1499,7 @@ def _run_session(exp_info, win=None, close_window=True):
         log_debug(f"recorder_atexit_register_failed {err}")
 
     rows = load_trials()
+    init_between_trial_images()
     write_runtime_order(rows, session_dir / "trial_order.csv")
 
     logging.console.setLevel(logging.WARNING)
@@ -1428,6 +1514,8 @@ def _run_session(exp_info, win=None, close_window=True):
             run_trial(win, row, runtime_order)
             if runtime_order == 40:
                 show_break(win)
+            elif runtime_order < len(rows):
+                show_between_trial_image(win, runtime_order)
         show_finish(win)
     finally:
         cleanup_recorder(wait_for_post_pad=True)
@@ -1472,6 +1560,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 '''.strip() + "\n"
 
 
@@ -1479,7 +1568,7 @@ README_TEXT = """# Discourse recovery 261 first 80
 
 This is a minimal, self-contained recovery experiment for the first 80 discourse trials shown in the participant 261 List 1 CSV screenshots from 2026-08-26.
 
-Open `recovery_261_first80.psyexp` in PsychoPy Builder, or run `recovery_261_first80.py` from PsychoPy Coder. The folder includes local copies of the needed JPEG stimuli plus the break/finish images, so it can be downloaded separately from the normal discourse and isolated experiment folders. The task starts with a blank white screen; press Space to begin. It presents only the 80 recovered discourse trials, randomly shuffled on every run, with a 30-second break after 40 trials and a finish sign at the end.
+Open `recovery_261_first80.psyexp` in PsychoPy Builder, or run `recovery_261_first80.py` from PsychoPy Coder. The folder includes local copies of the needed JPEG stimuli, a selected pool of village photos for between-trial screens, plus the break/finish images, so it can be downloaded separately from the normal discourse and isolated experiment folders. The task starts with a blank white screen; press Space to begin. It presents only the 80 recovered discourse trials, randomly shuffled on every run. Village photos are also shuffled without repeats within a run and appear between trials, but not around the 30-second break after trial 40 and not after the final trial.
 
 The normal discourse trigger system is preserved:
 
@@ -1519,6 +1608,28 @@ def copy_recovery_asset(relative_value: str) -> None:
     shutil.copy2(source, target)
 
 
+def copy_between_trial_assets() -> int:
+    source_dir = DISCOURSE_ROOT / "BetweenTrials"
+    if not source_dir.is_dir():
+        raise FileNotFoundError(f"Missing between-trial source image folder: {source_dir}")
+    images = [
+        path
+        for path in sorted(source_dir.iterdir())
+        if path.is_file() and path.suffix.lower() in BETWEEN_TRIAL_IMAGE_EXTS
+    ]
+    if len(images) < 78:
+        raise RuntimeError(f"Need at least 78 between-trial images; found {len(images)} in {source_dir}")
+    selected = images[:RECOVERY_BETWEEN_TRIAL_IMAGE_COUNT]
+    target_dir = RECOVERY_DIR / "BetweenTrials"
+    target_dir.mkdir(parents=True, exist_ok=True)
+    for old_path in target_dir.iterdir():
+        if old_path.is_file() and old_path.suffix.lower() in BETWEEN_TRIAL_IMAGE_EXTS:
+            old_path.unlink()
+    for source in selected:
+        shutil.copy2(source, target_dir / source.name)
+    return len(selected)
+
+
 def copy_local_assets(selected_rows: list[dict[str, str]]) -> None:
     copied = set()
     for row in selected_rows:
@@ -1530,7 +1641,8 @@ def copy_local_assets(selected_rows: list[dict[str, str]]) -> None:
     for value in ("Stimuli/break.png", "Stimuli/finish.png"):
         copy_recovery_asset(value)
         copied.add(value)
-    print(f"Copied {len(copied)} local recovery assets")
+    between_count = copy_between_trial_assets()
+    print(f"Copied {len(copied)} local recovery assets and {between_count} between-trial village images")
 
 
 

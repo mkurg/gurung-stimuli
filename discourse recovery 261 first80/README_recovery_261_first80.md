@@ -2,7 +2,7 @@
 
 This is a minimal, self-contained recovery experiment for the first 80 discourse trials shown in the participant 261 List 1 CSV screenshots from 2026-08-26.
 
-Open `recovery_261_first80.psyexp` in PsychoPy Builder, or run `recovery_261_first80.py` from PsychoPy Coder. The folder includes local copies of the needed JPEG stimuli plus the break/finish images, so it can be downloaded separately from the normal discourse and isolated experiment folders. The task starts with a blank white screen; press Space to begin. It presents only the 80 recovered discourse trials, randomly shuffled on every run, with a 30-second break after 40 trials and a finish sign at the end.
+Open `recovery_261_first80.psyexp` in PsychoPy Builder, or run `recovery_261_first80.py` from PsychoPy Coder. The folder includes local copies of the needed JPEG stimuli, a selected pool of village photos for between-trial screens, plus the break/finish images, so it can be downloaded separately from the normal discourse and isolated experiment folders. The task starts with a blank white screen; press Space to begin. It presents only the 80 recovered discourse trials, randomly shuffled on every run. Village photos are also shuffled without repeats within a run and appear between trials, but not around the 30-second break after trial 40 and not after the final trial.
 
 The normal discourse trigger system is preserved:
 

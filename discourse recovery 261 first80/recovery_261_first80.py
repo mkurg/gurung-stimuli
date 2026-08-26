@@ -35,6 +35,12 @@ except Exception as _recording_error:
     RECORDING_AVAILABLE = False
     print("Audio recording is unavailable:", _recording_error)
 
+try:
+    from PIL import Image as _Image
+except Exception as _image_error:
+    _Image = None
+    print("Image-size backend is unavailable:", _image_error)
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 DISCOURSE_ROOT = REPO_ROOT / "discourse part"
@@ -62,6 +68,8 @@ SEQUENCE_JITTER_SLOTS = [
 ARROW_MAX_SIZE = 0.045
 BREAK_MIN_SEC = 30.0
 RECORDING_STOP_GRACE_SEC = 0.5
+BETWEEN_TRIAL_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp"}
+BETWEEN_TRIAL_STATE = {"images": [], "index": 0}
 
 TRIGGER_FIRST_PRETARGET = 198
 TRIGGER_PRETARGET = 199
@@ -184,6 +192,81 @@ def asset_path(relative_value):
     if local_path.is_file():
         return str(local_path)
     return str(DISCOURSE_ROOT / path)
+
+
+def image_aspect(path):
+    if _Image is None:
+        return 1.5
+    try:
+        with _Image.open(path) as image:
+            width, height = image.size
+        if height:
+            return float(width) / float(height)
+    except Exception as err:
+        log_debug(f"image_aspect_failed path={path} error={err}")
+    return 1.5
+
+
+def fullscreen_image_size(win, path, margin=0.04):
+    screen_aspect = window_aspect(win)
+    available_h = max(0.1, 1.0 - (2.0 * margin))
+    available_w = max(0.1, screen_aspect - (2.0 * margin))
+    aspect = image_aspect(path)
+    height = min(available_h, available_w / max(aspect, 0.01))
+    width = height * aspect
+    return (width, height)
+
+
+def init_between_trial_images():
+    between_dir = SCRIPT_DIR / "BetweenTrials"
+    images = []
+    if between_dir.is_dir():
+        for path in sorted(between_dir.iterdir()):
+            if path.is_file() and path.suffix.lower() in BETWEEN_TRIAL_IMAGE_EXTS:
+                images.append(f"BetweenTrials/{path.name}")
+    if len(images) < 78:
+        raise RuntimeError(
+            f"Need at least 78 between-trial village images in {between_dir}; found {len(images)}"
+        )
+    random.shuffle(images)
+    BETWEEN_TRIAL_STATE["images"] = images
+    BETWEEN_TRIAL_STATE["index"] = 0
+    log_debug(f"between_trial_images_ready count={len(images)}")
+
+
+def next_between_trial_image():
+    images = BETWEEN_TRIAL_STATE.get("images") or []
+    index = int(BETWEEN_TRIAL_STATE.get("index", 0))
+    if index >= len(images):
+        raise RuntimeError("No unused between-trial village images remain for this run")
+    BETWEEN_TRIAL_STATE["index"] = index + 1
+    return images[index]
+
+
+def show_between_trial_image(win, runtime_order):
+    image_value = next_between_trial_image()
+    image_path = asset_path(image_value)
+    image_stim = visual.ImageStim(
+        win,
+        image=image_path,
+        pos=(0, 0),
+        size=fullscreen_image_size(win, image_path),
+        interpolate=True,
+    )
+    event.clearEvents()
+    while True:
+        win.color = "white"
+        image_stim.draw()
+        win.flip()
+        keys = event.getKeys(keyList=["space", "escape"])
+        if "escape" in keys:
+            release_stims([image_stim])
+            raise KeyboardInterrupt
+        if "space" in keys:
+            event.clearEvents()
+            log_debug(f"between_trial_image_shown after_runtime={runtime_order:03d} image={image_value}")
+            release_stims([image_stim])
+            return
 
 
 def log_debug(message):
@@ -1275,6 +1358,7 @@ def _run_session(exp_info, win=None, close_window=True):
         log_debug(f"recorder_atexit_register_failed {err}")
 
     rows = load_trials()
+    init_between_trial_images()
     write_runtime_order(rows, session_dir / "trial_order.csv")
 
     logging.console.setLevel(logging.WARNING)
@@ -1289,6 +1373,8 @@ def _run_session(exp_info, win=None, close_window=True):
             run_trial(win, row, runtime_order)
             if runtime_order == 40:
                 show_break(win)
+            elif runtime_order < len(rows):
+                show_between_trial_image(win, runtime_order)
         show_finish(win)
     finally:
         cleanup_recorder(wait_for_post_pad=True)
