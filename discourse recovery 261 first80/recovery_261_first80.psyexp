@@ -70,19 +70,7 @@
         <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
         <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
         <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
-        <Param name="Begin Routine" val="
-from pathlib import Path
-import importlib.util
-import sys
-
-module_path = Path(_thisDir) / &quot;recovery_261_first80.py&quot;
-spec = importlib.util.spec_from_file_location(&quot;recovery_261_first80_module&quot;, str(module_path))
-recovery_module = importlib.util.module_from_spec(spec)
-sys.modules[&quot;recovery_261_first80_module&quot;] = recovery_module
-spec.loader.exec_module(recovery_module)
-recovery_module.run_from_builder(win, expInfo)
-continueRoutine = False
-" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="&#10;from pathlib import Path&#10;import importlib.util&#10;import sys&#10;&#10;module_path = Path(_thisDir) / &quot;recovery_261_first80.py&quot;&#10;spec = importlib.util.spec_from_file_location(&quot;recovery_261_first80_module&quot;, str(module_path))&#10;recovery_module = importlib.util.module_from_spec(spec)&#10;sys.modules[&quot;recovery_261_first80_module&quot;] = recovery_module&#10;spec.loader.exec_module(recovery_module)&#10;recovery_module.run_from_builder(win, expInfo)&#10;continueRoutine = False&#10;" valType="extendedCode" updates="constant" />
         <Param name="Code Type" val="Py" valType="str" updates="None" />
         <Param name="Each Frame" val="" valType="extendedCode" updates="constant" />
         <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
