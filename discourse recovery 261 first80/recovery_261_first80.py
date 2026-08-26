@@ -530,18 +530,40 @@ def write_runtime_order(rows, path):
             writer.writerow(out)
 
 
-def main():
-    global TRIGGER_HANDLE, TRIGGER_WRITER, TRIAL_HANDLE, TRIAL_WRITER, DEBUG_HANDLE
+def _run_session(exp_info, win=None, close_window=True):
+    global TRIGGER_HANDLE, TRIGGER_WRITER, TRIAL_HANDLE, TRIAL_WRITER, DEBUG_HANDLE, JITTER_BAG
 
-    exp_info = {
-        "participant": "261",
-        "eeg_port": "",
-        "trigger_pulse_ms": "5",
-    }
-    dlg = gui.DlgFromDict(dictionary=exp_info, sortKeys=False, title="Discourse recovery 261 first 80")
-    if not dlg.OK:
-        core.quit()
-    exp_info["date"] = data.getDateStr()
+    exp_info = dict(exp_info or {})
+    exp_info.setdefault("participant", "261")
+    exp_info.setdefault("eeg_port", "")
+    exp_info.setdefault("trigger_pulse_ms", "5")
+    if not text(exp_info.get("date", "")):
+        exp_info["date"] = data.getDateStr()
+
+    TRIGGER_HANDLE = None
+    TRIGGER_WRITER = None
+    TRIAL_HANDLE = None
+    TRIAL_WRITER = None
+    DEBUG_HANDLE = None
+    JITTER_BAG = []
+    CURRENT_CONTEXT.update(
+        {
+            "runtime_order": "",
+            "original_trial_index": "",
+            "dataset_number": "",
+            "stimulus_set": "",
+            "condition_id": "",
+        }
+    )
+    TRIGGER_STATE.update(
+        {
+            "serial": None,
+            "port": "",
+            "pulse_ms": 5.0,
+            "status": "not_initialized",
+            "index": 0,
+        }
+    )
 
     participant = safe(exp_info.get("participant", "261"))
     session_dir = RECORDINGS_DIR / f"{participant}_recovery_l1_first80_{safe(exp_info['date'])}"
@@ -597,7 +619,9 @@ def main():
 
     logging.console.setLevel(logging.WARNING)
     open_serial(text(exp_info.get("eeg_port", "")), exp_info.get("trigger_pulse_ms", "5"))
-    win = visual.Window(fullscr=True, color="white", units="height", allowGUI=False)
+    if win is None:
+        win = visual.Window(fullscr=True, color="white", units="height", allowGUI=False)
+        close_window = True
 
     try:
         wait_blank_start(win)
@@ -608,10 +632,11 @@ def main():
         show_finish(win)
     finally:
         close_serial()
-        try:
-            win.close()
-        except Exception:
-            pass
+        if close_window:
+            try:
+                win.close()
+            except Exception:
+                pass
         for handle in (TRIAL_HANDLE, TRIGGER_HANDLE, DEBUG_HANDLE):
             try:
                 if handle is not None:
@@ -619,6 +644,29 @@ def main():
                     handle.close()
             except Exception:
                 pass
+        TRIAL_HANDLE = None
+        TRIAL_WRITER = None
+        TRIGGER_HANDLE = None
+        TRIGGER_WRITER = None
+        DEBUG_HANDLE = None
+
+
+def run_from_builder(builder_win, builder_exp_info):
+    _run_session(builder_exp_info, win=builder_win, close_window=False)
+
+
+def main():
+    exp_info = {
+        "participant": "261",
+        "eeg_port": "",
+        "trigger_pulse_ms": "5",
+    }
+    dlg = gui.DlgFromDict(dictionary=exp_info, sortKeys=False, title="Discourse recovery 261 first 80")
+    if not dlg.OK:
+        core.quit()
+    exp_info["date"] = data.getDateStr()
+    _run_session(exp_info, win=None, close_window=True)
+
 
 
 if __name__ == "__main__":

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='utf-8'?>
+<PsychoPy2experiment encoding="utf-8" version="2026.1.3">
+  <Settings>
+    <Param val="ptb" valType="str" updates="None" name="Audio lib" />
+    <Param val="" valType="str" updates="None" name="Completed URL" />
+    <Param val="auto" valType="str" updates="None" name="Data file delimiter" />
+    <Param val="u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])" valType="code" updates="None" name="Data filename" />
+    <Param val="True" valType="bool" updates="None" name="Enable Escape" />
+    <Param val="" valType="str" updates="None" name="End Message" />
+    <Param val="{'participant': '261', 'eeg_port': '', 'trigger_pulse_ms': '5'}" valType="code" updates="None" name="Experiment info" />
+    <Param val="True" valType="bool" updates="None" name="Force stereo" />
+    <Param val="True" valType="bool" updates="None" name="Full-screen window" />
+    <Param val="" valType="str" updates="None" name="HTML path" />
+    <Param val="" valType="str" updates="None" name="Incomplete URL" />
+    <Param val="testMonitor" valType="str" updates="None" name="Monitor" />
+    <Param val="[]" valType="list" updates="None" name="Resources" />
+    <Param val="False" valType="bool" updates="None" name="Save csv file" />
+    <Param val="False" valType="bool" updates="None" name="Save excel file" />
+    <Param val="False" valType="bool" updates="None" name="Save hdf5 file" />
+    <Param val="True" valType="bool" updates="None" name="Save log file" />
+    <Param val="True" valType="bool" updates="None" name="Save psydat file" />
+    <Param val="True" valType="bool" updates="None" name="Save wide csv file" />
+    <Param val="0" valType="num" updates="None" name="Screen" />
+    <Param val="True" valType="bool" updates="None" name="Show info dlg" />
+    <Param val="False" valType="bool" updates="None" name="Show mouse" />
+    <Param val="height" valType="str" updates="None" name="Units" />
+    <Param val="2026.1.3" valType="str" updates="None" name="Use version" />
+    <Param val="(1200, 800)" valType="list" updates="None" name="Window size (pixels)" />
+    <Param val="none" valType="str" updates="None" name="backgroundFit" />
+    <Param val="" valType="str" updates="None" name="backgroundImg" />
+    <Param val="avg" valType="str" updates="None" name="blendMode" />
+    <Param val="float" valType="str" updates="None" name="clockFormat" />
+    <Param val="$(1.0000, 1.0000, 1.0000)" valType="color" updates="None" name="color" />
+    <Param val="rgb" valType="str" updates="None" name="colorSpace" />
+    <Param val="warning" valType="code" updates="None" name="consoleLoggingLevel" />
+    <Param val="recovery_261_first80" valType="str" updates="None" name="expName" />
+    <Param val="" valType="str" updates="None" name="expVersion" />
+    <Param val="on Sync" valType="str" updates="None" name="exportHTML" />
+    <Param val="None" valType="str" updates="None" name="eyetracker" />
+    <Param val="" valType="code" updates="None" name="frameRate" />
+    <Param val="Attempting to measure frame rate of screen, please wait..." valType="str" updates="None" name="frameRateMsg" />
+    <Param val="PsychToolbox" valType="str" updates="None" name="keyboardBackend" />
+    <Param val="info" valType="code" updates="None" name="logging level" />
+    <Param val="True" valType="bool" updates="None" name="measureFrameRate" />
+    <Param val="1" valType="code" updates="None" name="runMode" />
+    <Param val="False" valType="bool" updates="None" name="rush" />
+    <Param val="time" valType="str" updates="None" name="sortColumns" />
+    <Param val="pyglet" valType="str" updates="None" name="winBackend" />
+  </Settings>
+  <Routines>
+    <Routine name="RunRecovery">
+      <RoutineSettingsComponent name="RunRecovery" plugin="None">
+        <Param name="backgroundFit" val="none" valType="str" updates="None" />
+        <Param name="backgroundImg" val="" valType="str" updates="None" />
+        <Param name="color" val="$[1,1,1]" valType="color" updates="None" />
+        <Param name="colorSpace" val="rgb" valType="str" updates="None" />
+        <Param name="desc" val="" valType="str" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="durationEstim" val="" valType="code" updates="None" />
+        <Param name="forceNonSlip" val="False" valType="code" updates="None" />
+        <Param name="name" val="RunRecovery" valType="code" updates="None" />
+        <Param name="saveStartStop" val="True" valType="bool" updates="None" />
+        <Param name="skipIf" val="" valType="code" updates="constant" />
+        <Param name="stopType" val="duration (s)" valType="str" updates="None" />
+        <Param name="stopVal" val="" valType="code" updates="constant" />
+        <Param name="useWindowParams" val="False" valType="bool" updates="None" />
+      </RoutineSettingsComponent>
+      <CodeComponent name="run_recovery_code" plugin="None">
+        <Param name="Before Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Before JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="Begin Routine" val="
+from pathlib import Path
+import importlib.util
+import sys
+
+module_path = Path(_thisDir) / &quot;recovery_261_first80.py&quot;
+spec = importlib.util.spec_from_file_location(&quot;recovery_261_first80_module&quot;, str(module_path))
+recovery_module = importlib.util.module_from_spec(spec)
+sys.modules[&quot;recovery_261_first80_module&quot;] = recovery_module
+spec.loader.exec_module(recovery_module)
+recovery_module.run_from_builder(win, expInfo)
+continueRoutine = False
+" valType="extendedCode" updates="constant" />
+        <Param name="Code Type" val="Py" valType="str" updates="None" />
+        <Param name="Each Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="Each JS Frame" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Experiment" val="" valType="extendedCode" updates="constant" />
+        <Param name="End JS Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="End Routine" val="" valType="extendedCode" updates="constant" />
+        <Param name="disabled" val="False" valType="bool" updates="None" />
+        <Param name="name" val="run_recovery_code" valType="code" updates="None" />
+      </CodeComponent>
+    </Routine>
+  </Routines>
+  <Flow>
+    <Routine name="RunRecovery" />
+  </Flow>
+</PsychoPy2experiment>
