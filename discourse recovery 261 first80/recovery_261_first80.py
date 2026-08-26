@@ -113,6 +113,26 @@ def as_float(value, default=0.0):
         return default
 
 
+def key_names(keys):
+    names = []
+    for key in keys or []:
+        if isinstance(key, (tuple, list)) and key:
+            key = key[0]
+        name = getattr(key, "name", None) or getattr(key, "key", None)
+        if name is None:
+            name = key
+        names.append(str(name))
+    return names
+
+
+def wait_for_space_or_escape():
+    keys = event.waitKeys(keyList=["space", "escape"])
+    names = key_names(keys)
+    if "escape" in names:
+        raise KeyboardInterrupt
+    return "space" in names
+
+
 def asset_path(relative_value):
     relative_value = text(relative_value)
     if not relative_value:
@@ -447,74 +467,86 @@ def run_trial(win, row, runtime_order):
 
     segment_rts = []
     trial_clock = core.Clock()
-    for segment in range(len(images)):
-        event.clearEvents()
-        segment_clock = core.Clock()
-        target_clock = core.Clock()
-        target_state = {"started": False, "condition_sent": False, "item_sent": False}
-        trigger_scheduled = False
-        while True:
+    try:
+        for segment in range(len(images)):
+            segment_clock = core.Clock()
+            target_clock = core.Clock()
+            target_state = {"started": False, "condition_sent": False, "item_sent": False}
+            advance_requested = False
+            event.clearEvents(eventType="keyboard")
+
             draw_sequence(win, images, arrows, segment + 1)
-            if not trigger_scheduled:
-                code = segment_trigger(roles, segment)
-                if code:
-                    trigger_on_flip(
-                        win,
-                        code,
-                        f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_set{stimulus_set}_seg{segment + 1}_{roles[segment]}",
-                    )
-                if segment == target:
-                    win.callOnFlip(target_clock.reset)
-                    win.callOnFlip(mark_started, target_state)
-                trigger_scheduled = True
+            code = segment_trigger(roles, segment)
+            if code:
+                trigger_on_flip(
+                    win,
+                    code,
+                    f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_set{stimulus_set}_seg{segment + 1}_{roles[segment]}",
+                )
+            if segment == target:
+                win.callOnFlip(target_clock.reset)
+                win.callOnFlip(mark_started, target_state)
             win.flip()
 
-            if target_state.get("started"):
-                if (not target_state.get("condition_sent")) and target_clock.getTime() >= 0.200:
+            if segment != target:
+                wait_for_space_or_escape()
+                segment_rts.append(f"{segment_clock.getTime():.6f}")
+                continue
+
+            if not target_state.get("started"):
+                target_clock.reset()
+                mark_started(target_state)
+
+            while True:
+                draw_sequence(win, images, arrows, segment + 1)
+                win.flip()
+
+                elapsed = target_clock.getTime()
+                if (not target_state.get("condition_sent")) and elapsed >= 0.200:
                     send_trigger(
                         condition_trigger,
                         f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_condition_{condition_id}",
                     )
                     target_state["condition_sent"] = True
-                if (not target_state.get("item_sent")) and target_clock.getTime() >= 0.400:
+                if (not target_state.get("item_sent")) and elapsed >= 0.400:
                     send_trigger(
                         item_trigger,
                         f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_item{item_trigger:03d}",
                     )
                     target_state["item_sent"] = True
 
-            keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
-            key_names = [key[0] if isinstance(key, tuple) else key for key in keys]
-            if "escape" in key_names:
-                raise KeyboardInterrupt
-            can_advance = segment != target or target_state.get("item_sent")
-            if "space" in key_names and can_advance:
-                segment_rts.append(f"{segment_clock.getTime():.6f}")
-                if segment >= len(images) - 1:
-                    send_trigger(TRIGGER_TRIAL_END, f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_end")
-                event.clearEvents()
-                break
+                names = key_names(event.getKeys(keyList=["space", "escape"]))
+                if "escape" in names:
+                    raise KeyboardInterrupt
+                if "space" in names:
+                    advance_requested = True
+                if advance_requested and target_state.get("item_sent"):
+                    segment_rts.append(f"{segment_clock.getTime():.6f}")
+                    break
 
-    TRIAL_WRITER.writerow(
-        {
-            "runtime_order": runtime_order,
-            "original_trial_index": original_trial,
-            "dataset_number": dataset_number,
-            "stimulus_set": stimulus_set,
-            "condition_id": condition_id,
-            "condition_trigger": condition_trigger,
-            "item_trigger": item_trigger,
-            "n_images": len(images),
-            "roles": "|".join(roles),
-            "paths": "|".join(paths),
-            "jitter_x": f"{jitter[0]:.6f}",
-            "jitter_y": f"{jitter[1]:.6f}",
-            "segment_rts": "|".join(segment_rts),
-            "trial_duration": f"{trial_clock.getTime():.6f}",
-        }
-    )
-    TRIAL_HANDLE.flush()
-    release_stims(images, arrows)
+        send_trigger(TRIGGER_TRIAL_END, f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_end")
+        TRIAL_WRITER.writerow(
+            {
+                "runtime_order": runtime_order,
+                "original_trial_index": original_trial,
+                "dataset_number": dataset_number,
+                "stimulus_set": stimulus_set,
+                "condition_id": condition_id,
+                "condition_trigger": condition_trigger,
+                "item_trigger": item_trigger,
+                "n_images": len(images),
+                "roles": "|".join(roles),
+                "paths": "|".join(paths),
+                "jitter_x": f"{jitter[0]:.6f}",
+                "jitter_y": f"{jitter[1]:.6f}",
+                "segment_rts": "|".join(segment_rts),
+                "trial_duration": f"{trial_clock.getTime():.6f}",
+            }
+        )
+        TRIAL_HANDLE.flush()
+    finally:
+        release_stims(images, arrows)
+
 
 
 def write_runtime_order(rows, path):

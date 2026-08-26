@@ -252,6 +252,26 @@ def as_float(value, default=0.0):
         return default
 
 
+def key_names(keys):
+    names = []
+    for key in keys or []:
+        if isinstance(key, (tuple, list)) and key:
+            key = key[0]
+        name = getattr(key, "name", None) or getattr(key, "key", None)
+        if name is None:
+            name = key
+        names.append(str(name))
+    return names
+
+
+def wait_for_space_or_escape():
+    keys = event.waitKeys(keyList=["space", "escape"])
+    names = key_names(keys)
+    if "escape" in names:
+        raise KeyboardInterrupt
+    return "space" in names
+
+
 def asset_path(relative_value):
     relative_value = text(relative_value)
     if not relative_value:
@@ -586,74 +606,86 @@ def run_trial(win, row, runtime_order):
 
     segment_rts = []
     trial_clock = core.Clock()
-    for segment in range(len(images)):
-        event.clearEvents()
-        segment_clock = core.Clock()
-        target_clock = core.Clock()
-        target_state = {"started": False, "condition_sent": False, "item_sent": False}
-        trigger_scheduled = False
-        while True:
+    try:
+        for segment in range(len(images)):
+            segment_clock = core.Clock()
+            target_clock = core.Clock()
+            target_state = {"started": False, "condition_sent": False, "item_sent": False}
+            advance_requested = False
+            event.clearEvents(eventType="keyboard")
+
             draw_sequence(win, images, arrows, segment + 1)
-            if not trigger_scheduled:
-                code = segment_trigger(roles, segment)
-                if code:
-                    trigger_on_flip(
-                        win,
-                        code,
-                        f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_set{stimulus_set}_seg{segment + 1}_{roles[segment]}",
-                    )
-                if segment == target:
-                    win.callOnFlip(target_clock.reset)
-                    win.callOnFlip(mark_started, target_state)
-                trigger_scheduled = True
+            code = segment_trigger(roles, segment)
+            if code:
+                trigger_on_flip(
+                    win,
+                    code,
+                    f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_set{stimulus_set}_seg{segment + 1}_{roles[segment]}",
+                )
+            if segment == target:
+                win.callOnFlip(target_clock.reset)
+                win.callOnFlip(mark_started, target_state)
             win.flip()
 
-            if target_state.get("started"):
-                if (not target_state.get("condition_sent")) and target_clock.getTime() >= 0.200:
+            if segment != target:
+                wait_for_space_or_escape()
+                segment_rts.append(f"{segment_clock.getTime():.6f}")
+                continue
+
+            if not target_state.get("started"):
+                target_clock.reset()
+                mark_started(target_state)
+
+            while True:
+                draw_sequence(win, images, arrows, segment + 1)
+                win.flip()
+
+                elapsed = target_clock.getTime()
+                if (not target_state.get("condition_sent")) and elapsed >= 0.200:
                     send_trigger(
                         condition_trigger,
                         f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_condition_{condition_id}",
                     )
                     target_state["condition_sent"] = True
-                if (not target_state.get("item_sent")) and target_clock.getTime() >= 0.400:
+                if (not target_state.get("item_sent")) and elapsed >= 0.400:
                     send_trigger(
                         item_trigger,
                         f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_item{item_trigger:03d}",
                     )
                     target_state["item_sent"] = True
 
-            keys = event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
-            key_names = [key[0] if isinstance(key, tuple) else key for key in keys]
-            if "escape" in key_names:
-                raise KeyboardInterrupt
-            can_advance = segment != target or target_state.get("item_sent")
-            if "space" in key_names and can_advance:
-                segment_rts.append(f"{segment_clock.getTime():.6f}")
-                if segment >= len(images) - 1:
-                    send_trigger(TRIGGER_TRIAL_END, f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_end")
-                event.clearEvents()
-                break
+                names = key_names(event.getKeys(keyList=["space", "escape"]))
+                if "escape" in names:
+                    raise KeyboardInterrupt
+                if "space" in names:
+                    advance_requested = True
+                if advance_requested and target_state.get("item_sent"):
+                    segment_rts.append(f"{segment_clock.getTime():.6f}")
+                    break
 
-    TRIAL_WRITER.writerow(
-        {
-            "runtime_order": runtime_order,
-            "original_trial_index": original_trial,
-            "dataset_number": dataset_number,
-            "stimulus_set": stimulus_set,
-            "condition_id": condition_id,
-            "condition_trigger": condition_trigger,
-            "item_trigger": item_trigger,
-            "n_images": len(images),
-            "roles": "|".join(roles),
-            "paths": "|".join(paths),
-            "jitter_x": f"{jitter[0]:.6f}",
-            "jitter_y": f"{jitter[1]:.6f}",
-            "segment_rts": "|".join(segment_rts),
-            "trial_duration": f"{trial_clock.getTime():.6f}",
-        }
-    )
-    TRIAL_HANDLE.flush()
-    release_stims(images, arrows)
+        send_trigger(TRIGGER_TRIAL_END, f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_end")
+        TRIAL_WRITER.writerow(
+            {
+                "runtime_order": runtime_order,
+                "original_trial_index": original_trial,
+                "dataset_number": dataset_number,
+                "stimulus_set": stimulus_set,
+                "condition_id": condition_id,
+                "condition_trigger": condition_trigger,
+                "item_trigger": item_trigger,
+                "n_images": len(images),
+                "roles": "|".join(roles),
+                "paths": "|".join(paths),
+                "jitter_x": f"{jitter[0]:.6f}",
+                "jitter_y": f"{jitter[1]:.6f}",
+                "segment_rts": "|".join(segment_rts),
+                "trial_duration": f"{trial_clock.getTime():.6f}",
+            }
+        )
+        TRIAL_HANDLE.flush()
+    finally:
+        release_stims(images, arrows)
+
 
 
 def write_runtime_order(rows, path):
@@ -669,18 +701,40 @@ def write_runtime_order(rows, path):
             writer.writerow(out)
 
 
-def main():
-    global TRIGGER_HANDLE, TRIGGER_WRITER, TRIAL_HANDLE, TRIAL_WRITER, DEBUG_HANDLE
+def _run_session(exp_info, win=None, close_window=True):
+    global TRIGGER_HANDLE, TRIGGER_WRITER, TRIAL_HANDLE, TRIAL_WRITER, DEBUG_HANDLE, JITTER_BAG
 
-    exp_info = {
-        "participant": "261",
-        "eeg_port": "",
-        "trigger_pulse_ms": "5",
-    }
-    dlg = gui.DlgFromDict(dictionary=exp_info, sortKeys=False, title="Discourse recovery 261 first 80")
-    if not dlg.OK:
-        core.quit()
-    exp_info["date"] = data.getDateStr()
+    exp_info = dict(exp_info or {})
+    exp_info.setdefault("participant", "261")
+    exp_info.setdefault("eeg_port", "")
+    exp_info.setdefault("trigger_pulse_ms", "5")
+    if not text(exp_info.get("date", "")):
+        exp_info["date"] = data.getDateStr()
+
+    TRIGGER_HANDLE = None
+    TRIGGER_WRITER = None
+    TRIAL_HANDLE = None
+    TRIAL_WRITER = None
+    DEBUG_HANDLE = None
+    JITTER_BAG = []
+    CURRENT_CONTEXT.update(
+        {
+            "runtime_order": "",
+            "original_trial_index": "",
+            "dataset_number": "",
+            "stimulus_set": "",
+            "condition_id": "",
+        }
+    )
+    TRIGGER_STATE.update(
+        {
+            "serial": None,
+            "port": "",
+            "pulse_ms": 5.0,
+            "status": "not_initialized",
+            "index": 0,
+        }
+    )
 
     participant = safe(exp_info.get("participant", "261"))
     session_dir = RECORDINGS_DIR / f"{participant}_recovery_l1_first80_{safe(exp_info['date'])}"
@@ -736,7 +790,9 @@ def main():
 
     logging.console.setLevel(logging.WARNING)
     open_serial(text(exp_info.get("eeg_port", "")), exp_info.get("trigger_pulse_ms", "5"))
-    win = visual.Window(fullscr=True, color="white", units="height", allowGUI=False)
+    if win is None:
+        win = visual.Window(fullscr=True, color="white", units="height", allowGUI=False)
+        close_window = True
 
     try:
         wait_blank_start(win)
@@ -747,10 +803,11 @@ def main():
         show_finish(win)
     finally:
         close_serial()
-        try:
-            win.close()
-        except Exception:
-            pass
+        if close_window:
+            try:
+                win.close()
+            except Exception:
+                pass
         for handle in (TRIAL_HANDLE, TRIGGER_HANDLE, DEBUG_HANDLE):
             try:
                 if handle is not None:
@@ -758,6 +815,29 @@ def main():
                     handle.close()
             except Exception:
                 pass
+        TRIAL_HANDLE = None
+        TRIAL_WRITER = None
+        TRIGGER_HANDLE = None
+        TRIGGER_WRITER = None
+        DEBUG_HANDLE = None
+
+
+def run_from_builder(builder_win, builder_exp_info):
+    _run_session(builder_exp_info, win=builder_win, close_window=False)
+
+
+def main():
+    exp_info = {
+        "participant": "261",
+        "eeg_port": "",
+        "trigger_pulse_ms": "5",
+    }
+    dlg = gui.DlgFromDict(dictionary=exp_info, sortKeys=False, title="Discourse recovery 261 first 80")
+    if not dlg.OK:
+        core.quit()
+    exp_info["date"] = data.getDateStr()
+    _run_session(exp_info, win=None, close_window=True)
+
 
 
 if __name__ == "__main__":
@@ -769,7 +849,7 @@ README_TEXT = """# Discourse recovery 261 first 80
 
 This is a minimal, self-contained recovery experiment for the first 80 discourse trials shown in the participant 261 List 1 CSV screenshots from 2026-08-26.
 
-Run `recovery_261_first80.py` from PsychoPy Coder. The folder includes local copies of the needed JPEG stimuli plus the break/finish images, so it can be downloaded separately from the normal discourse and isolated experiment folders. The task starts with a blank white screen; press Space to begin. It presents only the 80 recovered discourse trials, randomly shuffled on every run, with a 30-second break after 40 trials and a finish sign at the end.
+Open `recovery_261_first80.psyexp` in PsychoPy Builder, or run `recovery_261_first80.py` from PsychoPy Coder. The folder includes local copies of the needed JPEG stimuli plus the break/finish images, so it can be downloaded separately from the normal discourse and isolated experiment folders. The task starts with a blank white screen; press Space to begin. It presents only the 80 recovered discourse trials, randomly shuffled on every run, with a 30-second break after 40 trials and a finish sign at the end.
 
 The normal discourse trigger system is preserved:
 
