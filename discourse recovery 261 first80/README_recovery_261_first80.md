@@ -16,9 +16,12 @@ The normal discourse trigger system is preserved:
 
 Outputs are written to `recordings/<participant>_recovery_l1_first80_<date>/`:
 
-- `trial_order.csv`: randomized runtime order for this recovery run
-- `trial_log.csv`: per-trial timing/condition/item metadata
-- `eeg_triggers.csv`: every trigger attempt with serial status
-- `debug_recovery_runtime.log`: compact runtime notes
+- Per-picture response WAV clips use the original discourse naming style, for example `261_main_l1_trial016_imageset17_cond_it_coh_pic03_it_target.wav`.
+- `full_session.wav`: continuous raw microphone recording for the whole recovery run.
+- `recording_events.csv` and `recording_segments.csv`: reproducible logs of picture-onset samples, Space-press stop samples, and clip boundaries.
+- `trial_order.csv`: randomized runtime order for this recovery run.
+- `trial_log.csv`: per-trial timing/condition/item metadata, including per-picture audio filenames.
+- `eeg_triggers.csv`: every trigger attempt with serial status.
+- `debug_recovery_runtime.log`: compact runtime notes.
 
 This version uses the exact `trial_id` values visible in the participant CSV screenshots, including the `set1`/`set2`/`set3`/`set4` part of each item.

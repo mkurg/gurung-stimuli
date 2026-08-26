@@ -8,10 +8,13 @@ screen; press SPACE to start. Trials are randomly shuffled on every run and spli
 
 from __future__ import annotations
 
+import atexit
 import csv
 import datetime as _datetime
 import gc
+import queue
 import random
+import threading
 from pathlib import Path
 
 from psychopy import core, data, event, gui, logging, visual
@@ -21,6 +24,16 @@ try:
 except Exception as _serial_error:
     _serial = None
     print("Serial trigger backend is unavailable:", _serial_error)
+
+try:
+    import sounddevice as _sd
+    import soundfile as _sf
+    RECORDING_AVAILABLE = True
+except Exception as _recording_error:
+    _sd = None
+    _sf = None
+    RECORDING_AVAILABLE = False
+    print("Audio recording is unavailable:", _recording_error)
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
@@ -48,6 +61,7 @@ SEQUENCE_JITTER_SLOTS = [
 ]
 ARROW_MAX_SIZE = 0.045
 BREAK_MIN_SEC = 30.0
+RECORDING_STOP_GRACE_SEC = 0.5
 
 TRIGGER_FIRST_PRETARGET = 198
 TRIGGER_PRETARGET = 199
@@ -75,6 +89,8 @@ TRIGGER_WRITER = None
 TRIAL_HANDLE = None
 TRIAL_WRITER = None
 DEBUG_HANDLE = None
+RECORDER = None
+SESSION_INFO = {"participant": "261", "list_tag": "l1"}
 
 
 def safe(value):
@@ -125,13 +141,37 @@ def key_names(keys):
     return names
 
 
+def key_time(keys, key_name, default=None):
+    if default is None:
+        default = core.getTime()
+    for key in keys or []:
+        if isinstance(key, (tuple, list)) and key:
+            if str(key[0]) == key_name and len(key) > 1:
+                return as_float(key[-1], default)
+        else:
+            name = getattr(key, "name", None) or getattr(key, "key", None)
+            if str(name or key) == key_name:
+                rt = getattr(key, "rt", None)
+                return as_float(rt, default) if rt is not None else default
+    return default
+
+
+def get_keys_with_time():
+    try:
+        return event.getKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+    except Exception:
+        return event.getKeys(keyList=["space", "escape"])
+
+
 def wait_for_space_or_escape():
-    keys = event.waitKeys(keyList=["space", "escape"])
+    try:
+        keys = event.waitKeys(keyList=["space", "escape"], timeStamped=core.monotonicClock)
+    except Exception:
+        keys = event.waitKeys(keyList=["space", "escape"])
     names = key_names(keys)
     if "escape" in names:
         raise KeyboardInterrupt
-    return "space" in names
-
+    return key_time(keys, "space", core.getTime())
 
 def asset_path(relative_value):
     relative_value = text(relative_value)
@@ -386,6 +426,565 @@ def release_stims(*groups):
     gc.collect()
 
 
+def recovery_main_stem(original_trial, dataset_number, condition_id, picture_index, role):
+    participant = safe(SESSION_INFO.get("participant", "261"))
+    list_tag = safe(SESSION_INFO.get("list_tag", "l1"))
+    return (
+        f"{participant}_main_{list_tag}_trial{int(original_trial):03d}_"
+        f"imageset{int(dataset_number):02d}_cond_{safe(condition_id)}_"
+        f"pic{int(picture_index):02d}_{safe(role)}"
+    )
+
+
+class RecoveryRecorder:
+    sample_rate = 48000
+
+    def __init__(self, root):
+        self.root = Path(root)
+        self.root.mkdir(exist_ok=True)
+        self.full_path = self.root / "full_session.wav"
+        self.events_path = self.root / "recording_events.csv"
+        self.segments_path = self.root / "recording_segments.csv"
+        self.stream = None
+        self.full_writer = None
+        self.segments = []
+        self.current_segment = None
+        self.lock = threading.Lock()
+        self.log_lock = threading.Lock()
+        self.write_queue = queue.Queue()
+        self.close_event = threading.Event()
+        self.event_index = 0
+        self.segment_index = 0
+        self.total_frames = 0
+        self.last_callback_core_time = None
+        self.last_callback_end_sample = 0
+        self.finalized = False
+        self.full_blocks_since_flush = 0
+        self.event_handle = None
+        self.event_writer = None
+        self.writer_error = None
+        self._open_event_log()
+        self.writer = threading.Thread(target=self._writer_loop, daemon=True)
+        self.writer.start()
+        self.closer = threading.Thread(target=self._closer_loop, daemon=True)
+        self.closer.start()
+        if RECORDING_AVAILABLE:
+            self._ensure_stream()
+        else:
+            self._log_event("recording_unavailable", details="sounddevice/soundfile import failed")
+
+    def start(self, stem, subdir=None):
+        self.stop()
+        if not RECORDING_AVAILABLE:
+            return ""
+        self._ensure_stream()
+        if self.stream is None:
+            return ""
+        now = core.getTime()
+        sample = self._sample_index_now(event_core_time=now)
+        target_dir = self.root
+        if subdir:
+            target_dir = self.root / str(subdir)
+            target_dir.mkdir(parents=True, exist_ok=True)
+        path = target_dir / f"{safe(stem)}.wav"
+        with self.lock:
+            self.segment_index += 1
+            segment = {
+                "id": self.segment_index,
+                "stem": safe(stem),
+                "path": path,
+                "full_session_path": self.full_path,
+                "requested_core_time": now,
+                "requested_stream_time": self._stream_time_unlocked(),
+                "requested_sample": sample,
+                "onset_scheduled": False,
+                "onset_core_time": None,
+                "onset_stream_time": None,
+                "onset_sample": None,
+                "stop_core_time": None,
+                "stop_stream_time": None,
+                "stop_sample": None,
+                "post_pad_sec": None,
+                "end_sample": None,
+                "clip_start_sample": None,
+                "clip_end_sample": None,
+                "written": False,
+                "written_core_time": None,
+                "n_frames": 0,
+                "status": "waiting_for_picture_onset",
+                "notes": "",
+            }
+            self.segments.append(segment)
+            self.current_segment = segment
+        self._log_event("segment_start_requested", segment, sample, details=str(path))
+        self._write_segments_log()
+        return str(path)
+
+    def mark_onset_on_flip(self, win):
+        with self.lock:
+            segment = self.current_segment
+            if segment is None:
+                return
+            if segment.get("onset_scheduled") or segment.get("onset_sample") is not None:
+                return
+            segment["onset_scheduled"] = True
+            segment_id = segment["id"]
+        try:
+            win.callOnFlip(self._mark_segment_onset, segment_id)
+        except Exception as err:
+            self._mark_segment_onset(segment_id, note=f"callOnFlip_failed:{err}")
+
+    def _mark_segment_onset(self, segment_id, note=""):
+        now = core.getTime()
+        stream_time = self._stream_time()
+        sample = self._sample_index_now(stream_time=stream_time, event_core_time=now)
+        with self.lock:
+            segment = self._find_segment_unlocked(segment_id)
+            if segment is None or segment.get("onset_sample") is not None:
+                return
+            segment["onset_core_time"] = now
+            segment["onset_stream_time"] = stream_time
+            segment["onset_sample"] = sample
+            segment["status"] = "recording"
+            if note:
+                segment["notes"] = note
+        self._log_event("picture_onset", segment, sample, stream_time=stream_time, details=note)
+        self._write_segments_log()
+
+    def _ensure_stream(self):
+        if self.stream is not None:
+            return
+        if not RECORDING_AVAILABLE:
+            return
+
+        def callback(indata, frames, time_info, status):
+            if status:
+                log_debug(f"rec_callback_status {status}")
+            block = indata.copy()
+            callback_core_time = core.getTime()
+            with self.lock:
+                block_start = self.total_frames
+                block_end = block_start + int(frames)
+                self.total_frames = block_end
+                self.last_callback_core_time = callback_core_time
+                self.last_callback_end_sample = block_end
+            self.write_queue.put(("full", block))
+
+        log_debug("rec_stream_open_start")
+        try:
+            self.full_writer = _sf.SoundFile(
+                str(self.full_path),
+                mode="w",
+                samplerate=self.sample_rate,
+                channels=1,
+            )
+            self.stream = _sd.InputStream(
+                samplerate=self.sample_rate,
+                channels=1,
+                dtype="float32",
+                callback=callback,
+            )
+            self.stream.start()
+            self._log_event("full_session_start", sample_index=0, details=str(self.full_path))
+            log_debug("rec_stream_open_done")
+        except Exception as err:
+            log_debug(f"rec_stream_open_failed {err}")
+            self._log_event("recording_open_failed", details=str(err))
+            self.stream = None
+            try:
+                if self.full_writer is not None:
+                    self.full_writer.close()
+            except Exception:
+                pass
+            self.full_writer = None
+
+    def stop(self, grace_sec=None, event_core_time=None):
+        if grace_sec is None:
+            grace_sec = RECORDING_STOP_GRACE_SEC
+        now = core.getTime()
+        if event_core_time is None:
+            event_core_time = now
+        stream_time = self._stream_time()
+        sample = self._sample_index_now(stream_time=stream_time, event_core_time=event_core_time)
+        end_sample = sample + int(round(max(0.0, grace_sec) * self.sample_rate))
+        with self.lock:
+            segment = self.current_segment
+            self.current_segment = None
+            if segment is not None:
+                if segment.get("onset_sample") is None:
+                    segment["onset_sample"] = segment.get("requested_sample", sample)
+                    segment["onset_core_time"] = segment.get("requested_core_time", event_core_time)
+                    segment["onset_stream_time"] = segment.get("requested_stream_time", stream_time)
+                    segment["notes"] = "forced_onset_from_start_request"
+                segment["stop_core_time"] = event_core_time
+                segment["stop_stream_time"] = stream_time
+                segment["stop_sample"] = sample
+                segment["post_pad_sec"] = max(0.0, grace_sec)
+                segment["end_sample"] = max(int(segment["onset_sample"]), int(end_sample))
+                segment["status"] = "stopped_waiting_for_tail"
+        if segment is None:
+            return ""
+        path = segment["path"]
+        self._log_event(
+            "segment_stop_requested",
+            segment,
+            sample,
+            stream_time=stream_time,
+            details=f"grace={grace_sec:.3f};event_core_time={event_core_time:.6f}",
+        )
+        self._write_segments_log()
+        return str(path)
+
+    def _closer_loop(self):
+        while True:
+            self.close_event.wait(0.02)
+            self.close_event.clear()
+            self._flush_ready_segments()
+
+    def _flush_ready_segments(self, force=False):
+        return
+
+    def _writer_loop(self):
+        while True:
+            item = self.write_queue.get()
+            try:
+                if item is None:
+                    self._close_full_writer()
+                    return
+                kind = item[0]
+                if kind == "full":
+                    self._write_full_block(item[1])
+            except Exception as err:
+                self.writer_error = err
+                log_debug(f"rec_writer_loop_error {err}")
+            finally:
+                self.write_queue.task_done()
+
+    def _write_full_block(self, block):
+        if self.full_writer is None:
+            return
+        self.full_writer.write(block)
+        self.full_blocks_since_flush += 1
+        if self.full_blocks_since_flush >= 10:
+            self.full_writer.flush()
+            self.full_blocks_since_flush = 0
+
+    def _write_segment_clips(self):
+        if not RECORDING_AVAILABLE:
+            return
+        if not self.full_path.exists():
+            self._log_event("segment_clip_failed", details=f"missing_full_session={self.full_path}")
+            return
+        try:
+            with _sf.SoundFile(str(self.full_path), mode="r") as full_audio:
+                available_frames = len(full_audio)
+                for segment in list(self.segments):
+                    if segment.get("onset_sample") is None:
+                        continue
+                    start_sample = max(0, int(segment.get("onset_sample") or 0))
+                    requested_end_sample = int(segment.get("end_sample") or available_frames)
+                    requested_end_sample = max(start_sample, requested_end_sample)
+                    clip_start = min(start_sample, available_frames)
+                    clip_end = min(requested_end_sample, available_frames)
+                    full_audio.seek(clip_start)
+                    audio = full_audio.read(clip_end - clip_start, dtype="float32", always_2d=True)
+                    _sf.write(str(segment["path"]), audio, full_audio.samplerate)
+                    status = "written"
+                    notes = text(segment.get("notes", ""))
+                    if requested_end_sample > available_frames:
+                        status = "written_truncated_at_experiment_stop"
+                        suffix = f"truncated_end_sample={requested_end_sample};available_frames={available_frames}"
+                        notes = f"{notes} {suffix}".strip()
+                    with self.lock:
+                        segment["clip_start_sample"] = clip_start
+                        segment["clip_end_sample"] = clip_end
+                        segment["written"] = True
+                        segment["written_core_time"] = core.getTime()
+                        segment["n_frames"] = int(audio.shape[0])
+                        segment["status"] = status
+                        segment["notes"] = notes
+                    self._log_event(
+                        "segment_written",
+                        segment,
+                        sample_index=clip_start,
+                        details=f"frames={int(audio.shape[0])} clip={clip_start}:{clip_end}",
+                    )
+        except Exception as err:
+            with self.lock:
+                for segment in self.segments:
+                    if not segment.get("written"):
+                        segment["status"] = "clip_failed"
+                        segment["notes"] = f"{segment.get('notes', '')} clip_failed:{err}".strip()
+            self._log_event("segment_clip_failed", details=str(err))
+        self._write_segments_log()
+
+    def _close_full_writer(self):
+        writer = self.full_writer
+        self.full_writer = None
+        if writer is None:
+            return
+        try:
+            writer.flush()
+        except Exception:
+            pass
+        try:
+            writer.close()
+            self._log_event("full_session_closed", sample_index=self._total_frames(), details=str(self.full_path))
+        except Exception as err:
+            log_debug(f"rec_full_writer_close_failed {err}")
+
+    def _time_field(self, time_info, name):
+        try:
+            value = getattr(time_info, name)
+        except Exception:
+            try:
+                value = time_info[name]
+            except Exception:
+                return None
+        try:
+            return float(value)
+        except Exception:
+            return None
+
+    def _stream_time(self):
+        with self.lock:
+            return self._stream_time_unlocked()
+
+    def _stream_time_unlocked(self):
+        try:
+            if self.stream is not None:
+                return float(self.stream.time)
+        except Exception:
+            pass
+        return None
+
+    def _sample_index_now(self, stream_time=None, event_core_time=None):
+        with self.lock:
+            total_frames = self.total_frames
+            last_callback_core_time = self.last_callback_core_time
+            last_callback_end_sample = self.last_callback_end_sample
+            can_estimate = self.stream is not None and not self.finalized
+        if can_estimate and last_callback_core_time is not None:
+            if event_core_time is None:
+                event_core_time = core.getTime()
+            estimate = int(round(last_callback_end_sample + ((event_core_time - last_callback_core_time) * self.sample_rate)))
+            return max(0, estimate)
+        return int(total_frames)
+
+    def _total_frames(self):
+        with self.lock:
+            return int(self.total_frames)
+
+    def _find_segment_unlocked(self, segment_id):
+        for segment in self.segments:
+            if segment.get("id") == segment_id:
+                return segment
+        return None
+
+    def _open_event_log(self):
+        self.event_fields = (
+            "event_index",
+            "event_type",
+            "segment_id",
+            "stem",
+            "path",
+            "core_time",
+            "stream_time",
+            "sample_index",
+            "details",
+        )
+        self.segment_fields = (
+            "segment_id",
+            "stem",
+            "path",
+            "full_session_path",
+            "status",
+            "requested_core_time",
+            "requested_stream_time",
+            "requested_sample",
+            "onset_core_time",
+            "onset_stream_time",
+            "onset_sample",
+            "stop_core_time",
+            "stop_stream_time",
+            "stop_sample",
+            "post_pad_sec",
+            "end_sample",
+            "clip_start_sample",
+            "clip_end_sample",
+            "written_core_time",
+            "n_frames",
+            "notes",
+        )
+        try:
+            self.event_handle = self.events_path.open("w", encoding="utf-8", newline="")
+            self.event_writer = csv.DictWriter(self.event_handle, fieldnames=self.event_fields, lineterminator="\n")
+            self.event_writer.writeheader()
+            self.event_handle.flush()
+        except Exception as err:
+            log_debug(f"recording_event_log_open_failed {err}")
+            self.event_handle = None
+            self.event_writer = None
+        self._write_segments_log()
+
+    def _format_value(self, value):
+        if value is None:
+            return ""
+        if isinstance(value, float):
+            return f"{value:.6f}"
+        return str(value)
+
+    def _log_event(self, event_type, segment=None, sample_index=None, stream_time=None, details=""):
+        core_time = core.getTime()
+        if stream_time is None:
+            stream_time = self._stream_time()
+        if sample_index is None:
+            sample_index = self._sample_index_now(stream_time=stream_time, event_core_time=core_time)
+        segment_id = ""
+        stem = ""
+        path = ""
+        if segment is not None:
+            segment_id = segment.get("id", "")
+            stem = segment.get("stem", "")
+            path = segment.get("path", "")
+        with self.log_lock:
+            self.event_index += 1
+            row = {
+                "event_index": self.event_index,
+                "event_type": event_type,
+                "segment_id": segment_id,
+                "stem": stem,
+                "path": path,
+                "core_time": self._format_value(core_time),
+                "stream_time": self._format_value(stream_time),
+                "sample_index": self._format_value(sample_index),
+                "details": details,
+            }
+            try:
+                if self.event_writer is not None:
+                    self.event_writer.writerow(row)
+                    self.event_handle.flush()
+            except Exception as err:
+                log_debug(f"recording_event_log_write_failed {err}")
+        log_debug(f"recording_event {event_type} segment={segment_id} sample={row['sample_index']} {details}")
+
+    def _segment_row(self, segment):
+        row = {}
+        for field in self.segment_fields:
+            if field == "segment_id":
+                value = segment.get("id")
+            else:
+                value = segment.get(field)
+            row[field] = self._format_value(value)
+        return row
+
+    def _write_segments_log(self):
+        try:
+            with self.log_lock:
+                with self.segments_path.open("w", encoding="utf-8", newline="") as handle:
+                    writer = csv.DictWriter(handle, fieldnames=self.segment_fields, lineterminator="\n")
+                    writer.writeheader()
+                    with self.lock:
+                        rows = [self._segment_row(segment) for segment in self.segments]
+                    writer.writerows(rows)
+        except Exception as err:
+            log_debug(f"recording_segments_log_write_failed {err}")
+
+    def _wait_for_pending_tail(self):
+        deadline = core.getTime() + RECORDING_STOP_GRACE_SEC + 0.2
+        while core.getTime() < deadline:
+            with self.lock:
+                pending = [
+                    int(segment["end_sample"])
+                    for segment in self.segments
+                    if segment.get("end_sample") is not None and not segment.get("written")
+                ]
+                total_frames = self.total_frames
+            if not pending or max(pending) <= total_frames:
+                return
+            core.wait(0.02)
+
+    def _force_close_open_segments(self):
+        now = core.getTime()
+        sample = self._sample_index_now(event_core_time=now)
+        with self.lock:
+            for segment in self.segments:
+                if segment.get("written"):
+                    continue
+                if segment.get("onset_sample") is None:
+                    segment["onset_sample"] = segment.get("requested_sample", sample)
+                    segment["onset_core_time"] = segment.get("requested_core_time", now)
+                    segment["onset_stream_time"] = segment.get("requested_stream_time")
+                    segment["notes"] = "forced_onset_during_cleanup"
+                if segment.get("end_sample") is None:
+                    segment["stop_core_time"] = now
+                    segment["stop_stream_time"] = self._stream_time_unlocked()
+                    segment["stop_sample"] = sample
+                    segment["post_pad_sec"] = 0.0
+                    segment["end_sample"] = max(int(segment["onset_sample"]), int(sample))
+                    segment["status"] = "forced_stop_during_cleanup"
+
+    def finalize(self, wait_for_post_pad=True):
+        with self.lock:
+            if self.finalized:
+                return
+            self.finalized = True
+        self._log_event("recording_finalize_start", details=f"wait_for_post_pad={wait_for_post_pad}")
+        if self.current_segment is not None:
+            self.stop(grace_sec=0.0)
+        if wait_for_post_pad:
+            self._wait_for_pending_tail()
+        stream = self.stream
+        self.stream = None
+        if stream is not None:
+            try:
+                log_debug("rec_stream_stop_start")
+                stream.stop()
+                log_debug("rec_stream_stop_done")
+            except Exception as err:
+                log_debug(f"rec_stream_stop_failed {err}")
+            try:
+                stream.close()
+                log_debug("rec_stream_close_done")
+            except Exception as err:
+                log_debug(f"rec_stream_close_failed {err}")
+        self._force_close_open_segments()
+        try:
+            self.write_queue.join()
+        except Exception as err:
+            log_debug(f"rec_write_queue_join_failed {err}")
+        self.write_queue.put(None)
+        try:
+            self.write_queue.join()
+        except Exception:
+            pass
+        try:
+            self.writer.join(timeout=2.0)
+        except Exception:
+            pass
+        self._write_segment_clips()
+        self._write_segments_log()
+        self._log_event("recording_finalize_done", details=f"writer_error={self.writer_error}")
+        try:
+            if self.event_handle is not None:
+                self.event_handle.flush()
+                self.event_handle.close()
+        except Exception:
+            pass
+
+    def abort(self):
+        self.finalize(wait_for_post_pad=False)
+
+
+
+def cleanup_recorder(wait_for_post_pad=True):
+    global RECORDER
+    try:
+        if RECORDER is not None:
+            RECORDER.finalize(wait_for_post_pad=wait_for_post_pad)
+    except Exception as err:
+        log_debug(f"recorder_cleanup_failed {err}")
+
 def draw_sequence(win, images, arrows, reveal_count):
     win.color = "white"
     for idx in range(reveal_count):
@@ -466,6 +1065,7 @@ def run_trial(win, row, runtime_order):
     )
 
     segment_rts = []
+    segment_audio_files = []
     trial_clock = core.Clock()
     try:
         for segment in range(len(images)):
@@ -473,7 +1073,14 @@ def run_trial(win, row, runtime_order):
             target_clock = core.Clock()
             target_state = {"started": False, "condition_sent": False, "item_sent": False}
             advance_requested = False
+            advance_core_time = None
             event.clearEvents(eventType="keyboard")
+
+            stem = recovery_main_stem(original_trial, dataset_number, condition_id, segment + 1, roles[segment])
+            audio_file = ""
+            if RECORDER is not None:
+                audio_file = RECORDER.start(stem)
+            segment_audio_files.append(audio_file)
 
             draw_sequence(win, images, arrows, segment + 1)
             code = segment_trigger(roles, segment)
@@ -483,13 +1090,17 @@ def run_trial(win, row, runtime_order):
                     code,
                     f"recovery_runtime{runtime_order:03d}_original{original_trial:03d}_set{stimulus_set}_seg{segment + 1}_{roles[segment]}",
                 )
+            if RECORDER is not None:
+                RECORDER.mark_onset_on_flip(win)
             if segment == target:
                 win.callOnFlip(target_clock.reset)
                 win.callOnFlip(mark_started, target_state)
             win.flip()
 
             if segment != target:
-                wait_for_space_or_escape()
+                advance_core_time = wait_for_space_or_escape()
+                if RECORDER is not None:
+                    RECORDER.stop(event_core_time=advance_core_time)
                 segment_rts.append(f"{segment_clock.getTime():.6f}")
                 continue
 
@@ -515,12 +1126,16 @@ def run_trial(win, row, runtime_order):
                     )
                     target_state["item_sent"] = True
 
-                names = key_names(event.getKeys(keyList=["space", "escape"]))
+                keys = get_keys_with_time()
+                names = key_names(keys)
                 if "escape" in names:
                     raise KeyboardInterrupt
-                if "space" in names:
+                if "space" in names and not advance_requested:
                     advance_requested = True
+                    advance_core_time = key_time(keys, "space", core.getTime())
                 if advance_requested and target_state.get("item_sent"):
+                    if RECORDER is not None:
+                        RECORDER.stop(event_core_time=advance_core_time)
                     segment_rts.append(f"{segment_clock.getTime():.6f}")
                     break
 
@@ -540,11 +1155,14 @@ def run_trial(win, row, runtime_order):
                 "jitter_x": f"{jitter[0]:.6f}",
                 "jitter_y": f"{jitter[1]:.6f}",
                 "segment_rts": "|".join(segment_rts),
+                "segment_audio_files": "|".join(segment_audio_files),
                 "trial_duration": f"{trial_clock.getTime():.6f}",
             }
         )
         TRIAL_HANDLE.flush()
     finally:
+        if RECORDER is not None:
+            RECORDER.stop(grace_sec=0.0)
         release_stims(images, arrows)
 
 
@@ -563,7 +1181,7 @@ def write_runtime_order(rows, path):
 
 
 def _run_session(exp_info, win=None, close_window=True):
-    global TRIGGER_HANDLE, TRIGGER_WRITER, TRIAL_HANDLE, TRIAL_WRITER, DEBUG_HANDLE, JITTER_BAG
+    global TRIGGER_HANDLE, TRIGGER_WRITER, TRIAL_HANDLE, TRIAL_WRITER, DEBUG_HANDLE, JITTER_BAG, RECORDER
 
     exp_info = dict(exp_info or {})
     exp_info.setdefault("participant", "261")
@@ -577,6 +1195,7 @@ def _run_session(exp_info, win=None, close_window=True):
     TRIAL_HANDLE = None
     TRIAL_WRITER = None
     DEBUG_HANDLE = None
+    RECORDER = None
     JITTER_BAG = []
     CURRENT_CONTEXT.update(
         {
@@ -598,6 +1217,8 @@ def _run_session(exp_info, win=None, close_window=True):
     )
 
     participant = safe(exp_info.get("participant", "261"))
+    SESSION_INFO["participant"] = participant
+    SESSION_INFO["list_tag"] = "l1"
     session_dir = RECORDINGS_DIR / f"{participant}_recovery_l1_first80_{safe(exp_info['date'])}"
     session_dir.mkdir(parents=True, exist_ok=True)
 
@@ -640,11 +1261,18 @@ def _run_session(exp_info, win=None, close_window=True):
         "jitter_x",
         "jitter_y",
         "segment_rts",
+        "segment_audio_files",
         "trial_duration",
     ]
     TRIAL_WRITER = csv.DictWriter(TRIAL_HANDLE, fieldnames=trial_fields, lineterminator="\n")
     TRIAL_WRITER.writeheader()
     TRIAL_HANDLE.flush()
+
+    RECORDER = RecoveryRecorder(session_dir)
+    try:
+        atexit.register(cleanup_recorder)
+    except Exception as err:
+        log_debug(f"recorder_atexit_register_failed {err}")
 
     rows = load_trials()
     write_runtime_order(rows, session_dir / "trial_order.csv")
@@ -663,6 +1291,7 @@ def _run_session(exp_info, win=None, close_window=True):
                 show_break(win)
         show_finish(win)
     finally:
+        cleanup_recorder(wait_for_post_pad=True)
         close_serial()
         if close_window:
             try:
@@ -681,6 +1310,7 @@ def _run_session(exp_info, win=None, close_window=True):
         TRIGGER_HANDLE = None
         TRIGGER_WRITER = None
         DEBUG_HANDLE = None
+        RECORDER = None
 
 
 def run_from_builder(builder_win, builder_exp_info):
