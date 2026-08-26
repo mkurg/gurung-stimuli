@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 """Build the discourse recovery experiment for participant 261, List 1, first 80 trials.
 
-The screenshots of the recording folder show original trial number, dataset number, and
-condition. They do not show the hidden stimulus_set, so this builder selects the next
-legal List 1 row for each visible dataset+condition pair and records that inference in
-the generated CSV. If exact runtime_main_block*.csv files from the original laptop are
-available later, rebuild this file from those rows instead.
+The participant CSV screenshots show the exact trial_id values, including set1-set4,
+for the first 80 discourse trials. This builder selects those exact List 1 rows.
 """
 
 from __future__ import annotations
@@ -23,87 +20,87 @@ TRIALS_CSV = COND_DIR / "recovery_261_first80_trials.csv"
 SCRIPT_PATH = RECOVERY_DIR / "recovery_261_first80.py"
 README_PATH = RECOVERY_DIR / "README_recovery_261_first80.md"
 
-OBSERVED_TRIALS = [
-    (1, 13, "it_coh"),
-    (2, 1, "it_ic"),
-    (3, 27, "it_coh"),
-    (4, 26, "tr_ic"),
-    (5, 12, "it_coh"),
-    (6, 8, "tr_coh"),
-    (7, 24, "it_ic"),
-    (8, 1, "it_coh"),
-    (9, 12, "tr_coh"),
-    (10, 30, "tr_coh"),
-    (11, 22, "it_ic"),
-    (12, 11, "it_ic"),
-    (13, 21, "tr_coh"),
-    (14, 6, "it_ic"),
-    (15, 21, "it_coh"),
-    (16, 17, "it_coh"),
-    (17, 26, "it_ic"),
-    (18, 4, "it_coh"),
-    (19, 2, "it_coh"),
-    (20, 19, "tr_ic"),
-    (21, 25, "it_coh"),
-    (22, 7, "tr_ic"),
-    (23, 30, "it_ic"),
-    (24, 25, "tr_ic"),
-    (25, 4, "tr_coh"),
-    (26, 23, "it_ic"),
-    (27, 11, "it_coh"),
-    (28, 14, "it_ic"),
-    (29, 24, "it_coh"),
-    (30, 10, "it_ic"),
-    (31, 12, "it_ic"),
-    (32, 6, "it_coh"),
-    (33, 23, "tr_ic"),
-    (34, 26, "tr_ic"),
-    (35, 14, "it_ic"),
-    (36, 23, "tr_coh"),
-    (37, 2, "it_ic"),
-    (38, 1, "tr_ic"),
-    (39, 18, "tr_ic"),
-    (40, 22, "tr_ic"),
-    (41, 24, "tr_ic"),
-    (42, 10, "tr_ic"),
-    (43, 14, "it_coh"),
-    (44, 19, "it_coh"),
-    (45, 17, "tr_coh"),
-    (46, 15, "tr_ic"),
-    (47, 7, "it_coh"),
-    (48, 3, "tr_ic"),
-    (49, 22, "it_coh"),
-    (50, 3, "it_coh"),
-    (51, 15, "tr_ic"),
-    (52, 18, "it_ic"),
-    (53, 4, "tr_ic"),
-    (54, 30, "it_ic"),
-    (55, 26, "it_coh"),
-    (56, 11, "tr_coh"),
-    (57, 29, "tr_coh"),
-    (58, 29, "tr_coh"),
-    (59, 13, "tr_coh"),
-    (60, 22, "tr_ic"),
-    (61, 18, "it_coh"),
-    (62, 28, "it_coh"),
-    (63, 10, "it_coh"),
-    (64, 15, "it_ic"),
-    (65, 8, "it_coh"),
-    (66, 16, "tr_ic"),
-    (67, 11, "tr_coh"),
-    (68, 29, "it_coh"),
-    (69, 23, "it_coh"),
-    (70, 25, "it_ic"),
-    (71, 14, "tr_coh"),
-    (72, 5, "tr_ic"),
-    (73, 21, "tr_ic"),
-    (74, 21, "it_ic"),
-    (75, 20, "tr_coh"),
-    (76, 26, "it_ic"),
-    (77, 9, "tr_coh"),
-    (78, 8, "it_ic"),
-    (79, 24, "tr_coh"),
-    (80, 1, "tr_coh"),
+EXACT_TRIAL_IDS = [
+    "d013_set4_it_coh_list1",
+    "d001_set3_it_ic_list1",
+    "d027_set4_it_coh_list1",
+    "d026_set1_tr_ic_list1",
+    "d012_set4_it_coh_list1",
+    "d008_set2_tr_coh_list1",
+    "d024_set2_it_ic_list1",
+    "d001_set4_it_coh_list1",
+    "d012_set3_tr_coh_list1",
+    "d030_set3_tr_coh_list1",
+    "d022_set2_it_ic_list1",
+    "d011_set3_it_ic_list1",
+    "d021_set3_tr_coh_list1",
+    "d006_set2_it_ic_list1",
+    "d021_set4_it_coh_list1",
+    "d017_set1_it_coh_list1",
+    "d026_set2_it_ic_list1",
+    "d004_set4_it_coh_list1",
+    "d002_set4_it_coh_list1",
+    "d019_set4_tr_ic_list1",
+    "d025_set4_it_coh_list1",
+    "d007_set1_tr_ic_list1",
+    "d030_set3_it_ic_list1",
+    "d025_set1_tr_ic_list1",
+    "d004_set2_tr_coh_list1",
+    "d023_set2_it_ic_list1",
+    "d011_set4_it_coh_list1",
+    "d014_set3_it_ic_list1",
+    "d024_set1_it_coh_list1",
+    "d010_set3_it_ic_list1",
+    "d012_set3_it_ic_list1",
+    "d006_set4_it_coh_list1",
+    "d023_set1_tr_ic_list1",
+    "d026_set4_tr_ic_list1",
+    "d014_set2_it_ic_list1",
+    "d023_set2_tr_coh_list1",
+    "d002_set3_it_ic_list1",
+    "d001_set4_tr_ic_list1",
+    "d018_set1_tr_ic_list1",
+    "d022_set1_tr_ic_list1",
+    "d024_set1_tr_ic_list1",
+    "d010_set4_tr_ic_list1",
+    "d014_set4_it_coh_list1",
+    "d019_set1_it_coh_list1",
+    "d017_set3_tr_coh_list1",
+    "d015_set4_tr_ic_list1",
+    "d007_set4_it_coh_list1",
+    "d003_set4_tr_ic_list1",
+    "d022_set4_it_coh_list1",
+    "d003_set1_it_coh_list1",
+    "d015_set1_tr_ic_list1",
+    "d018_set2_it_ic_list1",
+    "d004_set1_tr_ic_list1",
+    "d030_set2_it_ic_list1",
+    "d026_set4_it_coh_list1",
+    "d011_set3_tr_coh_list1",
+    "d029_set3_tr_coh_list1",
+    "d029_set2_tr_coh_list1",
+    "d013_set3_tr_coh_list1",
+    "d022_set4_tr_ic_list1",
+    "d018_set1_it_coh_list1",
+    "d028_set4_it_coh_list1",
+    "d010_set1_it_coh_list1",
+    "d015_set3_it_ic_list1",
+    "d008_set4_it_coh_list1",
+    "d016_set1_tr_ic_list1",
+    "d011_set2_tr_coh_list1",
+    "d029_set1_it_coh_list1",
+    "d023_set4_it_coh_list1",
+    "d025_set2_it_ic_list1",
+    "d014_set2_tr_coh_list1",
+    "d005_set1_tr_ic_list1",
+    "d021_set1_tr_ic_list1",
+    "d021_set2_it_ic_list1",
+    "d020_set2_tr_coh_list1",
+    "d026_set3_it_ic_list1",
+    "d009_set2_tr_coh_list1",
+    "d008_set2_it_ic_list1",
+    "d024_set2_tr_coh_list1",
+    "d001_set3_tr_coh_list1",
 ]
 
 
@@ -120,36 +117,22 @@ def load_source_rows() -> list[dict[str, str]]:
 
 def build_trial_rows() -> list[dict[str, str]]:
     source_rows = load_source_rows()
+    by_trial_id = {row.get("trial_id", ""): row for row in source_rows}
     selected: list[dict[str, str]] = []
-    used_trial_ids: set[str] = set()
 
-    for original_trial, dataset_number, condition_id in OBSERVED_TRIALS:
-        candidates = [
-            row
-            for row in source_rows
-            if as_int(row.get("dataset_number", "0")) == dataset_number
-            and str(row.get("condition_id", "")).strip() == condition_id
-        ]
-        candidates.sort(key=lambda row: as_int(row.get("stimulus_set", "0")))
-        unused = [row for row in candidates if row.get("trial_id", "") not in used_trial_ids]
-        if not unused:
-            candidate_ids = ", ".join(row.get("trial_id", "") for row in candidates)
-            raise RuntimeError(
-                f"No unused List 1 candidate for original trial {original_trial}: "
-                f"imageset{dataset_number:02d} {condition_id}; candidates={candidate_ids}"
-            )
-        chosen = dict(unused[0])
-        used_trial_ids.add(chosen.get("trial_id", ""))
+    for original_trial, trial_id in enumerate(EXACT_TRIAL_IDS, start=1):
+        source = by_trial_id.get(trial_id)
+        if source is None:
+            raise RuntimeError(f"Trial id from participant CSV screenshot is not in List 1 source CSV: {trial_id}")
+        chosen = dict(source)
         chosen["original_trial_index"] = str(original_trial)
-        chosen["recovery_source"] = "recording_folder_screenshots_2026-08-26"
-        chosen["candidate_stimulus_sets"] = "|".join(str(as_int(row.get("stimulus_set", "0"))) for row in candidates)
-        chosen["stimulus_set_inference"] = (
-            "inferred_from_visible_dataset_and_condition; screenshots_do_not_show_hidden_stimulus_set"
-        )
+        chosen["recovery_source"] = "participant_261_csv_screenshots_2026-08-26"
         selected.append(chosen)
 
     if len(selected) != 80:
         raise RuntimeError(f"Expected 80 selected trials, got {len(selected)}")
+    if len({row["trial_id"] for row in selected}) != 80:
+        raise RuntimeError("Recovery trial list contains duplicate trial_id values")
     return selected
 
 
@@ -784,7 +767,7 @@ if __name__ == "__main__":
 
 README_TEXT = """# Discourse recovery 261 first 80
 
-This is a minimal, self-contained recovery experiment for the first 80 discourse trials shown in the participant 261 List 1 recording-folder screenshots from 2026-08-26.
+This is a minimal, self-contained recovery experiment for the first 80 discourse trials shown in the participant 261 List 1 CSV screenshots from 2026-08-26.
 
 Run `recovery_261_first80.py` from PsychoPy Coder. The folder includes local copies of the needed JPEG stimuli plus the break/finish images, so it can be downloaded separately from the normal discourse and isolated experiment folders. The task starts with a blank white screen; press Space to begin. It presents only the 80 recovered discourse trials, randomly shuffled on every run, with a 30-second break after 40 trials and a finish sign at the end.
 
@@ -805,7 +788,7 @@ Outputs are written to `recordings/<participant>_recovery_l1_first80_<date>/`:
 - `eeg_triggers.csv`: every trigger attempt with serial status
 - `debug_recovery_runtime.log`: compact runtime notes
 
-Important limitation: the screenshots show original trial number, dataset number, and condition, but not the hidden `stimulus_set`. The generated `Conds/recovery_261_first80_trials.csv` therefore selects the next legal List 1 stimulus set for each visible dataset+condition pair and marks this in `stimulus_set_inference`. If the original laptop's `runtime_main_block1.csv` and `runtime_main_block2.csv` are available, use those files to rebuild an exact version.
+This version uses the exact `trial_id` values visible in the participant CSV screenshots, including the `set1`/`set2`/`set3`/`set4` part of each item.
 """
 
 def copy_recovery_asset(relative_value: str) -> None:
@@ -850,8 +833,6 @@ def write_outputs() -> None:
     extra_fields = [
         "original_trial_index",
         "recovery_source",
-        "candidate_stimulus_sets",
-        "stimulus_set_inference",
     ]
     fieldnames = extra_fields + [field for field in source_fieldnames if field not in extra_fields]
     with TRIALS_CSV.open("w", encoding="utf-8", newline="") as handle:

@@ -1,6 +1,6 @@
 # Discourse recovery 261 first 80
 
-This is a minimal, self-contained recovery experiment for the first 80 discourse trials shown in the participant 261 List 1 recording-folder screenshots from 2026-08-26.
+This is a minimal, self-contained recovery experiment for the first 80 discourse trials shown in the participant 261 List 1 CSV screenshots from 2026-08-26.
 
 Run `recovery_261_first80.py` from PsychoPy Coder. The folder includes local copies of the needed JPEG stimuli plus the break/finish images, so it can be downloaded separately from the normal discourse and isolated experiment folders. The task starts with a blank white screen; press Space to begin. It presents only the 80 recovered discourse trials, randomly shuffled on every run, with a 30-second break after 40 trials and a finish sign at the end.
 
@@ -21,4 +21,4 @@ Outputs are written to `recordings/<participant>_recovery_l1_first80_<date>/`:
 - `eeg_triggers.csv`: every trigger attempt with serial status
 - `debug_recovery_runtime.log`: compact runtime notes
 
-Important limitation: the screenshots show original trial number, dataset number, and condition, but not the hidden `stimulus_set`. The generated `Conds/recovery_261_first80_trials.csv` therefore selects the next legal List 1 stimulus set for each visible dataset+condition pair and marks this in `stimulus_set_inference`. If the original laptop's `runtime_main_block1.csv` and `runtime_main_block2.csv` are available, use those files to rebuild an exact version.
+This version uses the exact `trial_id` values visible in the participant CSV screenshots, including the `set1`/`set2`/`set3`/`set4` part of each item.
