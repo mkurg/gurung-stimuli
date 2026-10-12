@@ -1,0 +1,1934 @@
+{
+  "session_id": "e7acc86f4bf37531e48927544ceb496449b870b719d55801cabc49e98a81cad1",
+  "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\121i\\121i_annotations.TextGrid",
+  "filename": "121i_annotations.TextGrid",
+  "trials": {
+    "main-001": {
+      "status": "ok",
+      "s200_eeg_s": 427.1852,
+      "speech_onset_eeg_s": 428.7868874453599,
+      "latency_s": 1.6016874453599144,
+      "latency_ms": 1601.6874453599144,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 428.7868874453599,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze kri lurisyõ",
+      "intervals": [
+        {
+          "start": 428.7868874453599,
+          "end": 430.8261872652929,
+          "text": "badze kri lurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-002": {
+      "status": "ok",
+      "s200_eeg_s": 431.6221,
+      "speech_onset_eeg_s": 432.66983707314165,
+      "latency_s": 1.0477370731416613,
+      "latency_ms": 1047.7370731416613,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 432.66983707314165,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu kri kõĩ tshiurisyõ",
+      "intervals": [
+        {
+          "start": 432.66983707314165,
+          "end": 434.2980527396494,
+          "text": "budzyu kri kõĩ tshiurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-003": {
+      "status": "ok",
+      "s200_eeg_s": 435.5449,
+      "speech_onset_eeg_s": 437.0164837973028,
+      "latency_s": 1.4715837973027988,
+      "latency_ms": 1471.5837973027988,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 437.0164837973028,
+          "label": "s"
+        }
+      ],
+      "transcription": "kolo kri tinor kharisyõ",
+      "intervals": [
+        {
+          "start": 437.0164837973028,
+          "end": 438.6769413581968,
+          "text": "kolo kri tinor kharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-004": {
+      "status": "ok",
+      "s200_eeg_s": 441.9048,
+      "speech_onset_eeg_s": 444.041698940288,
+      "latency_s": 2.1368989402879492,
+      "latency_ms": 2136.8989402879492,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 444.041698940288,
+          "label": "s"
+        }
+      ],
+      "transcription": "ko... nanikolo kri-yi kapi ngirisyõ",
+      "intervals": [
+        {
+          "start": 444.041698940288,
+          "end": 447.0079532238268,
+          "text": "ko... nanikolo kri-yi kapi ngirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-005": {
+      "status": "ok",
+      "s200_eeg_s": 447.9821,
+      "speech_onset_eeg_s": 449.7293151953954,
+      "latency_s": 1.7472151953953698,
+      "latency_ms": 1747.2151953953698,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 449.7293151953954,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo kri-yi ta syurisyõ",
+      "intervals": [
+        {
+          "start": 449.7293151953954,
+          "end": 451.8089173833112,
+          "text": "nanikolo kri-yi ta syurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-006": {
+      "status": "ok",
+      "s200_eeg_s": 452.766,
+      "speech_onset_eeg_s": 455.65962511670654,
+      "latency_s": 2.8936251167065166,
+      "latency_ms": 2893.6251167065166,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 455.65962511670654,
+          "label": "s"
+        }
+      ],
+      "transcription": "thagukolo-yi thali rumalai phyorisyõ",
+      "intervals": [
+        {
+          "start": 455.65449555702503,
+          "end": 458.8303221540748,
+          "text": "thagukolo-yi thali rumalai phyorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-007": {
+      "status": "ok",
+      "s200_eeg_s": 459.7532,
+      "speech_onset_eeg_s": 461.44689796888775,
+      "latency_s": 1.6936979688877614,
+      "latency_ms": 1693.6979688877614,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 461.44689796888775,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze tinor kharisyõ",
+      "intervals": [
+        {
+          "start": 461.44689796888775,
+          "end": 463.14765789776465,
+          "text": "badze tinor kharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-008": {
+      "status": "ok",
+      "s200_eeg_s": 465.43,
+      "speech_onset_eeg_s": 466.7077488525301,
+      "latency_s": 1.2777488525300669,
+      "latency_ms": 1277.7488525300669,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 466.7077488525301,
+          "label": "s"
+        }
+      ],
+      "transcription": "kolo kri nerisyõ",
+      "intervals": [
+        {
+          "start": 466.71580932612665,
+          "end": 468.32790404544124,
+          "text": "kolo kri nerisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-009": {
+      "status": "ok",
+      "s200_eeg_s": 469.6146,
+      "speech_onset_eeg_s": 470.90886732279967,
+      "latency_s": 1.2942673227996693,
+      "latency_ms": 1294.2673227996693,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 470.90886732279967,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze kri-? phi rorisyõ",
+      "intervals": [
+        {
+          "start": 470.90886732279967,
+          "end": 473.0448928258915,
+          "text": "badze kri-? phi rorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-010": {
+      "status": "ok",
+      "s200_eeg_s": 474.4042,
+      "speech_onset_eeg_s": 475.92072298325485,
+      "latency_s": 1.5165229832548448,
+      "latency_ms": 1516.5229832548448,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 475.92072298325485,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-011": {
+      "status": "ok",
+      "s200_eeg_s": 479.3032,
+      "speech_onset_eeg_s": 480.8192922842047,
+      "latency_s": 1.516092284204717,
+      "latency_ms": 1516.092284204717,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 480.8192922842047,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-012": {
+      "status": "ok",
+      "s200_eeg_s": 485.2338,
+      "speech_onset_eeg_s": 486.7169205819763,
+      "latency_s": 1.4831205819763227,
+      "latency_ms": 1483.1205819763227,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 486.7169205819763,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-013": {
+      "status": "ok",
+      "s200_eeg_s": 491.7179,
+      "speech_onset_eeg_s": 492.91952768895766,
+      "latency_s": 1.2016276889576716,
+      "latency_ms": 1201.6276889576716,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 492.91952768895766,
+          "label": "s"
+        }
+      ],
+      "transcription": "s",
+      "intervals": [
+        {
+          "start": 494.5155014610791,
+          "end": 500.6328140015665,
+          "text": "s"
+        }
+      ],
+      "warnings": []
+    },
+    "main-014": {
+      "status": "ok",
+      "s200_eeg_s": 497.1781,
+      "speech_onset_eeg_s": 500.6328140015665,
+      "latency_s": 3.454714001566515,
+      "latency_ms": 3454.714001566515,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 500.6328140015665,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-015": {
+      "status": "ok",
+      "s200_eeg_s": 504.9407,
+      "speech_onset_eeg_s": 506.3013783955658,
+      "latency_s": 1.3606783955657988,
+      "latency_ms": 1360.6783955657988,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 506.3013783955658,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-016": {
+      "status": "ok",
+      "s200_eeg_s": 509.869,
+      "speech_onset_eeg_s": 511.61528126129576,
+      "latency_s": 1.746281261295735,
+      "latency_ms": 1746.281261295735,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 511.61528126129576,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-017": {
+      "status": "ok",
+      "s200_eeg_s": 514.6132,
+      "speech_onset_eeg_s": 517.0962561168072,
+      "latency_s": 2.4830561168072336,
+      "latency_ms": 2483.0561168072336,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 517.0962561168072,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-018": {
+      "status": "ok",
+      "s200_eeg_s": 520.0229,
+      "speech_onset_eeg_s": 521.5684997754454,
+      "latency_s": 1.5455997754453392,
+      "latency_ms": 1545.5997754453392,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 521.5684997754454,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-019": {
+      "status": "ok",
+      "s200_eeg_s": 526.0994,
+      "speech_onset_eeg_s": 527.6909418756144,
+      "latency_s": 1.591541875614439,
+      "latency_ms": 1591.541875614439,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 527.6909418756144,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-020": {
+      "status": "ok",
+      "s200_eeg_s": 531.0358,
+      "speech_onset_eeg_s": 533.3107036988808,
+      "latency_s": 2.2749036988808484,
+      "latency_ms": 2274.9036988808484,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 533.3107036988808,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-021": {
+      "status": "ok",
+      "s200_eeg_s": 537.8897,
+      "speech_onset_eeg_s": 539.8242986330603,
+      "latency_s": 1.9345986330603182,
+      "latency_ms": 1934.5986330603182,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 539.8242986330603,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-022": {
+      "status": "ok",
+      "s200_eeg_s": 542.6349,
+      "speech_onset_eeg_s": 543.9974253103186,
+      "latency_s": 1.3625253103185742,
+      "latency_ms": 1362.5253103185742,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 543.9974253103186,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-023": {
+      "status": "ok",
+      "s200_eeg_s": 545.9982,
+      "speech_onset_eeg_s": 547.4285486875388,
+      "latency_s": 1.4303486875387534,
+      "latency_ms": 1430.3486875387534,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 547.4285486875388,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-024": {
+      "status": "ok",
+      "s200_eeg_s": 550.2683,
+      "speech_onset_eeg_s": 551.8681107226373,
+      "latency_s": 1.5998107226373577,
+      "latency_ms": 1599.8107226373577,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 551.8681107226373,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-025": {
+      "status": "ok",
+      "s200_eeg_s": 555.374,
+      "speech_onset_eeg_s": 557.0649175466602,
+      "latency_s": 1.6909175466602164,
+      "latency_ms": 1690.9175466602164,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 557.0649175466602,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-026": {
+      "status": "ok",
+      "s200_eeg_s": 559.4844,
+      "speech_onset_eeg_s": 560.9639867415949,
+      "latency_s": 1.4795867415948578,
+      "latency_ms": 1479.5867415948578,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 560.9639867415949,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-027": {
+      "status": "ok",
+      "s200_eeg_s": 564.6064,
+      "speech_onset_eeg_s": 566.1480425714733,
+      "latency_s": 1.5416425714732895,
+      "latency_ms": 1541.6425714732895,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 566.1480425714733,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-028": {
+      "status": "ok",
+      "s200_eeg_s": 568.3929,
+      "speech_onset_eeg_s": 569.8422299734453,
+      "latency_s": 1.4493299734452876,
+      "latency_ms": 1449.3299734452876,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 569.8422299734453,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-029": {
+      "status": "ok",
+      "s200_eeg_s": 572.4496,
+      "speech_onset_eeg_s": 574.1680652298652,
+      "latency_s": 1.71846522986516,
+      "latency_ms": 1718.46522986516,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 574.1680652298652,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-030": {
+      "status": "ok",
+      "s200_eeg_s": 576.6094,
+      "speech_onset_eeg_s": 578.1069984436696,
+      "latency_s": 1.497598443669517,
+      "latency_ms": 1497.598443669517,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 578.1069984436696,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-031": {
+      "status": "ok",
+      "s200_eeg_s": 580.8668,
+      "speech_onset_eeg_s": 582.3170568458423,
+      "latency_s": 1.4502568458423184,
+      "latency_ms": 1450.2568458423184,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 582.3170568458423,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-032": {
+      "status": "ok",
+      "s200_eeg_s": 585.42,
+      "speech_onset_eeg_s": 586.6641432991569,
+      "latency_s": 1.2441432991569172,
+      "latency_ms": 1244.1432991569172,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 586.6641432991569,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-033": {
+      "status": "ok",
+      "s200_eeg_s": 589.3966,
+      "speech_onset_eeg_s": 591.2076113426842,
+      "latency_s": 1.8110113426841963,
+      "latency_ms": 1811.0113426841963,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 591.2076113426842,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-034": {
+      "status": "ok",
+      "s200_eeg_s": 594.2992,
+      "speech_onset_eeg_s": 595.670915069419,
+      "latency_s": 1.3717150694189968,
+      "latency_ms": 1371.7150694189968,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 595.670915069419,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-035": {
+      "status": "ok",
+      "s200_eeg_s": 598.0622,
+      "speech_onset_eeg_s": 599.6069173693083,
+      "latency_s": 1.5447173693083869,
+      "latency_ms": 1544.7173693083869,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 599.6069173693083,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-036": {
+      "status": "ok",
+      "s200_eeg_s": 602.6139,
+      "speech_onset_eeg_s": 604.279353680401,
+      "latency_s": 1.665453680401015,
+      "latency_ms": 1665.453680401015,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 604.279353680401,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-037": {
+      "status": "ok",
+      "s200_eeg_s": 607.5877,
+      "speech_onset_eeg_s": 610.024966399342,
+      "latency_s": 2.437266399341979,
+      "latency_ms": 2437.266399341979,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 610.024966399342,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-038": {
+      "status": "ok",
+      "s200_eeg_s": 612.9219,
+      "speech_onset_eeg_s": 614.7354989484604,
+      "latency_s": 1.813598948460367,
+      "latency_ms": 1813.598948460367,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 614.7354989484604,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-039": {
+      "status": "ok",
+      "s200_eeg_s": 617.4835,
+      "speech_onset_eeg_s": 618.9455717440655,
+      "latency_s": 1.4620717440654971,
+      "latency_ms": 1462.0717440654971,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 618.9455717440655,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-040": {
+      "status": "ok",
+      "s200_eeg_s": 621.1922,
+      "speech_onset_eeg_s": 622.5134428472529,
+      "latency_s": 1.321242847252961,
+      "latency_ms": 1321.242847252961,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 622.5134428472529,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-041": {
+      "status": "ok",
+      "s200_eeg_s": 625.1392,
+      "speech_onset_eeg_s": 628.1259176676568,
+      "latency_s": 2.986717667656876,
+      "latency_ms": 2986.717667656876,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 628.1259176676568,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-042": {
+      "status": "ok",
+      "s200_eeg_s": 630.4665,
+      "speech_onset_eeg_s": 632.8261833272704,
+      "latency_s": 2.3596833272704316,
+      "latency_ms": 2359.6833272704316,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 632.8261833272704,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-043": {
+      "status": "ok",
+      "s200_eeg_s": 635.9646,
+      "speech_onset_eeg_s": 638.0780835487,
+      "latency_s": 2.1134835486999464,
+      "latency_ms": 2113.4835486999464,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 638.0780835487,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-044": {
+      "status": "ok",
+      "s200_eeg_s": 640.5996,
+      "speech_onset_eeg_s": 641.9967673297787,
+      "latency_s": 1.3971673297786538,
+      "latency_ms": 1397.1673297786538,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 641.9967673297787,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-045": {
+      "status": "ok",
+      "s200_eeg_s": 644.9283,
+      "speech_onset_eeg_s": 646.6234702629934,
+      "latency_s": 1.6951702629933152,
+      "latency_ms": 1695.1702629933152,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 646.6234702629934,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-046": {
+      "status": "ok",
+      "s200_eeg_s": 649.0662,
+      "speech_onset_eeg_s": 650.5982088926874,
+      "latency_s": 1.5320088926873723,
+      "latency_ms": 1532.0088926873723,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 650.5982088926874,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-047": {
+      "status": "ok",
+      "s200_eeg_s": 652.9346,
+      "speech_onset_eeg_s": 654.480363047357,
+      "latency_s": 1.5457630473568997,
+      "latency_ms": 1545.7630473568997,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 654.480363047357,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-048": {
+      "status": "ok",
+      "s200_eeg_s": 657.2866,
+      "speech_onset_eeg_s": 660.1293681841897,
+      "latency_s": 2.8427681841897083,
+      "latency_ms": 2842.7681841897083,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 660.1293681841897,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-049": {
+      "status": "ok",
+      "s200_eeg_s": 664.9078,
+      "speech_onset_eeg_s": 666.2924692392083,
+      "latency_s": 1.3846692392083924,
+      "latency_ms": 1384.6692392083924,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 666.2924692392083,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-050": {
+      "status": "ok",
+      "s200_eeg_s": 669.1147,
+      "speech_onset_eeg_s": 670.8690062665407,
+      "latency_s": 1.754306266540766,
+      "latency_ms": 1754.306266540766,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 670.8690062665407,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-051": {
+      "status": "ok",
+      "s200_eeg_s": 675.605,
+      "speech_onset_eeg_s": 677.2075136605048,
+      "latency_s": 1.6025136605047692,
+      "latency_ms": 1602.5136605047692,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 677.2075136605048,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-052": {
+      "status": "ok",
+      "s200_eeg_s": 679.6346,
+      "speech_onset_eeg_s": 680.9459097970862,
+      "latency_s": 1.31130979708621,
+      "latency_ms": 1311.30979708621,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 680.9459097970862,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-053": {
+      "status": "ok",
+      "s200_eeg_s": 684.7012,
+      "speech_onset_eeg_s": 685.9707259729058,
+      "latency_s": 1.2695259729058535,
+      "latency_ms": 1269.5259729058535,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 685.9707259729058,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-054": {
+      "status": "ok",
+      "s200_eeg_s": 688.8485,
+      "speech_onset_eeg_s": 690.4829587213419,
+      "latency_s": 1.6344587213419572,
+      "latency_ms": 1634.4587213419572,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 690.4829587213419,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-055": {
+      "status": "ok",
+      "s200_eeg_s": 694.9027,
+      "speech_onset_eeg_s": 696.2778190532754,
+      "latency_s": 1.375119053275398,
+      "latency_ms": 1375.119053275398,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 696.2778190532754,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-056": {
+      "status": "ok",
+      "s200_eeg_s": 699.3987,
+      "speech_onset_eeg_s": 700.750791465331,
+      "latency_s": 1.352091465331,
+      "latency_ms": 1352.091465331,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 700.750791465331,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-057": {
+      "status": "ok",
+      "s200_eeg_s": 704.7729,
+      "speech_onset_eeg_s": 707.1183140948708,
+      "latency_s": 2.345414094870762,
+      "latency_ms": 2345.414094870762,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 707.1183140948708,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-058": {
+      "status": "ok",
+      "s200_eeg_s": 710.3788,
+      "speech_onset_eeg_s": 712.5665196909761,
+      "latency_s": 2.1877196909761096,
+      "latency_ms": 2187.7196909761096,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 712.5665196909761,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-059": {
+      "status": "ok",
+      "s200_eeg_s": 715.6343,
+      "speech_onset_eeg_s": 716.6807497258729,
+      "latency_s": 1.0464497258728898,
+      "latency_ms": 1046.4497258728898,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 716.6807497258729,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-060": {
+      "status": "ok",
+      "s200_eeg_s": 719.3582,
+      "speech_onset_eeg_s": 721.9520971007626,
+      "latency_s": 2.593897100762547,
+      "latency_ms": 2593.897100762547,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 721.9520971007626,
+          "label": "s"
+        }
+      ],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-061": {
+      "status": "missing_onset",
+      "s200_eeg_s": 844.8304,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-062": {
+      "status": "missing_onset",
+      "s200_eeg_s": 849.8315,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-063": {
+      "status": "missing_onset",
+      "s200_eeg_s": 854.6495,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-064": {
+      "status": "missing_onset",
+      "s200_eeg_s": 860.2757,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-065": {
+      "status": "missing_onset",
+      "s200_eeg_s": 864.7491,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-066": {
+      "status": "missing_onset",
+      "s200_eeg_s": 868.3755,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-067": {
+      "status": "missing_onset",
+      "s200_eeg_s": 872.1226,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-068": {
+      "status": "missing_onset",
+      "s200_eeg_s": 875.744,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-069": {
+      "status": "missing_onset",
+      "s200_eeg_s": 880.1571,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-070": {
+      "status": "missing_onset",
+      "s200_eeg_s": 884.6611,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-071": {
+      "status": "missing_onset",
+      "s200_eeg_s": 890.0151,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-072": {
+      "status": "missing_onset",
+      "s200_eeg_s": 894.2533,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-073": {
+      "status": "missing_onset",
+      "s200_eeg_s": 897.8557,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-074": {
+      "status": "missing_onset",
+      "s200_eeg_s": 901.6229,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-075": {
+      "status": "missing_onset",
+      "s200_eeg_s": 905.0669,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-076": {
+      "status": "missing_onset",
+      "s200_eeg_s": 910.0435,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-077": {
+      "status": "missing_onset",
+      "s200_eeg_s": 914.4552,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-078": {
+      "status": "missing_onset",
+      "s200_eeg_s": 918.5244,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-079": {
+      "status": "missing_onset",
+      "s200_eeg_s": 922.5702,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-080": {
+      "status": "missing_onset",
+      "s200_eeg_s": 927.1063,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-081": {
+      "status": "missing_onset",
+      "s200_eeg_s": 930.9122,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-082": {
+      "status": "missing_onset",
+      "s200_eeg_s": 935.1514,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-083": {
+      "status": "missing_onset",
+      "s200_eeg_s": 939.2404,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-084": {
+      "status": "missing_onset",
+      "s200_eeg_s": 944.5285,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-085": {
+      "status": "missing_onset",
+      "s200_eeg_s": 949.2271,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-086": {
+      "status": "missing_onset",
+      "s200_eeg_s": 952.8465,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-087": {
+      "status": "missing_onset",
+      "s200_eeg_s": 956.8215,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-088": {
+      "status": "missing_onset",
+      "s200_eeg_s": 960.8276,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-089": {
+      "status": "missing_onset",
+      "s200_eeg_s": 964.9767,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-090": {
+      "status": "missing_onset",
+      "s200_eeg_s": 969.3343,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-091": {
+      "status": "missing_onset",
+      "s200_eeg_s": 972.7411,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-092": {
+      "status": "missing_onset",
+      "s200_eeg_s": 976.348,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-093": {
+      "status": "missing_onset",
+      "s200_eeg_s": 980.8512,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-094": {
+      "status": "missing_onset",
+      "s200_eeg_s": 984.9429,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-095": {
+      "status": "missing_onset",
+      "s200_eeg_s": 991.93,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-096": {
+      "status": "missing_onset",
+      "s200_eeg_s": 996.8941,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-097": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1000.9087,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-098": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1004.9863,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-099": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1009.0591,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-100": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1012.7736,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-101": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1016.4943,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-102": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1020.8577,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-103": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1025.0876,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-104": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1028.6086,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-105": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1032.3755,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-106": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1036.2817,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-107": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1040.2967,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-108": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1044.5414,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-109": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1049.1746,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-110": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1054.3635,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-111": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1060.3775,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-112": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1064.8459,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-113": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1068.8922,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-114": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1072.9935,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-115": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1077.3479,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-116": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1081.3557,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-117": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1085.5238,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-118": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1090.1142,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-119": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1096.0506,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "main-120": {
+      "status": "missing_onset",
+      "s200_eeg_s": 1100.9805,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-01": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-02": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-03": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-04": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-05": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-06": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-07": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-08": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-09": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-10": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    }
+  },
+  "unassigned_onsets": [],
+  "unassigned_transcriptions": [],
+  "state": "ready",
+  "sha256": "5d1989a287a0362c2f970f39d728b4e8d67c022c84de86fad60ce277bbf90c9c",
+  "saved_at_utc": "2026-10-11T12:41:05.296119+00:00",
+  "mapping_version": 2,
+  "message": "Saved TextGrid synced"
+}
