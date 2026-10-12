@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>072i | Trial Reference</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/lucide.js"></script>
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand"><i data-lucide="panels-top-left" aria-hidden="true"></i><h1>Trial Reference</h1><span id="session-name">072i</span></div>
+    <div class="header-actions"><div class="header-meta"><span class="live-dot"></span><span>Local session</span><span class="timebase">Triggers: EEG / StimTrak time</span></div><a id="export-suitability" href="/api/suitability.csv" class="icon-button" title="Export trial flags CSV" aria-label="Export suitability CSV"><i data-lucide="file-down"></i></a><a id="export-analysis" href="/api/analysis.csv" class="icon-button" title="Export current recording analysis CSV" aria-label="Export trial analysis CSV" aria-disabled="true"><i data-lucide="table-2"></i></a><a id="export-library" href="/api/library-analysis.csv" class="icon-button" title="Export all recordings analysis CSV" aria-label="Export all recordings analysis CSV"><i data-lucide="files"></i></a></div>
+  </header>
+  <section id="library-summary" class="library-summary" aria-label="Annotated suitable sentences across all recordings">
+    <div class="summary-scope"><i data-lucide="layers" aria-hidden="true"></i><span class="summary-label">All recordings</span></div>
+    <dl aria-live="polite" aria-atomic="true">
+      <div title="Transcribed intransitive main trials with one valid speech onset, not Unsuitable; includes Need help"><dt>Itr</dt><dd id="count-itr">--</dd></div>
+      <div class="count-ergative" title="Transcribed transitive main trials with one valid speech onset, marked Ergative, not Unsuitable; includes Need help"><dt>Tr ERG</dt><dd id="count-tr-erg">--</dd></div>
+      <div title="Transcribed transitive main trials with one valid speech onset, not marked Ergative or Unsuitable; includes Need help"><dt>Tr <span class="empty-set">&#8709;</span></dt><dd id="count-tr-zero">--</dd></div>
+    </dl>
+    <span id="counts-status" class="counts-status" role="status" hidden></span>
+  </section>
+  <div class="workspace">
+    <aside class="sidebar">
+      <label class="recording-label" for="recording-select">Recording</label><div class="recording-selector"><select id="recording-select" aria-label="Recording"><option>Loading</option></select><button id="add-recording" class="icon-button" title="Add recording" aria-label="Add recording"><i data-lucide="folder-plus"></i></button></div><div id="library-status" role="status"></div>
+      <label class="search-box"><i data-lucide="search" aria-hidden="true"></i><input id="search" type="search" aria-label="Search trials" placeholder="S 73, Mk7, trial 17, 454.3 s"></label>
+      <div class="tabs" role="tablist" aria-label="Trial phase">
+        <button id="main-tab" role="tab" aria-selected="true">Main <span id="main-count"></span></button>
+        <button id="practice-tab" role="tab" aria-selected="false">Practice <span id="practice-count"></span></button>
+        <button id="events-tab" role="tab" aria-selected="false">Events</button>
+      </div>
+      <div class="review-filter-row"><select id="review-filter" aria-label="Suitability filter"><option value="all">All trials</option><option value="unsuitable">Unsuitable only</option><option value="need_help">Need help only</option><option value="ergative">Ergative only</option></select></div>
+      <div class="list-heading"><span id="list-count">Loading</span><span>EEG seconds</span></div>
+      <div id="trial-list" class="trial-list" aria-label="Trials"></div>
+    </aside>
+    <main id="detail" class="detail" aria-live="polite">
+      <div class="detail-header"><div><div id="phase" class="eyebrow">MAIN</div><h2 id="trial-title">Loading session</h2></div><div class="detail-actions"><div id="review-controls" class="review-controls"><button id="unsuitable" class="trial-flag" aria-pressed="false" title="Mark behaviourally unsuitable"><i data-lucide="ban"></i><span>Unsuitable</span></button><button id="need-help" class="trial-flag help-flag" aria-pressed="false" title="Mark transcription needs help"><i data-lucide="circle-help"></i><span>Need help</span></button><button id="ergative" class="trial-flag ergative-flag" aria-pressed="false" title="Mark ergative response" hidden><i data-lucide="tag"></i><span>Ergative</span></button><span id="review-status" role="status"></span></div><div class="navigation"><button id="previous" class="icon-button" title="Previous trial" aria-label="Previous trial"><i data-lucide="chevron-left"></i></button><button id="next" class="icon-button" title="Next trial" aria-label="Next trial"><i data-lucide="chevron-right"></i></button></div></div></div>
+      <div id="selection-notice" class="notice" hidden></div>
+      <div id="trial-content" class="trial-content">
+        <section class="picture-section"><div class="section-heading"><h3>Participant picture</h3><button id="zoom-picture" class="icon-button" title="Enlarge picture" aria-label="Enlarge picture"><i data-lucide="maximize-2"></i></button></div><div class="picture-stage"><img id="picture" alt="" decoding="async"></div><div class="picture-caption"><span id="scene"></span><span id="set-label"></span></div><details class="source-details"><summary>Picture source</summary><p id="image-source"></p><code id="image-path"></code></details></section>
+        <div class="reference-column">
+          <section class="audio-section">
+            <div class="section-heading"><h3>PsychoPy full recording</h3><button id="copy-filename" class="icon-button" title="Copy trial WAV filename" aria-label="Copy trial WAV filename"><i data-lucide="copy"></i></button></div>
+            <code id="wav-name" class="wav-name"></code>
+            <div class="recording-source"><code>full_session.wav</code><span>PsychoPy seconds / 3 s before &amp; after</span></div>
+            <audio id="audio" preload="metadata" hidden></audio>
+            <div class="playback-controls"><button id="play-pause" class="icon-button play-button" title="Play selected window" aria-label="Play selected window"><i data-lucide="play"></i></button><input id="seek" type="range" min="0" max="1" step="0.01" value="0" aria-label="Seek in full recording window"><output id="audio-position" class="playback-clock">0.000 s</output></div>
+            <div class="recording-bounds"><span id="window-start"></span><span id="window-end"></span></div>
+            <div class="audio-tools"><button id="replay" class="icon-button" title="Replay selected window" aria-label="Replay selected window"><i data-lucide="rotate-ccw"></i></button><label>Speed <select id="speed" aria-label="Playback speed"><option value="0.75">0.75x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option></select></label><label class="loop-control"><input id="loop" type="checkbox">Loop</label><label class="volume-control"><button id="mute" class="icon-button" title="Mute" aria-label="Mute" aria-pressed="false"><i data-lucide="volume-2"></i></button><input id="volume" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume"></label><a id="download-wav" class="icon-button" title="Download full recording" aria-label="Download full recording" download><i data-lucide="download"></i></a></div>
+            <div class="trial-audio-bounds"><span>Trial start <b id="audio-trial-start"></b></span><span>Trial finish <b id="audio-trial-end"></b></span></div>
+            <p id="audio-error" class="error" role="alert" hidden></p>
+          </section>
+          <section class="annotation-section">
+            <div class="section-heading"><h3>Praat annotations</h3><button id="refresh-annotations" class="icon-button" title="Refresh saved TextGrid" aria-label="Refresh saved TextGrid"><i data-lucide="refresh-cw"></i></button></div>
+            <div class="annotation-source"><code id="textgrid-name"></code><span id="annotation-sync" role="status">Loading saved TextGrid</span></div>
+            <dl class="annotation-times"><div><dt>S 200 (EEG)</dt><dd id="annotation-s200">--</dd></div><div><dt>Speech onset (EEG)</dt><dd id="speech-onset">--</dd></div><div><dt>Speech latency</dt><dd id="speech-latency">--</dd></div></dl>
+            <p id="annotation-warning" class="annotation-warning" hidden></p>
+            <div class="transcription-heading">Transcription</div><p id="transcription-text" class="transcription-text">Not saved yet</p>
+            <details id="annotation-issues" hidden><summary id="annotation-issue-count"></summary><div id="annotation-issue-list"></div></details>
+          </section>
+          <section class="trigger-section"><div class="section-heading"><h3>TextGrid triggers</h3><span id="trigger-count" class="small"></span></div><div id="trigger-table"></div></section>
+          <section class="trial-metadata"><dl><div><dt>Condition</dt><dd id="condition"></dd></div><div><dt>Image set</dt><dd id="image-set"></dd></div><div><dt>Stimulus onset (EEG)</dt><dd id="stimulus-onset"></dd></div><div><dt>Trial end (EEG)</dt><dd id="trial-end"></dd></div></dl></section>
+          <details class="praat-files"><summary>Praat files</summary><div><span>StimTrak WAV</span><code id="praat-wav-path"></code></div><div><span>Saved TextGrid</span><code id="praat-grid-path"></code></div></details>
+        </div>
+      </div>
+      <div id="event-content" hidden></div>
+    </main>
+  </div>
+  <footer><span id="validation-status">Validating session</span><span id="recording-info"></span></footer>
+  <dialog id="picture-dialog"><div class="dialog-header"><span id="dialog-title"></span><button id="close-picture" class="icon-button" title="Close picture" aria-label="Close picture"><i data-lucide="x"></i></button></div><img id="large-picture" alt="Participant stimulus"></dialog>
+  <dialog id="import-dialog"><div class="dialog-header"><h3>Add Isolated Recording</h3><button id="close-import" class="icon-button" title="Close" aria-label="Close import"><i data-lucide="x"></i></button></div><form id="import-form"><label>BrainVision header (.vhdr)<input id="import-vhdr" name="vhdr" required placeholder="C:\...\073i.vhdr"></label><label>PsychoPy session folder<input id="import-audio" name="audio_dir" required placeholder="C:\...\psychopy audio\session"></label><label>Matching experiment folder<input id="import-experiment" name="experiment_dir" required></label><label>Microphone channel<input id="import-channel" name="channel" required list="microphone-options"><datalist id="microphone-options"><option value="AUX1"></option></datalist></label><button id="import-submit" type="submit" class="command-button"><i data-lucide="folder-plus"></i>Import recording</button></form><p id="import-state" role="status"></p><pre id="import-log" hidden></pre><div id="import-result" hidden><code id="import-grid-result"></code><button id="open-imported" class="command-button"><i data-lucide="arrow-right"></i>Open recording</button></div></dialog>
+  <div id="toast" role="status" hidden></div>
+</body>
+</html>
