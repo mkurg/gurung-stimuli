@@ -1,4 +1,2 @@
 @echo off
-cd /d "%~dp0"
-"C:\Users\Sofya\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" server.py %*
-pause
+call "%~dp0..\START_WORKFLOW.cmd" %*

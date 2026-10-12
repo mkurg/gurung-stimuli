@@ -1,4 +1,8 @@
 @echo off
-cd /d "%~dp0trial_reference"
-"C:\Users\Sofya\mne-python\1.13.2_0\python.exe" import_recording.py --gui
+cd /d "%~dp0"
+if exist ".venv\Scripts\python.exe" (
+    ".venv\Scripts\python.exe" run_workflow.py --add-recording
+) else (
+    py run_workflow.py --add-recording
+)
 pause

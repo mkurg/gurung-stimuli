@@ -1,5 +1,9 @@
 # Manual Speech-Onset Annotation From BrainVision/StimTrak Recordings
 
+**Restoring on another device?** Start with [RESTORE.md](RESTORE.md) for the
+interface and saved annotation backup. The instructions below describe the
+original installation; the restore tool replaces its device-specific paths.
+
 ## Quick Workflow
 
 Use `START_WORKFLOW.cmd` for the shared recording library and its folder-plus

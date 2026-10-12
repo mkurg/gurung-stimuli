@@ -92,6 +92,10 @@ async function testServer() {
     await page.screenshot({path:path.join(qa,'transitive.png'),fullPage:true});
     await page.locator('.trial-row[data-id="main-001"]').click();
     assert.equal(await page.locator('#need-help').getAttribute('aria-pressed'),'true');
+    await page.waitForFunction(url => {
+      const img = document.querySelector('#picture');
+      return img.getAttribute('src') === url && img.complete && img.naturalWidth > 0;
+    }, data.trials[0].image);
     const pixels = await page.evaluate(() => {
       const img = document.querySelector('#picture'); const canvas = document.createElement('canvas');
       canvas.width = 32; canvas.height = 32; const ctx = canvas.getContext('2d'); ctx.drawImage(img,0,0,32,32);

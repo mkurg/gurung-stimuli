@@ -1,0 +1,5 @@
+-r trial_reference/requirements.txt
+mne==1.13.2
+numpy==2.5.3
+scipy==1.18.1
+matplotlib==3.11.1
