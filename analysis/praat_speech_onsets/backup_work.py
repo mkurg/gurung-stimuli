@@ -36,6 +36,16 @@ def checked_join(root, relative):
     return target
 
 
+def default_backup():
+    pointer = ROOT / "latest_backup.json"
+    if not pointer.is_file():
+        return ROOT / "saved_work"
+    value = read_json(pointer)
+    if value.get("format_version") != 1:
+        raise ValueError("Unsupported latest-backup pointer format.")
+    return checked_join(ROOT, value["directory"])
+
+
 def modules(source):
     sys.path.insert(0, str(Path(source) / "trial_reference"))
     sys.path.insert(0, str(source))
@@ -257,9 +267,9 @@ def main():
     export.add_argument("--recordings-root", type=Path, required=True)
     export.add_argument("--output", type=Path, required=True)
     check = commands.add_parser("verify")
-    check.add_argument("--backup", type=Path, default=ROOT / "saved_work")
+    check.add_argument("--backup", type=Path)
     recover = commands.add_parser("restore")
-    recover.add_argument("--backup", type=Path, default=ROOT / "saved_work")
+    recover.add_argument("--backup", type=Path)
     recover.add_argument("--recordings-root", type=Path, required=True)
     recover.add_argument("--python", default=sys.executable)
     recover.add_argument("--praat")
@@ -268,10 +278,10 @@ def main():
     if args.command == "capture":
         capture(args.source, args.recordings_root, args.output)
     elif args.command == "verify":
-        result = verify(args.backup)
+        result = verify(args.backup or default_backup())
         print(f"Verified {len(result['recordings'])} recordings and {len(result['sha256'])} saved files.")
     else:
-        restore(args.backup, args.recordings_root, python=args.python, praat=args.praat, dry_run=args.dry_run)
+        restore(args.backup or default_backup(), args.recordings_root, python=args.python, praat=args.praat, dry_run=args.dry_run)
 
 
 if __name__ == "__main__":

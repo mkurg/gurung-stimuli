@@ -15,6 +15,32 @@ import suitability
 from test_annotations import annotation_grid, annotation_session
 
 
+class LatestBackupTests(unittest.TestCase):
+    def test_legacy_snapshot_is_default_without_pointer(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(work, "ROOT", Path(tmp)):
+            self.assertEqual(work.default_backup(), Path(tmp) / "saved_work")
+
+    def test_pointer_selects_current_snapshot(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(work, "ROOT", Path(tmp)):
+            (Path(tmp) / "latest_backup.json").write_bytes(work.json_bytes(
+                {"format_version": 1, "directory": "saved_work_20261019"}))
+            self.assertEqual(work.default_backup(), Path(tmp) / "saved_work_20261019")
+
+    def test_pointer_cannot_escape_checkout(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(work, "ROOT", Path(tmp)):
+            (Path(tmp) / "latest_backup.json").write_bytes(work.json_bytes(
+                {"format_version": 1, "directory": "../other"}))
+            with self.assertRaisesRegex(ValueError, "escapes"):
+                work.default_backup()
+
+    def test_unknown_pointer_format_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(work, "ROOT", Path(tmp)):
+            (Path(tmp) / "latest_backup.json").write_bytes(work.json_bytes(
+                {"format_version": 2, "directory": "saved_work"}))
+            with self.assertRaisesRegex(ValueError, "Unsupported"):
+                work.default_backup()
+
+
 class BackupTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
