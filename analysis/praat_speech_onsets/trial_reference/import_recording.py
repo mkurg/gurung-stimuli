@@ -17,7 +17,7 @@ from annotations import AnnotationReader
 from recording_library import atomic_json, file_hash, import_lock
 from pipeline_runtime import checked_mne_python
 from praat_files import check_praat_targets, place_praat_files
-from server import build_session
+from server import build_session, validate_full_recording
 
 
 def settings():
@@ -67,6 +67,8 @@ def validate_paths(value):
 def register(config, channel, library_root, log, export_metadata=None, builder=build_session, expected_identity=None):
     log("Validating EEG triggers, picture mapping and all full-WAV sample locations...")
     session, _ = builder(config)
+    for item in session.get("full_recording", {}).get("unreadable_practice_wavs", []):
+        log(f"Warning: {item['filename']} is unreadable ({item['error']}). Practice playback uses the intact full WAV and logged sample bounds; original short WAV kept unchanged.")
     if expected_identity and session["session_id"] != expected_identity:
         raise ValueError("Source identity changed during import. No recording was registered.")
     annotations = AnnotationReader(config["textgrid"], session).read()
@@ -128,6 +130,7 @@ def _run_import(value, log, library_root, runtime):
         log("Already imported: no AUX extraction or annotation overwrite needed.")
         return dict(old, already_registered=True, textgrid=config["textgrid"], stimtrak_wav=config["stimtrak_wav"])
     output_root = runtime.get("praat_output_root", str(Path.home() / "Desktop" / "EEG recs"))
+    validate_full_recording(paths["audio_dir"] / "full_session.wav")
     check_praat_targets(paths["vhdr"], output_root)
     python = checked_mne_python(runtime)
     destination.mkdir(parents=True, exist_ok=True)

@@ -50,6 +50,22 @@ annotation filenames.
 
 ## Start
 
+### Keep Available on Windows
+
+Run `install_autostart.ps1` in PowerShell to install the per-user Windows task
+`Praat Trial Reference`. It starts a hidden supervisor immediately and at sign-in,
+keeps this library at `http://127.0.0.1:8765`, and retries a crashed server every
+five seconds. Windows also restarts a failed supervisor. No browser is launched,
+no password is stored, and no firewall or sleep settings are changed. The task
+runs only while this Windows user is signed in; the computer must be awake.
+
+The supervisor does not terminate an existing server or another application that
+uses the port. It does not change recordings, TextGrids or trial decisions.
+Diagnostics are in `service_runner.log` and `service_server.log`. To remove the
+startup task, run `install_autostart.ps1 -Remove`; an already running server may
+remain available until stopped. Keep this folder and its configured Python runtime
+in place while automatic startup is enabled.
+
 Run `../START_WORKFLOW.cmd` to start or reopen the shared viewer. The default is
 `http://127.0.0.1:8765`; if occupied, the server tries the next available port.
 `server_status.json` also contains the actual URL and server process ID.
@@ -72,6 +88,14 @@ No new cropped WAVs are generated. At the end of the window playback stops, or
 restarts at the window start if Loop is checked.
 Switching trials stops the old recording and does not autoplay the new one.
 PsychoPy audio is a listening reference, not the source of EEG onset timestamps.
+
+Every main-trial short WAV must be readable and match its logged samples in the
+full recording. A practice-only short WAV with a damaged header may use its
+logged window in the intact full recording instead, with an explicit warning.
+The remaining readable clips still undergo exact sample matching; at least one
+must validate successfully. The damaged file and its hash are retained in the
+manifest/provenance, and the original is never repaired or overwritten.
+An unreadable or truncated full recording stops import before AUX extraction.
 
 ## Saved Praat Annotations
 

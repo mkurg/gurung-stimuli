@@ -6,6 +6,7 @@ import json
 import tempfile
 import threading
 import unittest
+import wave
 from http.server import ThreadingHTTPServer
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -33,6 +34,9 @@ class WorkflowTests(unittest.TestCase):
         self.audio.mkdir()
         for filename in ("full_session.wav", "eeg_triggers.csv", "recording_segments.csv", "001_isolated_main_l1_trial001_imageset1_cond_it.wav"):
             (self.audio / filename).write_bytes(b"fixture source")
+        with wave.open(str(self.audio / "full_session.wav"), "wb") as full:
+            full.setparams((1, 2, 1000, 0, "NONE", "not compressed"))
+            full.writeframes(b"\0\0" * 10000)
         self.experiment = self.root / "experiment"
         (self.experiment / "Conds").mkdir(parents=True)
         (self.experiment / "Conds" / "isolated_practice.csv").write_text("practice_index\n1\n")
@@ -130,6 +134,14 @@ class WorkflowTests(unittest.TestCase):
                 run_import({"vhdr": str(self.vhdr), "audio_dir": str(self.audio), "experiment_dir": str(self.experiment), "channel": "AUX1"},
                            self.logs.append, self.library_root, {"praat_output_root": str(output_root)})
         self.assertEqual(conflict.read_bytes(), b"manual annotations")
+
+    def test_invalid_full_wav_stops_before_extraction_with_filename(self):
+        (self.audio / "full_session.wav").write_bytes(b"damaged header")
+        with patch("import_recording.checked_mne_python", side_effect=AssertionError("Must stop before runtime probe")):
+            with self.assertRaisesRegex(ValueError, "Cannot read WAV.*full_session.wav"):
+                run_import({"vhdr": str(self.vhdr), "audio_dir": str(self.audio),
+                            "experiment_dir": str(self.experiment), "channel": "AUX1"},
+                           self.logs.append, self.library_root, {"praat_output_root": str(self.root / "Desktop")})
 
     def test_invalid_grid_never_publishes_registration(self):
         self.grid.write_text("incomplete TextGrid")

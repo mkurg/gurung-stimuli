@@ -45,6 +45,7 @@
             <div class="section-heading"><h3>PsychoPy full recording</h3><button id="copy-filename" class="icon-button" title="Copy trial WAV filename" aria-label="Copy trial WAV filename"><i data-lucide="copy"></i></button></div>
             <code id="wav-name" class="wav-name"></code>
             <div class="recording-source"><code>full_session.wav</code><span>PsychoPy seconds / 3 s before &amp; after</span></div>
+            <p id="short-audio-warning" class="annotation-warning" role="status" hidden></p>
             <audio id="audio" preload="metadata" hidden></audio>
             <div class="playback-controls"><button id="play-pause" class="icon-button play-button" title="Play selected window" aria-label="Play selected window"><i data-lucide="play"></i></button><input id="seek" type="range" min="0" max="1" step="0.01" value="0" aria-label="Seek in full recording window"><output id="audio-position" class="playback-clock">0.000 s</output></div>
             <div class="recording-bounds"><span id="window-start"></span><span id="window-end"></span></div>

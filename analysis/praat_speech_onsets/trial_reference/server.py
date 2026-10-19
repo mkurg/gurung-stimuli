@@ -73,13 +73,32 @@ def playback_window(onset_sample, stop_sample, sample_rate, sample_count, paddin
     }
 
 
+def open_wave_recording(path):
+    try:
+        return wave.open(str(path), "rb")
+    except (wave.Error, EOFError) as error:
+        raise ValueError(f"Cannot read WAV {path}: {error}. Original file was not changed.") from error
+
+
+def validate_full_recording(path):
+    with open_wave_recording(path) as full:
+        frame_bytes = full.getnchannels() * full.getsampwidth()
+        if full.getnframes() <= 0:
+            raise ValueError(f"PsychoPy full recording is empty: {path}")
+        full.setpos(full.getnframes() - 1)
+        if len(full.readframes(1)) != frame_bytes:
+            raise ValueError(f"PsychoPy full recording is truncated: {path}")
+
+
 def attach_full_playback(trials, segment_rows, full_path, padding=3):
     segments = {}
     for row in segment_rows:
         if row["stem"] in segments:
             raise ValueError(f"Duplicate recording segment: {row['stem']}")
         segments[row["stem"]] = row
-    with wave.open(str(full_path), "rb") as full:
+    validate_full_recording(full_path)
+    unreadable_practice = []
+    with open_wave_recording(full_path) as full:
         sample_rate, sample_count = full.getframerate(), full.getnframes()
         verified = 0
         for trial in trials:
@@ -91,16 +110,39 @@ def attach_full_playback(trials, segment_rows, full_path, padding=3):
             clip_start, clip_end = int(row["clip_start_sample"]), int(row["clip_end_sample"])
             if not 0 <= clip_start < clip_end <= sample_count or clip_end - clip_start != int(row["n_frames"]):
                 raise ValueError(f"Invalid clip bounds for {trial['id']}.")
-            with wave.open(trial["audio_path"], "rb") as clip:
+            if not clip_start <= onset < stop <= clip_end:
+                raise ValueError(f"Trial bounds are not contained in its logged clip: {trial['id']}.")
+            try:
+                clip = wave.open(trial["audio_path"], "rb")
+            except (wave.Error, EOFError) as error:
+                if trial.get("kind") != "practice":
+                    raise ValueError(f"Cannot read trial WAV {trial['audio_path']}: {error}. No mapping made.") from error
+                # Practice has no EEG trial mapping; playback uses the intact full WAV and log.
+                full.setpos(clip_start)
+                expected_bytes = (clip_end - clip_start) * full.getnchannels() * full.getsampwidth()
+                if len(full.readframes(clip_end - clip_start)) != expected_bytes:
+                    raise ValueError(f"Full WAV is truncated at {trial['id']}.")
+                trial["short_audio_warning"] = "Practice short WAV is unreadable. Playback uses the full recording and logged sample window."
+                unreadable_practice.append({"trial_id": trial["id"], "filename": trial["audio_filename"],
+                                            "path": trial["audio_path"], "sha256": file_hash(trial["audio_path"]),
+                                            "error": str(error), "fallback": "full_recording_logged_window"})
+                continue
+            with clip:
                 if (clip.getframerate(), clip.getnchannels(), clip.getsampwidth(), clip.getnframes()) != (sample_rate, full.getnchannels(), full.getsampwidth(), clip_end - clip_start):
                     raise ValueError(f"Trial WAV format differs from full_session.wav: {trial['id']}.")
                 full.setpos(clip_start)
                 if clip.readframes(clip.getnframes()) != full.readframes(clip_end - clip_start):
                     raise ValueError(f"Logged clip samples do not match full_session.wav: {trial['id']}.")
             verified += 1
-    return {"filename": full_path.name, "path": str(full_path), "sample_rate": sample_rate,
+    if unreadable_practice and not verified:
+        raise ValueError("No readable short WAVs validate the logged full-recording sample locations.")
+    result = {"filename": full_path.name, "path": str(full_path), "sample_rate": sample_rate,
             "sample_count": sample_count, "duration": sample_count / sample_rate,
             "padding_seconds": padding, "verified_segments": verified}
+    if unreadable_practice:
+        result["unreadable_practice_wavs"] = unreadable_practice
+        result["logged_segments"] = len(trials)
+    return result
 
 
 def build_session(config):
@@ -108,7 +150,7 @@ def build_session(config):
     header = read_brainvision_ini(vhdr)
     common = header["Common Infos"]
     sfreq = 1e6 / float(common["SamplingInterval"])
-    with wave.open(str(Path(config["stimtrak_wav"])), "rb") as wav:
+    with open_wave_recording(Path(config["stimtrak_wav"])) as wav:
         if wav.getframerate() != sfreq:
             raise ValueError("StimTrak WAV sample rate differs from the EEG header.")
         count = wav.getnframes()
@@ -235,6 +277,7 @@ def build_session(config):
     segments_path = audio_dir / "recording_segments.csv"
     full_recording = attach_full_playback(trials, rows(segments_path), full_path)
     full_recording["audio"] = asset(full_path, "full-audio")
+    sources.extend(Path(item["path"]) for item in full_recording.get("unreadable_practice_wavs", []))
     sources.extend([segments_path, full_path])
     source_records = [{"path": str(path), "sha256": file_hash(path)} for path in sources]
     # Content identity keeps decisions distinct while allowing recordings to be relocated.
@@ -391,6 +434,10 @@ def handler_class(session, assets, config, store, annotation_reader=None, librar
             if not self.permitted():
                 return
             path = urlsplit(self.path).path
+            if path == "/api/health":
+                self.send_json({"application": "praat-trial-reference", "pid": os.getpid(),
+                                "root": str(ROOT.resolve())}, head=head)
+                return
             if path == "/api/sessions":
                 try:
                     self.send_json(library.listing(), head=head)
@@ -527,6 +574,7 @@ def main():
     parser.add_argument("--config", type=Path, default=ROOT / "session_config.json")
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--port", type=int, default=8765)
+    parser.add_argument("--strict-port", action="store_true", help="Do not switch ports if the requested port is occupied")
     args = parser.parse_args()
     config = json.loads(args.config.read_text(encoding="utf-8"))
     session, assets = build_session(config)
@@ -544,7 +592,7 @@ def main():
         return
     store = SuitabilityStore(ROOT / "suitability.sqlite3")
     handler = handler_class(session, assets, config, store, imports=ImportJobs(ROOT / "import_logs"))
-    for port in range(args.port, args.port + 20):
+    for port in range(args.port, args.port + (1 if args.strict_port else 20)):
         try:
             server = ThreadingHTTPServer(("127.0.0.1", port), handler)
             break

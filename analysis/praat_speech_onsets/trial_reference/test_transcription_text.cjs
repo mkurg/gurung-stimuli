@@ -12,6 +12,7 @@ function app() {
     classList: {toggle() {}}, addEventListener() {},
     setAttribute(name, value) { this.attributes[name] = value; },
     replaceChildren(...children) { this.children = children; },
+    append(...children) { this.children.push(...children); },
   });
   const document = {
     addEventListener() {}, createElement: element,
@@ -64,4 +65,21 @@ test("search accepts legacy, composed, decomposed and uppercase tilde-e", () => 
     assert.equal(run(`queryMatch(trial, ${JSON.stringify(query)})`), true);
   }
   assert.equal(run('queryMatch(trial, "phresi")'), false);
+});
+
+test("damaged practice WAV warning clears when switching to a main trial", () => {
+  const {run, elements} = app();
+  run(`configurePlayback = () => {};
+    updateReviewControl = () => {};
+    updateAnnotations = () => {};
+    renderList = () => {};
+    state.session = {recording: "131i", full_recording: {audio: "/media/full", filename: "full_session.wav"}};
+    var warningTrial = {id: "practice-07", kind: "practice", number: 7, scene: "Practice", triggers: [],
+      audio_filename: "damaged.wav", short_audio_warning: "Practice short WAV is unreadable."};
+    selectTrial(warningTrial, false);`);
+  assert.equal(elements.get("short-audio-warning").hidden, false);
+  assert.equal(elements.get("short-audio-warning").textContent, "Practice short WAV is unreadable.");
+  run('selectTrial({...warningTrial, id: "main-001", kind: "main", short_audio_warning: undefined}, false)');
+  assert.equal(elements.get("short-audio-warning").hidden, true);
+  assert.equal(elements.get("short-audio-warning").textContent, "");
 });

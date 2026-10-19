@@ -327,6 +327,8 @@ function selectTrial(trial, update = true) {
   $("set-label").textContent = trial.kind === "main" ? `Image ${trial.image_set} / set ${trial.stimulus_set}` : "Practice";
   $("image-source").textContent = trial.image_source; $("image-path").textContent = trial.image_path;
   $("wav-name").textContent = trial.audio_filename; $("download-wav").href = state.session.full_recording.audio; $("download-wav").download = state.session.full_recording.filename;
+  $("short-audio-warning").hidden = !trial.short_audio_warning;
+  $("short-audio-warning").textContent = trial.short_audio_warning || "";
   $("trigger-count").textContent = trial.triggers.length ? `${trial.triggers.length} markers` : "No trial triggers";
   $("trigger-table").replaceChildren();
   if (trial.triggers.length) $("trigger-table").append(triggerTable(trial.triggers));
