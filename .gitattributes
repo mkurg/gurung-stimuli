@@ -1,3 +1,9 @@
 "isolated part/Conds/isolated_main_list1_all_120.csv" text eol=crlf
 "isolated part/Conds/isolated_main_list2_all_120.csv" text eol=crlf
 "isolated part/Conds/isolated_practice.csv" text eol=lf
+
+# Preserve the exact bytes covered by annotation and report checksum manifests.
+analysis/praat_speech_onsets/saved_work/** -text
+analysis/praat_speech_onsets/saved_work_*/** -text
+analysis/praat_speech_onsets/seminar_stats/** -text
+analysis/praat_speech_onsets/onset_stats/** -text

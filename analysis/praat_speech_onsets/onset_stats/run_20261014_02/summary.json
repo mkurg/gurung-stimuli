@@ -1,0 +1,710 @@
+{
+  "generated_at_utc": "2026-10-14T15:21:17.027375+00:00",
+  "totals": {
+    "main_trials": 1440,
+    "transcribed": 1440,
+    "valid_onset": 1437,
+    "eligible": 1220,
+    "unsuitable": 219,
+    "pending_not_unsuitable": 1,
+    "need_help_all_main": 108,
+    "need_help_eligible": 93,
+    "need_help_unsuitable": 15,
+    "missing_transcription": 0,
+    "missing_onset": 0,
+    "multiple_onsets": 3,
+    "participants": 12,
+    "eligible_category_counts": {
+      "Itr": 581,
+      "Tr ERG": 321,
+      "Tr zero": 318
+    },
+    "sol": {
+      "n": 1220,
+      "mean_ms": 1380.3796230818234,
+      "median_ms": 1297.92072335988,
+      "sd_ms": 431.74679763632383,
+      "q1_ms": 1099.192739668922,
+      "q3_ms": 1546.1742091890471,
+      "min_ms": 699.4149243921584,
+      "max_ms": 4654.81235416712
+    },
+    "unweighted_participant_mean_sol_ms": 1387.70290606987
+  },
+  "participants": [
+    {
+      "recording": "072i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 119,
+      "eligible": 117,
+      "unsuitable": 2,
+      "pending_not_unsuitable": 1,
+      "need_help_all_main": 9,
+      "need_help_eligible": 9,
+      "need_help_unsuitable": 0,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 1,
+      "eligible_category_counts": {
+        "Itr": 57,
+        "Tr ERG": 44,
+        "Tr zero": 16
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 44,
+        "Tr zero": 16
+      },
+      "tr_zero_no_saved_flag": 15,
+      "sol": {
+        "n": 117,
+        "mean_ms": 1592.5819171604119,
+        "median_ms": 1537.6057234338987,
+        "sd_ms": 412.7447085506487,
+        "q1_ms": 1317.3415394541053,
+        "q3_ms": 1787.786260708799,
+        "min_ms": 976.3221413462588,
+        "max_ms": 3099.8182055275265
+      }
+    },
+    {
+      "recording": "073i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 120,
+      "eligible": 98,
+      "unsuitable": 22,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 8,
+      "need_help_eligible": 6,
+      "need_help_unsuitable": 2,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 0,
+      "eligible_category_counts": {
+        "Itr": 41,
+        "Tr ERG": 35,
+        "Tr zero": 22
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 38,
+        "Tr zero": 22
+      },
+      "tr_zero_no_saved_flag": 22,
+      "sol": {
+        "n": 98,
+        "mean_ms": 1286.7847656571041,
+        "median_ms": 1175.2012047196558,
+        "sd_ms": 395.30485498110414,
+        "q1_ms": 999.8981752365808,
+        "q3_ms": 1511.215510573976,
+        "min_ms": 699.4149243921584,
+        "max_ms": 2443.9488387120036
+      }
+    },
+    {
+      "recording": "081i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 120,
+      "eligible": 113,
+      "unsuitable": 7,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 9,
+      "need_help_eligible": 9,
+      "need_help_unsuitable": 0,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 0,
+      "eligible_category_counts": {
+        "Itr": 54,
+        "Tr ERG": 29,
+        "Tr zero": 30
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 30,
+        "Tr zero": 30
+      },
+      "tr_zero_no_saved_flag": 30,
+      "sol": {
+        "n": 113,
+        "mean_ms": 1350.2122925145186,
+        "median_ms": 1295.3661436638413,
+        "sd_ms": 335.7615036152416,
+        "q1_ms": 1078.4093159928716,
+        "q3_ms": 1558.671064084649,
+        "min_ms": 824.4371547452829,
+        "max_ms": 2649.413569803187
+      }
+    },
+    {
+      "recording": "082i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 120,
+      "eligible": 113,
+      "unsuitable": 7,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 14,
+      "need_help_eligible": 13,
+      "need_help_unsuitable": 1,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 0,
+      "eligible_category_counts": {
+        "Itr": 56,
+        "Tr ERG": 15,
+        "Tr zero": 42
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 16,
+        "Tr zero": 44
+      },
+      "tr_zero_no_saved_flag": 41,
+      "sol": {
+        "n": 113,
+        "mean_ms": 1352.2073805881928,
+        "median_ms": 1297.593802272786,
+        "sd_ms": 256.5561856007429,
+        "q1_ms": 1166.3374695360744,
+        "q3_ms": 1434.47410389183,
+        "min_ms": 944.965991509207,
+        "max_ms": 2305.5387490092016
+      }
+    },
+    {
+      "recording": "091i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 119,
+      "eligible": 73,
+      "unsuitable": 47,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 12,
+      "need_help_eligible": 9,
+      "need_help_unsuitable": 3,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 1,
+      "eligible_category_counts": {
+        "Itr": 34,
+        "Tr ERG": 19,
+        "Tr zero": 20
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 27,
+        "Tr zero": 33
+      },
+      "tr_zero_no_saved_flag": 20,
+      "sol": {
+        "n": 73,
+        "mean_ms": 1587.9054146024257,
+        "median_ms": 1508.952414706755,
+        "sd_ms": 537.7913057313813,
+        "q1_ms": 1278.826934690187,
+        "q3_ms": 1703.4931363614305,
+        "min_ms": 863.9362893447924,
+        "max_ms": 4650.305979722816
+      }
+    },
+    {
+      "recording": "092i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 120,
+      "eligible": 100,
+      "unsuitable": 20,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 8,
+      "need_help_eligible": 4,
+      "need_help_unsuitable": 4,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 0,
+      "eligible_category_counts": {
+        "Itr": 44,
+        "Tr ERG": 51,
+        "Tr zero": 5
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 54,
+        "Tr zero": 6
+      },
+      "tr_zero_no_saved_flag": 5,
+      "sol": {
+        "n": 100,
+        "mean_ms": 991.608215834766,
+        "median_ms": 954.9956361806267,
+        "sd_ms": 183.86285192140923,
+        "q1_ms": 868.0554118967052,
+        "q3_ms": 1060.9992928717702,
+        "min_ms": 727.454686522151,
+        "max_ms": 1626.046291664693
+      }
+    },
+    {
+      "recording": "101i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 119,
+      "eligible": 84,
+      "unsuitable": 36,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 6,
+      "need_help_eligible": 5,
+      "need_help_unsuitable": 1,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 1,
+      "eligible_category_counts": {
+        "Itr": 37,
+        "Tr ERG": 25,
+        "Tr zero": 22
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 34,
+        "Tr zero": 26
+      },
+      "tr_zero_no_saved_flag": 22,
+      "sol": {
+        "n": 84,
+        "mean_ms": 1535.8007970473695,
+        "median_ms": 1471.8003185771522,
+        "sd_ms": 295.4218661140531,
+        "q1_ms": 1321.4663162788156,
+        "q3_ms": 1679.433779476099,
+        "min_ms": 1094.884546648359,
+        "max_ms": 2428.0922382091603
+      }
+    },
+    {
+      "recording": "111i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 120,
+      "eligible": 90,
+      "unsuitable": 30,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 4,
+      "need_help_eligible": 3,
+      "need_help_unsuitable": 1,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 0,
+      "eligible_category_counts": {
+        "Itr": 45,
+        "Tr ERG": 3,
+        "Tr zero": 42
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 7,
+        "Tr zero": 53
+      },
+      "tr_zero_no_saved_flag": 41,
+      "sol": {
+        "n": 90,
+        "mean_ms": 1711.3694651664446,
+        "median_ms": 1576.7912029456284,
+        "sd_ms": 536.180111749779,
+        "q1_ms": 1375.63065732229,
+        "q3_ms": 1856.6950563185571,
+        "min_ms": 813.8754069586867,
+        "max_ms": 4654.81235416712
+      }
+    },
+    {
+      "recording": "112i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 120,
+      "eligible": 111,
+      "unsuitable": 9,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 1,
+      "need_help_eligible": 1,
+      "need_help_unsuitable": 0,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 0,
+      "eligible_category_counts": {
+        "Itr": 57,
+        "Tr ERG": 18,
+        "Tr zero": 36
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 20,
+        "Tr zero": 40
+      },
+      "tr_zero_no_saved_flag": 36,
+      "sol": {
+        "n": 111,
+        "mean_ms": 1151.4497669569273,
+        "median_ms": 1072.6059463831916,
+        "sd_ms": 437.91554144427863,
+        "q1_ms": 984.4867036035794,
+        "q3_ms": 1188.999089935976,
+        "min_ms": 722.8827365471489,
+        "max_ms": 4331.870707849589
+      }
+    },
+    {
+      "recording": "121i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 120,
+      "eligible": 115,
+      "unsuitable": 5,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 14,
+      "need_help_eligible": 14,
+      "need_help_unsuitable": 0,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 0,
+      "eligible_category_counts": {
+        "Itr": 58,
+        "Tr ERG": 29,
+        "Tr zero": 28
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 31,
+        "Tr zero": 29
+      },
+      "tr_zero_no_saved_flag": 27,
+      "sol": {
+        "n": 115,
+        "mean_ms": 1560.0489017166246,
+        "median_ms": 1459.766033820415,
+        "sd_ms": 413.3625422583821,
+        "q1_ms": 1296.4381797012834,
+        "q3_ms": 1694.4341159405383,
+        "min_ms": 1027.8514390485043,
+        "max_ms": 3454.714001566515
+      }
+    },
+    {
+      "recording": "122i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 120,
+      "eligible": 96,
+      "unsuitable": 24,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 21,
+      "need_help_eligible": 18,
+      "need_help_unsuitable": 3,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 0,
+      "eligible_category_counts": {
+        "Itr": 46,
+        "Tr ERG": 4,
+        "Tr zero": 46
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 4,
+        "Tr zero": 56
+      },
+      "tr_zero_no_saved_flag": 45,
+      "sol": {
+        "n": 96,
+        "mean_ms": 1260.2509181637001,
+        "median_ms": 1181.1601714804851,
+        "sd_ms": 311.5615904600104,
+        "q1_ms": 1076.7877145520401,
+        "q3_ms": 1349.477294678209,
+        "min_ms": 882.0554992610141,
+        "max_ms": 3021.8465867727673
+      }
+    },
+    {
+      "recording": "131i",
+      "main_trials": 120,
+      "transcribed": 120,
+      "valid_onset": 120,
+      "eligible": 110,
+      "unsuitable": 10,
+      "pending_not_unsuitable": 0,
+      "need_help_all_main": 2,
+      "need_help_eligible": 2,
+      "need_help_unsuitable": 0,
+      "missing_transcription": 0,
+      "missing_onset": 0,
+      "multiple_onsets": 0,
+      "eligible_category_counts": {
+        "Itr": 52,
+        "Tr ERG": 49,
+        "Tr zero": 9
+      },
+      "all_main_category_counts": {
+        "Itr": 60,
+        "Tr ERG": 49,
+        "Tr zero": 11
+      },
+      "tr_zero_no_saved_flag": 8,
+      "sol": {
+        "n": 110,
+        "mean_ms": 1272.2150374299547,
+        "median_ms": 1160.6777297513133,
+        "sd_ms": 393.12190622023724,
+        "q1_ms": 1063.0622606723534,
+        "q3_ms": 1388.5770529569754,
+        "min_ms": 840.9010462688684,
+        "max_ms": 3441.9072291428847
+      }
+    }
+  ],
+  "per_category_sol": {
+    "Itr": {
+      "n": 581,
+      "mean_ms": 1343.0685240304304,
+      "median_ms": 1272.1706220283977,
+      "sd_ms": 410.96558639478013,
+      "q1_ms": 1072.6059463831916,
+      "q3_ms": 1521.8374874441452,
+      "min_ms": 715.8921623649803,
+      "max_ms": 4654.81235416712
+    },
+    "Tr ERG": {
+      "n": 321,
+      "mean_ms": 1410.1555888758116,
+      "median_ms": 1316.0193815344883,
+      "sd_ms": 467.01977540120805,
+      "q1_ms": 1106.311287043809,
+      "q3_ms": 1568.3755658806149,
+      "min_ms": 720.5812611248348,
+      "max_ms": 4650.305979722816
+    },
+    "Tr zero": {
+      "n": 318,
+      "mean_ms": 1418.4917725440534,
+      "median_ms": 1325.3444327392288,
+      "sd_ms": 427.4514190260639,
+      "q1_ms": 1125.0111950719486,
+      "q3_ms": 1564.661032121336,
+      "min_ms": 699.4149243921584,
+      "max_ms": 4331.870707849589
+    }
+  },
+  "timing_cutoffs": [
+    {
+      "cutoff_ms": 1000,
+      "retained": 1046,
+      "below": 174,
+      "retained_percent": 85.73770491803279,
+      "category_counts": {
+        "Itr": 482,
+        "Tr ERG": 276,
+        "Tr zero": 288
+      }
+    },
+    {
+      "cutoff_ms": 1100,
+      "retained": 912,
+      "below": 308,
+      "retained_percent": 74.75409836065573,
+      "category_counts": {
+        "Itr": 418,
+        "Tr ERG": 242,
+        "Tr zero": 252
+      }
+    },
+    {
+      "cutoff_ms": 1200,
+      "retained": 758,
+      "below": 462,
+      "retained_percent": 62.131147540983605,
+      "category_counts": {
+        "Itr": 345,
+        "Tr ERG": 200,
+        "Tr zero": 213
+      }
+    },
+    {
+      "cutoff_ms": 1250,
+      "retained": 696,
+      "below": 524,
+      "retained_percent": 57.049180327868854,
+      "category_counts": {
+        "Itr": 307,
+        "Tr ERG": 187,
+        "Tr zero": 202
+      }
+    },
+    {
+      "cutoff_ms": 1400,
+      "retained": 473,
+      "below": 747,
+      "retained_percent": 38.77049180327869,
+      "category_counts": {
+        "Itr": 204,
+        "Tr ERG": 132,
+        "Tr zero": 137
+      }
+    }
+  ],
+  "onset_issues": [
+    {
+      "recording": "072i",
+      "trial_id": "main-119",
+      "item_trigger": 89,
+      "onset_count": 2,
+      "unsuitable": false
+    },
+    {
+      "recording": "091i",
+      "trial_id": "main-031",
+      "item_trigger": 110,
+      "onset_count": 2,
+      "unsuitable": true
+    },
+    {
+      "recording": "101i",
+      "trial_id": "main-001",
+      "item_trigger": 95,
+      "onset_count": 2,
+      "unsuitable": true
+    }
+  ],
+  "source_annotations": [
+    {
+      "recording": "072i",
+      "session_id": "5f28c4f77dfedf3f9df02875028c7cb034f066fe029aac9fd5cd3d254fcaaf04",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\072i\\praat_export\\072i_AUX1\\072i_transcription.TextGrid",
+      "sha256": "796335e3fd7f40a86bfc5ebf1cfe2b562398d23bd0b2d3d5840f25825ec9a59f",
+      "saved_at_utc": "2026-10-08T12:05:57.986141+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "073i",
+      "session_id": "22d7679762b81edff0d9788a22b69f6a3c5f313079f4c515d09580aa381f616e",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\073i\\073i_annotations.TextGrid",
+      "sha256": "cc02f0da4b92c6537f463c344c36c08388fffbb149ee3f1d16a0c4c002756f81",
+      "saved_at_utc": "2026-10-03T19:55:43.477223+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "081i",
+      "session_id": "d3445237989c6ac03d312dd797bdd49d93dd53a2352099f0a6598412a02062da",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\081i\\081i_annotations.TextGrid",
+      "sha256": "50efe6f96d25e77e31f93eeeb13284809b9c888d0952c027268fc2b48e31589f",
+      "saved_at_utc": "2026-10-04T18:43:00.913222+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "082i",
+      "session_id": "3d3448831026f200d9f2dd05c4cfcf98ba6d1bf2ca1bed8f02127b8d5d3dac7e",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\082i\\082i_annotations.TextGrid",
+      "sha256": "22e12734475bd62bfc083f76ae9d16252f5425cd3825a3c785a473d73bfef594",
+      "saved_at_utc": "2026-10-05T18:15:22.830148+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "091i",
+      "session_id": "492e8aa23ff552c5081ccd33effe24ea387e882a3f53f0b1e85afb5cd737cdbc",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\091i\\091i_annotations.TextGrid",
+      "sha256": "3e9ee3ddff8abb52c777ad34fe2f08370a2332308694f0778631ef074230ca3a",
+      "saved_at_utc": "2026-10-07T18:33:56.031353+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "092i",
+      "session_id": "3a17834bb4a6f5fdec46ba68356f8a857a43e540047728b9b2b28b73d31123e0",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\092i\\092i_annotations.TextGrid",
+      "sha256": "cb941954fa2da89f071c9f58d476b364047c24757b90c22c970216b744ee93ab",
+      "saved_at_utc": "2026-10-07T17:28:18.558178+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "101i",
+      "session_id": "da45974fe6e3793c5e1fa3fc7625f244e5d6fe4bd7619105f539cee198fab79b",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\101i\\101i_annotations.TextGrid",
+      "sha256": "457e7fce6be41459bfdf957e74e233dc3e6e4ff3da81ddac523e16badea224c4",
+      "saved_at_utc": "2026-10-08T21:09:29.314067+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "111i",
+      "session_id": "76f5714533d29f54b34a0b9f04c8b7c45f7f960cadddf9a0fcebc232d3c44b4d",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\111i\\111i_annotations.TextGrid",
+      "sha256": "7539e605a8f57b76cd3f33d30553a5ca34414391d24328bab6522d238a646936",
+      "saved_at_utc": "2026-10-09T16:06:38.141263+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "112i",
+      "session_id": "4818d5f39d9fce42f22a43e69344836f840887ea61c809550aca50374ae20a55",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\112i\\112i_annotations.TextGrid",
+      "sha256": "3c659734f17c733dceaf04ba003aedcdeda53aa6c703b71105f6a68e9facb606",
+      "saved_at_utc": "2026-10-10T15:36:49.268004+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "121i",
+      "session_id": "e7acc86f4bf37531e48927544ceb496449b870b719d55801cabc49e98a81cad1",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\121i\\121i_annotations.TextGrid",
+      "sha256": "e2ab38899f270765daa172f16f3fc022f0b67aed99c857fadc3d704323f86b0d",
+      "saved_at_utc": "2026-10-12T14:43:34.854709+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "122i",
+      "session_id": "7f167244577cae947e15156d339b2211dea3a32e01f127dca08b9be96a7aa8e6",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\122i\\122i_annotations.TextGrid",
+      "sha256": "075a311189f6b56403ef8ad61ac49f540ba270bb7848d9ac840daf7ed2b2c88c",
+      "saved_at_utc": "2026-10-13T21:32:12.897736+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    },
+    {
+      "recording": "131i",
+      "session_id": "6997e7d8791b1d1729ab52a000818659688b00ebf745b103b2e4444006e52048",
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\131i\\131i_annotations.TextGrid",
+      "sha256": "c1ad308d22d070d81ceccafda771bd5a4fb4f1afb3f75d5b2942d427ce4e157b",
+      "saved_at_utc": "2026-10-14T15:00:08.163496+00:00",
+      "unassigned_onsets": 0,
+      "unassigned_transcriptions": 0
+    }
+  ],
+  "cohort": {
+    "included_recordings": [
+      "072i",
+      "073i",
+      "081i",
+      "082i",
+      "091i",
+      "092i",
+      "101i",
+      "111i",
+      "112i",
+      "121i",
+      "122i",
+      "131i"
+    ],
+    "excluded_recordings": [
+      "132i"
+    ],
+    "selection": "Original twelve recordings through 131i"
+  }
+}

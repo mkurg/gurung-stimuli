@@ -1,0 +1,158 @@
+{
+  "generated_at_utc": "2026-10-14T15:21:17.027375+00:00",
+  "transitive_cutoffs": [
+    {
+      "cutoff_ms": 1000,
+      "total": 639,
+      "retained": 564,
+      "excluded": 75,
+      "excluded_percent": 11.737089201877934,
+      "retained_category_counts": {
+        "Tr ERG": 276,
+        "Tr zero": 288
+      }
+    },
+    {
+      "cutoff_ms": 1100,
+      "total": 639,
+      "retained": 494,
+      "excluded": 145,
+      "excluded_percent": 22.69170579029734,
+      "retained_category_counts": {
+        "Tr ERG": 242,
+        "Tr zero": 252
+      }
+    },
+    {
+      "cutoff_ms": 1200,
+      "total": 639,
+      "retained": 413,
+      "excluded": 226,
+      "excluded_percent": 35.36776212832551,
+      "retained_category_counts": {
+        "Tr ERG": 200,
+        "Tr zero": 213
+      }
+    },
+    {
+      "cutoff_ms": 1250,
+      "total": 639,
+      "retained": 389,
+      "excluded": 250,
+      "excluded_percent": 39.123630672926446,
+      "retained_category_counts": {
+        "Tr ERG": 187,
+        "Tr zero": 202
+      }
+    },
+    {
+      "cutoff_ms": 1400,
+      "total": 639,
+      "retained": 269,
+      "excluded": 370,
+      "excluded_percent": 57.90297339593114,
+      "retained_category_counts": {
+        "Tr ERG": 132,
+        "Tr zero": 137
+      }
+    }
+  ],
+  "participants": [
+    {
+      "recording": "072i",
+      "transitive_total": 60,
+      "erg_percent": 73.33333333333333,
+      "erg_mean_sol_ms": 1637.9574069986595,
+      "zero_mean_sol_ms": 1455.4676226893441,
+      "erg_minus_zero_ms": 182.48978430931538
+    },
+    {
+      "recording": "073i",
+      "transitive_total": 57,
+      "erg_percent": 61.40350877192982,
+      "erg_mean_sol_ms": 1331.6851714805548,
+      "zero_mean_sol_ms": 1223.3228740069587,
+      "erg_minus_zero_ms": 108.36229747359607
+    },
+    {
+      "recording": "081i",
+      "transitive_total": 59,
+      "erg_percent": 49.152542372881356,
+      "erg_mean_sol_ms": 1296.125496343005,
+      "zero_mean_sol_ms": 1412.7360575402388,
+      "erg_minus_zero_ms": -116.61056119723389
+    },
+    {
+      "recording": "082i",
+      "transitive_total": 57,
+      "erg_percent": 26.31578947368421,
+      "erg_mean_sol_ms": 1339.943533946655,
+      "zero_mean_sol_ms": 1380.5504344325032,
+      "erg_minus_zero_ms": -40.6069004858482
+    },
+    {
+      "recording": "091i",
+      "transitive_total": 39,
+      "erg_percent": 48.717948717948715,
+      "erg_mean_sol_ms": 1776.4901477373112,
+      "zero_mean_sol_ms": 1522.5247140955958,
+      "erg_minus_zero_ms": 253.96543364171544
+    },
+    {
+      "recording": "092i",
+      "transitive_total": 56,
+      "erg_percent": 91.07142857142857,
+      "erg_mean_sol_ms": 1020.3116119382596,
+      "zero_mean_sol_ms": 988.6211299574825,
+      "erg_minus_zero_ms": 31.690481980777122
+    },
+    {
+      "recording": "101i",
+      "transitive_total": 47,
+      "erg_percent": 53.191489361702125,
+      "erg_mean_sol_ms": 1672.7384032264717,
+      "zero_mean_sol_ms": 1441.6531107091337,
+      "erg_minus_zero_ms": 231.08529251733808
+    },
+    {
+      "recording": "111i",
+      "transitive_total": 45,
+      "erg_percent": 6.666666666666667,
+      "erg_mean_sol_ms": 2091.906177319553,
+      "zero_mean_sol_ms": 1651.5159971177534,
+      "erg_minus_zero_ms": 440.3901802017997
+    },
+    {
+      "recording": "112i",
+      "transitive_total": 54,
+      "erg_percent": 33.333333333333336,
+      "erg_mean_sol_ms": 1195.0232628432914,
+      "zero_mean_sol_ms": 1271.9442443568817,
+      "erg_minus_zero_ms": -76.92098151359028
+    },
+    {
+      "recording": "121i",
+      "transitive_total": 57,
+      "erg_percent": 50.87719298245614,
+      "erg_mean_sol_ms": 1719.7171228259315,
+      "zero_mean_sol_ms": 1572.7549479266117,
+      "erg_minus_zero_ms": 146.96217489931973
+    },
+    {
+      "recording": "122i",
+      "transitive_total": 50,
+      "erg_percent": 8.0,
+      "erg_mean_sol_ms": 1369.6917308715797,
+      "zero_mean_sol_ms": 1325.2264755255471,
+      "erg_minus_zero_ms": 44.46525534603256
+    },
+    {
+      "recording": "131i",
+      "transitive_total": 58,
+      "erg_percent": 84.48275862068965,
+      "erg_mean_sol_ms": 1337.7485483904074,
+      "zero_mean_sol_ms": 1472.6010051377962,
+      "erg_minus_zero_ms": -134.85245674738871
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "generated_at_utc": "2026-10-13T11:53:23.599959+00:00",
+  "snapshot_sha256": "376289e983ed7b9d7628478b6c8e8d5115a5ada248089626cc1cd8dba051749a",
+  "script_sha256": "05407cf5e8c87918c5a1653d68132a5222266faf40abbf421022502b1cc458f0",
+  "codebook_sha256": "e7b00d5a61f2a852a20db985718f35c3d875c71371baca58dd503bb9b6fc40ad",
+  "condition_sources": [
+    {
+      "experiment_list": 1,
+      "path": "C:\\Users\\Sofya\\Documents\\Ergativity EEG\\gurung-stimuli\\isolated part\\Conds\\isolated_main_list1_all_120.csv",
+      "sha256": "e950913d619ac3b704d95f7a62015a09d458dfa50b9115aa9e2a3097f2971f20"
+    },
+    {
+      "experiment_list": 2,
+      "path": "C:\\Users\\Sofya\\Documents\\Ergativity EEG\\gurung-stimuli\\isolated part\\Conds\\isolated_main_list2_all_120.csv",
+      "sha256": "b5364fe102d7781d24ad6644e4692144784f0f5805b868a6e9ec5c03904f2c0e"
+    }
+  ],
+  "figure_sha256": {
+    "07_erg_by_noun.png": "09735e706ce5aba462471a665573dabdcb81028cea9e563b174bac3637f66edc",
+    "08_erg_by_action.png": "596acb948ac0313de6b8aa96ccb0b900cb29fd2b3ece2794235b3e1a3e8836a0",
+    "09_erg_by_indefinite_marker.png": "355aecd3640af17ff348fabdf7986cac376f18c0003b2d7eded6af96a2a3eb93"
+  }
+}
