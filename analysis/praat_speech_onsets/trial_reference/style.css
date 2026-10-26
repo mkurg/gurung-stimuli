@@ -1,5 +1,9 @@
 :root{font-family:"Segoe UI",Arial,sans-serif;color:#25282b;background:#f5f6f7;font-size:14px;letter-spacing:0;--line:#dce1e3;--muted:#626c72;--teal:#08776d;--tint:#e9f4f1}
-#trial-list{max-height:calc(100vh - 454px)}
+@media(min-width:761px){
+  .workspace>.sidebar{position:sticky;top:0;align-self:start;display:flex;flex-direction:column;height:var(--sidebar-height,100dvh);min-height:0}
+  .sidebar>*{flex-shrink:0}
+  #trial-list{flex:1 1 0;min-height:0;max-height:none;overscroll-behavior:contain}
+}
 .library-summary{
   min-height:78px;
   display:grid;

@@ -18,7 +18,8 @@ class FullPlaybackTests(unittest.TestCase):
         for name, kind, start in (("main-001", "main", 100), ("practice-07", "practice", 400)):
             path = self.root / (name + ".wav")
             self.write_wav(path, self.samples[start * 2:(start + 100) * 2])
-            self.trials.append({"id": name, "kind": kind, "audio_filename": path.name, "audio_path": str(path)})
+            self.trials.append({"id": name, "kind": kind, "number": int(name.split('-')[-1]),
+                                "audio_filename": path.name, "audio_path": str(path)})
             self.segments.append({"stem": path.stem, "status": "written", "onset_sample": str(start + 10),
                                   "stop_sample": str(start + 90), "clip_start_sample": str(start),
                                   "clip_end_sample": str(start + 100), "n_frames": "100"})
@@ -30,6 +31,18 @@ class FullPlaybackTests(unittest.TestCase):
         with wave.open(str(path), "wb") as wav:
             wav.setparams((1, 2, 100, 0, "NONE", "not compressed"))
             wav.writeframes(frames)
+
+    def add_main(self, number, start):
+        path = self.root / f"main-{number:03d}.wav"
+        self.write_wav(path, self.samples[start * 2:(start + 100) * 2])
+        trial = {"id": path.stem, "kind": "main", "number": number,
+                 "audio_filename": path.name, "audio_path": str(path)}
+        segment = {"stem": path.stem, "status": "written", "onset_sample": str(start + 10),
+                   "stop_sample": str(start + 90), "clip_start_sample": str(start),
+                   "clip_end_sample": str(start + 100), "n_frames": "100"}
+        self.trials.append(trial)
+        self.segments.append(segment)
+        return trial, segment
 
     def test_all_valid_clips_still_match_exactly(self):
         result = attach_full_playback(self.trials, self.segments, self.full)
@@ -54,6 +67,54 @@ class FullPlaybackTests(unittest.TestCase):
         path = Path(self.trials[0]["audio_path"])
         path.write_bytes(b"damaged header")
         with self.assertRaisesRegex(ValueError, "Cannot read trial WAV.*main-001.wav"):
+            attach_full_playback(self.trials, self.segments, self.full)
+
+    def test_damaged_main_uses_full_window_only_with_two_verified_neighboring_mains(self):
+        trial, _ = self.add_main(2, 300)
+        self.add_main(3, 600)
+        damaged = b"damaged main WAV"
+        path = Path(trial["audio_path"])
+        path.write_bytes(damaged)
+        result = attach_full_playback(self.trials, self.segments, self.full)
+        self.assertEqual(result["verified_segments"], 3)
+        self.assertEqual(result["logged_segments"], 4)
+        fallback = result["unreadable_main_wavs"][0]
+        self.assertEqual(fallback["trial_id"], "main-002")
+        self.assertEqual(fallback["validated_by_trials"], ["main-001", "main-003"])
+        self.assertTrue(fallback["sha256"])
+        self.assertEqual(trial["playback"]["trial_start"], 3.1)
+        self.assertAlmostEqual(trial["playback"]["start"], .1)
+        self.assertEqual(trial["playback"]["end"], 6.9)
+        self.assertIn("EEG timing is unchanged", trial["short_audio_warning"])
+        self.assertEqual(path.read_bytes(), damaged)
+
+    def test_damaged_main_requires_immediate_neighbors_not_distant_or_practice_clips(self):
+        trial, _ = self.add_main(2, 300)
+        self.add_main(4, 600)
+        Path(trial["audio_path"]).write_bytes(b"bad header")
+        with self.assertRaisesRegex(ValueError, "immediately before and after"):
+            attach_full_playback(self.trials, self.segments, self.full)
+
+    def test_two_consecutive_damaged_mains_do_not_validate_each_other(self):
+        trial, _ = self.add_main(2, 300)
+        following, _ = self.add_main(3, 600)
+        for candidate in (trial, following):
+            Path(candidate["audio_path"]).write_bytes(b"bad header")
+        with self.assertRaisesRegex(ValueError, "immediately before and after"):
+            attach_full_playback(self.trials, self.segments, self.full)
+
+    def test_main_fallback_requires_chronological_log_windows(self):
+        trial, _ = self.add_main(2, 600)
+        self.add_main(3, 300)
+        Path(trial["audio_path"]).write_bytes(b"bad header")
+        with self.assertRaisesRegex(ValueError, "not chronological around main-002"):
+            attach_full_playback(self.trials, self.segments, self.full)
+
+    def test_readable_main_with_wrong_samples_still_stops_import(self):
+        trial, _ = self.add_main(2, 300)
+        self.add_main(3, 600)
+        self.write_wav(Path(trial["audio_path"]), b"\0\0" * 100)
+        with self.assertRaisesRegex(ValueError, "samples do not match.*main-002"):
             attach_full_playback(self.trials, self.segments, self.full)
 
     def test_valid_header_but_different_samples_still_rejects_even_practice(self):

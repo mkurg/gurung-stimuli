@@ -38,11 +38,21 @@ def stimulus_code(marker):
     return int(match[1])
 
 
-def match_trigger_sequence(markers, logged):
+def match_trigger_sequence(markers, logged, reconciliation=None):
     recorded = [m for m in markers if m["type"] == "Stimulus"]
     sent = [row for row in logged if row["serial_sent"] == "1"]
+    sent_count = len(sent)
+    missing_rest = []
     if len(recorded) != len(sent):
-        raise ValueError(f"Trigger counts disagree: EEG {len(recorded)}, sent log {len(sent)}. No mapping made.")
+        initial_rest_labels = ("rest_eyes_open_start", "rest_eyes_open_finish",
+                               "rest_eyes_closed_start", "rest_eyes_closed_finish")
+        # A restarted EEG file may omit the complete pre-task rest block, never trial markers.
+        if (recorded and len(sent) - len(recorded) == 4
+                and tuple(row.get("label") for row in sent[:4]) == initial_rest_labels
+                and all(row.get("trigger_code") == "150" for row in sent[:4])):
+            missing_rest, sent = sent[:4], sent[4:]
+        else:
+            raise ValueError(f"Trigger counts disagree: EEG {len(recorded)}, sent log {len(sent)}. No mapping made.")
     linked = []
     for index, (marker, row) in enumerate(zip(recorded, sent), 1):
         code = stimulus_code(marker)
@@ -52,6 +62,17 @@ def match_trigger_sequence(markers, logged):
             "marker_id": marker["marker_id"], "code": code, "display": f"S {code}",
             "time": marker["onset_seconds"], "sample_1based": marker["position_1based"],
             "label": row["label"], "log_index": int(row["trigger_index"]),
+        })
+    if missing_rest and reconciliation is not None:
+        reconciliation.update({
+            "method": "exact_sequence_after_unrecorded_initial_rest",
+            "recorded_stimulus_count": len(recorded), "sent_log_count": sent_count,
+            "matched_triggers": len(linked),
+            "unrecorded_initial_rest": [{"log_index": int(row["trigger_index"]),
+                                         "code": int(row["trigger_code"]), "label": row["label"],
+                                         "psychopy_core_time": row.get("core_time")}
+                                        for row in missing_rest],
+            "timing": "All mapped times are original EEG sample times. No timestamps were assigned to missing rest markers; no offset was applied.",
         })
     return linked
 
@@ -97,7 +118,8 @@ def attach_full_playback(trials, segment_rows, full_path, padding=3):
             raise ValueError(f"Duplicate recording segment: {row['stem']}")
         segments[row["stem"]] = row
     validate_full_recording(full_path)
-    unreadable_practice = []
+    unreadable_practice, unreadable_main = [], []
+    main_windows, verified_main = {}, {}
     with open_wave_recording(full_path) as full:
         sample_rate, sample_count = full.getframerate(), full.getnframes()
         verified = 0
@@ -112,20 +134,26 @@ def attach_full_playback(trials, segment_rows, full_path, padding=3):
                 raise ValueError(f"Invalid clip bounds for {trial['id']}.")
             if not clip_start <= onset < stop <= clip_end:
                 raise ValueError(f"Trial bounds are not contained in its logged clip: {trial['id']}.")
+            if trial.get("kind") == "main":
+                main_windows[trial["number"]] = (onset, stop, trial["id"])
             try:
                 clip = wave.open(trial["audio_path"], "rb")
             except (wave.Error, EOFError) as error:
-                if trial.get("kind") != "practice":
+                if trial.get("kind") not in ("main", "practice"):
                     raise ValueError(f"Cannot read trial WAV {trial['audio_path']}: {error}. No mapping made.") from error
-                # Practice has no EEG trial mapping; playback uses the intact full WAV and log.
                 full.setpos(clip_start)
                 expected_bytes = (clip_end - clip_start) * full.getnchannels() * full.getsampwidth()
                 if len(full.readframes(clip_end - clip_start)) != expected_bytes:
                     raise ValueError(f"Full WAV is truncated at {trial['id']}.")
-                trial["short_audio_warning"] = "Practice short WAV is unreadable. Playback uses the full recording and logged sample window."
-                unreadable_practice.append({"trial_id": trial["id"], "filename": trial["audio_filename"],
-                                            "path": trial["audio_path"], "sha256": file_hash(trial["audio_path"]),
-                                            "error": str(error), "fallback": "full_recording_logged_window"})
+                item = {"trial_id": trial["id"], "filename": trial["audio_filename"],
+                        "path": trial["audio_path"], "sha256": file_hash(trial["audio_path"]),
+                        "error": str(error), "fallback": "full_recording_logged_window"}
+                if trial.get("kind") == "main":
+                    item["trial_number"] = trial["number"]
+                    unreadable_main.append(item)
+                else:
+                    trial["short_audio_warning"] = "Practice short WAV is unreadable. Playback uses the full recording and logged sample window."
+                    unreadable_practice.append(item)
                 continue
             with clip:
                 if (clip.getframerate(), clip.getnchannels(), clip.getsampwidth(), clip.getnframes()) != (sample_rate, full.getnchannels(), full.getsampwidth(), clip_end - clip_start):
@@ -134,13 +162,31 @@ def attach_full_playback(trials, segment_rows, full_path, padding=3):
                 if clip.readframes(clip.getnframes()) != full.readframes(clip_end - clip_start):
                     raise ValueError(f"Logged clip samples do not match full_session.wav: {trial['id']}.")
             verified += 1
-    if unreadable_practice and not verified:
+            if trial.get("kind") == "main":
+                verified_main[trial["number"]] = main_windows[trial["number"]]
+    # A main-trial fallback needs exact sample matches on both sides, not merely a plausible log time.
+    for item in unreadable_main:
+        number = item["trial_number"]
+        previous, following = verified_main.get(number - 1), verified_main.get(number + 1)
+        if previous is None or following is None:
+            raise ValueError(f"Cannot read trial WAV {item['path']}: full-recording fallback requires readable, sample-matched main trials immediately before and after it. No mapping made.")
+        onset, stop, _ = main_windows[number]
+        if not previous[1] <= onset < stop <= following[0]:
+            raise ValueError(f"Logged sample windows are not chronological around {item['trial_id']}. No mapping made.")
+        item["validated_by_trials"] = [previous[2], following[2]]
+        trial = next(trial for trial in trials if trial["id"] == item["trial_id"])
+        trial["short_audio_warning"] = ("Short trial WAV is unreadable. Playback uses full_session.wav at the logged sample window; "
+                                         "both neighboring main trials were sample-matched. EEG timing is unchanged.")
+    if (unreadable_practice or unreadable_main) and not verified:
         raise ValueError("No readable short WAVs validate the logged full-recording sample locations.")
     result = {"filename": full_path.name, "path": str(full_path), "sample_rate": sample_rate,
             "sample_count": sample_count, "duration": sample_count / sample_rate,
             "padding_seconds": padding, "verified_segments": verified}
     if unreadable_practice:
         result["unreadable_practice_wavs"] = unreadable_practice
+    if unreadable_main:
+        result["unreadable_main_wavs"] = unreadable_main
+    if unreadable_practice or unreadable_main:
         result["logged_segments"] = len(trials)
     return result
 
@@ -167,7 +213,8 @@ def build_session(config):
     markers = read_markers(marker_file, count, int(common["NumberOfChannels"]), sfreq)
     log_path = audio_dir / "eeg_triggers.csv"
     logged = rows(log_path)
-    triggers = match_trigger_sequence(markers, logged)
+    reconciliation = {}
+    triggers = match_trigger_sequence(markers, logged, reconciliation)
     assets = {}
     sources = [vhdr, marker_file, log_path]
 
@@ -278,6 +325,7 @@ def build_session(config):
     full_recording = attach_full_playback(trials, rows(segments_path), full_path)
     full_recording["audio"] = asset(full_path, "full-audio")
     sources.extend(Path(item["path"]) for item in full_recording.get("unreadable_practice_wavs", []))
+    sources.extend(Path(item["path"]) for item in full_recording.get("unreadable_main_wavs", []))
     sources.extend([segments_path, full_path])
     source_records = [{"path": str(path), "sha256": file_hash(path)} for path in sources]
     # Content identity keeps decisions distinct while allowing recordings to be relocated.
@@ -288,6 +336,7 @@ def build_session(config):
         "session_id": session_id,
         "sample_rate": sfreq, "duration": count / sfreq, "trials": trials, "triggers": triggers,
         "full_recording": full_recording,
+        "trigger_reconciliation": reconciliation,
         "validation": {"matched_triggers": len(triggers), "main_trials": len(grouped),
                        "practice_trials": len(trials) - len(grouped),
                        "unsent_log_entries": sum(row["serial_sent"] != "1" for row in logged)},

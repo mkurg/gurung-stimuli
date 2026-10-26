@@ -80,6 +80,13 @@ class PraatFileTests(unittest.TestCase):
         self.assertEqual(Path(result["stimtrak_wav"]), self.eeg / "081i.wav")
         self.assertEqual(Path(result["textgrid"]), self.eeg / "081i_annotations.TextGrid")
 
+    def test_split_recording_keeps_its_parent_participant_folder(self):
+        targets = praat_targets(self.eeg.parent / "172i" / "172ipt2.vhdr", self.eeg.parent)
+        self.assertEqual(targets["stimtrak_wav"], self.eeg.parent / "172i" / "172ipt2.wav")
+        self.assertEqual(targets["textgrid"], self.eeg.parent / "172i" / "172ipt2_annotations.TextGrid")
+        elsewhere = self.root / "Downloads" / "172ipt2.vhdr"
+        self.assertEqual(praat_targets(elsewhere, self.eeg.parent), targets)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,3 +1,4 @@
+import copy
 import json
 import unittest
 from pathlib import Path
@@ -6,6 +7,62 @@ from server import ROOT, build_session, byte_range, match_trigger_sequence, play
 
 
 class ReferenceTests(unittest.TestCase):
+    def split_recording_fixture(self):
+        codes = [200, 2, 17, 202, 200, 1, 98, 202]
+        markers = [{"type": "Stimulus", "description": f"S {code}", "marker_id": f"Mk{i + 3}",
+                    "onset_seconds": i + 142.9237, "position_1based": i * 10000 + 1429238}
+                   for i, code in enumerate(codes)]
+        labels = ["rest_eyes_open_start", "rest_eyes_open_finish", "rest_eyes_closed_start", "rest_eyes_closed_finish"]
+        logged = [{"serial_sent": "1", "trigger_index": str(i + 1), "trigger_code": "150", "label": label}
+                  for i, label in enumerate(labels)]
+        logged.extend({"serial_sent": "1", "trigger_index": str(i + 5), "trigger_code": str(code), "label": f"trial_marker_{i}"}
+                      for i, code in enumerate(codes))
+        return markers, logged
+
+    def test_complete_unrecorded_initial_rest_keeps_exact_eeg_times_and_log_indices(self):
+        markers, logged = self.split_recording_fixture()
+        before = copy.deepcopy((markers, logged))
+        reconciliation = {}
+        linked = match_trigger_sequence(markers, logged, reconciliation)
+        self.assertEqual([row["code"] for row in linked], [200, 2, 17, 202, 200, 1, 98, 202])
+        self.assertEqual(linked[0]["log_index"], 5)
+        self.assertEqual(linked[0]["time"], markers[0]["onset_seconds"])
+        self.assertEqual(linked[0]["sample_1based"], markers[0]["position_1based"])
+        self.assertEqual(len(reconciliation["unrecorded_initial_rest"]), 4)
+        self.assertEqual(reconciliation["sent_log_count"], 12)
+        self.assertTrue(all("time" not in row for row in reconciliation["unrecorded_initial_rest"]))
+        self.assertEqual((markers, logged), before)
+
+    def test_missing_initial_rest_still_requires_every_remaining_code_in_order(self):
+        markers, logged = self.split_recording_fixture()
+        markers[-2]["description"] = "S 99"
+        reconciliation = {}
+        with self.assertRaisesRegex(ValueError, "sequence mismatch"):
+            match_trigger_sequence(markers, logged, reconciliation)
+        self.assertEqual(reconciliation, {})
+
+    def test_missing_initial_rest_does_not_allow_partial_blocks_or_missing_trials(self):
+        markers, logged = self.split_recording_fixture()
+        for candidate_markers, candidate_log in ((markers, logged[1:]), (markers[:-4], logged), ([], logged[:4])):
+            with self.subTest(markers=len(candidate_markers), logged=len(candidate_log)):
+                with self.assertRaisesRegex(ValueError, "counts disagree"):
+                    match_trigger_sequence(candidate_markers, candidate_log)
+
+    def test_unmatched_prefix_must_be_the_specific_pre_task_rest_block(self):
+        markers, logged = self.split_recording_fixture()
+        for field, value in (("label", "post_rest_eyes_open_start"), ("trigger_code", "200")):
+            changed = copy.deepcopy(logged)
+            changed[0][field] = value
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "counts disagree"):
+                match_trigger_sequence(markers, changed)
+
+    def test_exact_sequence_needs_no_rest_exception(self):
+        markers, logged = self.split_recording_fixture()
+        reconciliation = {}
+        linked = match_trigger_sequence(markers, logged[4:], reconciliation)
+        self.assertEqual(len(linked), 8)
+        self.assertEqual(reconciliation, {})
+
     def test_sequence_requires_matching_count(self):
         with self.assertRaisesRegex(ValueError, "counts disagree"):
             match_trigger_sequence([], [{"serial_sent": "1"}])

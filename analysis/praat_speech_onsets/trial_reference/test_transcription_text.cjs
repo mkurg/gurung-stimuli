@@ -32,6 +32,14 @@ function app() {
   return {run: code => vm.runInContext(code, context), elements};
 }
 
+test("trial sidebar fills the remaining viewport without covering the footer", () => {
+  const {run} = app();
+  assert.equal(run("trialSidebarHeight(960, 140, 1600)"), 820);
+  assert.equal(run("trialSidebarHeight(960, 0, 1600)"), 960);
+  assert.equal(run("trialSidebarHeight(960, -34, 926)"), 926);
+  assert.equal(run("trialSidebarHeight(600, 700, 1600)"), 0);
+});
+
 test("renders all legacy tilde-e pairs as e with tilde above", () => {
   const {run} = app();
   assert.equal(run('transcriptionText("phr\\u02Dcesi \\u02Dce \\u02Dce")'), "phr\u1EBDsi \u1EBD \u1EBD");

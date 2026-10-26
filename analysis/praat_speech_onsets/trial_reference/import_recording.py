@@ -67,8 +67,16 @@ def validate_paths(value):
 def register(config, channel, library_root, log, export_metadata=None, builder=build_session, expected_identity=None):
     log("Validating EEG triggers, picture mapping and all full-WAV sample locations...")
     session, _ = builder(config)
+    reconciliation = session.get("trigger_reconciliation", {})
+    if reconciliation:
+        log(f"Split-recording check: {reconciliation['matched_triggers']} EEG triggers match the full remaining log exactly. "
+            f"{len(reconciliation['unrecorded_initial_rest'])} initial resting-state log entries are absent from this EEG file; "
+            "kept in provenance without EEG timestamps. No timing offset applied.")
     for item in session.get("full_recording", {}).get("unreadable_practice_wavs", []):
         log(f"Warning: {item['filename']} is unreadable ({item['error']}). Practice playback uses the intact full WAV and logged sample bounds; original short WAV kept unchanged.")
+    for item in session.get("full_recording", {}).get("unreadable_main_wavs", []):
+        log(f"Warning: {item['filename']} is unreadable ({item['error']}). Playback uses the full WAV and logged sample bounds, "
+            f"validated by {', '.join(item['validated_by_trials'])}; original short WAV and EEG timing kept unchanged.")
     if expected_identity and session["session_id"] != expected_identity:
         raise ValueError("Source identity changed during import. No recording was registered.")
     annotations = AnnotationReader(config["textgrid"], session).read()
@@ -98,6 +106,10 @@ def register(config, channel, library_root, log, export_metadata=None, builder=b
         "timing": "Unchanged EEG samples; markers=(position_1based-1)/sample_rate; latency=marked onset-S200",
         "praat_output_policy": "Working WAV and annotation TextGrid in Desktop/EEG recs/<recording>; existing files never overwritten",
     }
+    if reconciliation:
+        provenance["trigger_reconciliation"] = reconciliation
+    if session.get("full_recording", {}).get("unreadable_main_wavs"):
+        provenance["main_audio_fallbacks"] = session["full_recording"]["unreadable_main_wavs"]
     atomic_json(destination / "config.json", config)
     atomic_json(destination / "manifest.json", session)
     atomic_json(destination / "provenance.json", provenance)

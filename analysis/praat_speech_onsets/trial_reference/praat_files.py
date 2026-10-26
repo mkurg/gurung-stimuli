@@ -1,5 +1,6 @@
 """Place working Praat files in recording folders without replacing files."""
 
+import re
 import shutil
 from pathlib import Path
 
@@ -8,7 +9,9 @@ from recording_library import file_hash
 
 def praat_targets(vhdr, output_root=None):
     header = Path(vhdr).resolve()
-    folder = Path(output_root).resolve() / header.stem if output_root else header.parent
+    split_recording = re.fullmatch(r"(\d+i)pt\d+", header.stem, re.I)
+    recording_folder = split_recording[1] if split_recording else header.stem
+    folder = Path(output_root).resolve() / recording_folder if output_root else header.parent
     return {"stimtrak_wav": folder / f"{header.stem}.wav",
             "textgrid": folder / f"{header.stem}_annotations.TextGrid"}
 

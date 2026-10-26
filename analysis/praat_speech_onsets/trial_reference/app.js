@@ -3,6 +3,35 @@ const $ = (id) => document.getElementById(id);
 const state = {session: null, kind: "main", selected: null, query: "", filtered: [], marker: null, playback: null, reviews: {}, ergative: {}, needHelp: {}, saving: new Set(), saveErrors: {}, reviewFilter: "all", annotations: null, loading: false};
 let sessionGeneration = 0;
 let countsRequest = null;
+function trialSidebarHeight(viewportHeight, top, workspaceBottom) {
+  return Math.max(0, Math.min(viewportHeight, workspaceBottom) - Math.max(0, top));
+}
+function initializeTrialSidebar() {
+  const sidebar = document.querySelector(".sidebar");
+  const workspace = document.querySelector(".workspace");
+  let frame = 0;
+  const schedule = () => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      if (!window.matchMedia("(min-width: 761px)").matches) {
+        sidebar.style.removeProperty("--sidebar-height");
+        return;
+      }
+      const height = trialSidebarHeight(window.innerHeight, sidebar.getBoundingClientRect().top,
+        workspace.getBoundingClientRect().bottom);
+      sidebar.style.setProperty("--sidebar-height", `${height}px`);
+    });
+  };
+  window.addEventListener("scroll", schedule, {passive: true});
+  window.addEventListener("resize", schedule);
+  const observer = new ResizeObserver(schedule);
+  for (const element of [workspace, document.querySelector(".app-header"), $("library-summary")]) {
+    observer.observe(element);
+  }
+  schedule();
+}
+document.addEventListener("DOMContentLoaded", initializeTrialSidebar);
 function refreshCounts(force = false) {
   if (countsRequest && !force) return countsRequest.promise;
   countsRequest?.controller.abort();
