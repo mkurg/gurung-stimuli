@@ -1,8 +1,11 @@
 import copy
+import json
+import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
-from seminar_stats import collect, latency_summary, report, summarize, trial_rows
+from seminar_stats import collect, latency_summary, load_participant_ages, participant_sol_label, report, summarize, trial_rows
 
 
 def fixture():
@@ -32,6 +35,35 @@ class SeminarStatsTests(unittest.TestCase):
     def test_main_only_and_eligibility_require_both_annotations(self):
         self.assertEqual(len(self.rows), 6)
         self.assertEqual([r["trial_id"] for r in self.rows if r["eligible"]], ["main-001", "main-002", "main-004"])
+
+    def test_age_label_keeps_recording_and_eligible_count(self):
+        participant = {"recording": "141i", "eligible": 116}
+        self.assertEqual(participant_sol_label(participant, {"ages_years": {"141i": 18}}), "141i / 18 y  (n=116)")
+        self.assertEqual(participant_sol_label(participant), "141i  (n=116)")
+        self.assertEqual(participant_sol_label(participant, {"ages_years": {}}), "141i / age n.a.  (n=116)")
+
+    def test_age_metadata_validation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "ages.json"
+            for invalid in (True, "18", -1, 121, float("nan"), float("inf")):
+                with self.subTest(age=invalid):
+                    path.write_text(json.dumps({"ages_years": {"141i": invalid}}), encoding="utf-8")
+                    with self.assertRaisesRegex(ValueError, "Invalid age"):
+                        load_participant_ages(path, ["141i"])
+            path.write_text(json.dumps({"ages_years": {"141i": 18, "171i": None}}), encoding="utf-8")
+            self.assertEqual(load_participant_ages(path, ["141i", "171i"])["ages_years"]["141i"], 18)
+            with self.assertRaisesRegex(ValueError, "do not match"):
+                load_participant_ages(path, ["171i"])
+            path.write_text("[]", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "ages_years"):
+                load_participant_ages(path, ["141i"])
+
+    def test_age_source_can_remain_private_in_a_public_report(self):
+        result = summarize(self.rows, self.snapshot)
+        result["participant_age_metadata"] = {"ages_years": {"001i": 27}, "source_title": "Private session notes"}
+        text = report(result, [])
+        self.assertIn("Source: Private session notes.", text)
+        self.assertNotIn("docs.google.com", text)
 
     def test_help_is_not_an_exclusion_and_overlaps_unsuitable(self):
         result = summarize(self.rows, self.snapshot)["totals"]

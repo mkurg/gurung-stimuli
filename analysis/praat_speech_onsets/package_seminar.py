@@ -18,6 +18,15 @@ FIGURES = (
 )
 
 
+def figure_names(output):
+    path = output / "extended_summary.json"
+    extra = json.loads(path.read_text(encoding="utf-8"))["figures"] if path.is_file() else []
+    names = [*FIGURES, *extra]
+    if len(set(names)) != len(names) or any(Path(name).name != name or not name.endswith(".png") for name in names):
+        raise ValueError("Invalid or duplicate figure names")
+    return names
+
+
 def write_csv(path, rows):
     with path.open("w", newline="", encoding="utf-8-sig") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
@@ -46,10 +55,11 @@ def main():
     parser.add_argument("--rendered-dir", type=Path, help="Only make QA sheets from already rendered PDF pages")
     args = parser.parse_args()
     output = args.source_dir.resolve()
+    figures = figure_names(output)
     if args.rendered_dir:
         paths = sorted(args.rendered_dir.glob("page-*.png"))
-        if len(paths) != len(FIGURES):
-            raise ValueError(f"Expected {len(FIGURES)} rendered PDF pages, found {len(paths)}")
+        if len(paths) != len(figures):
+            raise ValueError(f"Expected {len(figures)} rendered PDF pages, found {len(paths)}")
         contact_sheets(paths, args.rendered_dir)
         return
 
@@ -57,7 +67,7 @@ def main():
     from pypdf import PdfReader
     from reportlab.pdfgen import canvas
 
-    for name in FIGURES:
+    for name in figures:
         if not (output / name).is_file():
             raise ValueError(f"Missing seminar figure: {name}")
     summary = json.loads((output / "summary.json").read_text(encoding="utf-8"))
@@ -93,7 +103,9 @@ def main():
                        "transitive_lost_percent": 100*(total_tr-retained_tr)/total_tr})
     write_csv(output / "timing_retention.csv", timing)
 
-    reports = ("SEMINAR_REPORT.md", "ERGATIVE_ASSOCIATIONS.md", "ACTION_SOL_REPORT.md", "PARTICIPANT_ERG_SOL.md")
+    reports = ["SEMINAR_REPORT.md", "ERGATIVE_ASSOCIATIONS.md", "ACTION_SOL_REPORT.md", "PARTICIPANT_ERG_SOL.md"]
+    if (output / "EXTENDED_REPORT.md").is_file():
+        reports.append("EXTENDED_REPORT.md")
     (output / "FULL_REPORT.md").write_text("\n\n---\n\n".join(
         (output / name).read_text(encoding="utf-8") for name in reports), encoding="utf-8")
 
@@ -103,22 +115,24 @@ def main():
     pdf = canvas.Canvas(str(pdf_path))
     pdf.setTitle(f"Gurung speech production: {n_people}-participant descriptive figures")
     pdf.setAuthor("Descriptive statistics from saved Praat annotations")
-    for name in FIGURES:
+    for name in figures:
         with Image.open(output / name) as image:
             width, height = (dimension * 72 / 220 for dimension in image.size)
         pdf.setPageSize((width, height))
         pdf.drawImage(str(output / name), 0, 0, width=width, height=height)
         pdf.showPage()
     pdf.save()
-    if len(PdfReader(pdf_path).pages) != len(FIGURES):
+    if len(PdfReader(pdf_path).pages) != len(figures):
         raise ValueError("Wrong PDF page count")
 
     repro = output / "reproducibility"
     repro.mkdir(exist_ok=True)
     root = Path(__file__).parent
-    scripts = ("seminar_stats.py", "ergative_associations.py", "ergative_codebook.json",
+    scripts = ["seminar_stats.py", "ergative_associations.py", "ergative_codebook.json",
                "action_sol_stats.py", "participant_erg_sol.py", "package_seminar.py",
-               "test_seminar_stats.py", "test_ergative_associations.py", "test_action_sol_stats.py", "test_participant_erg_sol.py")
+               "test_seminar_stats.py", "test_ergative_associations.py", "test_action_sol_stats.py", "test_participant_erg_sol.py"]
+    if (output / "extended_summary.json").is_file():
+        scripts.extend(["extended_descriptives.py", "test_extended_descriptives.py"])
     for name in scripts:
         shutil.copy2(root / name, repro / name)
     conditions = repro / "condition_tables"
@@ -132,7 +146,7 @@ def main():
 
 Frozen saved-data snapshot: {summary['generated_at_utc']}.
 
-Open output/pdf/lab_seminar_{n_people}_participants.pdf for all 12 figures.
+Open output/pdf/lab_seminar_{n_people}_participants.pdf for all {len(figures)} figures.
 FULL_REPORT.md contains all counts, definitions, tables and interpretation notes.
 Individual high-resolution PNGs are alongside this file. CSV tables use UTF-8 with BOM.
 
@@ -143,20 +157,21 @@ Noun and indefinite-marker coding is provisional; inspect trial_linguistic_codin
 
 ## Reproduce From This Snapshot
 
-Requires Python with numpy, scipy, matplotlib, pillow, reportlab and pypdf.
+Requires Python with numpy, scipy, matplotlib, pillow, reportlab, pypdf and tzdata.
 Run from this extracted bundle; use a new output directory:
 
 ```powershell
-python reproducibility/seminar_stats.py --snapshot source_snapshot.json --output-dir regenerated
+python reproducibility/seminar_stats.py --snapshot source_snapshot.json{" --participant-ages participant_ages.json" if (output / "participant_ages.json").is_file() else ""} --output-dir regenerated
 python reproducibility/ergative_associations.py --snapshot regenerated/source_snapshot.json --codebook reproducibility/ergative_codebook.json --condition-table-dir reproducibility/condition_tables --output-dir regenerated
 python reproducibility/action_sol_stats.py --source-dir regenerated
 python reproducibility/participant_erg_sol.py --source-dir regenerated
+{"python reproducibility/extended_descriptives.py --source-dir regenerated" if len(figures) > len(FIGURES) else ""}
 python reproducibility/package_seminar.py --source-dir regenerated
 ```
 
 To collect newer saved data on the original computer, omit --snapshot in the first command and add --expected-participants {n_people}.
 The interface must be running for a new collection; frozen-snapshot reproduction does not need it.
-Run the four test modules from the reproducibility directory with python -m unittest.
+Run the included test modules from the reproducibility directory with python -m unittest.
 MANIFEST.json records SHA-256 hashes of included files. Original EEG, audio and working annotations were not changed.
 The bundle contains participant transcriptions and decisions, but no raw audio/EEG.
 """
@@ -164,7 +179,7 @@ The bundle contains participant transcriptions and decisions, but no raw audio/E
     archive = output / f"lab_seminar_{n_people}_participants.zip"
     included = [p for p in output.rglob("*") if p.is_file() and p != archive
                 and p.name != "MANIFEST.json" and "__pycache__" not in p.parts and "tmp" not in p.relative_to(output).parts]
-    manifest = {"snapshot_at_utc": summary["generated_at_utc"], "figure_count": len(FIGURES),
+    manifest = {"snapshot_at_utc": summary["generated_at_utc"], "figure_count": len(figures),
                 "participants": n_people, "sha256": {p.relative_to(output).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                                                        for p in sorted(included)}}
     (output / "MANIFEST.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
@@ -174,7 +189,7 @@ The bundle contains participant transcriptions and decisions, but no raw audio/E
     with zipfile.ZipFile(archive) as handle:
         if handle.testzip() is not None:
             raise ValueError("Bundle ZIP failed integrity check")
-    print(json.dumps({"pdf": str(pdf_path), "pdf_pages": len(FIGURES), "archive": str(archive),
+    print(json.dumps({"pdf": str(pdf_path), "pdf_pages": len(figures), "archive": str(archive),
                       "files": len(included)+1, "transitive_timing_retention": timing}, indent=2), flush=True)
 
 

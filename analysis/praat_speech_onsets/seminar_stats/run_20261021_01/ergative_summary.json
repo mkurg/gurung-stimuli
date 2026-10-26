@@ -1,0 +1,2832 @@
+{
+  "snapshot_at_utc": "2026-10-20T22:11:42.094901+00:00",
+  "totals": {
+    "n": 978,
+    "erg": 469,
+    "zero": 509,
+    "erg_percent": 47.95501022494888,
+    "participants": 18,
+    "recordings": [
+      "072i",
+      "073i",
+      "081i",
+      "082i",
+      "091i",
+      "092i",
+      "101i",
+      "111i",
+      "112i",
+      "121i",
+      "122i",
+      "131i",
+      "132i",
+      "133i",
+      "134i",
+      "141i",
+      "142i",
+      "171i"
+    ],
+    "need_help": 114
+  },
+  "groups": {
+    "noun_group": [
+      {
+        "group": "Unresolved noun",
+        "n": 41,
+        "erg": 27,
+        "zero": 14,
+        "erg_percent": 65.85365853658537,
+        "participants": 7,
+        "recordings": [
+          "081i",
+          "091i",
+          "131i",
+          "133i",
+          "134i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 27
+      },
+      {
+        "group": "ba",
+        "n": 65,
+        "erg": 44,
+        "zero": 21,
+        "erg_percent": 67.6923076923077,
+        "participants": 11,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "101i",
+          "111i",
+          "131i",
+          "132i",
+          "134i",
+          "141i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "babu",
+        "n": 32,
+        "erg": 12,
+        "zero": 20,
+        "erg_percent": 37.5,
+        "participants": 7,
+        "recordings": [
+          "072i",
+          "082i",
+          "091i",
+          "111i",
+          "133i",
+          "134i",
+          "141i"
+        ],
+        "need_help": 2
+      },
+      {
+        "group": "babukolo",
+        "n": 38,
+        "erg": 17,
+        "zero": 21,
+        "erg_percent": 44.73684210526316,
+        "participants": 7,
+        "recordings": [
+          "082i",
+          "091i",
+          "101i",
+          "111i",
+          "121i",
+          "131i",
+          "141i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "babuphasĩ",
+        "n": 4,
+        "erg": 0,
+        "zero": 4,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "082i"
+        ],
+        "need_help": 2
+      },
+      {
+        "group": "badze",
+        "n": 134,
+        "erg": 35,
+        "zero": 99,
+        "erg_percent": 26.119402985074625,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 12
+      },
+      {
+        "group": "badzebuda",
+        "n": 1,
+        "erg": 0,
+        "zero": 1,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "101i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "budzyu",
+        "n": 150,
+        "erg": 81,
+        "zero": 69,
+        "erg_percent": 54.0,
+        "participants": 15,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 12
+      },
+      {
+        "group": "budzyukuyu",
+        "n": 8,
+        "erg": 5,
+        "zero": 3,
+        "erg_percent": 62.5,
+        "participants": 2,
+        "recordings": [
+          "081i",
+          "171i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "dada",
+        "n": 8,
+        "erg": 4,
+        "zero": 4,
+        "erg_percent": 50.0,
+        "participants": 4,
+        "recordings": [
+          "072i",
+          "121i",
+          "133i",
+          "134i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "kolo",
+        "n": 33,
+        "erg": 23,
+        "zero": 10,
+        "erg_percent": 69.6969696969697,
+        "participants": 6,
+        "recordings": [
+          "081i",
+          "091i",
+          "092i",
+          "112i",
+          "134i",
+          "142i"
+        ],
+        "need_help": 1
+      },
+      {
+        "group": "kolophrẽsi",
+        "n": 3,
+        "erg": 3,
+        "zero": 0,
+        "erg_percent": 100.0,
+        "participants": 1,
+        "recordings": [
+          "081i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "kolotshami",
+        "n": 1,
+        "erg": 0,
+        "zero": 1,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "081i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "kolotshamiu-dzi",
+        "n": 1,
+        "erg": 1,
+        "zero": 0,
+        "erg_percent": 100.0,
+        "participants": 1,
+        "recordings": [
+          "081i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "ma",
+        "n": 82,
+        "erg": 58,
+        "zero": 24,
+        "erg_percent": 70.73170731707317,
+        "participants": 12,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "101i",
+          "111i",
+          "121i",
+          "131i",
+          "132i",
+          "134i",
+          "141i"
+        ],
+        "need_help": 7
+      },
+      {
+        "group": "maema",
+        "n": 53,
+        "erg": 22,
+        "zero": 31,
+        "erg_percent": 41.509433962264154,
+        "participants": 9,
+        "recordings": [
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "122i",
+          "132i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 5
+      },
+      {
+        "group": "maemakolo",
+        "n": 49,
+        "erg": 21,
+        "zero": 28,
+        "erg_percent": 42.857142857142854,
+        "participants": 7,
+        "recordings": [
+          "073i",
+          "092i",
+          "111i",
+          "122i",
+          "132i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "maemaphresi",
+        "n": 3,
+        "erg": 0,
+        "zero": 3,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "073i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "maemaphrẽsi",
+        "n": 1,
+        "erg": 0,
+        "zero": 1,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "073i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "mi",
+        "n": 37,
+        "erg": 6,
+        "zero": 31,
+        "erg_percent": 16.216216216216218,
+        "participants": 2,
+        "recordings": [
+          "112i",
+          "171i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "nani",
+        "n": 28,
+        "erg": 7,
+        "zero": 21,
+        "erg_percent": 25.0,
+        "participants": 7,
+        "recordings": [
+          "072i",
+          "082i",
+          "111i",
+          "131i",
+          "133i",
+          "134i",
+          "141i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "nanikolo",
+        "n": 57,
+        "erg": 33,
+        "zero": 24,
+        "erg_percent": 57.89473684210526,
+        "participants": 7,
+        "recordings": [
+          "072i",
+          "091i",
+          "101i",
+          "111i",
+          "121i",
+          "131i",
+          "141i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "naniphasĩ",
+        "n": 7,
+        "erg": 3,
+        "zero": 4,
+        "erg_percent": 42.857142857142854,
+        "participants": 1,
+        "recordings": [
+          "082i"
+        ],
+        "need_help": 2
+      },
+      {
+        "group": "phresĩ",
+        "n": 1,
+        "erg": 0,
+        "zero": 1,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "082i"
+        ],
+        "need_help": 1
+      },
+      {
+        "group": "phresĩkolo",
+        "n": 1,
+        "erg": 0,
+        "zero": 1,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "081i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "phrẽsi",
+        "n": 6,
+        "erg": 2,
+        "zero": 4,
+        "erg_percent": 33.333333333333336,
+        "participants": 2,
+        "recordings": [
+          "081i",
+          "082i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "phrẽsikolo",
+        "n": 4,
+        "erg": 2,
+        "zero": 2,
+        "erg_percent": 50.0,
+        "participants": 1,
+        "recordings": [
+          "081i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "phrẽsĩ",
+        "n": 1,
+        "erg": 0,
+        "zero": 1,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "082i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "rimae",
+        "n": 61,
+        "erg": 26,
+        "zero": 35,
+        "erg_percent": 42.622950819672134,
+        "participants": 9,
+        "recordings": [
+          "081i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "121i",
+          "122i",
+          "132i",
+          "142i"
+        ],
+        "need_help": 7
+      },
+      {
+        "group": "rimaekolo",
+        "n": 43,
+        "erg": 23,
+        "zero": 20,
+        "erg_percent": 53.48837209302326,
+        "participants": 6,
+        "recordings": [
+          "073i",
+          "092i",
+          "122i",
+          "132i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 7
+      },
+      {
+        "group": "rimaetshami",
+        "n": 2,
+        "erg": 0,
+        "zero": 2,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "073i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "thagu",
+        "n": 10,
+        "erg": 8,
+        "zero": 2,
+        "erg_percent": 80.0,
+        "participants": 1,
+        "recordings": [
+          "072i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "thagukolo",
+        "n": 3,
+        "erg": 2,
+        "zero": 1,
+        "erg_percent": 66.66666666666667,
+        "participants": 1,
+        "recordings": [
+          "121i"
+        ],
+        "need_help": 1
+      },
+      {
+        "group": "tshami",
+        "n": 6,
+        "erg": 0,
+        "zero": 6,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "081i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "tshamikolo",
+        "n": 3,
+        "erg": 3,
+        "zero": 0,
+        "erg_percent": 100.0,
+        "participants": 1,
+        "recordings": [
+          "081i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "tshamikolo-dzi",
+        "n": 1,
+        "erg": 1,
+        "zero": 0,
+        "erg_percent": 100.0,
+        "participants": 1,
+        "recordings": [
+          "081i"
+        ],
+        "need_help": 1
+      }
+    ],
+    "picture_action": [
+      {
+        "group": "build wall",
+        "n": 36,
+        "erg": 13,
+        "zero": 23,
+        "erg_percent": 36.111111111111114,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "burn bottles",
+        "n": 31,
+        "erg": 19,
+        "zero": 12,
+        "erg_percent": 61.29032258064516,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "clean wall",
+        "n": 31,
+        "erg": 12,
+        "zero": 19,
+        "erg_percent": 38.70967741935484,
+        "participants": 16,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "111i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "cook fish",
+        "n": 28,
+        "erg": 14,
+        "zero": 14,
+        "erg_percent": 50.0,
+        "participants": 16,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 4
+      },
+      {
+        "group": "cook pancakes",
+        "n": 33,
+        "erg": 23,
+        "zero": 10,
+        "erg_percent": 69.6969696969697,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 1
+      },
+      {
+        "group": "crack egg",
+        "n": 30,
+        "erg": 17,
+        "zero": 13,
+        "erg_percent": 56.666666666666664,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "cut potato",
+        "n": 33,
+        "erg": 8,
+        "zero": 25,
+        "erg_percent": 24.242424242424242,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "drag log",
+        "n": 34,
+        "erg": 18,
+        "zero": 16,
+        "erg_percent": 52.94117647058823,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 4
+      },
+      {
+        "group": "drink tea",
+        "n": 33,
+        "erg": 7,
+        "zero": 26,
+        "erg_percent": 21.21212121212121,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 1
+      },
+      {
+        "group": "eat rice",
+        "n": 35,
+        "erg": 3,
+        "zero": 32,
+        "erg_percent": 8.571428571428571,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "hang picture",
+        "n": 33,
+        "erg": 23,
+        "zero": 10,
+        "erg_percent": 69.6969696969697,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 5
+      },
+      {
+        "group": "harvest rice",
+        "n": 35,
+        "erg": 12,
+        "zero": 23,
+        "erg_percent": 34.285714285714285,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "lock door",
+        "n": 32,
+        "erg": 16,
+        "zero": 16,
+        "erg_percent": 50.0,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 5
+      },
+      {
+        "group": "make fire",
+        "n": 34,
+        "erg": 19,
+        "zero": 15,
+        "erg_percent": 55.88235294117647,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 2
+      },
+      {
+        "group": "make momos",
+        "n": 32,
+        "erg": 15,
+        "zero": 17,
+        "erg_percent": 46.875,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "paint bench",
+        "n": 33,
+        "erg": 21,
+        "zero": 12,
+        "erg_percent": 63.63636363636363,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "peel orange",
+        "n": 33,
+        "erg": 13,
+        "zero": 20,
+        "erg_percent": 39.39393939393939,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 4
+      },
+      {
+        "group": "plant sapling",
+        "n": 31,
+        "erg": 16,
+        "zero": 15,
+        "erg_percent": 51.61290322580645,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 5
+      },
+      {
+        "group": "pluck tomatoes",
+        "n": 32,
+        "erg": 15,
+        "zero": 17,
+        "erg_percent": 46.875,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "pull blanket",
+        "n": 33,
+        "erg": 26,
+        "zero": 7,
+        "erg_percent": 78.78787878787878,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 7
+      },
+      {
+        "group": "push chest",
+        "n": 28,
+        "erg": 19,
+        "zero": 9,
+        "erg_percent": 67.85714285714286,
+        "participants": 16,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 2
+      },
+      {
+        "group": "put on cap",
+        "n": 32,
+        "erg": 5,
+        "zero": 27,
+        "erg_percent": 15.625,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 4
+      },
+      {
+        "group": "tear paper",
+        "n": 29,
+        "erg": 22,
+        "zero": 7,
+        "erg_percent": 75.86206896551724,
+        "participants": 16,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i"
+        ],
+        "need_help": 8
+      },
+      {
+        "group": "throw bones",
+        "n": 29,
+        "erg": 22,
+        "zero": 7,
+        "erg_percent": 75.86206896551724,
+        "participants": 16,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "091i",
+          "092i",
+          "101i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "wash clothes",
+        "n": 36,
+        "erg": 9,
+        "zero": 27,
+        "erg_percent": 25.0,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 4
+      },
+      {
+        "group": "wash dish",
+        "n": 34,
+        "erg": 14,
+        "zero": 20,
+        "erg_percent": 41.1764705882353,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "weave basket",
+        "n": 33,
+        "erg": 12,
+        "zero": 21,
+        "erg_percent": 36.36363636363637,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "weave garland",
+        "n": 35,
+        "erg": 16,
+        "zero": 19,
+        "erg_percent": 45.714285714285715,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "weave raincoat",
+        "n": 35,
+        "erg": 17,
+        "zero": 18,
+        "erg_percent": 48.57142857142857,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 1
+      },
+      {
+        "group": "wipe plate",
+        "n": 35,
+        "erg": 23,
+        "zero": 12,
+        "erg_percent": 65.71428571428571,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      }
+    ],
+    "picture_verb": [
+      {
+        "group": "build",
+        "n": 36,
+        "erg": 13,
+        "zero": 23,
+        "erg_percent": 36.111111111111114,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "burn",
+        "n": 31,
+        "erg": 19,
+        "zero": 12,
+        "erg_percent": 61.29032258064516,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "clean",
+        "n": 31,
+        "erg": 12,
+        "zero": 19,
+        "erg_percent": 38.70967741935484,
+        "participants": 16,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "111i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "cook",
+        "n": 61,
+        "erg": 37,
+        "zero": 24,
+        "erg_percent": 60.65573770491803,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 5
+      },
+      {
+        "group": "crack",
+        "n": 30,
+        "erg": 17,
+        "zero": 13,
+        "erg_percent": 56.666666666666664,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "cut",
+        "n": 33,
+        "erg": 8,
+        "zero": 25,
+        "erg_percent": 24.242424242424242,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "drag",
+        "n": 34,
+        "erg": 18,
+        "zero": 16,
+        "erg_percent": 52.94117647058823,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 4
+      },
+      {
+        "group": "drink",
+        "n": 33,
+        "erg": 7,
+        "zero": 26,
+        "erg_percent": 21.21212121212121,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 1
+      },
+      {
+        "group": "eat",
+        "n": 35,
+        "erg": 3,
+        "zero": 32,
+        "erg_percent": 8.571428571428571,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 0
+      },
+      {
+        "group": "hang",
+        "n": 33,
+        "erg": 23,
+        "zero": 10,
+        "erg_percent": 69.6969696969697,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 5
+      },
+      {
+        "group": "harvest",
+        "n": 35,
+        "erg": 12,
+        "zero": 23,
+        "erg_percent": 34.285714285714285,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "lock",
+        "n": 32,
+        "erg": 16,
+        "zero": 16,
+        "erg_percent": 50.0,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 5
+      },
+      {
+        "group": "make",
+        "n": 66,
+        "erg": 34,
+        "zero": 32,
+        "erg_percent": 51.515151515151516,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 8
+      },
+      {
+        "group": "paint",
+        "n": 33,
+        "erg": 21,
+        "zero": 12,
+        "erg_percent": 63.63636363636363,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "peel",
+        "n": 33,
+        "erg": 13,
+        "zero": 20,
+        "erg_percent": 39.39393939393939,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 4
+      },
+      {
+        "group": "plant",
+        "n": 31,
+        "erg": 16,
+        "zero": 15,
+        "erg_percent": 51.61290322580645,
+        "participants": 17,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 5
+      },
+      {
+        "group": "pluck",
+        "n": 32,
+        "erg": 15,
+        "zero": 17,
+        "erg_percent": 46.875,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      },
+      {
+        "group": "pull",
+        "n": 33,
+        "erg": 26,
+        "zero": 7,
+        "erg_percent": 78.78787878787878,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 7
+      },
+      {
+        "group": "push",
+        "n": 28,
+        "erg": 19,
+        "zero": 9,
+        "erg_percent": 67.85714285714286,
+        "participants": 16,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 2
+      },
+      {
+        "group": "put",
+        "n": 32,
+        "erg": 5,
+        "zero": 27,
+        "erg_percent": 15.625,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 4
+      },
+      {
+        "group": "tear",
+        "n": 29,
+        "erg": 22,
+        "zero": 7,
+        "erg_percent": 75.86206896551724,
+        "participants": 16,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i"
+        ],
+        "need_help": 8
+      },
+      {
+        "group": "throw",
+        "n": 29,
+        "erg": 22,
+        "zero": 7,
+        "erg_percent": 75.86206896551724,
+        "participants": 16,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "091i",
+          "092i",
+          "101i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 6
+      },
+      {
+        "group": "wash",
+        "n": 70,
+        "erg": 23,
+        "zero": 47,
+        "erg_percent": 32.857142857142854,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 7
+      },
+      {
+        "group": "weave",
+        "n": 103,
+        "erg": 45,
+        "zero": 58,
+        "erg_percent": 43.689320388349515,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 10
+      },
+      {
+        "group": "wipe",
+        "n": 35,
+        "erg": 23,
+        "zero": 12,
+        "erg_percent": 65.71428571428571,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 3
+      }
+    ],
+    "indefiniteness": [
+      {
+        "group": "Indefinite marker",
+        "n": 186,
+        "erg": 44,
+        "zero": 142,
+        "erg_percent": 23.655913978494624,
+        "participants": 12,
+        "recordings": [
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "121i",
+          "122i",
+          "132i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 38
+      },
+      {
+        "group": "No indefinite marker",
+        "n": 762,
+        "erg": 405,
+        "zero": 357,
+        "erg_percent": 53.1496062992126,
+        "participants": 18,
+        "recordings": [
+          "072i",
+          "073i",
+          "081i",
+          "082i",
+          "091i",
+          "092i",
+          "101i",
+          "111i",
+          "112i",
+          "121i",
+          "122i",
+          "131i",
+          "132i",
+          "133i",
+          "134i",
+          "141i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 57
+      },
+      {
+        "group": "Unresolved subject",
+        "n": 30,
+        "erg": 20,
+        "zero": 10,
+        "erg_percent": 66.66666666666667,
+        "participants": 6,
+        "recordings": [
+          "091i",
+          "131i",
+          "133i",
+          "134i",
+          "142i",
+          "171i"
+        ],
+        "need_help": 19
+      }
+    ]
+  },
+  "minimum_noun_trials_in_figure": 10,
+  "by_participant_indefiniteness": {
+    "072i": {
+      "Indefinite marker": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 60,
+        "erg": 44,
+        "zero": 16,
+        "erg_percent": 73.33333333333333,
+        "participants": 1,
+        "recordings": [
+          "072i"
+        ],
+        "need_help": 3
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "073i": {
+      "Indefinite marker": {
+        "n": 7,
+        "erg": 0,
+        "zero": 7,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "073i"
+        ],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 50,
+        "erg": 35,
+        "zero": 15,
+        "erg_percent": 70.0,
+        "participants": 1,
+        "recordings": [
+          "073i"
+        ],
+        "need_help": 4
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "081i": {
+      "Indefinite marker": {
+        "n": 14,
+        "erg": 0,
+        "zero": 14,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "081i"
+        ],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 45,
+        "erg": 29,
+        "zero": 16,
+        "erg_percent": 64.44444444444444,
+        "participants": 1,
+        "recordings": [
+          "081i"
+        ],
+        "need_help": 5
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "082i": {
+      "Indefinite marker": {
+        "n": 3,
+        "erg": 0,
+        "zero": 3,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "082i"
+        ],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 54,
+        "erg": 15,
+        "zero": 39,
+        "erg_percent": 27.77777777777778,
+        "participants": 1,
+        "recordings": [
+          "082i"
+        ],
+        "need_help": 9
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "091i": {
+      "Indefinite marker": {
+        "n": 1,
+        "erg": 1,
+        "zero": 0,
+        "erg_percent": 100.0,
+        "participants": 1,
+        "recordings": [
+          "091i"
+        ],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 37,
+        "erg": 18,
+        "zero": 19,
+        "erg_percent": 48.648648648648646,
+        "participants": 1,
+        "recordings": [
+          "091i"
+        ],
+        "need_help": 5
+      },
+      "Unresolved subject": {
+        "n": 1,
+        "erg": 0,
+        "zero": 1,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "091i"
+        ],
+        "need_help": 0
+      }
+    },
+    "092i": {
+      "Indefinite marker": {
+        "n": 1,
+        "erg": 0,
+        "zero": 1,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "092i"
+        ],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 55,
+        "erg": 51,
+        "zero": 4,
+        "erg_percent": 92.72727272727273,
+        "participants": 1,
+        "recordings": [
+          "092i"
+        ],
+        "need_help": 4
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "101i": {
+      "Indefinite marker": {
+        "n": 12,
+        "erg": 9,
+        "zero": 3,
+        "erg_percent": 75.0,
+        "participants": 1,
+        "recordings": [
+          "101i"
+        ],
+        "need_help": 1
+      },
+      "No indefinite marker": {
+        "n": 35,
+        "erg": 16,
+        "zero": 19,
+        "erg_percent": 45.714285714285715,
+        "participants": 1,
+        "recordings": [
+          "101i"
+        ],
+        "need_help": 2
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "111i": {
+      "Indefinite marker": {
+        "n": 19,
+        "erg": 1,
+        "zero": 18,
+        "erg_percent": 5.2631578947368425,
+        "participants": 1,
+        "recordings": [
+          "111i"
+        ],
+        "need_help": 1
+      },
+      "No indefinite marker": {
+        "n": 26,
+        "erg": 2,
+        "zero": 24,
+        "erg_percent": 7.6923076923076925,
+        "participants": 1,
+        "recordings": [
+          "111i"
+        ],
+        "need_help": 2
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "112i": {
+      "Indefinite marker": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 54,
+        "erg": 18,
+        "zero": 36,
+        "erg_percent": 33.333333333333336,
+        "participants": 1,
+        "recordings": [
+          "112i"
+        ],
+        "need_help": 1
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "121i": {
+      "Indefinite marker": {
+        "n": 31,
+        "erg": 9,
+        "zero": 22,
+        "erg_percent": 29.032258064516128,
+        "participants": 1,
+        "recordings": [
+          "121i"
+        ],
+        "need_help": 13
+      },
+      "No indefinite marker": {
+        "n": 26,
+        "erg": 20,
+        "zero": 6,
+        "erg_percent": 76.92307692307692,
+        "participants": 1,
+        "recordings": [
+          "121i"
+        ],
+        "need_help": 1
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "122i": {
+      "Indefinite marker": {
+        "n": 45,
+        "erg": 3,
+        "zero": 42,
+        "erg_percent": 6.666666666666667,
+        "participants": 1,
+        "recordings": [
+          "122i"
+        ],
+        "need_help": 11
+      },
+      "No indefinite marker": {
+        "n": 5,
+        "erg": 1,
+        "zero": 4,
+        "erg_percent": 20.0,
+        "participants": 1,
+        "recordings": [
+          "122i"
+        ],
+        "need_help": 0
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "131i": {
+      "Indefinite marker": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 54,
+        "erg": 47,
+        "zero": 7,
+        "erg_percent": 87.03703703703704,
+        "participants": 1,
+        "recordings": [
+          "131i"
+        ],
+        "need_help": 1
+      },
+      "Unresolved subject": {
+        "n": 4,
+        "erg": 2,
+        "zero": 2,
+        "erg_percent": 50.0,
+        "participants": 1,
+        "recordings": [
+          "131i"
+        ],
+        "need_help": 1
+      }
+    },
+    "132i": {
+      "Indefinite marker": {
+        "n": 3,
+        "erg": 0,
+        "zero": 3,
+        "erg_percent": 0.0,
+        "participants": 1,
+        "recordings": [
+          "132i"
+        ],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 56,
+        "erg": 32,
+        "zero": 24,
+        "erg_percent": 57.142857142857146,
+        "participants": 1,
+        "recordings": [
+          "132i"
+        ],
+        "need_help": 6
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "133i": {
+      "Indefinite marker": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 57,
+        "erg": 18,
+        "zero": 39,
+        "erg_percent": 31.57894736842105,
+        "participants": 1,
+        "recordings": [
+          "133i"
+        ],
+        "need_help": 4
+      },
+      "Unresolved subject": {
+        "n": 3,
+        "erg": 2,
+        "zero": 1,
+        "erg_percent": 66.66666666666667,
+        "participants": 1,
+        "recordings": [
+          "133i"
+        ],
+        "need_help": 3
+      }
+    },
+    "134i": {
+      "Indefinite marker": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 57,
+        "erg": 28,
+        "zero": 29,
+        "erg_percent": 49.12280701754386,
+        "participants": 1,
+        "recordings": [
+          "134i"
+        ],
+        "need_help": 1
+      },
+      "Unresolved subject": {
+        "n": 2,
+        "erg": 2,
+        "zero": 0,
+        "erg_percent": 100.0,
+        "participants": 1,
+        "recordings": [
+          "134i"
+        ],
+        "need_help": 1
+      }
+    },
+    "141i": {
+      "Indefinite marker": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      },
+      "No indefinite marker": {
+        "n": 58,
+        "erg": 15,
+        "zero": 43,
+        "erg_percent": 25.862068965517242,
+        "participants": 1,
+        "recordings": [
+          "141i"
+        ],
+        "need_help": 8
+      },
+      "Unresolved subject": {
+        "n": 0,
+        "erg": 0,
+        "zero": 0,
+        "erg_percent": null,
+        "participants": 0,
+        "recordings": [],
+        "need_help": 0
+      }
+    },
+    "142i": {
+      "Indefinite marker": {
+        "n": 36,
+        "erg": 15,
+        "zero": 21,
+        "erg_percent": 41.666666666666664,
+        "participants": 1,
+        "recordings": [
+          "142i"
+        ],
+        "need_help": 10
+      },
+      "No indefinite marker": {
+        "n": 19,
+        "erg": 6,
+        "zero": 13,
+        "erg_percent": 31.57894736842105,
+        "participants": 1,
+        "recordings": [
+          "142i"
+        ],
+        "need_help": 1
+      },
+      "Unresolved subject": {
+        "n": 1,
+        "erg": 1,
+        "zero": 0,
+        "erg_percent": 100.0,
+        "participants": 1,
+        "recordings": [
+          "142i"
+        ],
+        "need_help": 1
+      }
+    },
+    "171i": {
+      "Indefinite marker": {
+        "n": 14,
+        "erg": 6,
+        "zero": 8,
+        "erg_percent": 42.857142857142854,
+        "participants": 1,
+        "recordings": [
+          "171i"
+        ],
+        "need_help": 2
+      },
+      "No indefinite marker": {
+        "n": 14,
+        "erg": 10,
+        "zero": 4,
+        "erg_percent": 71.42857142857143,
+        "participants": 1,
+        "recordings": [
+          "171i"
+        ],
+        "need_help": 0
+      },
+      "Unresolved subject": {
+        "n": 19,
+        "erg": 13,
+        "zero": 6,
+        "erg_percent": 68.42105263157895,
+        "participants": 1,
+        "recordings": [
+          "171i"
+        ],
+        "need_help": 13
+      }
+    }
+  },
+  "coding_note_counts": {
+    "need_help_flag_kept_in_analysis": 114,
+    "unrecognized_noun_after_ri_removal": 3,
+    "visible_case_ending_but_not_flagged_erg": 15,
+    "uncertain_case_on_head": 15,
+    "unrecognized_initial_head": 38,
+    "uncertain_case_on_kri": 18
+  }
+}

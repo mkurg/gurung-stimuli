@@ -8,12 +8,40 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import urlopen
+from zoneinfo import ZoneInfo
 
 CATEGORIES = ("Itr", "Tr ERG", "Tr zero")
 DISPLAY = {"Itr": "Itr", "Tr ERG": "Tr ERG", "Tr zero": "Tr \u2205"}
 COLORS = {"Itr": "#82769b", "Tr ERG": "#087f78", "Tr zero": "#377fb3"}
 TRANSITIVE_COUNT_COLORS = {"Tr ERG": "#0072b2", "Tr zero": "#d55e00"}
 INK, MUTED = "#202c33", "#66747c"
+
+
+def report_date(timestamp):
+    return datetime.fromisoformat(timestamp).astimezone(ZoneInfo("Europe/Zurich")).strftime("%d %B %Y").lstrip("0")
+
+
+def load_participant_ages(path, recordings):
+    metadata = json.loads(path.read_text(encoding="utf-8-sig"))
+    ages = metadata.get("ages_years") if isinstance(metadata, dict) else None
+    if not isinstance(ages, dict):
+        raise ValueError("Participant ages must contain an ages_years mapping keyed by recording ID.")
+    unknown = set(ages) - set(recordings)
+    if unknown:
+        raise ValueError(f"Age entries do not match the selected recordings: {sorted(unknown)}")
+    for recording, age in ages.items():
+        if age is not None and (isinstance(age, bool) or not isinstance(age, (int, float))
+                                or not math.isfinite(age) or not 0 <= age <= 120):
+            raise ValueError(f"Invalid age in years for {recording}: {age!r}")
+    return metadata
+
+
+def participant_sol_label(participant, age_metadata=None):
+    label = participant["recording"]
+    if age_metadata is not None:
+        age = age_metadata["ages_years"].get(label)
+        label += f" / {age:g} y" if age is not None else " / age n.a."
+    return f"{label}  (n={participant['eligible']})"
 
 
 def get_json(base, path, session_id=None):
@@ -188,7 +216,7 @@ def make_figures(rows, summary, output, only=None):
     if not eligible:
         raise ValueError("No eligible saved responses are available for plotting.")
     values = np.asarray([row["sol_ms"] for row in eligible], dtype=float)
-    title_date = datetime.fromisoformat(summary["generated_at_utc"]).strftime("%d %B %Y").lstrip("0")
+    title_date = report_date(summary["generated_at_utc"])
     figures = []
     note = "Main trials; Unsuitable excluded; saved transcription and one valid onset required. Need help included."
     def decorate(fig, title, subtitle, footer=note):
@@ -243,8 +271,10 @@ def make_figures(rows, summary, output, only=None):
     if only == "01_sol_distribution.png":
         return figures
 
-    fig, ax = plt.subplots(figsize=(13.5, 8.2))
-    fig.subplots_adjust(left=.145, right=.965, top=.82, bottom=.19)
+    age_metadata = summary.get("participant_age_metadata")
+    fig, ax = plt.subplots(figsize=(14.5 if age_metadata else 13.5,
+                                   max(8.2, 3 + .42 * len(participants)) if age_metadata else 8.2))
+    fig.subplots_adjust(left=.24 if age_metadata else .145, right=.965, top=.82, bottom=.19)
     sets = [np.asarray([row["sol_ms"] for row in eligible if row["recording"] == p["recording"]]) for p in participants]
     boxes = ax.boxplot(sets, orientation="horizontal", patch_artist=True, widths=.43, showfliers=False,
                        medianprops={"color": INK, "linewidth": 2}, whiskerprops={"color": "#a2b2b8"},
@@ -254,15 +284,18 @@ def make_figures(rows, summary, output, only=None):
         ax.scatter(v, i + random.uniform(-.14, .14, len(v)), s=8, alpha=.23, color="#4b7770", zorder=2)
         if len(v):
             ax.scatter(np.mean(v), i, marker="D", s=35, color="#b34b42", edgecolors="white", linewidths=.6, zorder=4)
-    ax.set_yticks(np.arange(1, len(participants) + 1), [f"{p['recording']}  (n={p['eligible']})" for p in participants])
+    ax.set_yticks(np.arange(1, len(participants) + 1), [participant_sol_label(p, age_metadata) for p in participants])
     ax.invert_yaxis()
     ax.set(xlabel="Speech-onset latency from S200 (ms)", xlim=(0, values.max() * 1.055))
     grid(ax)
-    decorate(fig, "Speech-onset latency by participant", "Boxes: middle 50%; black line: median; red diamond: mean; points: individual trials",
+    subtitle = "Boxes: middle 50%; black line: median; red diamond: mean; points: individual trials"
+    if age_metadata is not None:
+        subtitle += "\nLabels: participant ID / age in years (eligible trials)"
+    decorate(fig, "Speech-onset latency by participant", subtitle,
              note + "\nAll participants included. No SOL cutoff or EEG artifact rejection applied.")
     finish(fig, "02_sol_by_participant.png")
 
-    fig, ax = plt.subplots(figsize=(13.5, 8.2))
+    fig, ax = plt.subplots(figsize=(13.5, max(8.2, 3 + .5 * len(participants))))
     fig.subplots_adjust(left=.11, right=.965, top=.82, bottom=.19)
     positions = np.arange(len(participants))
     for shift, category in ((-.19, "Tr ERG"), (.19, "Tr zero")):
@@ -279,7 +312,7 @@ def make_figures(rows, summary, output, only=None):
              note + "\nTr \u2205 means not marked Ergative in the viewer; absence of a saved decision is not a confirmed no-ERG judgment.")
     finish(fig, "03_transitive_counts.png")
 
-    fig, (ax, help_ax) = plt.subplots(1, 2, figsize=(13.5, 8.2), gridspec_kw={"width_ratios": [1.5, 1]})
+    fig, (ax, help_ax) = plt.subplots(1, 2, figsize=(13.5, max(8.2, 3 + .5 * len(participants))), gridspec_kw={"width_ratios": [1.5, 1]})
     fig.subplots_adjust(left=.11, right=.965, top=.755, bottom=.20, wspace=.13)
     left = np.zeros(len(participants))
     for key, label, color in (("eligible", "Eligible", "#087f78"), ("unsuitable", "Unsuitable", "#c05b52"),
@@ -369,7 +402,7 @@ def make_figures(rows, summary, output, only=None):
 def report(summary, figures):
     t = summary["totals"]
     sol = t["sol"]
-    date = datetime.fromisoformat(summary["generated_at_utc"]).strftime("%d %B %Y").lstrip("0")
+    date = report_date(summary["generated_at_utc"])
     lines = ["# Lab Seminar: Descriptive Statistics", "", f"Snapshot: {date}.", "",
              "## Counting Rules", "",
              f"All {t['participants']} loaded recordings are included. Main trials only; practice and session events are excluded. "
@@ -428,6 +461,14 @@ def report(summary, figures):
             status = "already marked Unsuitable" if row["unsuitable"] else "not Unsuitable; excluded pending onset review"
             lines.append(f"- {row['recording']}, {row['trial_id']}, S {row['item_trigger']}: {row['onset_count']} onset marks; {status}.")
     lines += ["", "## Figures", ""] + [f"![{name}]({name})" for name in figures]
+    if summary.get("participant_age_metadata"):
+        ages = summary["participant_age_metadata"]
+        title = ages.get("source_title", "Session notes")
+        source = f"[{title}]({ages['source_url']})" if ages.get("source_url") else title
+        lines += ["", "## Participant Ages", "",
+                  f"Ages in the participant SOL graph are in years. Source: {source}.",
+                  *ages.get("notes", []),
+                  "The ID-to-age mapping is saved in participant_ages.json; no participant names or session health notes are included."]
     lines += ["", "## Reproducibility", "", "Source: saved Praat TextGrids and recording-scoped trial decisions in the local reference interface. "
               "The source snapshot, source hashes, all-trial rows and summary JSON accompany this report. "
               "Charts describe this frozen snapshot and do not update automatically. Original annotations and flags were not edited.", ""]
@@ -438,6 +479,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base-url", default="http://127.0.0.1:8765")
     parser.add_argument("--snapshot", type=Path)
+    parser.add_argument("--participant-ages", type=Path, help="JSON with ages_years keyed by recording ID; used only for graph labels")
     parser.add_argument("--expected-participants", type=int, help="Optional check of the number of loaded recordings")
     parser.add_argument("--only", choices=("01_sol_distribution.png", "02_sol_by_participant.png", "03_transitive_counts.png",
                                          "04_progress_and_review.png", "05_sol_by_category.png", "06_eligible_overview.png"),
@@ -452,6 +494,11 @@ def main():
     snapshot = json.loads(args.snapshot.read_text(encoding="utf-8")) if args.snapshot else collect(args.base_url, args.expected_participants)
     rows = trial_rows(snapshot)
     summary = summarize(rows, snapshot)
+    age_path = args.participant_ages or (output / "participant_ages.json")
+    if args.participant_ages or age_path.is_file():
+        metadata = load_participant_ages(age_path, [p["recording"] for p in summary["participants"]])
+        summary["participant_age_metadata"] = metadata
+        (output / "participant_ages.json").write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
     for filename, content in (("source_snapshot.json", snapshot), ("all_main_trials.json", rows), ("summary.json", summary)):
         (output / filename).write_text(json.dumps(content, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     figures = make_figures(rows, summary, output, args.only)
