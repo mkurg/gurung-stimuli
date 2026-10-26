@@ -1,0 +1,195 @@
+BrainVision Data Exchange Header File Version 1.0
+; Data created by the BrainVision Recorder
+
+[Common Infos]
+Codepage=UTF-8
+DataFile=183i.eeg
+MarkerFile=183i.vmrk
+DataFormat=BINARY
+; Data orientation: MULTIPLEXED=ch1,pt1, ch2,pt1 ...
+DataOrientation=MULTIPLEXED
+NumberOfChannels=32
+; Sampling interval in microseconds
+SamplingInterval=100
+
+[Binary Infos]
+BinaryFormat=IEEE_FLOAT_32
+
+[Channel Infos]
+; Each entry: Ch<Channel number>=<Name>,<Reference channel name>,
+; <Resolution in "Unit">,<Unit>, Future extensions..
+; Fields are delimited by commas, some fields might be omitted (empty).
+; Commas in channel names are coded as "\1".
+Ch1=Fp1,,0.0488281,µV
+Ch2=Fz,,0.0488281,µV
+Ch3=F3,,0.0488281,µV
+Ch4=F7,,0.0488281,µV
+Ch5=FT9,,0.0488281,µV
+Ch6=FC5,,0.0488281,µV
+Ch7=FC1,,0.0488281,µV
+Ch8=C3,,0.0488281,µV
+Ch9=T7,,0.0488281,µV
+Ch10=CP5,,0.0488281,µV
+Ch11=CP1,,0.0488281,µV
+Ch12=Pz,,0.0488281,µV
+Ch13=P3,,0.0488281,µV
+Ch14=P7,,0.0488281,µV
+Ch15=O1,,0.0488281,µV
+Ch16=Oz,,0.0488281,µV
+Ch17=O2,,0.0488281,µV
+Ch18=P4,,0.0488281,µV
+Ch19=P8,,0.0488281,µV
+Ch20=TP10,,0.0488281,µV
+Ch21=CP6,,0.0488281,µV
+Ch22=CP2,,0.0488281,µV
+Ch23=Cz,,0.0488281,µV
+Ch24=C4,,0.0488281,µV
+Ch25=T8,,0.0488281,µV
+Ch26=FT10,,0.0488281,µV
+Ch27=FC6,,0.0488281,µV
+Ch28=FC2,,0.0488281,µV
+Ch29=F4,,0.0488281,µV
+Ch30=F8,,0.0488281,µV
+Ch31=Fp2,,0.0488281,µV
+Ch32=AUX1,,0.298023,µV
+
+[Coordinates]
+; Electrode Position File: C:\EEG\actiCAP_slim_AS\AS-32\AS-32_REF.bvef
+Ch1=1,-90,-72
+Ch2=1,45,90
+Ch3=1,-60,-51
+Ch4=1,-90,-36
+Ch5=1,-113,-18
+Ch6=1,-69,-22
+Ch7=1,-31,-46
+Ch8=1,-45,0
+Ch9=1,-90,0
+Ch10=1,-69,21
+Ch11=1,-31,46
+Ch12=1,45,-90
+Ch13=1,-60,51
+Ch14=1,-90,36
+Ch15=1,-90,72
+Ch16=1,90,-90
+Ch17=1,90,-72
+Ch18=1,60,-51
+Ch19=1,90,-36
+Ch20=1,113,-18
+Ch21=1,69,-21
+Ch22=1,31,-46
+Ch23=1,0,0
+Ch24=1,45,0
+Ch25=1,90,0
+Ch26=1,113,18
+Ch27=1,69,21
+Ch28=1,31,46
+Ch29=1,60,51
+Ch30=1,90,36
+Ch31=1,90,72
+Ch32=0,0,0
+
+[Comment]
+
+BrainVision Recorder Professional   -   V. 1.25.0001
+
+
+A m p l i f i e r  S e t u p
+============================
+Number of channels: 32
+Sampling Rate [Hz]: 10000
+Sampling Interval [µS]: 100
+
+Channels
+--------
+#     Name      Phys. Chn.    Resolution / Unit   Low Cutoff [s]   High Cutoff [Hz]   Notch [Hz]    Gradient         Offset
+1     Fp1         1          0.0488281 µV             DC             2470              Off
+2     Fz          2          0.0488281 µV             DC             2470              Off
+3     F3          3          0.0488281 µV             DC             2470              Off
+4     F7          4          0.0488281 µV             DC             2470              Off
+5     FT9         5          0.0488281 µV             DC             2470              Off
+6     FC5         6          0.0488281 µV             DC             2470              Off
+7     FC1         7          0.0488281 µV             DC             2470              Off
+8     C3          8          0.0488281 µV             DC             2470              Off
+9     T7          9          0.0488281 µV             DC             2470              Off
+10    CP5         11         0.0488281 µV             DC             2470              Off
+11    CP1         12         0.0488281 µV             DC             2470              Off
+12    Pz          13         0.0488281 µV             DC             2470              Off
+13    P3          14         0.0488281 µV             DC             2470              Off
+14    P7          15         0.0488281 µV             DC             2470              Off
+15    O1          16         0.0488281 µV             DC             2470              Off
+16    Oz          17         0.0488281 µV             DC             2470              Off
+17    O2          18         0.0488281 µV             DC             2470              Off
+18    P4          19         0.0488281 µV             DC             2470              Off
+19    P8          20         0.0488281 µV             DC             2470              Off
+20    TP10        21         0.0488281 µV             DC             2470              Off
+21    CP6         22         0.0488281 µV             DC             2470              Off
+22    CP2         23         0.0488281 µV             DC             2470              Off
+23    Cz          24         0.0488281 µV             DC             2470              Off
+24    C4          25         0.0488281 µV             DC             2470              Off
+25    T8          26         0.0488281 µV             DC             2470              Off
+26    FT10        27         0.0488281 µV             DC             2470              Off
+27    FC6         28         0.0488281 µV             DC             2470              Off
+28    FC2         29         0.0488281 µV             DC             2470              Off
+29    F4          30         0.0488281 µV             DC             2470              Off
+30    F8          31         0.0488281 µV             DC             2470              Off
+31    Fp2         32         0.0488281 µV             DC             2470              Off
+32    AUX1        129         0.298023 µV             DC             2470              Off
+
+Reference Channel Name = TP9
+Reference Phys. Chn.   = 10
+Use active/dry Electrodes = Yes 
+Good Level [kOhms]     = 10
+Bad Level [kOhms]      = 50
+MY-Button Workspace    = C:\Vision\Workfiles\MYButton
+
+Amplifier 
+actiCHamp Base Unit (5002) 
+  --- S/N 20090361 --- 
+actiCHamp 32 CH Module
+  --- Module 1 (5011): S/N 20090743 ---
+  --- Module 2 (5011): S/N 20090744 ---
+  --- Module 3 (5011): S/N 20090745 ---
+  --- Module 4 (5011): S/N 20090746 ---
+Version: DLL_27.18.06.25, DRV_03.04.01.146, CTRL_104.18.06.25, FPGA_67.00.00.00, DSP_105.19.02.27 
+
+
+S o f t w a r e  F i l t e r s
+==============================
+Disabled
+
+
+Data/Gnd Electrodes Selected Impedance Measurement Range: 10 - 50 kOhm
+Impedance [kOhm] at 13:44:08 :
+Fp1:          8
+Fz:           5
+F3:           5
+F7:           8
+FT9:          8
+FC5:          7
+FC1:          7
+C3:           9
+T7:           6
+TP9:          6
+CP5:          7
+CP1:          8
+Pz:           7
+P3:           8
+P7:           5
+O1:           5
+Oz:           7
+O2:           8
+P4:           9
+P8:           6
+TP10:         5
+CP6:          8
+CP2:          5
+Cz:           9
+C4:           6
+T8:           7
+FT10:         8
+FC6:          8
+FC2:          8
+F4:           6
+F8:           5
+Fp2:          8
+Gnd:          7
