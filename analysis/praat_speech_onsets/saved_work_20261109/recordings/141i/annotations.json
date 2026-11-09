@@ -1,0 +1,2894 @@
+{
+  "session_id": "163bf30824aaa478092052a3e4e2abec57a58103239bb7ba67be28c0a637f35b",
+  "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\141i\\141i_annotations.TextGrid",
+  "filename": "141i_annotations.TextGrid",
+  "trials": {
+    "main-001": {
+      "status": "ok",
+      "s200_eeg_s": 400.155,
+      "speech_onset_eeg_s": 401.57424671172595,
+      "latency_s": 1.4192467117259753,
+      "latency_ms": 1419.2467117259753,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 401.57424671172595,
+          "label": "s"
+        }
+      ],
+      "transcription": "maemae kri ro(?) sa phir rodirisyõ",
+      "intervals": [
+        {
+          "start": 401.5748105270882,
+          "end": 403.7981409748458,
+          "text": "maemae kri ro(?) sa phir rodirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-002": {
+      "status": "ok",
+      "s200_eeg_s": 403.9549,
+      "speech_onset_eeg_s": 404.83418118585365,
+      "latency_s": 0.8792811858536425,
+      "latency_ms": 879.2811858536425,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 404.83418118585365,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze tinor khasyõ",
+      "intervals": [
+        {
+          "start": 404.8395001582167,
+          "end": 406.4564677565859,
+          "text": "badze tinor khasyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-003": {
+      "status": "ok",
+      "s200_eeg_s": 406.9851,
+      "speech_onset_eeg_s": 407.7450142298654,
+      "latency_s": 0.7599142298653874,
+      "latency_ms": 759.9142298653874,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 407.7450142298654,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu tinor kharisyõ",
+      "intervals": [
+        {
+          "start": 407.7396952575023,
+          "end": 409.4630423031326,
+          "text": "budzyu tinor kharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-004": {
+      "status": "ok",
+      "s200_eeg_s": 409.9753,
+      "speech_onset_eeg_s": 410.77508937712537,
+      "latency_s": 0.7997893771253644,
+      "latency_ms": 799.7893771253644,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 410.77508937712537,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo nitosyõ",
+      "intervals": [
+        {
+          "start": 410.7697704047623,
+          "end": 412.2271688322398,
+          "text": "nanikolo nitosyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-005": {
+      "status": "ok",
+      "s200_eeg_s": 412.6487,
+      "speech_onset_eeg_s": 413.4628154318357,
+      "latency_s": 0.8141154318356598,
+      "latency_ms": 814.1154318356598,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 413.4628154318357,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze golbeda tõrisyõ",
+      "intervals": [
+        {
+          "start": 413.4628154318357,
+          "end": 415.0585071407526,
+          "text": "badze golbeda tõrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-006": {
+      "status": "ok",
+      "s200_eeg_s": 415.3424,
+      "speech_onset_eeg_s": 416.1871945931934,
+      "latency_s": 0.8447945931933987,
+      "latency_ms": 844.7945931933987,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 416.1871945931934,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu nitorisyõ",
+      "intervals": [
+        {
+          "start": 416.1765566484673,
+          "end": 417.5328946010467,
+          "text": "budzyu nitorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-007": {
+      "status": "ok",
+      "s200_eeg_s": 418.1481,
+      "speech_onset_eeg_s": 418.84803593614146,
+      "latency_s": 0.6999359361414577,
+      "latency_ms": 699.9359361414577,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 418.84803593614146,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze phi rorisyõ",
+      "intervals": [
+        {
+          "start": 418.8427169637784,
+          "end": 420.3745810043387,
+          "text": "badze phi rorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-008": {
+      "status": "ok",
+      "s200_eeg_s": 420.8945,
+      "speech_onset_eeg_s": 421.7720214860873,
+      "latency_s": 0.8775214860872893,
+      "latency_ms": 877.5214860872893,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 421.7720214860873,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo bidar phota tshyorisyõ",
+      "intervals": [
+        {
+          "start": 421.7613835413612,
+          "end": 423.71876537096597,
+          "text": "nanikolo bidar phota tshyorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-009": {
+      "status": "ok",
+      "s200_eeg_s": 424.1242,
+      "speech_onset_eeg_s": 424.9297513837906,
+      "latency_s": 0.8055513837906005,
+      "latency_ms": 805.5513837906005,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 424.9297513837906,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze alu tusyõ",
+      "intervals": [
+        {
+          "start": 424.9297513837906,
+          "end": 426.46161542435084,
+          "text": "badze alu tusyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-010": {
+      "status": "ok",
+      "s200_eeg_s": 426.9973,
+      "speech_onset_eeg_s": 427.7285955719611,
+      "latency_s": 0.7312955719610841,
+      "latency_ms": 731.2955719610841,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 427.7285955719611,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze haikãrisyõ",
+      "intervals": [
+        {
+          "start": 427.71795762723497,
+          "end": 429.24982166779523,
+          "text": "badze haikãrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-011": {
+      "status": "ok",
+      "s200_eeg_s": 429.9217,
+      "speech_onset_eeg_s": 430.65287097185404,
+      "latency_s": 0.7311709718540556,
+      "latency_ms": 731.1709718540556,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 430.65287097185404,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo koida rorisyõ",
+      "intervals": [
+        {
+          "start": 430.64223302712793,
+          "end": 432.42408876875186,
+          "text": "nanikolo koida rorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-012": {
+      "status": "ok",
+      "s200_eeg_s": 433.1437,
+      "speech_onset_eeg_s": 433.9460903261117,
+      "latency_s": 0.8023903261116629,
+      "latency_ms": 802.390326111663,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 433.9460903261117,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo suntala pirisyõ",
+      "intervals": [
+        {
+          "start": 433.9354523813856,
+          "end": 435.70135120592033,
+          "text": "nanikolo suntala pirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-013": {
+      "status": "ok",
+      "s200_eeg_s": 436.2552,
+      "speech_onset_eeg_s": 437.0321596081573,
+      "latency_s": 0.7769596081573127,
+      "latency_ms": 776.9596081573127,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 437.0321596081573,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu tanga yorisyõ",
+      "intervals": [
+        {
+          "start": 437.0321596081573,
+          "end": 438.56934262108064,
+          "text": "budzyu tanga yorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-014": {
+      "status": "ok",
+      "s200_eeg_s": 439.1552,
+      "speech_onset_eeg_s": 439.9645583915683,
+      "latency_s": 0.8093583915683098,
+      "latency_ms": 809.3583915683098,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 439.9645583915683,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze maidana ma yurisyõ",
+      "intervals": [
+        {
+          "start": 439.95527560826196,
+          "end": 441.91265743786676,
+          "text": "badze maidana ma yurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-015": {
+      "status": "ok",
+      "s200_eeg_s": 442.3731,
+      "speech_onset_eeg_s": 443.2362120064267,
+      "latency_s": 0.8631120064266611,
+      "latency_ms": 863.1120064266611,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 443.2362120064267,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze maidana ma yurisyõ",
+      "intervals": [
+        {
+          "start": 443.22557406170057,
+          "end": 445.0340246651398,
+          "text": "badze maidana ma yurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-016": {
+      "status": "ok",
+      "s200_eeg_s": 445.6883,
+      "speech_onset_eeg_s": 446.6251728632194,
+      "latency_s": 0.9368728632193779,
+      "latency_ms": 936.8728632193779,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 446.6251728632194,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze tanga tsara wai",
+      "intervals": [
+        {
+          "start": 446.6251728632194,
+          "end": 448.58787366518726,
+          "text": "badze tanga tsara wai"
+        }
+      ],
+      "warnings": []
+    },
+    "main-017": {
+      "status": "ok",
+      "s200_eeg_s": 449.0799,
+      "speech_onset_eeg_s": 449.9559148739656,
+      "latency_s": 0.8760148739655733,
+      "latency_ms": 876.0148739655733,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 449.9559148739656,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma nitorisyõ",
+      "intervals": [
+        {
+          "start": 449.9665528186917,
+          "end": 451.2962959094558,
+          "text": "ma nitorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-018": {
+      "status": "ok",
+      "s200_eeg_s": 452.109,
+      "speech_onset_eeg_s": 452.8320296726439,
+      "latency_s": 0.7230296726439178,
+      "latency_ms": 723.0296726439178,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 452.8320296726439,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukola-i tshiya thũrisyõ",
+      "intervals": [
+        {
+          "start": 452.8320296726439,
+          "end": 454.4543162433761,
+          "text": "babukola-i tshiya thũrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-019": {
+      "status": "ok",
+      "s200_eeg_s": 455.3649,
+      "speech_onset_eeg_s": 456.10987180970653,
+      "latency_s": 0.7449718097065556,
+      "latency_ms": 744.9718097065556,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 456.10987180970653,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze nitorisyõ",
+      "intervals": [
+        {
+          "start": 456.1151907820696,
+          "end": 457.96619316441326,
+          "text": "badze nitorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-020": {
+      "status": "ok",
+      "s200_eeg_s": 458.4816,
+      "speech_onset_eeg_s": 459.5973785801894,
+      "latency_s": 1.1157785801893851,
+      "latency_ms": 1115.7785801893851,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 459.5973785801894,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze tinor kharisyõ",
+      "intervals": [
+        {
+          "start": 459.59205960782634,
+          "end": 460.98563036694713,
+          "text": "badze tinor kharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-021": {
+      "status": "ok",
+      "s200_eeg_s": 461.7891,
+      "speech_onset_eeg_s": 462.8158424714172,
+      "latency_s": 1.026742471417208,
+      "latency_ms": 1026.742471417208,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 462.8158424714172,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo bana tsõrisyõ",
+      "intervals": [
+        {
+          "start": 462.8158424714172,
+          "end": 464.64556896430867,
+          "text": "babukolo bana tsõrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-022": {
+      "status": "ok",
+      "s200_eeg_s": 465.3732,
+      "speech_onset_eeg_s": 466.2585727517345,
+      "latency_s": 0.8853727517345078,
+      "latency_ms": 885.3727517345078,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 466.2585727517345,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo thali phyorisyõ rumalai",
+      "intervals": [
+        {
+          "start": 466.2658265854115,
+          "end": 468.9731835182073,
+          "text": "babukolo thali phyorisyõ rumalai"
+        }
+      ],
+      "warnings": []
+    },
+    "main-023": {
+      "status": "ok",
+      "s200_eeg_s": 469.3858,
+      "speech_onset_eeg_s": 470.2667591139028,
+      "latency_s": 0.8809591139028043,
+      "latency_ms": 880.9591139028043,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 470.2667591139028,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo gundria phir lurisyõ",
+      "intervals": [
+        {
+          "start": 470.2667591139028,
+          "end": 472.2347788882337,
+          "text": "babukolo gundria phir lurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-024": {
+      "status": "ok",
+      "s200_eeg_s": 472.559,
+      "speech_onset_eeg_s": 473.6848293937189,
+      "latency_s": 1.1258293937189023,
+      "latency_ms": 1125.8293937189023,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 473.6848293937189,
+          "label": "s"
+        }
+      ],
+      "transcription": "mm maemae kri mi tsar botala wathĩnasyõ",
+      "intervals": [
+        {
+          "start": 473.6870541049798,
+          "end": 477.42097270384545,
+          "text": "mm maemae kri mi tsar botala wathĩnasyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-025": {
+      "status": "ok",
+      "s200_eeg_s": 477.6428,
+      "speech_onset_eeg_s": 478.8738276204856,
+      "latency_s": 1.2310276204855768,
+      "latency_ms": 1231.0276204855768,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 478.8738276204856,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo tinor kharisyõ",
+      "intervals": [
+        {
+          "start": 478.8844655652117,
+          "end": 480.5386659701223,
+          "text": "babukolo tinor kharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-026": {
+      "status": "ok",
+      "s200_eeg_s": 480.5301,
+      "speech_onset_eeg_s": 481.56097397530186,
+      "latency_s": 1.0308739753018585,
+      "latency_ms": 1030.8739753018585,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 481.56097397530186,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu gundria phir rudirisyõ",
+      "intervals": [
+        {
+          "start": 481.5556550029388,
+          "end": 484.37471035535873,
+          "text": "budzyu gundria phir rudirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-027": {
+      "status": "ok",
+      "s200_eeg_s": 485.4562,
+      "speech_onset_eeg_s": 486.3723251642916,
+      "latency_s": 0.9161251642916,
+      "latency_ms": 916.1251642916,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 486.3723251642916,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu ta mala syurisyõ",
+      "intervals": [
+        {
+          "start": 486.3723251642916,
+          "end": 488.19673268482,
+          "text": "budzyu ta mala syurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-028": {
+      "status": "ok",
+      "s200_eeg_s": 488.3791,
+      "speech_onset_eeg_s": 489.2067571476367,
+      "latency_s": 0.827657147636728,
+      "latency_ms": 827.657147636728,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 489.2067571476367,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze sĩmuda tsãĩbokharisyõ",
+      "intervals": [
+        {
+          "start": 489.19244524191436,
+          "end": 491.229611656965,
+          "text": "badze sĩmuda tsãĩbokharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-029": {
+      "status": "ok",
+      "s200_eeg_s": 491.3032,
+      "speech_onset_eeg_s": 492.1620768318667,
+      "latency_s": 0.8588768318667235,
+      "latency_ms": 858.8768318667235,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 492.1620768318667,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu tĩa tsapi tsõrisyõ",
+      "intervals": [
+        {
+          "start": 492.1620768318667,
+          "end": 494.04499304838873,
+          "text": "budzyu tĩa tsapi tsõrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-030": {
+      "status": "ok",
+      "s200_eeg_s": 495.5127,
+      "speech_onset_eeg_s": 496.43002328998364,
+      "latency_s": 0.9173232899836421,
+      "latency_ms": 917.3232899836421,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 496.43002328998364,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze tebular ranga phorisyõ",
+      "intervals": [
+        {
+          "start": 496.4247043176206,
+          "end": 498.6108019588368,
+          "text": "badze tebular ranga phorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-031": {
+      "status": "ok",
+      "s200_eeg_s": 498.707,
+      "speech_onset_eeg_s": 499.71879322171947,
+      "latency_s": 1.011793221719472,
+      "latency_ms": 1011.7932217194721,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 499.71879322171947,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo kĩ tsõrisyõ",
+      "intervals": [
+        {
+          "start": 499.7134742493564,
+          "end": 501.3783125989931,
+          "text": "babukolo kĩ tsõrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-032": {
+      "status": "ok",
+      "s200_eeg_s": 501.8208,
+      "speech_onset_eeg_s": 502.73513557688113,
+      "latency_s": 0.9143355768811148,
+      "latency_ms": 914.3355768811148,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 502.73513557688113,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo bidar arayi nartsirisyõ",
+      "intervals": [
+        {
+          "start": 502.72256277084114,
+          "end": 505.1639710854841,
+          "text": "babukolo bidar arayi nartsirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-033": {
+      "status": "ok",
+      "s200_eeg_s": 505.4254,
+      "speech_onset_eeg_s": 506.3402388529753,
+      "latency_s": 0.9148388529752651,
+      "latency_ms": 914.8388529752651,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 506.3402388529753,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma golbeda tõsyõ",
+      "intervals": [
+        {
+          "start": 506.33491988061223,
+          "end": 507.89869775535084,
+          "text": "ma golbeda tõsyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-034": {
+      "status": "ok",
+      "s200_eeg_s": 508.1914,
+      "speech_onset_eeg_s": 509.06548756417413,
+      "latency_s": 0.8740875641741468,
+      "latency_ms": 874.0875641741468,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 509.06548756417413,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma-i botala mir khrõi tsõnasyõ(?)",
+      "intervals": [
+        {
+          "start": 509.05369021965976,
+          "end": 511.65466770519436,
+          "text": "ma-i botala mir khrõi tsõnasyõ(?)"
+        }
+      ],
+      "warnings": []
+    },
+    "main-035": {
+      "status": "ok",
+      "s200_eeg_s": 512.0063,
+      "speech_onset_eeg_s": 513.043694367208,
+      "latency_s": 1.0373943672079804,
+      "latency_ms": 1037.3943672079804,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 513.043694367208,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo talir muba ??? ma tsãĩrisyõ",
+      "intervals": [
+        {
+          "start": 513.040599519836,
+          "end": 516.8596216765108,
+          "text": "nanikolo talir muba ??? ma tsãĩrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-036": {
+      "status": "ok",
+      "s200_eeg_s": 517.1253,
+      "speech_onset_eeg_s": 518.0179982518688,
+      "latency_s": 0.892698251868751,
+      "latency_ms": 892.698251868751,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 518.0179982518688,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze mi(?) phiũrisyõ",
+      "intervals": [
+        {
+          "start": 518.0171287020275,
+          "end": 519.8149413607407,
+          "text": "badze mi(?) phiũrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-037": {
+      "status": "ok",
+      "s200_eeg_s": 520.375,
+      "speech_onset_eeg_s": 521.8610066208353,
+      "latency_s": 1.4860066208352691,
+      "latency_ms": 1486.0066208352691,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 521.8610066208353,
+          "label": "s"
+        }
+      ],
+      "transcription": "ba-i mla phr˜esyõ",
+      "intervals": [
+        {
+          "start": 521.8610066208353,
+          "end": 523.520525998109,
+          "text": "ba-i mla phr˜esyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-038": {
+      "status": "ok",
+      "s200_eeg_s": 525.6854,
+      "speech_onset_eeg_s": 526.6295161809735,
+      "latency_s": 0.9441161809735377,
+      "latency_ms": 944.1161809735377,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 526.6295161809735,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu nitorisyõ",
+      "intervals": [
+        {
+          "start": 526.6188782362474,
+          "end": 527.9379833822854,
+          "text": "budzyu nitorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-039": {
+      "status": "ok",
+      "s200_eeg_s": 528.1904,
+      "speech_onset_eeg_s": 529.4205274218428,
+      "latency_s": 1.2301274218428944,
+      "latency_ms": 1230.1274218428944,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 529.4205274218428,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo tu phutrurisyõ",
+      "intervals": [
+        {
+          "start": 529.4152084494798,
+          "end": 531.3991851408999,
+          "text": "nanikolo tu phutrurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-040": {
+      "status": "ok",
+      "s200_eeg_s": 531.4433,
+      "speech_onset_eeg_s": 532.262503675082,
+      "latency_s": 0.819203675082008,
+      "latency_ms": 819.203675082008,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 532.262503675082,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikola-i kyurur bada khrũrisyo",
+      "intervals": [
+        {
+          "start": 532.2678226474451,
+          "end": 534.2996700901327,
+          "text": "nanikola-i kyurur bada khrũrisyo"
+        }
+      ],
+      "warnings": []
+    },
+    "main-041": {
+      "status": "ok",
+      "s200_eeg_s": 534.9094,
+      "speech_onset_eeg_s": 535.7575541291887,
+      "latency_s": 0.8481541291887424,
+      "latency_ms": 848.1541291887424,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 535.7575541291887,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze dhaga mulkhu kũrisyõ",
+      "intervals": [
+        {
+          "start": 535.7628731015518,
+          "end": 537.4330304235516,
+          "text": "badze dhaga mulkhu kũrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-042": {
+      "status": "ok",
+      "s200_eeg_s": 537.7519,
+      "speech_onset_eeg_s": 538.5622975758864,
+      "latency_s": 0.8103975758864408,
+      "latency_ms": 810.3975758864408,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 538.5622975758864,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze haikãrisyõ",
+      "intervals": [
+        {
+          "start": 538.5622975758864,
+          "end": 539.8282129982939,
+          "text": "badze haikãrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-043": {
+      "status": "ok",
+      "s200_eeg_s": 540.3948,
+      "speech_onset_eeg_s": 541.3135614490064,
+      "latency_s": 0.9187614490064107,
+      "latency_ms": 918.7614490064107,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 541.3135614490064,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu haikãrisyõ",
+      "intervals": [
+        {
+          "start": 541.3029235042803,
+          "end": 542.6433045397706,
+          "text": "budzyu haikãrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-044": {
+      "status": "ok",
+      "s200_eeg_s": 543.0487,
+      "speech_onset_eeg_s": 543.9897794228796,
+      "latency_s": 0.9410794228795112,
+      "latency_ms": 941.0794228795112,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 543.9897794228796,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo kĩ tsõrisyõ",
+      "intervals": [
+        {
+          "start": 543.9791414781535,
+          "end": 545.7344023579622,
+          "text": "nanikolo kĩ tsõrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-045": {
+      "status": "ok",
+      "s200_eeg_s": 545.9755,
+      "speech_onset_eeg_s": 547.0207241199807,
+      "latency_s": 1.0452241199807304,
+      "latency_ms": 1045.2241199807304,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 547.0207241199807,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma sĩmuda phir lurisyõ",
+      "intervals": [
+        {
+          "start": 547.0279779536576,
+          "end": 548.8098336952816,
+          "text": "ma sĩmuda phir lurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-046": {
+      "status": "ok",
+      "s200_eeg_s": 548.981,
+      "speech_onset_eeg_s": 549.9391002613464,
+      "latency_s": 0.9581002613464307,
+      "latency_ms": 958.1002613464307,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 549.9391002613464,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu sĩmuda phir lurisyõ",
+      "intervals": [
+        {
+          "start": 549.9284623166203,
+          "end": 551.8539303120468,
+          "text": "budzyu sĩmuda phir lurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-047": {
+      "status": "ok",
+      "s200_eeg_s": 551.9442,
+      "speech_onset_eeg_s": 552.7513873916681,
+      "latency_s": 0.8071873916680943,
+      "latency_ms": 807.1873916680943,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 552.7513873916681,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo tu phutrurisyõ",
+      "intervals": [
+        {
+          "start": 552.740749446942,
+          "end": 554.5811138845597,
+          "text": "babukolo tu phutrurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-048": {
+      "status": "ok",
+      "s200_eeg_s": 555.4471,
+      "speech_onset_eeg_s": 556.3315414035837,
+      "latency_s": 0.8844414035837644,
+      "latency_ms": 884.4414035837644,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 556.3315414035837,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze daraza kya tsãĩrisyõ",
+      "intervals": [
+        {
+          "start": 556.3262224312207,
+          "end": 558.3048801502778,
+          "text": "badze daraza kya tsãĩrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-049": {
+      "status": "ok",
+      "s200_eeg_s": 558.7035,
+      "speech_onset_eeg_s": 559.5827886788311,
+      "latency_s": 0.8792886788311307,
+      "latency_ms": 879.2886788311307,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 559.5827886788311,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze ksarabar(?) kõĩ khrũrisyõ",
+      "intervals": [
+        {
+          "start": 559.576890006574,
+          "end": 562.1406346855673,
+          "text": "badze ksarabar(?) kõĩ khrũrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-050": {
+      "status": "ok",
+      "s200_eeg_s": 562.4807,
+      "speech_onset_eeg_s": 563.2962068497702,
+      "latency_s": 0.8155068497702587,
+      "latency_ms": 815.5068497702587,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 563.2962068497702,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo nekhasyõ",
+      "intervals": [
+        {
+          "start": 563.2962068497702,
+          "end": 564.9344503375917,
+          "text": "babukolo nekhasyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-051": {
+      "status": "ok",
+      "s200_eeg_s": 566.2477,
+      "speech_onset_eeg_s": 567.1526569883479,
+      "latency_s": 0.9049569883478625,
+      "latency_ms": 904.9569883478625,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 567.1526569883479,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo bidar araki nartsirisyõ",
+      "intervals": [
+        {
+          "start": 567.1526569883479,
+          "end": 569.5993842753539,
+          "text": "nanikolo bidar araki nartsirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-052": {
+      "status": "ok",
+      "s200_eeg_s": 569.7797,
+      "speech_onset_eeg_s": 570.6326200752067,
+      "latency_s": 0.8529200752066117,
+      "latency_ms": 852.9200752066117,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 570.6326200752067,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu gundra phir lurisyõ",
+      "intervals": [
+        {
+          "start": 570.6379390475697,
+          "end": 572.3825619826523,
+          "text": "budzyu gundra phir lurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-053": {
+      "status": "ok",
+      "s200_eeg_s": 572.9088,
+      "speech_onset_eeg_s": 573.7637556973647,
+      "latency_s": 0.8549556973646304,
+      "latency_ms": 854.9556973646304,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 573.7637556973647,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu sĩtũr araki nartsirisyõ",
+      "intervals": [
+        {
+          "start": 573.7637556973647,
+          "end": 575.854111836046,
+          "text": "budzyu sĩtũr araki nartsirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-054": {
+      "status": "ok",
+      "s200_eeg_s": 576.8654,
+      "speech_onset_eeg_s": 577.6501853950765,
+      "latency_s": 0.7847853950764829,
+      "latency_ms": 784.7853950764829,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 577.6501853950765,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze mra tsapi tsõsyõ",
+      "intervals": [
+        {
+          "start": 577.6448664227134,
+          "end": 579.2352391592675,
+          "text": "badze mra tsapi tsõsyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-055": {
+      "status": "ok",
+      "s200_eeg_s": 579.7176,
+      "speech_onset_eeg_s": 581.1113865674214,
+      "latency_s": 1.3937865674214436,
+      "latency_ms": 1393.7865674214436,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 581.1113865674214,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze ra... mmm... phi rorisyõ",
+      "intervals": [
+        {
+          "start": 581.1183499648811,
+          "end": 584.5437681666897,
+          "text": "badze ra... mmm... phi rorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-056": {
+      "status": "ok",
+      "s200_eeg_s": 586.5908,
+      "speech_onset_eeg_s": 587.9231558039589,
+      "latency_s": 1.3323558039589898,
+      "latency_ms": 1332.3558039589898,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 587.9231558039589,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu-yi karir naga phũ tsõsyõ",
+      "intervals": [
+        {
+          "start": 587.9178368315959,
+          "end": 591.396444757035,
+          "text": "budzyu-yi karir naga phũ tsõsyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-057": {
+      "status": "ok",
+      "s200_eeg_s": 592.0717,
+      "speech_onset_eeg_s": 593.0167023781378,
+      "latency_s": 0.945002378137815,
+      "latency_ms": 945.002378137815,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 593.0167023781378,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze bida sapha larisyõ",
+      "intervals": [
+        {
+          "start": 593.0113834057747,
+          "end": 594.8357909263032,
+          "text": "badze bida sapha larisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-058": {
+      "status": "ok",
+      "s200_eeg_s": 596.0232,
+      "speech_onset_eeg_s": 596.8258620516119,
+      "latency_s": 0.8026620516119465,
+      "latency_ms": 802.6620516119465,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 596.8258620516119,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo alu turisyõ",
+      "intervals": [
+        {
+          "start": 596.8258620516119,
+          "end": 598.5492090972423,
+          "text": "nanikolo alu turisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-059": {
+      "status": "ok",
+      "s200_eeg_s": 598.7922,
+      "speech_onset_eeg_s": 599.8853364718422,
+      "latency_s": 1.0931364718421719,
+      "latency_ms": 1093.1364718421719,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 599.8853364718422,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu-yi tanga ngorisyõ",
+      "intervals": [
+        {
+          "start": 599.8853364718422,
+          "end": 601.5714507109311,
+          "text": "budzyu-yi tanga ngorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-060": {
+      "status": "ok",
+      "s200_eeg_s": 601.8853,
+      "speech_onset_eeg_s": 602.703231838204,
+      "latency_s": 0.8179318382040037,
+      "latency_ms": 817.9318382040037,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 602.703231838204,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu-yi daraza kya sakdirisyõ(?)",
+      "intervals": [
+        {
+          "start": 602.6945287547917,
+          "end": 605.0348765945367,
+          "text": "budzyu-yi daraza kya sakdirisyõ(?)"
+        }
+      ],
+      "warnings": []
+    },
+    "main-061": {
+      "status": "ok",
+      "s200_eeg_s": 695.9454,
+      "speech_onset_eeg_s": 697.0147160388677,
+      "latency_s": 1.0693160388677825,
+      "latency_ms": 1069.3160388677825,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 697.0147160388677,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo ta mala syurisyõ",
+      "intervals": [
+        {
+          "start": 697.0147160388677,
+          "end": 698.7192652565126,
+          "text": "nanikolo ta mala syurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-062": {
+      "status": "ok",
+      "s200_eeg_s": 699.3193,
+      "speech_onset_eeg_s": 700.248860514599,
+      "latency_s": 0.9295605145989612,
+      "latency_ms": 929.5605145989612,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 700.248860514599,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikola-i tshiya thũrisyõ",
+      "intervals": [
+        {
+          "start": 700.2427510191952,
+          "end": 701.8312198241689,
+          "text": "nanikola-i tshiya thũrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-063": {
+      "status": "ok",
+      "s200_eeg_s": 702.2194,
+      "speech_onset_eeg_s": 703.2595084037623,
+      "latency_s": 1.0401084037623605,
+      "latency_ms": 1040.1084037623605,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 703.2595084037623,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma momo banerisyõ",
+      "intervals": [
+        {
+          "start": 703.2585083951001,
+          "end": 705.03637155759,
+          "text": "ma momo banerisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-064": {
+      "status": "ok",
+      "s200_eeg_s": 705.6908,
+      "speech_onset_eeg_s": 706.6177308584978,
+      "latency_s": 0.9269308584978262,
+      "latency_ms": 926.9308584978262,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 706.6177308584978,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo gundra phir aram larisyõ",
+      "intervals": [
+        {
+          "start": 706.608066611061,
+          "end": 708.9296748644841,
+          "text": "nanikolo gundra phir aram larisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-065": {
+      "status": "ok",
+      "s200_eeg_s": 709.092,
+      "speech_onset_eeg_s": 710.1109937182852,
+      "latency_s": 1.0189937182851736,
+      "latency_ms": 1018.9937182851736,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 710.1109937182852,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma maidana ma yurisyõ",
+      "intervals": [
+        {
+          "start": 710.0926652320738,
+          "end": 711.8033239451225,
+          "text": "ma maidana ma yurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-066": {
+      "status": "ok",
+      "s200_eeg_s": 712.2372,
+      "speech_onset_eeg_s": 713.0907603698488,
+      "latency_s": 0.8535603698487648,
+      "latency_ms": 853.5603698487648,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 713.0907603698488,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu gundra phir aram larisyõ",
+      "intervals": [
+        {
+          "start": 713.0849842106658,
+          "end": 715.3088405376291,
+          "text": "budzyu gundra phir aram larisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-067": {
+      "status": "ok",
+      "s200_eeg_s": 715.9593,
+      "speech_onset_eeg_s": 717.0149444899826,
+      "latency_s": 1.0556444899825692,
+      "latency_ms": 1055.6444899825692,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 717.0149444899826,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu tamatara tõa tsourar nartsiri... nartogorisyõ",
+      "intervals": [
+        {
+          "start": 717.0078349859166,
+          "end": 720.2764150269203,
+          "text": "budzyu tamatara tõa tsourar nartsiri... nartogorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-068": {
+      "status": "ok",
+      "s200_eeg_s": 720.7834,
+      "speech_onset_eeg_s": 721.6281682458565,
+      "latency_s": 0.8447682458564714,
+      "latency_ms": 844.7682458564714,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 721.6281682458565,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo nekharisyõ",
+      "intervals": [
+        {
+          "start": 721.6342777412602,
+          "end": 722.9172717760467,
+          "text": "nanikolo nekharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-069": {
+      "status": "ok",
+      "s200_eeg_s": 723.559,
+      "speech_onset_eeg_s": 724.5989377467853,
+      "latency_s": 1.0399377467853128,
+      "latency_ms": 1039.9377467853128,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 724.5989377467853,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu maidana tu yarisyõ",
+      "intervals": [
+        {
+          "start": 724.5979377381229,
+          "end": 726.3513629189978,
+          "text": "budzyu maidana tu yarisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-070": {
+      "status": "ok",
+      "s200_eeg_s": 726.7131,
+      "speech_onset_eeg_s": 727.7828729144035,
+      "latency_s": 1.0697729144034156,
+      "latency_ms": 1069.7729144034156,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 727.7828729144035,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma gundria phir aram larisyõ",
+      "intervals": [
+        {
+          "start": 727.7767634189997,
+          "end": 730.3794084609953,
+          "text": "ma gundria phir aram larisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-071": {
+      "status": "ok",
+      "s200_eeg_s": 730.6202,
+      "speech_onset_eeg_s": 732.0305269547149,
+      "latency_s": 1.4103269547149466,
+      "latency_ms": 1410.3269547149466,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 732.0305269547149,
+          "label": "s"
+        }
+      ],
+      "transcription": "nani sĩtũ rĩrisyõ",
+      "intervals": [
+        {
+          "start": 732.0298602822736,
+          "end": 734.2659356000443,
+          "text": "nani sĩtũ rĩrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-072": {
+      "status": "ok",
+      "s200_eeg_s": 735.1446,
+      "speech_onset_eeg_s": 736.1880932986788,
+      "latency_s": 1.043493298678868,
+      "latency_ms": 1043.493298678868,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 736.1880932986788,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo maidana tu yarisyõ",
+      "intervals": [
+        {
+          "start": 736.1942027940826,
+          "end": 738.4241686164496,
+          "text": "nanikolo maidana tu yarisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-073": {
+      "status": "ok",
+      "s200_eeg_s": 738.4522,
+      "speech_onset_eeg_s": 739.6813913247381,
+      "latency_s": 1.2291913247381672,
+      "latency_ms": 1229.1913247381672,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 739.6813913247381,
+          "label": "s"
+        }
+      ],
+      "transcription": "babu-i tadar muba ??? ma tsãĩrisyõ",
+      "intervals": [
+        {
+          "start": 739.6813913247381,
+          "end": 742.1985034310811,
+          "text": "babu-i tadar muba ??? ma tsãĩrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-074": {
+      "status": "ok",
+      "s200_eeg_s": 742.4906,
+      "speech_onset_eeg_s": 743.5380376592099,
+      "latency_s": 1.0474376592098906,
+      "latency_ms": 1047.4376592098906,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 743.5380376592099,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo tu phutrurisyõ",
+      "intervals": [
+        {
+          "start": 743.5405924025806,
+          "end": 745.6422588214689,
+          "text": "babukolo tu phutrurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-075": {
+      "status": "ok",
+      "s200_eeg_s": 745.9073,
+      "speech_onset_eeg_s": 746.7406346492602,
+      "latency_s": 0.8333346492602232,
+      "latency_ms": 833.3346492602232,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 746.7406346492602,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze dhaga mulkhu kũrisyõ",
+      "intervals": [
+        {
+          "start": 746.7406346492602,
+          "end": 748.5857022611912,
+          "text": "badze dhaga mulkhu kũrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-076": {
+      "status": "ok",
+      "s200_eeg_s": 749.138,
+      "speech_onset_eeg_s": 750.0290973249138,
+      "latency_s": 0.8910973249137442,
+      "latency_ms": 891.0973249137442,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 750.0290973249138,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze nartogorisyõ yuma phir luira",
+      "intervals": [
+        {
+          "start": 750.0248759004392,
+          "end": 752.2242942457874,
+          "text": "badze nartogorisyõ yuma phir luira"
+        }
+      ],
+      "warnings": []
+    },
+    "main-077": {
+      "status": "ok",
+      "s200_eeg_s": 753.1988,
+      "speech_onset_eeg_s": 754.0500327765751,
+      "latency_s": 0.8512327765751024,
+      "latency_ms": 851.2327765751024,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 754.0500327765751,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu phiũrisyõ",
+      "intervals": [
+        {
+          "start": 754.0561422719788,
+          "end": 755.4063407562065,
+          "text": "budzyu phiũrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-078": {
+      "status": "ok",
+      "s200_eeg_s": 756.0087,
+      "speech_onset_eeg_s": 756.9934762162974,
+      "latency_s": 0.984776216297405,
+      "latency_ms": 984.776216297405,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 756.9934762162974,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu kõĩ pharisyõ(?)",
+      "intervals": [
+        {
+          "start": 756.9992523754804,
+          "end": 758.6793636115103,
+          "text": "budzyu kõĩ pharisyõ(?)"
+        }
+      ],
+      "warnings": []
+    },
+    "main-079": {
+      "status": "ok",
+      "s200_eeg_s": 759.4028,
+      "speech_onset_eeg_s": 760.7182683952575,
+      "latency_s": 1.3154683952575397,
+      "latency_ms": 1315.4683952575397,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 760.7182683952575,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze ngyur radirisyõ",
+      "intervals": [
+        {
+          "start": 760.7053821457386,
+          "end": 762.7948295738194,
+          "text": "badze ngyur radirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-080": {
+      "status": "ok",
+      "s200_eeg_s": 763.2221,
+      "speech_onset_eeg_s": 764.3478628048584,
+      "latency_s": 1.125762804858482,
+      "latency_ms": 1125.762804858482,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 764.3478628048584,
+          "label": "s"
+        }
+      ],
+      "transcription": "ba-i bana tsõrisyõ",
+      "intervals": [
+        {
+          "start": 764.3478628048584,
+          "end": 766.2601348662307,
+          "text": "ba-i bana tsõrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-081": {
+      "status": "ok",
+      "s200_eeg_s": 766.7018,
+      "speech_onset_eeg_s": 767.6151089147093,
+      "latency_s": 0.913308914709205,
+      "latency_ms": 913.308914709205,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 767.6151089147093,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo-i the-i phriba tshitra tsakya thorisyõ - suitable?",
+      "intervals": [
+        {
+          "start": 767.6176636580801,
+          "end": 770.3119511311318,
+          "text": "babukolo-i the-i phriba tshitra tsakya thorisyõ - suitable?"
+        }
+      ],
+      "warnings": []
+    },
+    "main-082": {
+      "status": "ok",
+      "s200_eeg_s": 770.7795,
+      "speech_onset_eeg_s": 771.7556801173449,
+      "latency_s": 0.9761801173449385,
+      "latency_ms": 976.1801173449385,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 771.7556801173449,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo maidana tu kreirisyõ",
+      "intervals": [
+        {
+          "start": 771.7550134449034,
+          "end": 773.8383513775805,
+          "text": "babukolo maidana tu kreirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-083": {
+      "status": "ok",
+      "s200_eeg_s": 774.1173,
+      "speech_onset_eeg_s": 775.4277082448214,
+      "latency_s": 1.3104082448213603,
+      "latency_ms": 1310.4082448213603,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 775.4277082448214,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo suntala pirisyõ",
+      "intervals": [
+        {
+          "start": 775.4277082448214,
+          "end": 777.5843601223435,
+          "text": "babukolo suntala pirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-084": {
+      "status": "ok",
+      "s200_eeg_s": 777.6249,
+      "speech_onset_eeg_s": 778.790152124031,
+      "latency_s": 1.1652521240309852,
+      "latency_ms": 1165.2521240309852,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 778.790152124031,
+          "label": "s"
+        }
+      ],
+      "transcription": "ba-i sĩtũ rĩrisyõ tsorar",
+      "intervals": [
+        {
+          "start": 778.7865973719984,
+          "end": 781.2609430105151,
+          "text": "ba-i sĩtũ rĩrisyõ tsorar"
+        }
+      ],
+      "warnings": []
+    },
+    "main-085": {
+      "status": "ok",
+      "s200_eeg_s": 781.9069,
+      "speech_onset_eeg_s": 782.9487184766573,
+      "latency_s": 1.0418184766573404,
+      "latency_ms": 1041.8184766573404,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 782.9487184766573,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu bida sapha larisyõ",
+      "intervals": [
+        {
+          "start": 782.9416089725913,
+          "end": 784.7561291075036,
+          "text": "budzyu bida sapha larisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-086": {
+      "status": "ok",
+      "s200_eeg_s": 785.6526,
+      "speech_onset_eeg_s": 786.5847563041527,
+      "latency_s": 0.932156304152727,
+      "latency_ms": 932.156304152727,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 786.5847563041527,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma maidana ma yurisyõ",
+      "intervals": [
+        {
+          "start": 786.5847563041527,
+          "end": 787.9593927699955,
+          "text": "ma maidana ma yurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-087": {
+      "status": "ok",
+      "s200_eeg_s": 788.7527,
+      "speech_onset_eeg_s": 789.7503629855597,
+      "latency_s": 0.9976629855597139,
+      "latency_ms": 997.6629855597139,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 789.7503629855597,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo ng... ngyur radirisyõ",
+      "intervals": [
+        {
+          "start": 789.744253490156,
+          "end": 791.9070148630818,
+          "text": "babukolo ng... ngyur radirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-088": {
+      "status": "ok",
+      "s200_eeg_s": 792.0432,
+      "speech_onset_eeg_s": 793.0208305112228,
+      "latency_s": 0.9776305112228556,
+      "latency_ms": 977.6305112228556,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 793.0208305112228,
+          "label": "s"
+        }
+      ],
+      "transcription": "nani muda phir lurisyõ",
+      "intervals": [
+        {
+          "start": 793.0147210158191,
+          "end": 794.694832251849,
+          "text": "nani muda phir lurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-089": {
+      "status": "ok",
+      "s200_eeg_s": 795.4093,
+      "speech_onset_eeg_s": 796.2960747736765,
+      "latency_s": 0.8867747736765068,
+      "latency_ms": 886.7747736765068,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 796.2960747736765,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze sĩr arakĩ nartsirisyõ",
+      "intervals": [
+        {
+          "start": 796.2960747736765,
+          "end": 798.3183177523163,
+          "text": "badze sĩr arakĩ nartsirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-090": {
+      "status": "ok",
+      "s200_eeg_s": 798.7246,
+      "speech_onset_eeg_s": 799.5054479315722,
+      "latency_s": 0.7808479315722252,
+      "latency_ms": 780.8479315722252,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 799.5054479315722,
+          "label": "s"
+        }
+      ],
+      "transcription": "nani tshitra ????",
+      "intervals": [
+        {
+          "start": 799.5054479315722,
+          "end": 801.020602791701,
+          "text": "nani tshitra ????"
+        }
+      ],
+      "warnings": []
+    },
+    "main-091": {
+      "status": "ok",
+      "s200_eeg_s": 801.5641,
+      "speech_onset_eeg_s": 802.4244533896792,
+      "latency_s": 0.860353389679176,
+      "latency_ms": 860.353389679176,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 802.4244533896792,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo ngyur aaa ara... sa phir aram larisyõ",
+      "intervals": [
+        {
+          "start": 802.4234533810172,
+          "end": 806.0524936508418,
+          "text": "babukolo ngyur aaa ara... sa phir aram larisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-092": {
+      "status": "ok",
+      "s200_eeg_s": 806.359,
+      "speech_onset_eeg_s": 808.3196711716777,
+      "latency_s": 1.9606711716776317,
+      "latency_ms": 1960.6711716776317,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 808.3196711716777,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma bada sapha larisyõ",
+      "intervals": [
+        {
+          "start": 808.3135616762739,
+          "end": 810.659607911312,
+          "text": "ma bada sapha larisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-093": {
+      "status": "ok",
+      "s200_eeg_s": 810.9198,
+      "speech_onset_eeg_s": 811.9229395287343,
+      "latency_s": 1.003139528734323,
+      "latency_ms": 1003.139528734323,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 811.9229395287343,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma phiũrisyõ",
+      "intervals": [
+        {
+          "start": 811.9290490241381,
+          "end": 813.1692765910984,
+          "text": "ma phiũrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-094": {
+      "status": "ok",
+      "s200_eeg_s": 813.5425,
+      "speech_onset_eeg_s": 814.4872609172035,
+      "latency_s": 0.944760917203439,
+      "latency_ms": 944.760917203439,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 814.4872609172035,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu koida rorisyõ",
+      "intervals": [
+        {
+          "start": 814.4689324309923,
+          "end": 815.9657588049098,
+          "text": "budzyu koida rorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-095": {
+      "status": "ok",
+      "s200_eeg_s": 816.2707,
+      "speech_onset_eeg_s": 817.1902126290298,
+      "latency_s": 0.9195126290297821,
+      "latency_ms": 919.5126290297821,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 817.1902126290298,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze momo banerisyõ",
+      "intervals": [
+        {
+          "start": 817.1773269657808,
+          "end": 818.9185331558482,
+          "text": "badze momo banerisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-096": {
+      "status": "ok",
+      "s200_eeg_s": 819.4698,
+      "speech_onset_eeg_s": 820.3374908242256,
+      "latency_s": 0.8676908242256332,
+      "latency_ms": 867.6908242256332,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 820.3374908242256,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze nitorisyõ",
+      "intervals": [
+        {
+          "start": 820.3374908242256,
+          "end": 821.8098792165282,
+          "text": "badze nitorisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-097": {
+      "status": "ok",
+      "s200_eeg_s": 822.4364,
+      "speech_onset_eeg_s": 823.2709366802904,
+      "latency_s": 0.8345366802903982,
+      "latency_ms": 834.5366802903982,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 823.2709366802904,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo tu phutrurisyõ",
+      "intervals": [
+        {
+          "start": 823.2648271848867,
+          "end": 825.0976758060102,
+          "text": "nanikolo tu phutrurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-098": {
+      "status": "ok",
+      "s200_eeg_s": 825.7461,
+      "speech_onset_eeg_s": 826.8307724833495,
+      "latency_s": 1.08467248334955,
+      "latency_ms": 1084.67248334955,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 826.8307724833495,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma maidana tu yarisyõ",
+      "intervals": [
+        {
+          "start": 826.818553492542,
+          "end": 828.1809709675772,
+          "text": "ma maidana tu yarisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-099": {
+      "status": "ok",
+      "s200_eeg_s": 829.0131,
+      "speech_onset_eeg_s": 830.0138195887008,
+      "latency_s": 1.0007195887008038,
+      "latency_ms": 1000.7195887008038,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 830.0138195887008,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma-i tebular ranga phosyõ",
+      "intervals": [
+        {
+          "start": 830.0067100846348,
+          "end": 831.7906827425285,
+          "text": "ma-i tebular ranga phosyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-100": {
+      "status": "ok",
+      "s200_eeg_s": 832.3379,
+      "speech_onset_eeg_s": 833.1858691017324,
+      "latency_s": 0.8479691017323603,
+      "latency_ms": 847.9691017323603,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 833.1858691017324,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze haikãrisyõ",
+      "intervals": [
+        {
+          "start": 833.1852024292908,
+          "end": 834.7858902250721,
+          "text": "badze haikãrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-101": {
+      "status": "ok",
+      "s200_eeg_s": 835.3773,
+      "speech_onset_eeg_s": 836.2016264776371,
+      "latency_s": 0.8243264776371007,
+      "latency_ms": 824.3264776371007,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 836.2016264776371,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu sĩmuda tsãĩbokharisyõ",
+      "intervals": [
+        {
+          "start": 836.2077359730408,
+          "end": 838.1811029884506,
+          "text": "budzyu sĩmuda tsãĩbokharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-102": {
+      "status": "ok",
+      "s200_eeg_s": 838.3801,
+      "speech_onset_eeg_s": 839.3071382136692,
+      "latency_s": 0.9270382136692206,
+      "latency_ms": 927.0382136692206,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 839.3071382136692,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu mi phaerisyõ",
+      "intervals": [
+        {
+          "start": 839.3071382136692,
+          "end": 840.7673076151642,
+          "text": "budzyu mi phaerisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-103": {
+      "status": "ok",
+      "s200_eeg_s": 841.3091,
+      "speech_onset_eeg_s": 842.1338345682789,
+      "latency_s": 0.8247345682789273,
+      "latency_ms": 824.7345682789273,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 842.1338345682789,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma ngyur prarisyõ",
+      "intervals": [
+        {
+          "start": 842.1338345682789,
+          "end": 843.9850116756137,
+          "text": "ma ngyur prarisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-104": {
+      "status": "ok",
+      "s200_eeg_s": 844.6284,
+      "speech_onset_eeg_s": 845.452845307221,
+      "latency_s": 0.8244453072209126,
+      "latency_ms": 824.4453072209126,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 845.452845307221,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo dzangalar rarisyõ",
+      "intervals": [
+        {
+          "start": 845.452845307221,
+          "end": 847.4811977812643,
+          "text": "nanikolo dzangalar rarisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-105": {
+      "status": "ok",
+      "s200_eeg_s": 848.0153,
+      "speech_onset_eeg_s": 849.1100997005192,
+      "latency_s": 1.094799700519161,
+      "latency_ms": 1094.799700519161,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 849.1100997005192,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo nekharisyõ",
+      "intervals": [
+        {
+          "start": 849.1223186913267,
+          "end": 850.6924590100891,
+          "text": "babukolo nekharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-106": {
+      "status": "ok",
+      "s200_eeg_s": 851.1278,
+      "speech_onset_eeg_s": 852.2033918594735,
+      "latency_s": 1.0755918594735476,
+      "latency_ms": 1075.5918594735476,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 852.2033918594735,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze ngyur radirisyõ",
+      "intervals": [
+        {
+          "start": 852.1972823640698,
+          "end": 853.8651746092922,
+          "text": "badze ngyur radirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-107": {
+      "status": "ok",
+      "s200_eeg_s": 854.1263,
+      "speech_onset_eeg_s": 855.763894334974,
+      "latency_s": 1.6375943349739828,
+      "latency_ms": 1637.5943349739828,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 855.763894334974,
+          "label": "s"
+        }
+      ],
+      "transcription": "ba phiũrisyõ",
+      "intervals": [
+        {
+          "start": 855.7722252375279,
+          "end": 857.0674382631219,
+          "text": "ba phiũrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-108": {
+      "status": "ok",
+      "s200_eeg_s": 857.3867,
+      "speech_onset_eeg_s": 858.3378799708801,
+      "latency_s": 0.9511799708800481,
+      "latency_ms": 951.1799708800481,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 858.3378799708801,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu-yi tanga tsara wamisyõ",
+      "intervals": [
+        {
+          "start": 858.3401013780302,
+          "end": 860.2768114210174,
+          "text": "budzyu-yi tanga tsara wamisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-109": {
+      "status": "ok",
+      "s200_eeg_s": 860.3905,
+      "speech_onset_eeg_s": 861.2903209855976,
+      "latency_s": 0.8998209855976711,
+      "latency_ms": 899.8209855976711,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 861.2903209855976,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze ngyur radirisyõ",
+      "intervals": [
+        {
+          "start": 861.2842114901939,
+          "end": 862.8604613043601,
+          "text": "badze ngyur radirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-110": {
+      "status": "ok",
+      "s200_eeg_s": 863.5451,
+      "speech_onset_eeg_s": 864.4623704986292,
+      "latency_s": 0.9172704986291365,
+      "latency_ms": 917.2704986291365,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 864.4623704986292,
+          "label": "s"
+        }
+      ],
+      "transcription": "ba tsora pekhele(?) prai kharisyõ",
+      "intervals": [
+        {
+          "start": 864.4555943307839,
+          "end": 867.4309185924078,
+          "text": "ba tsora pekhele(?) prai kharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-111": {
+      "status": "ok",
+      "s200_eeg_s": 867.4516,
+      "speech_onset_eeg_s": 868.3096853356151,
+      "latency_s": 0.858085335615101,
+      "latency_ms": 858.085335615101,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 868.3096853356151,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze kãĩ ra tha tsarisyõ",
+      "intervals": [
+        {
+          "start": 868.3154614947979,
+          "end": 870.1544196113252,
+          "text": "badze kãĩ ra tha tsarisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-112": {
+      "status": "ok",
+      "s200_eeg_s": 870.3525,
+      "speech_onset_eeg_s": 871.3228879681491,
+      "latency_s": 0.9703879681491117,
+      "latency_ms": 970.3879681491117,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 871.3228879681491,
+          "label": "s"
+        }
+      ],
+      "transcription": "babu kãĩ ra tha tsarisyõ",
+      "intervals": [
+        {
+          "start": 871.32544271152,
+          "end": 872.8528165624563,
+          "text": "babu kãĩ ra tha tsarisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-113": {
+      "status": "ok",
+      "s200_eeg_s": 873.4308,
+      "speech_onset_eeg_s": 874.479497074561,
+      "latency_s": 1.0486970745610051,
+      "latency_ms": 1048.6970745610051,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 874.479497074561,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma mla phr˜erisyõ",
+      "intervals": [
+        {
+          "start": 874.479497074561,
+          "end": 875.6769581736951,
+          "text": "ma mla phr˜erisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-114": {
+      "status": "ok",
+      "s200_eeg_s": 876.3506,
+      "speech_onset_eeg_s": 877.2525413154198,
+      "latency_s": 0.9019413154197764,
+      "latency_ms": 901.9413154197764,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 877.2525413154198,
+          "label": "s"
+        }
+      ],
+      "transcription": "ma mi phaerisyõ",
+      "intervals": [
+        {
+          "start": 877.2457651475745,
+          "end": 878.5226496869573,
+          "text": "ma mi phaerisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-115": {
+      "status": "ok",
+      "s200_eeg_s": 879.2116,
+      "speech_onset_eeg_s": 880.5490015574063,
+      "latency_s": 1.3374015574063378,
+      "latency_ms": 1337.4015574063378,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 880.5490015574063,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu bidar phota kerisyõ",
+      "intervals": [
+        {
+          "start": 880.5367825665987,
+          "end": 882.5223685728159,
+          "text": "budzyu bidar phota kerisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-116": {
+      "status": "ok",
+      "s200_eeg_s": 882.8803,
+      "speech_onset_eeg_s": 883.7677050402478,
+      "latency_s": 0.8874050402478133,
+      "latency_ms": 887.4050402478133,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 883.7677050402478,
+          "label": "s"
+        }
+      ],
+      "transcription": "budzyu ngyur radirisyõ",
+      "intervals": [
+        {
+          "start": 883.7677050402478,
+          "end": 885.2706409095692,
+          "text": "budzyu ngyur radirisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-117": {
+      "status": "ok",
+      "s200_eeg_s": 886.174,
+      "speech_onset_eeg_s": 887.2085723510443,
+      "latency_s": 1.0345723510442895,
+      "latency_ms": 1034.5723510442895,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 887.2085723510443,
+          "label": "s"
+        }
+      ],
+      "transcription": "nanikolo nekharisyõ",
+      "intervals": [
+        {
+          "start": 887.2024628556404,
+          "end": 889.059749458379,
+          "text": "nanikolo nekharisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-118": {
+      "status": "ok",
+      "s200_eeg_s": 889.2372,
+      "speech_onset_eeg_s": 890.0754804301093,
+      "latency_s": 0.8382804301093074,
+      "latency_ms": 838.2804301093074,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 890.0754804301093,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukola-i naga phũ tsõrisyõ tayir",
+      "intervals": [
+        {
+          "start": 890.0693709347056,
+          "end": 892.3787601973213,
+          "text": "babukola-i naga phũ tsõrisyõ tayir"
+        }
+      ],
+      "warnings": []
+    },
+    "main-119": {
+      "status": "ok",
+      "s200_eeg_s": 893.0965,
+      "speech_onset_eeg_s": 893.9497885783508,
+      "latency_s": 0.8532885783507709,
+      "latency_ms": 853.2885783507709,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 893.9497885783508,
+          "label": "s"
+        }
+      ],
+      "transcription": "babukolo bada khrũrisyõ",
+      "intervals": [
+        {
+          "start": 893.943679082947,
+          "end": 895.7337612362444,
+          "text": "babukolo bada khrũrisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "main-120": {
+      "status": "ok",
+      "s200_eeg_s": 896.014,
+      "speech_onset_eeg_s": 896.990983944533,
+      "latency_s": 0.9769839445330035,
+      "latency_ms": 976.9839445330035,
+      "onset_count": 1,
+      "onset_points": [
+        {
+          "time": 896.990983944533,
+          "label": "s"
+        }
+      ],
+      "transcription": "badze muda phir lurisyõ",
+      "intervals": [
+        {
+          "start": 896.9970934399367,
+          "end": 899.3797966473974,
+          "text": "badze muda phir lurisyõ"
+        }
+      ],
+      "warnings": []
+    },
+    "practice-01": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-02": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-03": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-04": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-05": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-06": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-07": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-08": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-09": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    },
+    "practice-10": {
+      "status": "no_eeg_triggers",
+      "s200_eeg_s": null,
+      "speech_onset_eeg_s": null,
+      "latency_s": null,
+      "latency_ms": null,
+      "onset_count": 0,
+      "onset_points": [],
+      "transcription": "",
+      "intervals": [],
+      "warnings": []
+    }
+  },
+  "unassigned_onsets": [],
+  "unassigned_transcriptions": [],
+  "state": "ready",
+  "sha256": "e8cb3a948b646a0a26aa8279f23ce7a326decb14478c336ea1e31071ba370ab7",
+  "saved_at_utc": "2026-10-18T20:09:25.295038+00:00",
+  "mapping_version": 2,
+  "message": "Saved TextGrid synced"
+}

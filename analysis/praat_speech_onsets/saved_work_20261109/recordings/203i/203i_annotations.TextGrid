@@ -1,0 +1,333 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0 
+xmax = 468.34 
+tiers? <exists> 
+size = 3 
+item []: 
+    item [1]:
+        class = "TextTier" 
+        name = "triggers" 
+        xmin = 0 
+        xmax = 468.34 
+        points: size = 56 
+        points [1]:
+            number = 0 
+            mark = "" 
+        points [2]:
+            number = 33.6844 
+            mark = "S 150" 
+        points [3]:
+            number = 153.6773 
+            mark = "S 150" 
+        points [4]:
+            number = 174.7424 
+            mark = "S 150" 
+        points [5]:
+            number = 294.7372 
+            mark = "S 150" 
+        points [6]:
+            number = 404.0156 
+            mark = "S 200" 
+        points [7]:
+            number = 404.2313 
+            mark = "S 1" 
+        points [8]:
+            number = 404.4318 
+            mark = "S 46" 
+        points [9]:
+            number = 407.538 
+            mark = "S 202" 
+        points [10]:
+            number = 407.7488 
+            mark = "S 200" 
+        points [11]:
+            number = 407.9668 
+            mark = "S 2" 
+        points [12]:
+            number = 408.1615 
+            mark = "S 36" 
+        points [13]:
+            number = 412.4392 
+            mark = "S 202" 
+        points [14]:
+            number = 412.8035 
+            mark = "S 200" 
+        points [15]:
+            number = 413.0147 
+            mark = "S 1" 
+        points [16]:
+            number = 413.2147 
+            mark = "S 79" 
+        points [17]:
+            number = 417.2242 
+            mark = "S 202" 
+        points [18]:
+            number = 417.5912 
+            mark = "S 200" 
+        points [19]:
+            number = 417.8143 
+            mark = "S 2" 
+        points [20]:
+            number = 418.0148 
+            mark = "S 9" 
+        points [21]:
+            number = 422.6724 
+            mark = "S 202" 
+        points [22]:
+            number = 423.0506 
+            mark = "S 200" 
+        points [23]:
+            number = 423.2647 
+            mark = "S 2" 
+        points [24]:
+            number = 423.4644 
+            mark = "S 88" 
+        points [25]:
+            number = 428.5386 
+            mark = "S 202" 
+        points [26]:
+            number = 428.9041 
+            mark = "S 200" 
+        points [27]:
+            number = 429.1141 
+            mark = "S 2" 
+        points [28]:
+            number = 429.3145 
+            mark = "S 48" 
+        points [29]:
+            number = 433.7898 
+            mark = "S 202" 
+        points [30]:
+            number = 434.1635 
+            mark = "S 200" 
+        points [31]:
+            number = 434.38 
+            mark = "S 1" 
+        points [32]:
+            number = 434.5806 
+            mark = "S 102" 
+        points [33]:
+            number = 439.173 
+            mark = "S 202" 
+        points [34]:
+            number = 439.5457 
+            mark = "S 200" 
+        points [35]:
+            number = 439.7641 
+            mark = "S 1" 
+        points [36]:
+            number = 439.9631 
+            mark = "S 63" 
+        points [37]:
+            number = 443.7729 
+            mark = "S 202" 
+        points [38]:
+            number = 444.1396 
+            mark = "S 200" 
+        points [39]:
+            number = 444.3639 
+            mark = "S 2" 
+        points [40]:
+            number = 444.5633 
+            mark = "S 101" 
+        points [41]:
+            number = 450.4546 
+            mark = "S 202" 
+        points [42]:
+            number = 450.8657 
+            mark = "S 200" 
+        points [43]:
+            number = 451.0801 
+            mark = "S 2" 
+        points [44]:
+            number = 451.2792 
+            mark = "S 21" 
+        points [45]:
+            number = 456.8065 
+            mark = "S 202" 
+        points [46]:
+            number = 457.1775 
+            mark = "S 200" 
+        points [47]:
+            number = 457.395 
+            mark = "S 1" 
+        points [48]:
+            number = 457.5952 
+            mark = "S 22" 
+        points [49]:
+            number = 461.4546 
+            mark = "S 202" 
+        points [50]:
+            number = 461.8302 
+            mark = "S 200" 
+        points [51]:
+            number = 462.0456 
+            mark = "S 2" 
+        points [52]:
+            number = 462.2457 
+            mark = "S 41" 
+        points [53]:
+            number = 466.2719 
+            mark = "S 202" 
+        points [54]:
+            number = 466.6381 
+            mark = "S 200" 
+        points [55]:
+            number = 466.8619 
+            mark = "S 1" 
+        points [56]:
+            number = 467.0618 
+            mark = "S 62" 
+    item [2]:
+        class = "TextTier" 
+        name = "speech_onset" 
+        xmin = 0 
+        xmax = 468.34 
+        points: size = 13 
+        points [1]:
+            number = 405.7480351024795 
+            mark = "s" 
+        points [2]:
+            number = 409.5816588169056 
+            mark = "s" 
+        points [3]:
+            number = 414.5501228643436 
+            mark = "s" 
+        points [4]:
+            number = 419.38006529588614 
+            mark = "s" 
+        points [5]:
+            number = 424.81797203745083 
+            mark = "s" 
+        points [6]:
+            number = 430.2836383422431 
+            mark = "s" 
+        points [7]:
+            number = 435.5786473454807 
+            mark = "s" 
+        points [8]:
+            number = 440.9845568527627 
+            mark = "s" 
+        points [9]:
+            number = 446.0167436172237 
+            mark = "s" 
+        points [10]:
+            number = 452.84520196572976 
+            mark = "s" 
+        points [11]:
+            number = 458.67279954805605 
+            mark = "s" 
+        points [12]:
+            number = 463.4651373035766 
+            mark = "s" 
+        points [13]:
+            number = 468.14274748452686 
+            mark = "s" 
+    item [3]:
+        class = "IntervalTier" 
+        name = "transcription" 
+        xmin = 0 
+        xmax = 468.34 
+        intervals: size = 25 
+        intervals [1]:
+            xmin = 0 
+            xmax = 405.7329932352872 
+            text = "" 
+        intervals [2]:
+            xmin = 405.7329932352872 
+            xmax = 407.49289169678815 
+            text = "maemae kri kãĩ tsarisyõ" 
+        intervals [3]:
+            xmin = 407.49289169678815 
+            xmax = 409.5816588169056 
+            text = "" 
+        intervals [4]:
+            xmin = 409.5816588169056 
+            xmax = 411.9582738332915 
+            text = "rimae kri maidanada ma yurisyõ" 
+        intervals [5]:
+            xmin = 411.9582738332915 
+            xmax = 414.5501228643436 
+            text = "" 
+        intervals [6]:
+            xmin = 414.5501228643436 
+            xmax = 416.82144481038335 
+            text = "rimae kri biruwa rĩrisyõ" 
+        intervals [7]:
+            xmin = 416.82144481038335 
+            xmax = 419.38006529588614 
+            text = "" 
+        intervals [8]:
+            xmin = 419.38006529588614 
+            xmax = 422.47116900390705 
+            text = "rimae kri syõa tirar aram larisyõ" 
+        intervals [9]:
+            xmin = 422.47116900390705 
+            xmax = 424.81879291162863 
+            text = "" 
+        intervals [10]:
+            xmin = 424.81879291162863 
+            xmax = 428.27090143226513 
+            text = "budzyukuyu banada tu tinor kharisyõ" 
+        intervals [11]:
+            xmin = 428.27090143226513 
+            xmax = 430.27611740864694 
+            text = "" 
+        intervals [12]:
+            xmin = 430.27611740864694 
+            xmax = 433.32209551509095 
+            text = "maemakolo bairada tu tinor kharisyõ " 
+        intervals [13]:
+            xmin = 433.32209551509095 
+            xmax = 435.5786473454807 
+            text = "" 
+        intervals [14]:
+            xmin = 435.5786473454807 
+            xmax = 439.113486135675 
+            text = "badzebudauri simudha tsãĩbokharisyõ" 
+        intervals [15]:
+            xmin = 439.113486135675 
+            xmax = 440.9845568527627 
+            text = "" 
+        intervals [16]:
+            xmin = 440.9845568527627 
+            xmax = 443.34613000195634 
+            text = "rimaekolori kyurur badha khrũrisyõ" 
+        intervals [17]:
+            xmin = 443.34613000195634 
+            xmax = 446.0123672606222 
+            text = "" 
+        intervals [18]:
+            xmin = 446.0123672606222 
+            xmax = 450.37030966073183 
+            text = "budzyukuyuri sĩmudhar aralai nartsirisyõ" 
+        intervals [19]:
+            xmin = 450.37030966073183 
+            xmax = 452.81511823134514 
+            text = "" 
+        intervals [20]:
+            xmin = 452.81511823134514 
+            xmax = 456.49285475986636 
+            text = "badzebudauri yoi wo tui nartsirisyõ " 
+        intervals [21]:
+            xmin = 456.49285475986636 
+            xmax = 458.67279954805605 
+            text = "" 
+        intervals [22]:
+            xmin = 458.67279954805605 
+            xmax = 461.1246238469054 
+            text = "rimae kri-yi(?) golbeda tõrisyõ" 
+        intervals [23]:
+            xmin = 461.1246238469054 
+            xmax = 463.4651373035766 
+            text = "" 
+        intervals [24]:
+            xmin = 463.4651373035766 
+            xmax = 465.8267104012414 
+            text = "maemakolori maidanada tu yarisyõ" 
+        intervals [25]:
+            xmin = 465.8267104012414 
+            xmax = 468.34 
+            text = "" 

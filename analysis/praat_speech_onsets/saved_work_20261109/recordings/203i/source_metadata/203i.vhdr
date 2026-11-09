@@ -1,0 +1,89 @@
+BrainVision Data Exchange Header File Version 1.0
+; Data created by the BrainVision Recorder
+
+[Common Infos]
+Codepage=UTF-8
+DataFile=203i.eeg
+MarkerFile=203i.vmrk
+DataFormat=BINARY
+; Data orientation: MULTIPLEXED=ch1,pt1, ch2,pt1 ...
+DataOrientation=MULTIPLEXED
+NumberOfChannels=32
+; Sampling interval in microseconds
+SamplingInterval=100
+
+[Binary Infos]
+BinaryFormat=IEEE_FLOAT_32
+
+[Channel Infos]
+; Each entry: Ch<Channel number>=<Name>,<Reference channel name>,
+; <Resolution in "Unit">,<Unit>, Future extensions..
+; Fields are delimited by commas, some fields might be omitted (empty).
+; Commas in channel names are coded as "\1".
+Ch1=Fp1,,0.0488281,µV
+Ch2=Fz,,0.0488281,µV
+Ch3=F3,,0.0488281,µV
+Ch4=F7,,0.0488281,µV
+Ch5=FT9,,0.0488281,µV
+Ch6=FC5,,0.0488281,µV
+Ch7=FC1,,0.0488281,µV
+Ch8=C3,,0.0488281,µV
+Ch9=T7,,0.0488281,µV
+Ch10=CP5,,0.0488281,µV
+Ch11=CP1,,0.0488281,µV
+Ch12=Pz,,0.0488281,µV
+Ch13=P3,,0.0488281,µV
+Ch14=P7,,0.0488281,µV
+Ch15=O1,,0.0488281,µV
+Ch16=Oz,,0.0488281,µV
+Ch17=O2,,0.0488281,µV
+Ch18=P4,,0.0488281,µV
+Ch19=P8,,0.0488281,µV
+Ch20=TP10,,0.0488281,µV
+Ch21=CP6,,0.0488281,µV
+Ch22=CP2,,0.0488281,µV
+Ch23=Cz,,0.0488281,µV
+Ch24=C4,,0.0488281,µV
+Ch25=T8,,0.0488281,µV
+Ch26=FT10,,0.0488281,µV
+Ch27=FC6,,0.0488281,µV
+Ch28=FC2,,0.0488281,µV
+Ch29=F4,,0.0488281,µV
+Ch30=F8,,0.0488281,µV
+Ch31=Fp2,,0.0488281,µV
+Ch32=AUX1,,0.298023,µV
+
+[Coordinates]
+; Electrode Position File: C:\EEG\actiCAP_slim_AS\AS-32\AS-32_REF.bvef
+Ch1=1,-90,-72
+Ch2=1,45,90
+Ch3=1,-60,-51
+Ch4=1,-90,-36
+Ch5=1,-113,-18
+Ch6=1,-69,-22
+Ch7=1,-31,-46
+Ch8=1,-45,0
+Ch9=1,-90,0
+Ch10=1,-69,21
+Ch11=1,-31,46
+Ch12=1,45,-90
+Ch13=1,-60,51
+Ch14=1,-90,36
+Ch15=1,-90,72
+Ch16=1,90,-90
+Ch17=1,90,-72
+Ch18=1,60,-51
+Ch19=1,90,-36
+Ch20=1,113,-18
+Ch21=1,69,-21
+Ch22=1,31,-46
+Ch23=1,0,0
+Ch24=1,45,0
+Ch25=1,90,0
+Ch26=1,113,18
+Ch27=1,69,21
+Ch28=1,31,46
+Ch29=1,60,51
+Ch30=1,90,36
+Ch31=1,90,72
+Ch32=0,0,0

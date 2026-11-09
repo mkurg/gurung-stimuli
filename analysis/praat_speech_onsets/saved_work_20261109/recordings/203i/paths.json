@@ -1,0 +1,18 @@
+{
+  "vhdr": "203i/203i.vhdr",
+  "stimtrak_wav": "203i/203i.wav",
+  "textgrid": "203i/203i_annotations.TextGrid",
+  "audio_dir": "203i/203_l1_2026-08-21_14h10.13.096-20261028T120513Z-1-001/203_l1_2026-08-21_14h10.13.096",
+  "parts": [
+    {
+      "vhdr": "203i/203i.vhdr",
+      "stimtrak_wav": "203i/203i.wav",
+      "textgrid": "203i/203i_annotations.TextGrid"
+    },
+    {
+      "vhdr": "203i/203ipt2.vhdr",
+      "stimtrak_wav": "203i/203ipt2.wav",
+      "textgrid": "203i/203ipt2_annotations.TextGrid"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "pipeline_version": 2,
+  "registered_at_utc": "2026-10-03T11:53:13.553534+00:00",
+  "session_id": "22d7679762b81edff0d9788a22b69f6a3c5f313079f4c515d09580aa381f616e",
+  "channel": "AUX1",
+  "source_files": [
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\073i\\073i.vhdr",
+      "sha256": "edf0cb1ef36d8172688b08d6b65a59463feb07bccab3ad49cd12c44f709f62cb"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\073i\\073i.vmrk",
+      "sha256": "b4b8b7142460c7e50a3088fc2f8cab043407fbd8f3ad015e2bb4db3480ccb3b3"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\073i\\073_l2_2026-08-08_14h24.43.040-20261003T114221Z-1-001\\073_l2_2026-08-08_14h24.43.040\\eeg_triggers.csv",
+      "sha256": "9effa88b0148d08fd439818da052ce72a0d7d7f8f48186d23a185a121eac9820"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Documents\\Ergativity EEG\\gurung-stimuli\\isolated part\\Conds\\isolated_main_list2_all_120.csv",
+      "sha256": "b5364fe102d7781d24ad6644e4692144784f0f5805b868a6e9ec5c03904f2c0e"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Documents\\Ergativity EEG\\gurung-stimuli\\isolated part\\Conds\\isolated_practice.csv",
+      "sha256": "10737f6e853b174d2384164af84acf01444a1a63f0daa3b710312fb3d315e777"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\073i\\073_l2_2026-08-08_14h24.43.040-20261003T114221Z-1-001\\073_l2_2026-08-08_14h24.43.040\\recording_segments.csv",
+      "sha256": "01a26b6467ecb8abf08903ff32bbb8539546a510abee67cb9d9d05505533e2b6"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\073i\\073_l2_2026-08-08_14h24.43.040-20261003T114221Z-1-001\\073_l2_2026-08-08_14h24.43.040\\full_session.wav",
+      "sha256": "5104a6bb2f4509a01a1392b80fad553d0ad6ba42baa7780705ed830833704311"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\073i\\073i.eeg",
+      "sha256": "e6cee46887ccb9bfbe729cb91e9af463ebcae6eed628ef4ebd62c6cf6067a3e7",
+      "bytes": 1911014400
+    }
+  ],
+  "stimtrak_wav": {
+    "path": "C:/Users/Sofya/Desktop/EEG recs/073i/073i.wav",
+    "sha256": "ae302220e7ce724de81bb4be8a4186f50887370b8854f3e136ba4a60aaf02a27"
+  },
+  "initial_textgrid_sha256": "6b3e8a44e6818a780bdda1811110dbf9be9f61d0fb0077ac24ecc7308fd83bc5",
+  "extraction": {
+    "source_header": "C:\\Users\\Sofya\\Desktop\\EEG recs\\073i\\073i.vhdr",
+    "source_data": "C:\\Users\\Sofya\\Desktop\\EEG recs\\073i\\073i.eeg",
+    "source_markers": "C:\\Users\\Sofya\\Desktop\\EEG recs\\073i\\073i.vmrk",
+    "channel": "AUX1",
+    "sampling_rate_hz": 10000.0,
+    "sample_count": 14929800,
+    "duration_seconds": 1492.98,
+    "marker_count": 486,
+    "wav_format": "mono 16-bit PCM",
+    "peak_before_scaling": 4.996794284856,
+    "normalization": "one constant gain; peak set to 95% of 32767",
+    "time_origin": "first recorded sample; no cropping, filtering, or resampling",
+    "marker_time_formula": "(position_1based - 1) / sampling_rate_hz",
+    "textgrid_markers": "all marker onsets retained; compact S/R codes; full marker metadata in TSV",
+    "marker_duration_and_channel": "preserved in the TSV, not represented by point-tier duration",
+    "mne_version": "1.13.2",
+    "numpy_version": "2.5.3",
+    "python_version": "3.14.4 | packaged by conda-forge | (main, Apr  8 2026, 02:08:03) [MSC v.1944 64 bit (AMD64)]"
+  },
+  "tool_sha256": {
+    "brainvision_to_praat.py": "10f4259aa57260d440ea9e98e8e85ae0c3882b7385c26f3a25ef5112f2e7eddd",
+    "server.py": "99742859492d66849a3f0fcd961044edd5bad3f2f75e10dd1c74f75f9619fe4a",
+    "annotations.py": "a42a6eacb41273f847061c27ce194f9c3864545b6e833669bcb5ac0737c85f4f",
+    "import_recording.py": "7dd1b82068e65d8664eef9dea8d37c08c1df5d489fa1bb3f475a26b5369d2f98"
+  },
+  "annotation_reader": "praatio==6.2.0",
+  "python_importer": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "timing": "Unchanged EEG samples; markers=(position_1based-1)/sample_rate; latency=marked onset-S200",
+  "relocations": [
+    {
+      "date": "2026-10-03",
+      "reason": "User-requested move to the Desktop recording folder; file contents verified unchanged",
+      "files": [
+        {
+          "from": "C:/Users/Sofya/.codex/visualizations/2026/10/01/01a0f928-a873-74b1-8256-3834dc087ebe/praat_speech_onsets/trial_reference/recordings/22d7679762b81edff0d9/aux/073i_AUX1/073i.wav",
+          "to": "C:/Users/Sofya/Desktop/EEG recs/073i/073i.wav",
+          "sha256": "ae302220e7ce724de81bb4be8a4186f50887370b8854f3e136ba4a60aaf02a27"
+        },
+        {
+          "from": "C:/Users/Sofya/.codex/visualizations/2026/10/01/01a0f928-a873-74b1-8256-3834dc087ebe/praat_speech_onsets/trial_reference/recordings/22d7679762b81edff0d9/aux/073i_AUX1/073i_annotations.TextGrid",
+          "to": "C:/Users/Sofya/Desktop/EEG recs/073i/073i_annotations.TextGrid",
+          "sha256": "6b3e8a44e6818a780bdda1811110dbf9be9f61d0fb0077ac24ecc7308fd83bc5"
+        }
+      ]
+    }
+  ]
+}

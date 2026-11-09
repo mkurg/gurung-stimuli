@@ -1,0 +1,2808 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0 
+xmax = 1405.08 
+tiers? <exists> 
+size = 3 
+item []: 
+    item [1]:
+        class = "TextTier" 
+        name = "triggers" 
+        xmin = 0 
+        xmax = 1405.08 
+        points: size = 486 
+        points [1]:
+            number = 0 
+            mark = "" 
+        points [2]:
+            number = 0.02 
+            mark = "" 
+        points [3]:
+            number = 32.5289 
+            mark = "S 150" 
+        points [4]:
+            number = 152.5206 
+            mark = "S 150" 
+        points [5]:
+            number = 158.8549 
+            mark = "S 150" 
+        points [6]:
+            number = 278.8475 
+            mark = "S 150" 
+        points [7]:
+            number = 466.8687 
+            mark = "S 200" 
+        points [8]:
+            number = 467.0885 
+            mark = "S 2" 
+        points [9]:
+            number = 467.2888 
+            mark = "S 74" 
+        points [10]:
+            number = 470.9291 
+            mark = "S 202" 
+        points [11]:
+            number = 471.3015 
+            mark = "S 200" 
+        points [12]:
+            number = 471.5216 
+            mark = "S 2" 
+        points [13]:
+            number = 471.7218 
+            mark = "S 66" 
+        points [14]:
+            number = 474.1954 
+            mark = "S 202" 
+        points [15]:
+            number = 474.5537 
+            mark = "S 200" 
+        points [16]:
+            number = 474.7718 
+            mark = "S 1" 
+        points [17]:
+            number = 474.9717 
+            mark = "S 57" 
+        points [18]:
+            number = 478.047 
+            mark = "S 202" 
+        points [19]:
+            number = 478.4132 
+            mark = "S 200" 
+        points [20]:
+            number = 478.6382 
+            mark = "S 1" 
+        points [21]:
+            number = 478.838 
+            mark = "S 76" 
+        points [22]:
+            number = 482.4463 
+            mark = "S 202" 
+        points [23]:
+            number = 482.8217 
+            mark = "S 200" 
+        points [24]:
+            number = 483.0377 
+            mark = "S 1" 
+        points [25]:
+            number = 483.2378 
+            mark = "S 52" 
+        points [26]:
+            number = 486.613 
+            mark = "S 202" 
+        points [27]:
+            number = 486.9828 
+            mark = "S 200" 
+        points [28]:
+            number = 487.2043 
+            mark = "S 2" 
+        points [29]:
+            number = 487.4043 
+            mark = "S 35" 
+        points [30]:
+            number = 491.6452 
+            mark = "S 202" 
+        points [31]:
+            number = 491.8385 
+            mark = "S 200" 
+        points [32]:
+            number = 492.0537 
+            mark = "S 2" 
+        points [33]:
+            number = 492.2539 
+            mark = "S 47" 
+        points [34]:
+            number = 496.2126 
+            mark = "S 202" 
+        points [35]:
+            number = 496.5878 
+            mark = "S 200" 
+        points [36]:
+            number = 496.804 
+            mark = "S 1" 
+        points [37]:
+            number = 497.0037 
+            mark = "S 77" 
+        points [38]:
+            number = 500.3286 
+            mark = "S 202" 
+        points [39]:
+            number = 500.6964 
+            mark = "S 200" 
+        points [40]:
+            number = 500.9205 
+            mark = "S 2" 
+        points [41]:
+            number = 501.1207 
+            mark = "S 42" 
+        points [42]:
+            number = 506.3471 
+            mark = "S 202" 
+        points [43]:
+            number = 506.7264 
+            mark = "S 200" 
+        points [44]:
+            number = 506.9548 
+            mark = "S 2" 
+        points [45]:
+            number = 507.1532 
+            mark = "S 63" 
+        points [46]:
+            number = 510.6293 
+            mark = "S 202" 
+        points [47]:
+            number = 510.9438 
+            mark = "S 200" 
+        points [48]:
+            number = 511.1521 
+            mark = "S 2" 
+        points [49]:
+            number = 511.3524 
+            mark = "S 110" 
+        points [50]:
+            number = 515.869 
+            mark = "S 202" 
+        points [51]:
+            number = 516.0982 
+            mark = "S 200" 
+        points [52]:
+            number = 516.3078 
+            mark = "S 2" 
+        points [53]:
+            number = 516.5094 
+            mark = "S 94" 
+        points [54]:
+            number = 520.7623 
+            mark = "S 202" 
+        points [55]:
+            number = 521.1408 
+            mark = "S 200" 
+        points [56]:
+            number = 521.3531 
+            mark = "S 1" 
+        points [57]:
+            number = 521.5525 
+            mark = "S 100" 
+        points [58]:
+            number = 526.0958 
+            mark = "S 202" 
+        points [59]:
+            number = 526.4743 
+            mark = "S 200" 
+        points [60]:
+            number = 526.6859 
+            mark = "S 2" 
+        points [61]:
+            number = 526.8861 
+            mark = "S 26" 
+        points [62]:
+            number = 529.8626 
+            mark = "S 202" 
+        points [63]:
+            number = 530.2278 
+            mark = "S 200" 
+        points [64]:
+            number = 530.452 
+            mark = "S 2" 
+        points [65]:
+            number = 530.6522 
+            mark = "S 83" 
+        points [66]:
+            number = 533.8824 
+            mark = "S 202" 
+        points [67]:
+            number = 534.2476 
+            mark = "S 200" 
+        points [68]:
+            number = 534.469 
+            mark = "S 2" 
+        points [69]:
+            number = 534.6688 
+            mark = "S 99" 
+        points [70]:
+            number = 537.4461 
+            mark = "S 202" 
+        points [71]:
+            number = 537.8117 
+            mark = "S 200" 
+        points [72]:
+            number = 538.0349 
+            mark = "S 2" 
+        points [73]:
+            number = 538.2354 
+            mark = "S 23" 
+        points [74]:
+            number = 576.5112 
+            mark = "S 202" 
+        points [75]:
+            number = 576.7678 
+            mark = "S 200" 
+        points [76]:
+            number = 576.9818 
+            mark = "S 1" 
+        points [77]:
+            number = 577.1846 
+            mark = "S 41" 
+        points [78]:
+            number = 581.7771 
+            mark = "S 202" 
+        points [79]:
+            number = 582.1555 
+            mark = "S 200" 
+        points [80]:
+            number = 582.3832 
+            mark = "S 1" 
+        points [81]:
+            number = 582.5827 
+            mark = "S 20" 
+        points [82]:
+            number = 586.4441 
+            mark = "S 202" 
+        points [83]:
+            number = 586.8195 
+            mark = "S 200" 
+        points [84]:
+            number = 587.0333 
+            mark = "S 1" 
+        points [85]:
+            number = 587.2328 
+            mark = "S 44" 
+        points [86]:
+            number = 590.8109 
+            mark = "S 202" 
+        points [87]:
+            number = 591.1853 
+            mark = "S 200" 
+        points [88]:
+            number = 591.3993 
+            mark = "S 2" 
+        points [89]:
+            number = 591.5993 
+            mark = "S 43" 
+        points [90]:
+            number = 595.944 
+            mark = "S 202" 
+        points [91]:
+            number = 596.3227 
+            mark = "S 200" 
+        points [92]:
+            number = 596.5493 
+            mark = "S 1" 
+        points [93]:
+            number = 596.7494 
+            mark = "S 24" 
+        points [94]:
+            number = 599.6938 
+            mark = "S 202" 
+        points [95]:
+            number = 600.0658 
+            mark = "S 200" 
+        points [96]:
+            number = 600.2822 
+            mark = "S 2" 
+        points [97]:
+            number = 600.4828 
+            mark = "S 31" 
+        points [98]:
+            number = 603.6102 
+            mark = "S 202" 
+        points [99]:
+            number = 603.993 
+            mark = "S 200" 
+        points [100]:
+            number = 604.215 
+            mark = "S 1" 
+        points [101]:
+            number = 604.4152 
+            mark = "S 113" 
+        points [102]:
+            number = 608.0108 
+            mark = "S 202" 
+        points [103]:
+            number = 608.3803 
+            mark = "S 200" 
+        points [104]:
+            number = 608.5988 
+            mark = "S 1" 
+        points [105]:
+            number = 608.7989 
+            mark = "S 73" 
+        points [106]:
+            number = 612.2923 
+            mark = "S 202" 
+        points [107]:
+            number = 612.6667 
+            mark = "S 200" 
+        points [108]:
+            number = 612.8813 
+            mark = "S 2" 
+        points [109]:
+            number = 613.0819 
+            mark = "S 51" 
+        points [110]:
+            number = 617.0773 
+            mark = "S 202" 
+        points [111]:
+            number = 617.4591 
+            mark = "S 200" 
+        points [112]:
+            number = 617.6817 
+            mark = "S 2" 
+        points [113]:
+            number = 617.8814 
+            mark = "S 54" 
+        points [114]:
+            number = 621.3939 
+            mark = "S 202" 
+        points [115]:
+            number = 621.7676 
+            mark = "S 200" 
+        points [116]:
+            number = 621.981 
+            mark = "S 2" 
+        points [117]:
+            number = 622.1813 
+            mark = "S 111" 
+        points [118]:
+            number = 625.994 
+            mark = "S 202" 
+        points [119]:
+            number = 626.3834 
+            mark = "S 200" 
+        points [120]:
+            number = 626.5976 
+            mark = "S 1" 
+        points [121]:
+            number = 626.7978 
+            mark = "S 33" 
+        points [122]:
+            number = 629.5596 
+            mark = "S 202" 
+        points [123]:
+            number = 629.9377 
+            mark = "S 200" 
+        points [124]:
+            number = 630.1642 
+            mark = "S 1" 
+        points [125]:
+            number = 630.3638 
+            mark = "S 49" 
+        points [126]:
+            number = 632.9785 
+            mark = "S 202" 
+        points [127]:
+            number = 633.2543 
+            mark = "S 200" 
+        points [128]:
+            number = 633.4634 
+            mark = "S 1" 
+        points [129]:
+            number = 633.6637 
+            mark = "S 28" 
+        points [130]:
+            number = 637.3958 
+            mark = "S 202" 
+        points [131]:
+            number = 637.7034 
+            mark = "S 200" 
+        points [132]:
+            number = 637.9124 
+            mark = "S 1" 
+        points [133]:
+            number = 638.1125 
+            mark = "S 13" 
+        points [134]:
+            number = 645.6945 
+            mark = "S 202" 
+        points [135]:
+            number = 646.0878 
+            mark = "S 200" 
+        points [136]:
+            number = 646.3127 
+            mark = "S 1" 
+        points [137]:
+            number = 646.5132 
+            mark = "S 108" 
+        points [138]:
+            number = 649.8446 
+            mark = "S 202" 
+        points [139]:
+            number = 650.2378 
+            mark = "S 200" 
+        points [140]:
+            number = 650.4631 
+            mark = "S 1" 
+        points [141]:
+            number = 650.6631 
+            mark = "S 116" 
+        points [142]:
+            number = 654.4106 
+            mark = "S 202" 
+        points [143]:
+            number = 654.7957 
+            mark = "S 200" 
+        points [144]:
+            number = 655.0129 
+            mark = "S 2" 
+        points [145]:
+            number = 655.2133 
+            mark = "S 106" 
+        points [146]:
+            number = 658.4606 
+            mark = "S 202" 
+        points [147]:
+            number = 658.8408 
+            mark = "S 200" 
+        points [148]:
+            number = 659.0627 
+            mark = "S 2" 
+        points [149]:
+            number = 659.2627 
+            mark = "S 82" 
+        points [150]:
+            number = 662.1438 
+            mark = "S 202" 
+        points [151]:
+            number = 662.5227 
+            mark = "S 200" 
+        points [152]:
+            number = 662.7458 
+            mark = "S 2" 
+        points [153]:
+            number = 662.9454 
+            mark = "S 59" 
+        points [154]:
+            number = 685.7253 
+            mark = "S 202" 
+        points [155]:
+            number = 686.1591 
+            mark = "S 200" 
+        points [156]:
+            number = 686.3776 
+            mark = "S 2" 
+        points [157]:
+            number = 686.5772 
+            mark = "S 6" 
+        points [158]:
+            number = 689.9759 
+            mark = "S 202" 
+        points [159]:
+            number = 690.3508 
+            mark = "S 200" 
+        points [160]:
+            number = 690.5618 
+            mark = "S 1" 
+        points [161]:
+            number = 690.7778 
+            mark = "S 32" 
+        points [162]:
+            number = 693.7252 
+            mark = "S 202" 
+        points [163]:
+            number = 694.1081 
+            mark = "S 200" 
+        points [164]:
+            number = 694.3272 
+            mark = "S 2" 
+        points [165]:
+            number = 694.5277 
+            mark = "S 2" 
+        points [166]:
+            number = 698.5255 
+            mark = "S 202" 
+        points [167]:
+            number = 698.9206 
+            mark = "S 200" 
+        points [168]:
+            number = 699.1436 
+            mark = "S 1" 
+        points [169]:
+            number = 699.344 
+            mark = "S 72" 
+        points [170]:
+            number = 702.5214 
+            mark = "S 202" 
+        points [171]:
+            number = 702.759 
+            mark = "S 200" 
+        points [172]:
+            number = 702.9692 
+            mark = "S 1" 
+        points [173]:
+            number = 703.1695 
+            mark = "S 36" 
+        points [174]:
+            number = 706.4922 
+            mark = "S 202" 
+        points [175]:
+            number = 706.8833 
+            mark = "S 200" 
+        points [176]:
+            number = 707.111 
+            mark = "S 1" 
+        points [177]:
+            number = 707.3104 
+            mark = "S 1" 
+        points [178]:
+            number = 712.6092 
+            mark = "S 202" 
+        points [179]:
+            number = 713.0178 
+            mark = "S 200" 
+        points [180]:
+            number = 713.2434 
+            mark = "S 1" 
+        points [181]:
+            number = 713.4426 
+            mark = "S 45" 
+        points [182]:
+            number = 716.1423 
+            mark = "S 202" 
+        points [183]:
+            number = 716.5343 
+            mark = "S 200" 
+        points [184]:
+            number = 716.7595 
+            mark = "S 2" 
+        points [185]:
+            number = 716.9598 
+            mark = "S 22" 
+        points [186]:
+            number = 720.9101 
+            mark = "S 202" 
+        points [187]:
+            number = 721.3136 
+            mark = "S 200" 
+        points [188]:
+            number = 721.5265 
+            mark = "S 2" 
+        points [189]:
+            number = 721.7263 
+            mark = "S 11" 
+        points [190]:
+            number = 726.259 
+            mark = "S 202" 
+        points [191]:
+            number = 726.5575 
+            mark = "S 200" 
+        points [192]:
+            number = 726.7757 
+            mark = "S 2" 
+        points [193]:
+            number = 726.976 
+            mark = "S 67" 
+        points [194]:
+            number = 731.4923 
+            mark = "S 202" 
+        points [195]:
+            number = 731.8954 
+            mark = "S 200" 
+        points [196]:
+            number = 732.1085 
+            mark = "S 2" 
+        points [197]:
+            number = 732.3093 
+            mark = "S 10" 
+        points [198]:
+            number = 746.0425 
+            mark = "S 202" 
+        points [199]:
+            number = 746.4994 
+            mark = "S 200" 
+        points [200]:
+            number = 746.7247 
+            mark = "S 1" 
+        points [201]:
+            number = 746.9256 
+            mark = "S 56" 
+        points [202]:
+            number = 755.9093 
+            mark = "S 202" 
+        points [203]:
+            number = 756.3184 
+            mark = "S 200" 
+        points [204]:
+            number = 756.5412 
+            mark = "S 2" 
+        points [205]:
+            number = 756.7412 
+            mark = "S 50" 
+        points [206]:
+            number = 758.8581 
+            mark = "S 202" 
+        points [207]:
+            number = 759.2651 
+            mark = "S 200" 
+        points [208]:
+            number = 759.4905 
+            mark = "S 1" 
+        points [209]:
+            number = 759.6904 
+            mark = "S 85" 
+        points [210]:
+            number = 763.4086 
+            mark = "S 202" 
+        points [211]:
+            number = 763.82 
+            mark = "S 200" 
+        points [212]:
+            number = 764.041 
+            mark = "S 1" 
+        points [213]:
+            number = 764.2409 
+            mark = "S 21" 
+        points [214]:
+            number = 767.9226 
+            mark = "S 202" 
+        points [215]:
+            number = 768.3317 
+            mark = "S 200" 
+        points [216]:
+            number = 768.557 
+            mark = "S 1" 
+        points [217]:
+            number = 768.7575 
+            mark = "S 61" 
+        points [218]:
+            number = 771.957 
+            mark = "S 202" 
+        points [219]:
+            number = 772.3544 
+            mark = "S 200" 
+        points [220]:
+            number = 772.5737 
+            mark = "S 1" 
+        points [221]:
+            number = 772.7743 
+            mark = "S 88" 
+        points [222]:
+            number = 776.5236 
+            mark = "S 202" 
+        points [223]:
+            number = 776.9302 
+            mark = "S 200" 
+        points [224]:
+            number = 777.1566 
+            mark = "S 2" 
+        points [225]:
+            number = 777.3401 
+            mark = "S 18" 
+        points [226]:
+            number = 785.7251 
+            mark = "S 202" 
+        points [227]:
+            number = 786.0635 
+            mark = "S 200" 
+        points [228]:
+            number = 786.2727 
+            mark = "S 1" 
+        points [229]:
+            number = 786.4728 
+            mark = "S 92" 
+        points [230]:
+            number = 789.2071 
+            mark = "S 202" 
+        points [231]:
+            number = 789.6357 
+            mark = "S 200" 
+        points [232]:
+            number = 789.8556 
+            mark = "S 1" 
+        points [233]:
+            number = 790.056 
+            mark = "S 96" 
+        points [234]:
+            number = 793.4064 
+            mark = "S 202" 
+        points [235]:
+            number = 793.815 
+            mark = "S 200" 
+        points [236]:
+            number = 794.0394 
+            mark = "S 1" 
+        points [237]:
+            number = 794.2391 
+            mark = "S 25" 
+        points [238]:
+            number = 796.8907 
+            mark = "S 202" 
+        points [239]:
+            number = 797.2914 
+            mark = "S 200" 
+        points [240]:
+            number = 797.506 
+            mark = "S 1" 
+        points [241]:
+            number = 797.7057 
+            mark = "S 84" 
+        points [242]:
+            number = 802.5581 
+            mark = "S 202" 
+        points [243]:
+            number = 802.9555 
+            mark = "S 200" 
+        points [244]:
+            number = 803.172 
+            mark = "S 1" 
+        points [245]:
+            number = 803.3717 
+            mark = "S 112" 
+        points [246]:
+            number = 806.8409 
+            mark = "S 202" 
+        points [247]:
+            number = 882.3916 
+            mark = "S 200" 
+        points [248]:
+            number = 882.6 
+            mark = "S 1" 
+        points [249]:
+            number = 882.8012 
+            mark = "S 64" 
+        points [250]:
+            number = 886.7196 
+            mark = "S 202" 
+        points [251]:
+            number = 887.1278 
+            mark = "S 200" 
+        points [252]:
+            number = 887.3514 
+            mark = "S 1" 
+        points [253]:
+            number = 887.5509 
+            mark = "S 40" 
+        points [254]:
+            number = 894.0198 
+            mark = "S 202" 
+        points [255]:
+            number = 894.4224 
+            mark = "S 200" 
+        points [256]:
+            number = 894.6341 
+            mark = "S 1" 
+        points [257]:
+            number = 894.8339 
+            mark = "S 5" 
+        points [258]:
+            number = 897.8854 
+            mark = "S 202" 
+        points [259]:
+            number = 898.2888 
+            mark = "S 200" 
+        points [260]:
+            number = 898.5009 
+            mark = "S 1" 
+        points [261]:
+            number = 898.7004 
+            mark = "S 17" 
+        points [262]:
+            number = 900.9705 
+            mark = "S 202" 
+        points [263]:
+            number = 901.354 
+            mark = "S 200" 
+        points [264]:
+            number = 901.5679 
+            mark = "S 1" 
+        points [265]:
+            number = 901.767 
+            mark = "S 60" 
+        points [266]:
+            number = 905.8374 
+            mark = "S 202" 
+        points [267]:
+            number = 906.2231 
+            mark = "S 200" 
+        points [268]:
+            number = 906.4502 
+            mark = "S 2" 
+        points [269]:
+            number = 906.6499 
+            mark = "S 119" 
+        points [270]:
+            number = 909.1195 
+            mark = "S 202" 
+        points [271]:
+            number = 909.5125 
+            mark = "S 200" 
+        points [272]:
+            number = 909.7334 
+            mark = "S 2" 
+        points [273]:
+            number = 909.9334 
+            mark = "S 90" 
+        points [274]:
+            number = 913.4369 
+            mark = "S 202" 
+        points [275]:
+            number = 913.8267 
+            mark = "S 200" 
+        points [276]:
+            number = 914.0502 
+            mark = "S 2" 
+        points [277]:
+            number = 914.25 
+            mark = "S 71" 
+        points [278]:
+            number = 917.9192 
+            mark = "S 202" 
+        points [279]:
+            number = 918.3146 
+            mark = "S 200" 
+        points [280]:
+            number = 918.5328 
+            mark = "S 1" 
+        points [281]:
+            number = 918.7328 
+            mark = "S 120" 
+        points [282]:
+            number = 921.7533 
+            mark = "S 202" 
+        points [283]:
+            number = 922.1436 
+            mark = "S 200" 
+        points [284]:
+            number = 922.3668 
+            mark = "S 2" 
+        points [285]:
+            number = 922.5663 
+            mark = "S 39" 
+        points [286]:
+            number = 925.9876 
+            mark = "S 202" 
+        points [287]:
+            number = 926.3884 
+            mark = "S 200" 
+        points [288]:
+            number = 926.5994 
+            mark = "S 1" 
+        points [289]:
+            number = 926.7992 
+            mark = "S 80" 
+        points [290]:
+            number = 930.6353 
+            mark = "S 202" 
+        points [291]:
+            number = 931.0277 
+            mark = "S 200" 
+        points [292]:
+            number = 931.2492 
+            mark = "S 2" 
+        points [293]:
+            number = 931.4497 
+            mark = "S 102" 
+        points [294]:
+            number = 935.5864 
+            mark = "S 202" 
+        points [295]:
+            number = 935.9897 
+            mark = "S 200" 
+        points [296]:
+            number = 936.216 
+            mark = "S 1" 
+        points [297]:
+            number = 936.4158 
+            mark = "S 53" 
+        points [298]:
+            number = 940.7193 
+            mark = "S 202" 
+        points [299]:
+            number = 941.0607 
+            mark = "S 200" 
+        points [300]:
+            number = 941.2814 
+            mark = "S 2" 
+        points [301]:
+            number = 941.482 
+            mark = "S 46" 
+        points [302]:
+            number = 944.2695 
+            mark = "S 202" 
+        points [303]:
+            number = 944.6601 
+            mark = "S 200" 
+        points [304]:
+            number = 944.8817 
+            mark = "S 1" 
+        points [305]:
+            number = 945.0814 
+            mark = "S 65" 
+        points [306]:
+            number = 947.5712 
+            mark = "S 202" 
+        points [307]:
+            number = 947.9787 
+            mark = "S 200" 
+        points [308]:
+            number = 948.198 
+            mark = "S 1" 
+        points [309]:
+            number = 948.3984 
+            mark = "S 8" 
+        points [310]:
+            number = 951.3858 
+            mark = "S 202" 
+        points [311]:
+            number = 951.7968 
+            mark = "S 200" 
+        points [312]:
+            number = 952.016 
+            mark = "S 1" 
+        points [313]:
+            number = 952.2165 
+            mark = "S 37" 
+        points [314]:
+            number = 955.9623 
+            mark = "S 202" 
+        points [315]:
+            number = 956.1966 
+            mark = "S 200" 
+        points [316]:
+            number = 956.4178 
+            mark = "S 2" 
+        points [317]:
+            number = 956.6255 
+            mark = "S 107" 
+        points [318]:
+            number = 959.4778 
+            mark = "S 202" 
+        points [319]:
+            number = 959.7104 
+            mark = "S 200" 
+        points [320]:
+            number = 959.9205 
+            mark = "S 2" 
+        points [321]:
+            number = 960.12 
+            mark = "S 15" 
+        points [322]:
+            number = 962.3194 
+            mark = "S 202" 
+        points [323]:
+            number = 962.7217 
+            mark = "S 200" 
+        points [324]:
+            number = 962.9476 
+            mark = "S 1" 
+        points [325]:
+            number = 963.1323 
+            mark = "S 101" 
+        points [326]:
+            number = 965.92 
+            mark = "S 202" 
+        points [327]:
+            number = 966.3137 
+            mark = "S 200" 
+        points [328]:
+            number = 966.5314 
+            mark = "S 1" 
+        points [329]:
+            number = 966.7303 
+            mark = "S 89" 
+        points [330]:
+            number = 969.2527 
+            mark = "S 202" 
+        points [331]:
+            number = 969.6512 
+            mark = "S 200" 
+        points [332]:
+            number = 969.8637 
+            mark = "S 1" 
+        points [333]:
+            number = 970.0637 
+            mark = "S 109" 
+        points [334]:
+            number = 973.3686 
+            mark = "S 202" 
+        points [335]:
+            number = 973.7637 
+            mark = "S 200" 
+        points [336]:
+            number = 973.9804 
+            mark = "S 2" 
+        points [337]:
+            number = 974.1806 
+            mark = "S 87" 
+        points [338]:
+            number = 977.3214 
+            mark = "S 202" 
+        points [339]:
+            number = 977.7224 
+            mark = "S 200" 
+        points [340]:
+            number = 977.9468 
+            mark = "S 2" 
+        points [341]:
+            number = 978.147 
+            mark = "S 34" 
+        points [342]:
+            number = 981.9522 
+            mark = "S 202" 
+        points [343]:
+            number = 982.3602 
+            mark = "S 200" 
+        points [344]:
+            number = 982.5798 
+            mark = "S 2" 
+        points [345]:
+            number = 982.78 
+            mark = "S 55" 
+        points [346]:
+            number = 986.4195 
+            mark = "S 202" 
+        points [347]:
+            number = 986.8115 
+            mark = "S 200" 
+        points [348]:
+            number = 987.0298 
+            mark = "S 1" 
+        points [349]:
+            number = 987.2297 
+            mark = "S 105" 
+        points [350]:
+            number = 990.0715 
+            mark = "S 202" 
+        points [351]:
+            number = 990.3946 
+            mark = "S 200" 
+        points [352]:
+            number = 990.6122 
+            mark = "S 1" 
+        points [353]:
+            number = 990.8122 
+            mark = "S 104" 
+        points [354]:
+            number = 993.7687 
+            mark = "S 202" 
+        points [355]:
+            number = 994.1698 
+            mark = "S 200" 
+        points [356]:
+            number = 994.396 
+            mark = "S 1" 
+        points [357]:
+            number = 994.5959 
+            mark = "S 69" 
+        points [358]:
+            number = 997.5212 
+            mark = "S 202" 
+        points [359]:
+            number = 997.9252 
+            mark = "S 200" 
+        points [360]:
+            number = 998.1456 
+            mark = "S 2" 
+        points [361]:
+            number = 998.346 
+            mark = "S 95" 
+        points [362]:
+            number = 1002.1532 
+            mark = "S 202" 
+        points [363]:
+            number = 1002.5565 
+            mark = "S 200" 
+        points [364]:
+            number = 1002.779 
+            mark = "S 2" 
+        points [365]:
+            number = 1002.979 
+            mark = "S 70" 
+        points [366]:
+            number = 1006.3036 
+            mark = "S 202" 
+        points [367]:
+            number = 1006.6969 
+            mark = "S 200" 
+        points [368]:
+            number = 1006.9118 
+            mark = "S 1" 
+        points [369]:
+            number = 1007.1122 
+            mark = "S 117" 
+        points [370]:
+            number = 1011.0868 
+            mark = "S 202" 
+        points [371]:
+            number = 1011.4932 
+            mark = "S 200" 
+        points [372]:
+            number = 1011.7116 
+            mark = "S 2" 
+        points [373]:
+            number = 1011.9116 
+            mark = "S 103" 
+        points [374]:
+            number = 1016.6686 
+            mark = "S 202" 
+        points [375]:
+            number = 1017.0745 
+            mark = "S 200" 
+        points [376]:
+            number = 1017.2946 
+            mark = "S 1" 
+        points [377]:
+            number = 1017.4957 
+            mark = "S 68" 
+        points [378]:
+            number = 1021.9031 
+            mark = "S 202" 
+        points [379]:
+            number = 1022.3084 
+            mark = "S 200" 
+        points [380]:
+            number = 1022.5277 
+            mark = "S 2" 
+        points [381]:
+            number = 1022.728 
+            mark = "S 114" 
+        points [382]:
+            number = 1025.8529 
+            mark = "S 202" 
+        points [383]:
+            number = 1026.2539 
+            mark = "S 200" 
+        points [384]:
+            number = 1026.4781 
+            mark = "S 1" 
+        points [385]:
+            number = 1026.6777 
+            mark = "S 97" 
+        points [386]:
+            number = 1029.8527 
+            mark = "S 202" 
+        points [387]:
+            number = 1030.2573 
+            mark = "S 200" 
+        points [388]:
+            number = 1030.4772 
+            mark = "S 2" 
+        points [389]:
+            number = 1030.6776 
+            mark = "S 27" 
+        points [390]:
+            number = 1034.1843 
+            mark = "S 202" 
+        points [391]:
+            number = 1034.5952 
+            mark = "S 200" 
+        points [392]:
+            number = 1034.8108 
+            mark = "S 2" 
+        points [393]:
+            number = 1035.0108 
+            mark = "S 79" 
+        points [394]:
+            number = 1037.9528 
+            mark = "S 202" 
+        points [395]:
+            number = 1038.3479 
+            mark = "S 200" 
+        points [396]:
+            number = 1038.5602 
+            mark = "S 2" 
+        points [397]:
+            number = 1038.7602 
+            mark = "S 62" 
+        points [398]:
+            number = 1043.0693 
+            mark = "S 202" 
+        points [399]:
+            number = 1043.4751 
+            mark = "S 200" 
+        points [400]:
+            number = 1043.6937 
+            mark = "S 1" 
+        points [401]:
+            number = 1043.8931 
+            mark = "S 29" 
+        points [402]:
+            number = 1047.0504 
+            mark = "S 202" 
+        points [403]:
+            number = 1047.4589 
+            mark = "S 200" 
+        points [404]:
+            number = 1047.6769 
+            mark = "S 2" 
+        points [405]:
+            number = 1047.8769 
+            mark = "S 14" 
+        points [406]:
+            number = 1051.0686 
+            mark = "S 202" 
+        points [407]:
+            number = 1051.48 
+            mark = "S 200" 
+        points [408]:
+            number = 1051.6932 
+            mark = "S 2" 
+        points [409]:
+            number = 1051.8928 
+            mark = "S 75" 
+        points [410]:
+            number = 1054.5527 
+            mark = "S 202" 
+        points [411]:
+            number = 1054.9578 
+            mark = "S 200" 
+        points [412]:
+            number = 1055.1763 
+            mark = "S 1" 
+        points [413]:
+            number = 1055.3762 
+            mark = "S 12" 
+        points [414]:
+            number = 1059.2173 
+            mark = "S 202" 
+        points [415]:
+            number = 1059.628 
+            mark = "S 200" 
+        points [416]:
+            number = 1059.8428 
+            mark = "S 2" 
+        points [417]:
+            number = 1060.0429 
+            mark = "S 7" 
+        points [418]:
+            number = 1063.4336 
+            mark = "S 202" 
+        points [419]:
+            number = 1063.8306 
+            mark = "S 200" 
+        points [420]:
+            number = 1064.0422 
+            mark = "S 2" 
+        points [421]:
+            number = 1064.2423 
+            mark = "S 86" 
+        points [422]:
+            number = 1067.1692 
+            mark = "S 202" 
+        points [423]:
+            number = 1067.5728 
+            mark = "S 200" 
+        points [424]:
+            number = 1067.7919 
+            mark = "S 2" 
+        points [425]:
+            number = 1067.9919 
+            mark = "S 58" 
+        points [426]:
+            number = 1071.8372 
+            mark = "S 202" 
+        points [427]:
+            number = 1072.2525 
+            mark = "S 200" 
+        points [428]:
+            number = 1072.4757 
+            mark = "S 2" 
+        points [429]:
+            number = 1072.6751 
+            mark = "S 78" 
+        points [430]:
+            number = 1076.7197 
+            mark = "S 202" 
+        points [431]:
+            number = 1077.1305 
+            mark = "S 200" 
+        points [432]:
+            number = 1077.3419 
+            mark = "S 1" 
+        points [433]:
+            number = 1077.5419 
+            mark = "S 93" 
+        points [434]:
+            number = 1080.8872 
+            mark = "S 202" 
+        points [435]:
+            number = 1081.2908 
+            mark = "S 200" 
+        points [436]:
+            number = 1081.5085 
+            mark = "S 1" 
+        points [437]:
+            number = 1081.708 
+            mark = "S 9" 
+        points [438]:
+            number = 1084.7691 
+            mark = "S 202" 
+        points [439]:
+            number = 1085.1855 
+            mark = "S 200" 
+        points [440]:
+            number = 1085.4079 
+            mark = "S 2" 
+        points [441]:
+            number = 1085.6079 
+            mark = "S 38" 
+        points [442]:
+            number = 1088.7544 
+            mark = "S 202" 
+        points [443]:
+            number = 1089.162 
+            mark = "S 200" 
+        points [444]:
+            number = 1089.3743 
+            mark = "S 2" 
+        points [445]:
+            number = 1089.5752 
+            mark = "S 91" 
+        points [446]:
+            number = 1092.7684 
+            mark = "S 202" 
+        points [447]:
+            number = 1093.1757 
+            mark = "S 200" 
+        points [448]:
+            number = 1093.3907 
+            mark = "S 1" 
+        points [449]:
+            number = 1093.5918 
+            mark = "S 16" 
+        points [450]:
+            number = 1096.8186 
+            mark = "S 202" 
+        points [451]:
+            number = 1097.2326 
+            mark = "S 200" 
+        points [452]:
+            number = 1097.4574 
+            mark = "S 2" 
+        points [453]:
+            number = 1097.6573 
+            mark = "S 98" 
+        points [454]:
+            number = 1100.402 
+            mark = "S 202" 
+        points [455]:
+            number = 1100.8028 
+            mark = "S 200" 
+        points [456]:
+            number = 1101.024 
+            mark = "S 1" 
+        points [457]:
+            number = 1101.2238 
+            mark = "S 4" 
+        points [458]:
+            number = 1105.7012 
+            mark = "S 202" 
+        points [459]:
+            number = 1106.1113 
+            mark = "S 200" 
+        points [460]:
+            number = 1106.3238 
+            mark = "S 1" 
+        points [461]:
+            number = 1106.5234 
+            mark = "S 48" 
+        points [462]:
+            number = 1109.7502 
+            mark = "S 202" 
+        points [463]:
+            number = 1110.1553 
+            mark = "S 200" 
+        points [464]:
+            number = 1110.3735 
+            mark = "S 2" 
+        points [465]:
+            number = 1110.5732 
+            mark = "S 118" 
+        points [466]:
+            number = 1113.502 
+            mark = "S 202" 
+        points [467]:
+            number = 1113.9094 
+            mark = "S 200" 
+        points [468]:
+            number = 1114.1238 
+            mark = "S 2" 
+        points [469]:
+            number = 1114.3232 
+            mark = "S 115" 
+        points [470]:
+            number = 1119.5681 
+            mark = "S 202" 
+        points [471]:
+            number = 1119.983 
+            mark = "S 200" 
+        points [472]:
+            number = 1120.2065 
+            mark = "S 1" 
+        points [473]:
+            number = 1120.4065 
+            mark = "S 81" 
+        points [474]:
+            number = 1124.3682 
+            mark = "S 202" 
+        points [475]:
+            number = 1124.7943 
+            mark = "S 200" 
+        points [476]:
+            number = 1125.0064 
+            mark = "S 2" 
+        points [477]:
+            number = 1125.2068 
+            mark = "S 30" 
+        points [478]:
+            number = 1129.0519 
+            mark = "S 202" 
+        points [479]:
+            number = 1129.4764 
+            mark = "S 200" 
+        points [480]:
+            number = 1129.6891 
+            mark = "S 2" 
+        points [481]:
+            number = 1129.8893 
+            mark = "S 19" 
+        points [482]:
+            number = 1132.8197 
+            mark = "S 202" 
+        points [483]:
+            number = 1133.2294 
+            mark = "S 200" 
+        points [484]:
+            number = 1133.456 
+            mark = "S 2" 
+        points [485]:
+            number = 1133.6555 
+            mark = "S 3" 
+        points [486]:
+            number = 1136.5024 
+            mark = "S 202" 
+    item [2]:
+        class = "TextTier" 
+        name = "speech_onset" 
+        xmin = 0 
+        xmax = 1405.08 
+        points: size = 120 
+        points [1]:
+            number = 469.1763484546712 
+            mark = "s" 
+        points [2]:
+            number = 472.4169084063526 
+            mark = "s" 
+        points [3]:
+            number = 475.81517117525266 
+            mark = "s" 
+        points [4]:
+            number = 479.72239373759817 
+            mark = "s" 
+        points [5]:
+            number = 483.88811806691166 
+            mark = "s" 
+        points [6]:
+            number = 488.3076194566802 
+            mark = "s" 
+        points [7]:
+            number = 492.7957669289911 
+            mark = "s" 
+        points [8]:
+            number = 497.96129510272823 
+            mark = "s" 
+        points [9]:
+            number = 502.5059648942839 
+            mark = "s" 
+        points [10]:
+            number = 508.36329033479205 
+            mark = "s" 
+        points [11]:
+            number = 512.336606554851 
+            mark = "s" 
+        points [12]:
+            number = 518.3656705322378 
+            mark = "s" 
+        points [13]:
+            number = 522.7245674723347 
+            mark = "s" 
+        points [14]:
+            number = 527.6762527603728 
+            mark = "s" 
+        points [15]:
+            number = 531.5897290322894 
+            mark = "s" 
+        points [16]:
+            number = 535.4718176410679 
+            mark = "s" 
+        points [17]:
+            number = 539.6036011798745 
+            mark = "s" 
+        points [18]:
+            number = 578.3650295702819 
+            mark = "s" 
+        points [19]:
+            number = 583.5040167128368 
+            mark = "s" 
+        points [20]:
+            number = 587.7956739454667 
+            mark = "s" 
+        points [21]:
+            number = 592.309337622109 
+            mark = "s" 
+        points [22]:
+            number = 597.4124720177947 
+            mark = "s" 
+        points [23]:
+            number = 601.2033330152927 
+            mark = "s" 
+        points [24]:
+            number = 605.2534595787478 
+            mark = "s" 
+        points [25]:
+            number = 609.6057212610491 
+            mark = "s" 
+        points [26]:
+            number = 614.3472628405106 
+            mark = "s" 
+        points [27]:
+            number = 618.4683282885551 
+            mark = "s" 
+        points [28]:
+            number = 622.7252802291491 
+            mark = "s" 
+        points [29]:
+            number = 627.5332977170885 
+            mark = "s" 
+        points [30]:
+            number = 630.9951003137937 
+            mark = "s" 
+        points [31]:
+            number = 634.8387837508741 
+            mark = "s" 
+        points [32]:
+            number = 638.9768195941718 
+            mark = "s" 
+        points [33]:
+            number = 647.5092228736713 
+            mark = "s" 
+        points [34]:
+            number = 652.194242133888 
+            mark = "s" 
+        points [35]:
+            number = 656.0763307426666 
+            mark = "s" 
+        points [36]:
+            number = 660.1449567044327 
+            mark = "s" 
+        points [37]:
+            number = 663.557253787913 
+            mark = "s" 
+        points [38]:
+            number = 687.6394455764313 
+            mark = "s" 
+        points [39]:
+            number = 691.447659219947 
+            mark = "s" 
+        points [40]:
+            number = 695.775932998435 
+            mark = "s" 
+        points [41]:
+            number = 699.8825818811348 
+            mark = "s" 
+        points [42]:
+            number = 704.0553237190085 
+            mark = "s" 
+        points [43]:
+            number = 707.9869171384717 
+            mark = "s" 
+        points [44]:
+            number = 714.1101441052725 
+            mark = "s" 
+        points [45]:
+            number = 717.5327770287505 
+            mark = "s" 
+        points [46]:
+            number = 722.6639821612164 
+            mark = "s" 
+        points [47]:
+            number = 727.755635369691 
+            mark = "s" 
+        points [48]:
+            number = 732.9562510862286 
+            mark = "s" 
+        points [49]:
+            number = 747.8430768642455 
+            mark = "s" 
+        points [50]:
+            number = 757.3612482685086 
+            mark = "s" 
+        points [51]:
+            number = 760.5844555741721 
+            mark = "s" 
+        points [52]:
+            number = 765.2454876331153 
+            mark = "s" 
+        points [53]:
+            number = 769.3554541447128 
+            mark = "s" 
+        points [54]:
+            number = 773.4159158456258 
+            mark = "s" 
+        points [55]:
+            number = 777.8520053798832 
+            mark = "s" 
+        points [56]:
+            number = 787.2054571609075 
+            mark = "s" 
+        points [57]:
+            number = 791.2142431745312 
+            mark = "s" 
+        points [58]:
+            number = 794.7768440184457 
+            mark = "s" 
+        points [59]:
+            number = 798.5511168714547 
+            mark = "s" 
+        points [60]:
+            number = 804.2842987370265 
+            mark = "s" 
+        points [61]:
+            number = 884.2124328589102 
+            mark = "s" 
+        points [62]:
+            number = 888.193148135754 
+            mark = "s" 
+        points [63]:
+            number = 895.4491293588547 
+            mark = "s" 
+        points [64]:
+            number = 899.2787777788151 
+            mark = "s" 
+        points [65]:
+            number = 902.5474077647367 
+            mark = "s" 
+        points [66]:
+            number = 907.1877695487641 
+            mark = "s" 
+        points [67]:
+            number = 910.543162062235 
+            mark = "s" 
+        points [68]:
+            number = 914.8854708578431 
+            mark = "s" 
+        points [69]:
+            number = 919.5280035184751 
+            mark = "s" 
+        points [70]:
+            number = 922.9576539505132 
+            mark = "s" 
+        points [71]:
+            number = 927.640120785901 
+            mark = "s" 
+        points [72]:
+            number = 932.3424926921355 
+            mark = "s" 
+        points [73]:
+            number = 938.0310163789778 
+            mark = "s" 
+        points [74]:
+            number = 942.042737770735 
+            mark = "s" 
+        points [75]:
+            number = 945.6552256760987 
+            mark = "s" 
+        points [76]:
+            number = 949.2078736333198 
+            mark = "s" 
+        points [77]:
+            number = 952.8938542531815 
+            mark = "s" 
+        points [78]:
+            number = 957.2878387360786 
+            mark = "s" 
+        points [79]:
+            number = 960.8161165387219 
+            mark = "s" 
+        points [80]:
+            number = 963.6459611142586 
+            mark = "s" 
+        points [81]:
+            number = 967.2270613564842 
+            mark = "s" 
+        points [82]:
+            number = 970.807397097181 
+            mark = "s" 
+        points [83]:
+            number = 974.7869663242712 
+            mark = "s" 
+        points [84]:
+            number = 978.9224497427399 
+            mark = "s" 
+        points [85]:
+            number = 983.7681079008488 
+            mark = "s" 
+        points [86]:
+            number = 987.9357434839844 
+            mark = "s" 
+        points [87]:
+            number = 991.3579941566982 
+            mark = "s" 
+        points [88]:
+            number = 995.3420277649795 
+            mark = "s" 
+        points [89]:
+            number = 999.272856682914 
+            mark = "s" 
+        points [90]:
+            number = 1003.629200495642 
+            mark = "s" 
+        points [91]:
+            number = 1008.0545726416772 
+            mark = "s" 
+        points [92]:
+            number = 1012.8444729820699 
+            mark = "s" 
+        points [93]:
+            number = 1018.3542413260135 
+            mark = "s" 
+        points [94]:
+            number = 1023.2922738476962 
+            mark = "s" 
+        points [95]:
+            number = 1027.080199467061 
+            mark = "s" 
+        points [96]:
+            number = 1031.172048831112 
+            mark = "s" 
+        points [97]:
+            number = 1035.7174831241969 
+            mark = "s" 
+        points [98]:
+            number = 1039.6136067500952 
+            mark = "s" 
+        points [99]:
+            number = 1044.5723088441537 
+            mark = "s" 
+        points [100]:
+            number = 1048.4370448069142 
+            mark = "s" 
+        points [101]:
+            number = 1052.554028827072 
+            mark = "s" 
+        points [102]:
+            number = 1056.1388282464197 
+            mark = "s" 
+        points [103]:
+            number = 1061.0096203580952 
+            mark = "s" 
+        points [104]:
+            number = 1064.8644034341626 
+            mark = "s" 
+        points [105]:
+            number = 1069.0751674904297 
+            mark = "s" 
+        points [106]:
+            number = 1073.5087038973184 
+            mark = "s" 
+        points [107]:
+            number = 1078.2465462996574 
+            mark = "s" 
+        points [108]:
+            number = 1082.4617754396559 
+            mark = "s" 
+        points [109]:
+            number = 1086.3194938938564 
+            mark = "s" 
+        points [110]:
+            number = 1090.3312145830735 
+            mark = "s" 
+        points [111]:
+            number = 1094.203350305159 
+            mark = "s" 
+        points [112]:
+            number = 1098.2712117653962 
+            mark = "s" 
+        points [113]:
+            number = 1102.3601257513135 
+            mark = "s" 
+        points [114]:
+            number = 1107.659368838456 
+            mark = "s" 
+        points [115]:
+            number = 1111.219034304237 
+            mark = "s" 
+        points [116]:
+            number = 1115.1683626204826 
+            mark = "s" 
+        points [117]:
+            number = 1121.4913974558626 
+            mark = "s" 
+        points [118]:
+            number = 1125.9167696018974 
+            mark = "s" 
+        points [119]:
+            number = 1130.6645648909298 
+            mark = "s" 
+        points [120]:
+            number = 1134.5577524361556 
+            mark = "s" 
+    item [3]:
+        class = "IntervalTier" 
+        name = "transcription" 
+        xmin = 0 
+        xmax = 1405.08 
+        intervals: size = 241 
+        intervals [1]:
+            xmin = 0 
+            xmax = 469.1623134375511 
+            text = "" 
+        intervals [2]:
+            xmin = 469.1623134375511 
+            xmax = 470.89563805188163 
+            text = "budzyukuyuri lurisyõ" 
+        intervals [3]:
+            xmin = 470.89563805188163 
+            xmax = 472.4098908977926 
+            text = "" 
+        intervals [4]:
+            xmin = 472.4098908977926 
+            xmax = 474.12216298644296 
+            text = "rimaekolori rudirisyõ" 
+        intervals [5]:
+            xmin = 474.12216298644296 
+            xmax = 475.81517117525266 
+            text = "" 
+        intervals [6]:
+            xmin = 475.81517117525266 
+            xmax = 479.1820455784749 
+            text = "badzebuda-i bida phyorisyõ" 
+        intervals [7]:
+            xmin = 479.1820455784749 
+            xmax = 479.72532911573137 
+            text = "" 
+        intervals [8]:
+            xmin = 479.72532911573137 
+            xmax = 481.60602140982274 
+            text = "budzyukuyu-? naga phũ yorisyõ " 
+        intervals [9]:
+            xmin = 481.60602140982274 
+            xmax = 483.88811806691166 
+            text = "" 
+        intervals [10]:
+            xmin = 483.88811806691166 
+            xmax = 485.8951255150838 
+            text = "maemae kri kõĩ khrũrisyõ " 
+        intervals [11]:
+            xmin = 485.8951255150838 
+            xmax = 488.3101725840488 
+            text = "" 
+        intervals [12]:
+            xmin = 488.3101725840488 
+            xmax = 490.82945815710406 
+            text = "maemae kri ma yurisyõ " 
+        intervals [13]:
+            xmin = 490.82945815710406 
+            xmax = 492.8027844375511 
+            text = "" 
+        intervals [14]:
+            xmin = 492.8027844375511 
+            xmax = 495.09049222812496 
+            text = "badzebuda tinor kharisyõ" 
+        intervals [15]:
+            xmin = 495.09049222812496 
+            xmax = 497.95427759416816 
+            text = "" 
+        intervals [16]:
+            xmin = 497.95427759416816 
+            xmax = 500.10163521354116 
+            text = "rimae birowa rĩrisyõ" 
+        intervals [17]:
+            xmin = 500.10163521354116 
+            xmax = 502.4989473857239 
+            text = "" 
+        intervals [18]:
+            xmin = 502.4989473857239 
+            xmax = 505.3901609124614 
+            text = "rimae kri tu yarisyõ krerisyõ " 
+        intervals [19]:
+            xmin = 505.3901609124614 
+            xmax = 508.36329033479205 
+            text = "" 
+        intervals [20]:
+            xmin = 508.36329033479205 
+            xmax = 510.679068159606 
+            text = "rimaekolori luirõ nartsirisyõ" 
+        intervals [21]:
+            xmin = 510.679068159606 
+            xmax = 512.336606554851 
+            text = "" 
+        intervals [22]:
+            xmin = 512.336606554851 
+            xmax = 514.3857190543832 
+            text = "rimaekolo mur phutrurisyõ " 
+        intervals [23]:
+            xmin = 514.3857190543832 
+            xmax = 518.368605910371 
+            text = "" 
+        intervals [24]:
+            xmin = 518.368605910371 
+            xmax = 520.0107029134208 
+            text = "rimae kri ma yurisyõ " 
+        intervals [25]:
+            xmin = 520.0107029134208 
+            xmax = 522.7238029708057 
+            text = "" 
+        intervals [26]:
+            xmin = 522.7238029708057 
+            xmax = 526.0781720625056 
+            text = "badze-ye(?) tsapi tsõrisyõ" 
+        intervals [27]:
+            xmin = 526.0781720625056 
+            xmax = 527.6832702689329 
+            text = "" 
+        intervals [28]:
+            xmin = 527.6832702689329 
+            xmax = 529.6060676143843 
+            text = "aa rimae kri lurisyõ " 
+        intervals [29]:
+            xmin = 529.6060676143843 
+            xmax = 531.5967465408494 
+            text = "" 
+        intervals [30]:
+            xmin = 531.5967465408494 
+            xmax = 533.4142812579003 
+            text = "maemae kri phiũrisyõ " 
+        intervals [31]:
+            xmin = 533.4142812579003 
+            xmax = 535.4648001325078 
+            text = "" 
+        intervals [32]:
+            xmin = 535.4648001325078 
+            xmax = 537.191107238278 
+            text = "rimae hai larisyõ" 
+        intervals [33]:
+            xmin = 537.191107238278 
+            xmax = 539.588419410461 
+            text = "" 
+        intervals [34]:
+            xmin = 539.588419410461 
+            xmax = 545.469091583776 
+            text = "badzebuda ... kxx ... ???" 
+        intervals [35]:
+            xmin = 545.469091583776 
+            xmax = 578.3509945531617 
+            text = "" 
+        intervals [36]:
+            xmin = 578.3509945531617 
+            xmax = 582.4716784529818 
+            text = "maemakolori thali sapha la phyorisyõ thalai " 
+        intervals [37]:
+            xmin = 582.4716784529818 
+            xmax = 583.503252211308 
+            text = "" 
+        intervals [38]:
+            xmin = 583.503252211308 
+            xmax = 586.0856953614033 
+            text = "maemakolori yuma bana tsõrisyõ " 
+        intervals [39]:
+            xmin = 586.0856953614033 
+            xmax = 587.7956739454667 
+            text = "" 
+        intervals [40]:
+            xmin = 587.7956739454667 
+            xmax = 590.0974167531604 
+            text = "rimae kri thali talai phyorisyõ " 
+        intervals [41]:
+            xmin = 590.0974167531604 
+            xmax = 592.3023201135488 
+            text = "" 
+        intervals [42]:
+            xmin = 592.3023201135488 
+            xmax = 595.0531834690853 
+            text = "maemakolori maidana krei yarisyõ " 
+        intervals [43]:
+            xmin = 595.0531834690853 
+            xmax = 597.4194895263548 
+            text = "" 
+        intervals [44]:
+            xmin = 597.4194895263548 
+            xmax = 599.3212343461261 
+            text = "rimae kri golbeda tõrisyõ " 
+        intervals [45]:
+            xmin = 599.3212343461261 
+            xmax = 601.2033330152927 
+            text = "" 
+        intervals [46]:
+            xmin = 601.2033330152927 
+            xmax = 603.441918245946 
+            text = "rimaekolori nihii larisyõ " 
+        intervals [47]:
+            xmin = 603.441918245946 
+            xmax = 605.2604770873078 
+            text = "" 
+        intervals [48]:
+            xmin = 605.2604770873078 
+            xmax = 607.9201128315636 
+            text = "badzebuda alu turisyõ " 
+        intervals [49]:
+            xmin = 607.9201128315636 
+            xmax = 609.6057212610491 
+            text = "" 
+        intervals [50]:
+            xmin = 609.6057212610491 
+            xmax = 612.2232519539447 
+            text = "maemaekolori naga phũ tha yurisyõ" 
+        intervals [51]:
+            xmin = 612.2232519539447 
+            xmax = 614.3472628405106 
+            text = "" 
+        intervals [52]:
+            xmin = 614.3472628405106 
+            xmax = 616.3963753400427 
+            text = "budzyu kri rairõ ngirisyõ" 
+        intervals [53]:
+            xmin = 616.3963753400427 
+            xmax = 618.4613107799951 
+            text = "" 
+        intervals [54]:
+            xmin = 618.4613107799951 
+            xmax = 620.8963862503296 
+            text = "rimaekolori maidana krei yarisyõ " 
+        intervals [55]:
+            xmin = 620.8963862503296 
+            xmax = 622.7393152462693 
+            text = "" 
+        intervals [56]:
+            xmin = 622.7393152462693 
+            xmax = 624.7042176430809 
+            text = "maemakolori mur phutrurisyõ" 
+        intervals [57]:
+            xmin = 624.7042176430809 
+            xmax = 627.5332977170885 
+            text = "" 
+        intervals [58]:
+            xmin = 627.5332977170885 
+            xmax = 629.1332896687782 
+            text = "maemae mla phr˜erisyõ" 
+        intervals [59]:
+            xmin = 629.1332896687782 
+            xmax = 630.9880828052336 
+            text = "" 
+        intervals [60]:
+            xmin = 630.9880828052336 
+            xmax = 632.9038626421251 
+            text = "budzyukuyu-i kõĩ thsiurisyõ " 
+        intervals [61]:
+            xmin = 632.9038626421251 
+            xmax = 634.8387837508741 
+            text = "" 
+        intervals [62]:
+            xmin = 634.8387837508741 
+            xmax = 636.9019312675264 
+            text = "rimae kri-? mi phaerisyõ " 
+        intervals [63]:
+            xmin = 636.9019312675264 
+            xmax = 638.9698020856118 
+            text = "" 
+        intervals [64]:
+            xmin = 638.9698020856118 
+            xmax = 641.0680371450643 
+            text = "maemaekolori tshiya thũrisyõ" 
+        intervals [65]:
+            xmin = 641.0680371450643 
+            xmax = 647.5022053651113 
+            text = "" 
+        intervals [66]:
+            xmin = 647.5022053651113 
+            xmax = 649.6214929502439 
+            text = "maemakolori kõĩ tirisyõ" 
+        intervals [67]:
+            xmin = 649.6214929502439 
+            xmax = 652.187224625328 
+            text = "" 
+        intervals [68]:
+            xmin = 652.187224625328 
+            xmax = 654.6363351127825 
+            text = "rimae kri alu turisyõ" 
+        intervals [69]:
+            xmin = 654.6363351127825 
+            xmax = 656.0763307426666 
+            text = "" 
+        intervals [70]:
+            xmin = 656.0763307426666 
+            xmax = 658.7219314698024 
+            text = "maemaekolo tu mur ngirõ phutrurisyõ" 
+        intervals [71]:
+            xmin = 658.7219314698024 
+            xmax = 660.1449567044327 
+            text = "" 
+        intervals [72]:
+            xmin = 660.1449567044327 
+            xmax = 661.9624914214836 
+            text = "rimae kri phiũrisyõ" 
+        intervals [73]:
+            xmin = 661.9624914214836 
+            xmax = 663.542454269264 
+            text = "" 
+        intervals [74]:
+            xmin = 663.542454269264 
+            xmax = 667.1424361605655 
+            text = "badze... buda...ni... nitorisyõ" 
+        intervals [75]:
+            xmin = 667.1424361605655 
+            xmax = 687.6464630849913 
+            text = "" 
+        intervals [76]:
+            xmin = 687.6464630849913 
+            xmax = 690.1376786238061 
+            text = "maemae kri kyaar rairõ ngirisyõ" 
+        intervals [77]:
+            xmin = 690.1376786238061 
+            xmax = 691.440641711387 
+            text = "" 
+        intervals [78]:
+            xmin = 691.440641711387 
+            xmax = 695.0859886748632 
+            text = "budzyukuyu-yi ta mala syurisyõ ... phaerisyõ" 
+        intervals [79]:
+            xmin = 695.0859886748632 
+            xmax = 695.768915489875 
+            text = "" 
+        intervals [80]:
+            xmin = 695.768915489875 
+            xmax = 697.3759249501245 
+            text = "maemae kri phiũrisyõ" 
+        intervals [81]:
+            xmin = 697.3759249501245 
+            xmax = 699.8825818811348 
+            text = "" 
+        intervals [82]:
+            xmin = 699.8825818811348 
+            xmax = 701.6229240040252 
+            text = "maemae kri mulkhu kurisyõ" 
+        intervals [83]:
+            xmin = 701.6229240040252 
+            xmax = 704.0553237190085 
+            text = "" 
+        intervals [84]:
+            xmin = 704.0553237190085 
+            xmax = 705.9430335216597 
+            text = "rimae kri-yi(?) mla phr˜erisyõ" 
+        intervals [85]:
+            xmin = 705.9430335216597 
+            xmax = 707.9798996299116 
+            text = "" 
+        intervals [86]:
+            xmin = 707.9798996299116 
+            xmax = 710.9623407679294 
+            text = "budzyu-yi budzyukuyu-yi tanga tsara warisyõ " 
+        intervals [87]:
+            xmin = 710.9623407679294 
+            xmax = 714.0890915795924 
+            text = "" 
+        intervals [88]:
+            xmin = 714.0890915795924 
+            xmax = 715.8153986853627 
+            text = "badzebuda kãĩ tsarisyõ" 
+        intervals [89]:
+            xmin = 715.8153986853627 
+            xmax = 717.5257595201905 
+            text = "" 
+        intervals [90]:
+            xmin = 717.5257595201905 
+            xmax = 719.9818875162051 
+            text = "rimae kri nartogorisyõ luirõ" 
+        intervals [91]:
+            xmin = 719.9818875162051 
+            xmax = 722.6528825222298 
+            text = "" 
+        intervals [92]:
+            xmin = 722.6528825222298 
+            xmax = 725.7335687800881 
+            text = "rimae kri syõa tirar aram larisyõ " 
+        intervals [93]:
+            xmin = 725.7335687800881 
+            xmax = 727.7626528782511 
+            text = "" 
+        intervals [94]:
+            xmin = 727.7626528782511 
+            xmax = 730.2187808742657 
+            text = "rimae kri tĩr aram larisyõ rudira " 
+        intervals [95]:
+            xmin = 730.2187808742657 
+            xmax = 732.9492335776686 
+            text = "" 
+        intervals [96]:
+            xmin = 732.9492335776686 
+            xmax = 736.2544801094482 
+            text = "rimae kri syõa tirar luirõ aram larisyõ rudirisyõ " 
+        intervals [97]:
+            xmin = 736.2544801094482 
+            xmax = 747.8430768642455 
+            text = "" 
+        intervals [98]:
+            xmin = 747.8430768642455 
+            xmax = 751.3518311442664 
+            text = "rimaekolori boku rorisyõ" 
+        intervals [99]:
+            xmin = 751.3518311442664 
+            xmax = 757.3542307599485 
+            text = "" 
+        intervals [100]:
+            xmin = 757.3542307599485 
+            xmax = 758.8279075575573 
+            text = "maemae kri rarisyõ" 
+        intervals [101]:
+            xmin = 758.8279075575573 
+            xmax = 760.5844555741721 
+            text = "" 
+        intervals [102]:
+            xmin = 760.5844555741721 
+            xmax = 763.1247936729072 
+            text = "maemae daraza kya kãĩrisyõ " 
+        intervals [103]:
+            xmin = 763.1247936729072 
+            xmax = 765.2454876331153 
+            text = "" 
+        intervals [104]:
+            xmin = 765.2454876331153 
+            xmax = 767.5121428980087 
+            text = "badze kri golbeda tõrisyõ" 
+        intervals [105]:
+            xmin = 767.5121428980087 
+            xmax = 769.3554541447128 
+            text = "" 
+        intervals [106]:
+            xmin = 769.3554541447128 
+            xmax = 771.5519343240059 
+            text = "rimaekolori badha khrũrisyõ kyurur" 
+        intervals [107]:
+            xmin = 771.5519343240059 
+            xmax = 773.4059629589326 
+            text = "" 
+        intervals [108]:
+            xmin = 773.4059629589326 
+            xmax = 775.3989353899844 
+            text = "budzyu-yi daraza kya kãĩrisyõ" 
+        intervals [109]:
+            xmin = 775.3989353899844 
+            xmax = 777.8520053798832 
+            text = "" 
+        intervals [110]:
+            xmin = 777.8520053798832 
+            xmax = 781.7958451906266 
+            text = "maemaekolori phalai aram larisyõ " 
+        intervals [111]:
+            xmin = 781.7958451906266 
+            xmax = 787.2054571609075 
+            text = "" 
+        intervals [112]:
+            xmin = 787.2054571609075 
+            xmax = 789.1703595577192 
+            text = "maemakolori kapi thorisyõ " 
+        intervals [113]:
+            xmin = 789.1703595577192 
+            xmax = 791.2072256659712 
+            text = "" 
+        intervals [114]:
+            xmin = 791.2072256659712 
+            xmax = 792.9616028059817 
+            text = "rimae kri ranga phorisyõ " 
+        intervals [115]:
+            xmin = 792.9616028059817 
+            xmax = 794.7739086403124 
+            text = "" 
+        intervals [116]:
+            xmin = 794.7739086403124 
+            xmax = 796.6826709686437 
+            text = "budzyukuyu-yi mi salgerisyõ " 
+        intervals [117]:
+            xmin = 796.6826709686437 
+            xmax = 798.5470347410281 
+            text = "" 
+        intervals [118]:
+            xmin = 798.5470347410281 
+            xmax = 802.1119290895293 
+            text = "rimae kri-? botala khrõrisyõ phora" 
+        intervals [119]:
+            xmin = 802.1119290895293 
+            xmax = 804.2842987370265 
+            text = "" 
+        intervals [120]:
+            xmin = 804.2842987370265 
+            xmax = 806.8667418871219 
+            text = "rimaekolori suntala pibi pirisyõ " 
+        intervals [121]:
+            xmin = 806.8667418871219 
+            xmax = 884.2054153503501 
+            text = "" 
+        intervals [122]:
+            xmin = 884.2054153503501 
+            xmax = 886.696630889165 
+            text = "maemaekolori kyurur luirõ badha khrũrisyõ" 
+        intervals [123]:
+            xmin = 886.696630889165 
+            xmax = 888.184601624136 
+            text = "" 
+        intervals [124]:
+            xmin = 888.184601624136 
+            xmax = 892.5214219142418 
+            text = "maemakolori luirõ... narĩ k˜e tsõrisyõ" 
+        intervals [125]:
+            xmin = 892.5214219142418 
+            xmax = 895.4491293588547 
+            text = "" 
+        intervals [126]:
+            xmin = 895.4491293588547 
+            xmax = 897.9824499490298 
+            text = "badzebuda luirõ phi rorisyõ " 
+        intervals [127]:
+            xmin = 897.9824499490298 
+            xmax = 899.271760270255 
+            text = "" 
+        intervals [128]:
+            xmin = 899.271760270255 
+            xmax = 901.79104584331 
+            text = "maemae kri bana tsõrisyõ" 
+        intervals [129]:
+            xmin = 901.79104584331 
+            xmax = 902.5403902561767 
+            text = "" 
+        intervals [130]:
+            xmin = 902.5403902561767 
+            xmax = 905.438621291474 
+            text = "budzyukuyu-yi tĩ bida sapha larisyõ" 
+        intervals [131]:
+            xmin = 905.438621291474 
+            xmax = 907.183304465033 
+            text = "" 
+        intervals [132]:
+            xmin = 907.183304465033 
+            xmax = 908.9727691478436 
+            text = "rimae kri nihi larisyõ" 
+        intervals [133]:
+            xmin = 908.9727691478436 
+            xmax = 910.536144553675 
+            text = "" 
+        intervals [134]:
+            xmin = 910.536144553675 
+            xmax = 913.1606927551305 
+            text = "maemamakolori baira rarisyõ" 
+        intervals [135]:
+            xmin = 913.1606927551305 
+            xmax = 914.8847063563143 
+            text = "" 
+        intervals [136]:
+            xmin = 914.8847063563143 
+            xmax = 916.6250484792046 
+            text = "badze kri haai larisyõ" 
+        intervals [137]:
+            xmin = 916.6250484792046 
+            xmax = 919.513968501355 
+            text = "" 
+        intervals [138]:
+            xmin = 919.513968501355 
+            xmax = 921.387643286886 
+            text = "badze kri momo banerisyõ " 
+        intervals [139]:
+            xmin = 921.387643286886 
+            xmax = 922.9506364419532 
+            text = "" 
+        intervals [140]:
+            xmin = 922.9506364419532 
+            xmax = 925.1260640955661 
+            text = "rimaekolori nekharisyõ" 
+        intervals [141]:
+            xmin = 925.1260640955661 
+            xmax = 927.639356284372 
+            text = "" 
+        intervals [142]:
+            xmin = 927.639356284372 
+            xmax = 931.1831981071931 
+            text = "maemae kri l... biruwa rĩrirsyõ sĩtũ" 
+        intervals [143]:
+            xmin = 931.1831981071931 
+            xmax = 932.3565277092555 
+            text = "" 
+        intervals [144]:
+            xmin = 932.3565277092555 
+            xmax = 935.0582685048715 
+            text = "baadzebuda banar luirõ nartsirisyõ" 
+        intervals [145]:
+            xmin = 935.0582685048715 
+            xmax = 938.0302518774489 
+            text = "" 
+        intervals [146]:
+            xmin = 938.0302518774489 
+            xmax = 940.1495394625815 
+            text = "rimae kri radi rorisyõ boku " 
+        intervals [147]:
+            xmin = 940.1495394625815 
+            xmax = 942.0357202621749 
+            text = "" 
+        intervals [148]:
+            xmin = 942.0357202621749 
+            xmax = 943.8181674364255 
+            text = "maemakolori baira kya kharisyõ" 
+        intervals [149]:
+            xmin = 943.8181674364255 
+            xmax = 945.6482081675387 
+            text = "" 
+        intervals [150]:
+            xmin = 945.6482081675387 
+            xmax = 947.4517078674694 
+            text = "budzyu-yi phota tshoi bilarisyõ" 
+        intervals [151]:
+            xmin = 947.4517078674694 
+            xmax = 949.2219086504398 
+            text = "" 
+        intervals [152]:
+            xmin = 949.2219086504398 
+            xmax = 951.1166359616511 
+            text = "maemae kri phi rorisyõ" 
+        intervals [153]:
+            xmin = 951.1166359616511 
+            xmax = 952.9001072602126 
+            text = "" 
+        intervals [154]:
+            xmin = 952.9001072602126 
+            xmax = 955.4474628675077 
+            text = "rimaekolori narĩ k˜e tsõrisyõ luirõ " 
+        intervals [155]:
+            xmin = 955.4474628675077 
+            xmax = 957.2808212275186 
+            text = "" 
+        intervals [156]:
+            xmin = 957.2808212275186 
+            xmax = 959.2878286756905 
+            text = "rimaekolori mur phutrurisyõ" 
+        intervals [157]:
+            xmin = 959.2878286756905 
+            xmax = 960.8090990301619 
+            text = "" 
+        intervals [158]:
+            xmin = 960.8090990301619 
+            xmax = 962.4301435075314 
+            text = "maemae kri nekharisyõ " 
+        intervals [159]:
+            xmin = 962.4301435075314 
+            xmax = 963.6389436056985 
+            text = "" 
+        intervals [160]:
+            xmin = 963.6389436056985 
+            xmax = 965.2880581173084 
+            text = "budzyu mudha tsãĩrisyõ" 
+        intervals [161]:
+            xmin = 965.2880581173084 
+            xmax = 967.2048620785109 
+            text = "" 
+        intervals [162]:
+            xmin = 967.2048620785109 
+            xmax = 968.8609940986807 
+            text = "rimae kapi thorisyõ" 
+        intervals [163]:
+            xmin = 968.8609940986807 
+            xmax = 970.8173499838744 
+            text = "" 
+        intervals [164]:
+            xmin = 970.8173499838744 
+            xmax = 973.0419001974076 
+            text = "maemaekolori suntala phibi pirisyõ " 
+        intervals [165]:
+            xmin = 973.0419001974076 
+            xmax = 974.7869663242712 
+            text = "" 
+        intervals [166]:
+            xmin = 974.7869663242712 
+            xmax = 977.102744149085 
+            text = "maemae kri mrada tu kharisyõ" 
+        intervals [167]:
+            xmin = 977.102744149085 
+            xmax = 978.9253851208734 
+            text = "" 
+        intervals [168]:
+            xmin = 978.9253851208734 
+            xmax = 981.7464235620102 
+            text = "riame kri maidanada ma yurisyõ " 
+        intervals [169]:
+            xmin = 981.7464235620102 
+            xmax = 983.7681079008488 
+            text = "" 
+        intervals [170]:
+            xmin = 983.7681079008488 
+            xmax = 986.1119557599028 
+            text = "budzyukuyuri maidanada tu yarisyõ" 
+        intervals [171]:
+            xmin = 986.1119557599028 
+            xmax = 987.945696370678 
+            text = "" 
+        intervals [172]:
+            xmin = 987.945696370678 
+            xmax = 989.8614762075694 
+            text = "rimaekolori kõĩ tirisyõ" 
+        intervals [173]:
+            xmin = 989.8614762075694 
+            xmax = 991.3509766481382 
+            text = "" 
+        intervals [174]:
+            xmin = 991.3509766481382 
+            xmax = 993.7439470671123 
+            text = "badzebuda-i madha tsãĩbokharisyõ " 
+        intervals [175]:
+            xmin = 993.7439470671123 
+            xmax = 995.3490452735396 
+            text = "" 
+        intervals [176]:
+            xmin = 995.3490452735396 
+            xmax = 997.09640490499 
+            text = "badzebuda mulkhu kurisyõ " 
+        intervals [177]:
+            xmin = 997.09640490499 
+            xmax = 999.2588216657939 
+            text = "" 
+        intervals [178]:
+            xmin = 999.2588216657939 
+            xmax = 1001.5675819820477 
+            text = "maemae kri maidanada ma yurisyõ " 
+        intervals [179]:
+            xmin = 1001.5675819820477 
+            xmax = 1003.6391533823353 
+            text = "" 
+        intervals [180]:
+            xmin = 1003.6391533823353 
+            xmax = 1005.428618065146 
+            text = "maemae kri haai larisyõ" 
+        intervals [181]:
+            xmin = 1005.428618065146 
+            xmax = 1008.047555133117 
+            text = "" 
+        intervals [182]:
+            xmin = 1008.047555133117 
+            xmax = 1010.061580089849 
+            text = "rimae kri momo banerisyõ" 
+        intervals [183]:
+            xmin = 1010.061580089849 
+            xmax = 1012.8444729820699 
+            text = "" 
+        intervals [184]:
+            xmin = 1012.8444729820699 
+            xmax = 1015.9602467827284 
+            text = "budzyukuyu banar nartsirisyõ " 
+        intervals [185]:
+            xmin = 1015.9602467827284 
+            xmax = 1018.3402063088935 
+            text = "" 
+        intervals [186]:
+            xmin = 1018.3402063088935 
+            xmax = 1020.291073688585 
+            text = "rimaekolori photo tshyorisyõ" 
+        intervals [187]:
+            xmin = 1020.291073688585 
+            xmax = 1023.2852563391361 
+            text = "" 
+        intervals [188]:
+            xmin = 1023.2852563391361 
+            xmax = 1024.8782307822655 
+            text = "rimaekolori lurisyõ " 
+        intervals [189]:
+            xmin = 1024.8782307822655 
+            xmax = 1027.080199467061 
+            text = "" 
+        intervals [190]:
+            xmin = 1027.080199467061 
+            xmax = 1029.1784345265135 
+            text = "rimae mra tsapi tsõrisyõ" 
+        intervals [191]:
+            xmin = 1029.1784345265135 
+            xmax = 1031.1650313225518 
+            text = "" 
+        intervals [192]:
+            xmin = 1031.1650313225518 
+            xmax = 1033.9790522551289 
+            text = "budzyukuyuri lurisyõ mudha phir sĩa phir " 
+        intervals [193]:
+            xmin = 1033.9790522551289 
+            xmax = 1035.7174831241969 
+            text = "" 
+        intervals [194]:
+            xmin = 1035.7174831241969 
+            xmax = 1037.4437902299671 
+            text = "rimae kri prai kharisyõ " 
+        intervals [195]:
+            xmin = 1037.4437902299671 
+            xmax = 1039.6136067500952 
+            text = "" 
+        intervals [196]:
+            xmin = 1039.6136067500952 
+            xmax = 1042.2100849173107 
+            text = "maemakolori lui... rudirisyõ " 
+        intervals [197]:
+            xmin = 1042.2100849173107 
+            xmax = 1044.5652913355937 
+            text = "" 
+        intervals [198]:
+            xmin = 1044.5652913355937 
+            xmax = 1046.6144038351258 
+            text = "rimae kri ta syurisyõ " 
+        intervals [199]:
+            xmin = 1046.6144038351258 
+            xmax = 1048.4370448069142 
+            text = "" 
+        intervals [200]:
+            xmin = 1048.4370448069142 
+            xmax = 1050.5142273406866 
+            text = "rimaekolori nekharisyõ " 
+        intervals [201]:
+            xmin = 1050.5142273406866 
+            xmax = 1052.554028827072 
+            text = "" 
+        intervals [202]:
+            xmin = 1052.554028827072 
+            xmax = 1054.076828184601 
+            text = "maemakolori lurisyõ " 
+        intervals [203]:
+            xmin = 1054.076828184601 
+            xmax = 1056.1458457549797 
+            text = "" 
+        intervals [204]:
+            xmin = 1056.1458457549797 
+            xmax = 1058.2230282887522 
+            text = "budzyukuyu-i(?) tanga tha yurisyõ " 
+        intervals [205]:
+            xmin = 1058.2230282887522 
+            xmax = 1060.9955853409751 
+            text = "" 
+        intervals [206]:
+            xmin = 1060.9955853409751 
+            xmax = 1063.0938204004276 
+            text = "maem... badzebuda rarisyõ " 
+        intervals [207]:
+            xmin = 1063.0938204004276 
+            xmax = 1064.8599390529714 
+            text = "" 
+        intervals [208]:
+            xmin = 1064.8599390529714 
+            xmax = 1066.642386227222 
+            text = "budzyukuyu mrada tu kharisyõ " 
+        intervals [209]:
+            xmin = 1066.642386227222 
+            xmax = 1069.0751674904297 
+            text = "" 
+        intervals [210]:
+            xmin = 1069.0751674904297 
+            xmax = 1071.5593655206847 
+            text = "budzyukuyu tĩra ngii nihi larisyõ " 
+        intervals [211]:
+            xmin = 1071.5593655206847 
+            xmax = 1073.5087038973184 
+            text = "" 
+        intervals [212]:
+            xmin = 1073.5087038973184 
+            xmax = 1075.782376670772 
+            text = "maemae kri kyaar prakharisyõ" 
+        intervals [213]:
+            xmin = 1075.782376670772 
+            xmax = 1078.2395287910974 
+            text = "" 
+        intervals [214]:
+            xmin = 1078.2395287910974 
+            xmax = 1080.0921510509486 
+            text = "maemae kri ranga phorisyõ " 
+        intervals [215]:
+            xmin = 1080.0921510509486 
+            xmax = 1082.468792948216 
+            text = "" 
+        intervals [216]:
+            xmin = 1082.468792948216 
+            xmax = 1084.4968529220682 
+            text = "rimae kri tanga tha yorisyõ " 
+        intervals [217]:
+            xmin = 1084.4968529220682 
+            xmax = 1086.3194938938564 
+            text = "" 
+        intervals [218]:
+            xmin = 1086.3194938938564 
+            xmax = 1088.2422912393079 
+            text = "maemakolori nekharisyõ " 
+        intervals [219]:
+            xmin = 1088.2422912393079 
+            xmax = 1090.3312145830735 
+            text = "" 
+        intervals [220]:
+            xmin = 1090.3312145830735 
+            xmax = 1092.422432133966 
+            text = "rimaekolori banada rarisyõ" 
+        intervals [221]:
+            xmin = 1092.422432133966 
+            xmax = 1094.210367813719 
+            text = "" 
+        intervals [222]:
+            xmin = 1094.210367813719 
+            xmax = 1096.3787779587717 
+            text = "rimaekolori luirõ tshiya thũrisyõ " 
+        intervals [223]:
+            xmin = 1096.3787779587717 
+            xmax = 1098.2571767482762 
+            text = "" 
+        intervals [224]:
+            xmin = 1098.2571767482762 
+            xmax = 1099.9975188711664 
+            text = "badzebuda haai larisyõ " 
+        intervals [225]:
+            xmin = 1099.9975188711664 
+            xmax = 1102.3671432598737 
+            text = "" 
+        intervals [226]:
+            xmin = 1102.3671432598737 
+            xmax = 1104.5004658621265 
+            text = "maemae tanga tsara warisyõ" 
+        intervals [227]:
+            xmin = 1104.5004658621265 
+            xmax = 1107.652351329896 
+            text = "" 
+        intervals [228]:
+            xmin = 1107.652351329896 
+            xmax = 1109.9049715776694 
+            text = "maemae kri kãĩ tsarisyõ " 
+        intervals [229]:
+            xmin = 1109.9049715776694 
+            xmax = 1111.2049992871168 
+            text = "" 
+        intervals [230]:
+            xmin = 1111.2049992871168 
+            xmax = 1113.0155164956077 
+            text = "badze buda hii larisyõ " 
+        intervals [231]:
+            xmin = 1113.0155164956077 
+            xmax = 1115.170533497087 
+            text = "" 
+        intervals [232]:
+            xmin = 1115.170533497087 
+            xmax = 1118.8126204397488 
+            text = "badzebuda luirõ... lurisyõ " 
+        intervals [233]:
+            xmin = 1118.8126204397488 
+            xmax = 1121.494332833996 
+            text = "" 
+        intervals [234]:
+            xmin = 1121.494332833996 
+            xmax = 1124.2171261552921 
+            text = "maemae kri tsodzo khrõrisyõ botala " 
+        intervals [235]:
+            xmin = 1124.2171261552921 
+            xmax = 1125.9167696018974 
+            text = "" 
+        intervals [236]:
+            xmin = 1125.9167696018974 
+            xmax = 1128.0430746955901 
+            text = "budzyukuyu nihi lai ngirisyõ" 
+        intervals [237]:
+            xmin = 1128.0430746955901 
+            xmax = 1130.654229753472 
+            text = "" 
+        intervals [238]:
+            xmin = 1130.654229753472 
+            xmax = 1132.8436924242053 
+            text = "maemae kri khualairõ aram larisyõ " 
+        intervals [239]:
+            xmin = 1132.8436924242053 
+            xmax = 1134.5437174190354 
+            text = "" 
+        intervals [240]:
+            xmin = 1134.5437174190354 
+            xmax = 1136.129674353605 
+            text = "budzyukuyu phiũrisyõ" 
+        intervals [241]:
+            xmin = 1136.129674353605 
+            xmax = 1405.08 
+            text = "" 

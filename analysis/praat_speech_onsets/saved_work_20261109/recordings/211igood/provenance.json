@@ -1,0 +1,78 @@
+{
+  "pipeline_version": 3,
+  "registered_at_utc": "2026-10-29T12:34:25.615212+00:00",
+  "session_id": "42ea4c8b3226daccd0fbde111eba72e7c462773a80ab5ee630c2ebc843dca467",
+  "channel": "AUX1",
+  "source_files": [
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\211i\\211igood.vhdr",
+      "sha256": "b6b30842618cabae1dc6386d5fbe8a40d807c7539e85688d14e141ad319596a7"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\211i\\211igood.vmrk",
+      "sha256": "dfa080b9f962975eb3600f7af90950ecd8675a53201e5f141ef70b24df115718"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\211i\\211good_l1_2026-08-22_04h56.14.459-20261029T123023Z-1-001\\211good_l1_2026-08-22_04h56.14.459\\eeg_triggers.csv",
+      "sha256": "0df30d32c4c1cca3c99451530847b375197f84855807c1da301ebfa0db80c1df"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Documents\\Ergativity EEG\\gurung-stimuli\\isolated part\\Conds\\isolated_main_list1_all_120.csv",
+      "sha256": "e950913d619ac3b704d95f7a62015a09d458dfa50b9115aa9e2a3097f2971f20"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Documents\\Ergativity EEG\\gurung-stimuli\\isolated part\\Conds\\isolated_practice.csv",
+      "sha256": "10737f6e853b174d2384164af84acf01444a1a63f0daa3b710312fb3d315e777"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\211i\\211good_l1_2026-08-22_04h56.14.459-20261029T123023Z-1-001\\211good_l1_2026-08-22_04h56.14.459\\recording_segments.csv",
+      "sha256": "c9a0ed77f9211a9f6cc769217044bcba86a9a02064513255c56e47055328340e"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\211i\\211good_l1_2026-08-22_04h56.14.459-20261029T123023Z-1-001\\211good_l1_2026-08-22_04h56.14.459\\full_session.wav",
+      "sha256": "7c341ecdfdb3446ef3797ca3cb1397fec8aecfc2f8cbd6aa9992146cbbee001e"
+    },
+    {
+      "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\211i\\211igood.eeg",
+      "sha256": "5bd0948c2e590268f99f86515b91e721ba4f2a4482c7b0e2cfd7d32f79575865",
+      "bytes": 1882137600
+    }
+  ],
+  "stimtrak_wav": {
+    "path": "C:\\Users\\Sofya\\Desktop\\EEG recs\\211igood\\211igood.wav",
+    "sha256": "5fb9a3b50ae66a286d1dce6af121d18c0d3dd66ce868534584eec533a445eb99"
+  },
+  "initial_textgrid_sha256": "d5ac6694e2db0d95c7730bbb228f7abbaebfcdd3101915b19b1dc6729eb0cb3f",
+  "extraction": {
+    "source_header": "C:\\Users\\Sofya\\Desktop\\EEG recs\\211i\\211igood.vhdr",
+    "source_data": "C:\\Users\\Sofya\\Desktop\\EEG recs\\211i\\211igood.eeg",
+    "source_markers": "C:\\Users\\Sofya\\Desktop\\EEG recs\\211i\\211igood.vmrk",
+    "channel": "AUX1",
+    "sampling_rate_hz": 10000.0,
+    "sample_count": 14704200,
+    "duration_seconds": 1470.42,
+    "marker_count": 486,
+    "wav_format": "mono 16-bit PCM",
+    "peak_before_scaling": 4.996794284856,
+    "normalization": "one constant gain; peak set to 95% of 32767",
+    "time_origin": "first recorded sample; no cropping, filtering, or resampling",
+    "marker_time_formula": "(position_1based - 1) / sampling_rate_hz",
+    "textgrid_markers": "all marker onsets retained; compact S/R codes; full marker metadata in TSV",
+    "marker_duration_and_channel": "preserved in the TSV, not represented by point-tier duration",
+    "mne_version": "1.13.2",
+    "numpy_version": "2.5.3",
+    "python_version": "3.14.4 | packaged by conda-forge | (main, Apr  8 2026, 02:08:03) [MSC v.1944 64 bit (AMD64)]"
+  },
+  "tool_sha256": {
+    "brainvision_to_praat.py": "10f4259aa57260d440ea9e98e8e85ae0c3882b7385c26f3a25ef5112f2e7eddd",
+    "server.py": "a1b865b38ef7a26489fd77bd025d6e3b8cfcc27390c1ddae47bc752abf24b3ea",
+    "annotations.py": "8715c2a42733fb03d74a9668fb91dcb39422d68e8b748bc71301e0ece422a469",
+    "import_recording.py": "4af2a2246f2e9ff4133577c3c21d26cb5bbc8ee333ff99670a21aa4afac0e521",
+    "praat_files.py": "dd5920490d5d77613cafe110f353aeb9d0e4046434cf2d9fcfb84150cb2d471d",
+    "pipeline_runtime.py": "d14f40527882524eb20c702a9f7fbf81261c704c6d6467cb0ad06efa7a126a6d"
+  },
+  "annotation_reader": "praatio==6.2.0",
+  "python_importer": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "timing": "Unchanged EEG samples; markers=(position_1based-1)/sample_rate; latency=marked onset-S200",
+  "praat_output_policy": "Working WAV and annotation TextGrid in Desktop/EEG recs/<recording>; existing files never overwritten"
+}
