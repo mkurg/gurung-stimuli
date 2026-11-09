@@ -148,5 +148,74 @@ class BackupTests(unittest.TestCase):
             self.recover()
 
 
+class MultipartBackupTests(BackupTests):
+    def setUp(self):
+        super().setUp()
+        self.session["eeg_parts"] = []
+        self.config["parts"] = []
+        for index, stem in enumerate(("001i", "001ipt2")):
+            part = {"vhdr": str(self.old_recordings / "001i" / (stem + ".vhdr")),
+                    "stimtrak_wav": str(self.old_recordings / "001i" / (stem + ".wav")),
+                    "textgrid": str(self.old_recordings / "001i" / (stem + "_annotations.TextGrid"))}
+            self.config["parts"].append(part)
+            self.session["eeg_parts"].append({"id": stem, "label": f"Part {index + 1}", "duration": 10,
+                "sample_rate": 10000, "wav": part["stimtrak_wav"], "textgrid": part["textgrid"]})
+            Path(part["textgrid"]).write_bytes(self.payload)
+            for root in (self.old_recordings, self.new_recordings):
+                (root / "001i" / (stem + ".wav")).write_bytes(b"unchanged AUX waveform")
+        for trigger in self.session["triggers"]:
+            trigger["eeg_part"] = "001i" if trigger["trial_id"] == "main-001" else "001ipt2"
+        for trial in self.session["trials"]:
+            trial["eeg_part"] = "001ipt2" if trial["id"] == "main-002" else "001i"
+        # Each grid must contain only that part's triggers, and its own annotations.
+        for index, part in enumerate(self.config["parts"]):
+            grid = annotation_grid([(2 if index == 0 else 6, "s")])
+            grid["tiers"][0]["entries"] = grid["tiers"][0]["entries"][index * 4:(index + 1) * 4]
+            Path(part["textgrid"]).write_text(annotations.textgrid_io.getTextgridAsStr(
+                grid, format="long_textgrid", includeBlankSpaces=True), encoding="utf-8")
+        self.payload = Path(self.config["textgrid"]).read_bytes()
+        (self.source / "trial_reference/session_config.json").write_bytes(work.json_bytes(self.config))
+
+        def build(config):
+            session = copy.deepcopy(self.session)
+            for part, paths in zip(session["eeg_parts"], config["parts"]):
+                part.update(wav=paths["stimtrak_wav"], textgrid=paths["textgrid"])
+            return session, {}
+        self.server.build_session = build
+        self.backup = self.root / "saved_multipart"
+        work.capture(self.source, self.old_recordings, self.backup)
+
+    def test_both_grids_and_part_config_survive_relocation(self):
+        self.recover()
+        config = work.read_json(self.workspace / "trial_reference/session_config.json")
+        self.assertEqual(len(config["parts"]), 2)
+        for before, after in zip(self.config["parts"], config["parts"]):
+            self.assertEqual(Path(before["textgrid"]).read_bytes(), Path(after["textgrid"]).read_bytes())
+            self.assertTrue(Path(after["vhdr"]).is_relative_to(self.new_recordings))
+        index = work.verify(self.backup)
+        self.assertEqual(len(index["recordings"]), 1)
+        self.assertEqual(len(index["recordings"][0]["annotation_parts"]), 2)
+
+    def test_changed_second_wav_is_rejected(self):
+        (self.new_recordings / "001i/001ipt2.wav").write_bytes(b"different waveform")
+        with self.assertRaisesRegex(ValueError, "Different StimTrak WAV"):
+            self.recover()
+        self.assertFalse((self.new_recordings / "001i/001i_annotations.TextGrid").exists())
+
+    def test_newer_second_grid_is_never_overwritten(self):
+        target = self.new_recordings / "001i/001ipt2_annotations.TextGrid"
+        target.write_bytes(b"newer second part annotations")
+        with self.assertRaisesRegex(ValueError, "Refusing to overwrite"):
+            self.recover()
+        self.assertEqual(target.read_bytes(), b"newer second part annotations")
+        self.assertFalse((self.new_recordings / "001i/001i_annotations.TextGrid").exists())
+
+    def test_backup_checksum_includes_exact_newlines(self):
+        index = work.verify(self.backup)
+        for part in self.config["parts"]:
+            relative = "recordings/001i/" + Path(part["textgrid"]).name
+            self.assertEqual(index["sha256"][relative], work.sha256(Path(part["textgrid"]).read_bytes()))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -68,7 +68,8 @@ def map_annotations(grid, session):
         "status": "missing_onset" if trial["kind"] == "main" else "no_eeg_triggers",
         "s200_eeg_s": s200.get(trial["id"]), "speech_onset_eeg_s": None,
         "latency_s": None, "latency_ms": None, "onset_count": 0,
-        "onset_points": [], "transcription": "", "intervals": [], "warnings": [],
+        "onset_points": [], "transcription": "", "intervals": [],
+        "warnings": [trial["recording_warning"]] if trial.get("recording_warning") else [],
     } for trial in session["trials"]}
     unassigned_points, unassigned_intervals = [], []
     previous = -math.inf
@@ -123,8 +124,11 @@ class AnnotationReader:
         self.snapshot_dir = Path(snapshot_dir) if snapshot_dir else None
         self.lock = threading.Lock()
         self.cached = None
+        self.multipart = MultipartAnnotationReader(session, snapshot_dir) if session.get("eeg_parts") else None
 
     def read(self):
+        if self.multipart is not None:
+            return self.multipart.read()
         with self.lock:
             base = {"session_id": self.session["session_id"], "path": str(self.path) if self.path else None,
                     "filename": self.path.name if self.path else None, "trials": {}}
@@ -168,6 +172,51 @@ class AnnotationReader:
                 return dict(base, state="error", message=f"TextGrid not synced: {error}")
 
 
+class MultipartAnnotationReader:
+    def __init__(self, session, snapshot_dir=None):
+        self.session = session
+        self.lock = threading.Lock()
+        self.readers = []
+        for part in session["eeg_parts"]:
+            local = {key: value for key, value in session.items() if key != "eeg_parts"}
+            local.update(duration=part["duration"], sample_rate=part["sample_rate"],
+                         triggers=[t for t in session["triggers"] if t["eeg_part"] == part["id"]],
+                         trials=[dict(t, end=t.get("annotation_end", t["end"]))
+                                 for t in session["trials"] if t.get("eeg_part") == part["id"]])
+            archive = Path(snapshot_dir) / part["id"] if snapshot_dir else None
+            self.readers.append((part, AnnotationReader(part["textgrid"], local, archive)))
+
+    def read(self):
+        with self.lock:
+            snapshots = [(part, reader.read()) for part, reader in self.readers]
+            sources = [dict(eeg_part=part["id"], label=part["label"],
+                            **{key: snap.get(key) for key in ("path", "filename", "sha256", "saved_at_utc", "state")})
+                       for part, snap in snapshots]
+            base = {"session_id": self.session["session_id"], "path": None,
+                    "filename": f"{self.session['recording']} ({len(sources)} TextGrids)", "parts": sources,
+                    "trials": {}, "mapping_version": 3}
+            failed = [(part, snap) for part, snap in snapshots if snap["state"] != "ready"]
+            if failed:
+                return dict(base, state="error", message="; ".join(f"{part['label']}: {snap['message']}" for part, snap in failed))
+            trials, points, intervals = {}, [], []
+            for part, snap in snapshots:
+                for tid, annotation in snap["trials"].items():
+                    if tid in trials:
+                        return dict(base, state="error", message=f"Trial assigned to more than one EEG part: {tid}")
+                    trials[tid] = dict(annotation, eeg_part=part["id"], textgrid_path=snap["path"],
+                                       textgrid_filename=snap["filename"], textgrid_sha256=snap["sha256"],
+                                       textgrid_saved_at_utc=snap["saved_at_utc"], annotation_mapping_version=3)
+                points.extend(dict(point, eeg_part=part["id"]) for point in snap["unassigned_onsets"])
+                intervals.extend(dict(interval, eeg_part=part["id"]) for interval in snap["unassigned_transcriptions"])
+            if set(trials) != {t["id"] for t in self.session["trials"]}:
+                return dict(base, state="error", message="Multipart TextGrids do not cover every trial exactly once.")
+            signature = json.dumps([(part["id"], snap["sha256"]) for part, snap in snapshots]).encode()
+            return dict(base, state="ready", trials=trials, sha256=hashlib.sha256(signature).hexdigest(),
+                        saved_at_utc=max(snap["saved_at_utc"] for _, snap in snapshots),
+                        unassigned_onsets=points, unassigned_transcriptions=intervals,
+                        message="Saved TextGrids synced on their original EEG-part timelines")
+
+
 def analysis_csv(session, decisions, annotations, ergative=None, need_help=None):
     if annotations["state"] != "ready":
         raise ValueError(annotations["message"])
@@ -181,8 +230,10 @@ def analysis_csv(session, decisions, annotations, ergative=None, need_help=None)
     writer.writeheader()
     for row in original:
         annotation = annotations["trials"][row["trial_id"]]
-        row.update(textgrid_path=annotations["path"], textgrid_sha256=annotations["sha256"],
-                   textgrid_saved_at_utc=annotations["saved_at_utc"], annotation_mapping_version=annotations["mapping_version"],
+        row.update(textgrid_path=annotation.get("textgrid_path", annotations["path"]),
+                   textgrid_sha256=annotation.get("textgrid_sha256", annotations["sha256"]),
+                   textgrid_saved_at_utc=annotation.get("textgrid_saved_at_utc", annotations["saved_at_utc"]),
+                   annotation_mapping_version=annotation.get("annotation_mapping_version", annotations["mapping_version"]),
                    s200_textgrid_eeg_s=annotation["s200_eeg_s"], speech_onset_eeg_s=annotation["speech_onset_eeg_s"],
                    speech_latency_s=annotation["latency_s"], speech_latency_ms=annotation["latency_ms"],
                    onset_count=annotation["onset_count"], annotation_status=annotation["status"],

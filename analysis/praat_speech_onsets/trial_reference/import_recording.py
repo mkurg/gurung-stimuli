@@ -110,6 +110,14 @@ def register(config, channel, library_root, log, export_metadata=None, builder=b
         provenance["trigger_reconciliation"] = reconciliation
     if session.get("full_recording", {}).get("unreadable_main_wavs"):
         provenance["main_audio_fallbacks"] = session["full_recording"]["unreadable_main_wavs"]
+    if session.get("eeg_parts"):
+        provenance["stimtrak_wavs"] = [{"eeg_part": part["id"], "path": part["wav"], "sha256": file_hash(part["wav"])}
+                                      for part in session["eeg_parts"]]
+        for part in session["eeg_parts"][1:]:
+            part_header = Path(part["vhdr"])
+            part_data = linked_file(part_header, read_brainvision_ini(part_header)["Common Infos"]["DataFile"])
+            provenance["source_files"].append({"path": str(part_data), "sha256": file_hash(part_data), "bytes": part_data.stat().st_size})
+        provenance["timing"] += "; EEG parts retain independent zero origins; no interruption duration reconstructed"
     atomic_json(destination / "config.json", config)
     atomic_json(destination / "manifest.json", session)
     atomic_json(destination / "provenance.json", provenance)

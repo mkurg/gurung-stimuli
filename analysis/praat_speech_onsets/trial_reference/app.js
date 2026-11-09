@@ -65,6 +65,10 @@ function refreshCounts(force = false) {
 const apiUrl = path => `${path}?session=${encodeURIComponent(state.session.session_id)}`;
 const roles = {target_onset: "Picture onset", condition: "Condition", item: "Item", end: "Trial end", session: "Session event"};
 const seconds = (value) => value == null ? "Not recorded" : `${value.toFixed(4)} s`;
+function praatFilesFor(trial) {
+  const files = state.session?.praat_files || {};
+  return files.parts?.find(part => part.id === trial?.eeg_part) || files;
+}
 const transcriptionText = text => text.replace(/\u02Dce/g, "\u1EBD").normalize("NFC");
 const icons = () => window.lucide?.createIcons();
 let toastTimer;
@@ -88,9 +92,9 @@ function updateAnnotations() {
   const snapshot = state.annotations;
   const ready = snapshot?.state === "ready";
   const annotation = ready ? snapshot.trials[state.selected] : null;
-  $("textgrid-name").textContent = snapshot?.filename || "No TextGrid configured";
-  $("textgrid-name").title = snapshot?.path || "";
-  $("annotation-sync").textContent = ready ? `Synced / saved ${new Date(snapshot.saved_at_utc).toLocaleTimeString()}` : snapshot?.message || "Loading saved TextGrid";
+  $("textgrid-name").textContent = annotation?.textgrid_filename || snapshot?.filename || "No TextGrid configured";
+  $("textgrid-name").title = annotation?.textgrid_path || snapshot?.path || "";
+  $("annotation-sync").textContent = ready ? `Synced / saved ${new Date(annotation?.textgrid_saved_at_utc || snapshot.saved_at_utc).toLocaleTimeString()}` : snapshot?.message || "Loading saved TextGrid";
   $("annotation-sync").classList.toggle("sync-error", !!snapshot && !ready);
   $("annotation-s200").textContent = annotation?.s200_eeg_s == null ? "--" : seconds(annotation.s200_eeg_s);
   $("speech-onset").textContent = annotation?.speech_onset_eeg_s == null ? "--" : seconds(annotation.speech_onset_eeg_s);
@@ -104,8 +108,8 @@ function updateAnnotations() {
   $("transcription-text").textContent = transcriptionText(annotation?.transcription || (ready ? "No saved transcription" : "Unavailable"));
   $("transcription-text").classList.toggle("no-transcription", !annotation?.transcription);
   const issues = ready ? [
-    ...snapshot.unassigned_onsets.map(point => `Unassigned onset: ${seconds(point.time)} (${point.label || "unlabelled"})`),
-    ...snapshot.unassigned_transcriptions.map(interval => `Unassigned transcription: ${seconds(interval.start)} - ${seconds(interval.end)}: ${transcriptionText(interval.text)}`),
+    ...snapshot.unassigned_onsets.map(point => `Unassigned onset${point.eeg_part ? ` (${point.eeg_part})` : ""}: ${seconds(point.time)} (${point.label || "unlabelled"})`),
+    ...snapshot.unassigned_transcriptions.map(interval => `Unassigned transcription${interval.eeg_part ? ` (${interval.eeg_part})` : ""}: ${seconds(interval.start)} - ${seconds(interval.end)}: ${transcriptionText(interval.text)}`),
   ] : [];
   $("annotation-issues").hidden = !issues.length;
   $("annotation-issue-count").textContent = `${issues.length} unassigned annotations in session`;
@@ -264,7 +268,7 @@ function queryMatch(trial, query) {
   const number = q.match(/^(?:trial|practice)\s*0*(\d+)$/);
   if (number) return trial.number === Number(number[1]);
   const time = q.match(/^(\d+\.\d+)\s*s?$/) || q.match(/^(\d+)\s*s$/);
-  if (time) return trial.start != null && trial.start <= Number(time[1]) && trial.end >= Number(time[1]);
+  if (time) return trial.start != null && trial.start <= Number(time[1]) && (trial.annotation_end ?? trial.end) >= Number(time[1]);
   if (/^\d+$/.test(q)) return trial.number === Number(q) || trial.item === Number(q);
   return transcriptionText([trial.audio_filename, trial.scene, trial.condition, trial.id, state.annotations?.trials?.[trial.id]?.transcription || "", ...trial.triggers.map(t => t.label)].join(" ").toLowerCase()).includes(q);
 }
@@ -305,6 +309,7 @@ function rowElement(entry, isEvent) {
   const time = document.createElement("span"); time.className = "row-time"; time.textContent = isEvent ? entry.time.toFixed(4) : entry.start?.toFixed(4) ?? "--";
   const sub = document.createElement("span"); sub.className = "row-sub";
   sub.textContent = isEvent ? `${entry.marker_id} / ${entry.label}` : entry.kind === "main" ? `S ${entry.item} / image ${entry.image_set}, set ${entry.stimulus_set} / ${entry.condition}` : entry.scene;
+  if (entry.eeg_part_label || entry.eeg_part) sub.textContent += ` / ${entry.eeg_part_label || entry.eeg_part}`;
   button.append(title, time, sub);
   button.addEventListener("click", () => isEvent ? selectEvent(entry) : selectTrial(entry));
   return button;
@@ -324,14 +329,16 @@ function renderList() {
 }
 function triggerTable(triggers) {
   const table = document.createElement("table");
-  table.innerHTML = '<thead><tr><th>Role</th><th>Code</th><th class="numeric">EEG time (s)</th><th>Marker</th></tr></thead>';
+  const multipart = triggers.some(trigger => trigger.eeg_part);
+  table.innerHTML = `<thead><tr><th>Role</th><th>Code</th>${multipart ? "<th>EEG part</th>" : ""}<th class="numeric">EEG time (s)</th><th>Marker</th></tr></thead>`;
   const body = document.createElement("tbody");
   for (const trigger of triggers) {
     const row = document.createElement("tr");
     if (trigger.role === "target_onset") row.classList.add("onset-row");
     const q = state.query.trim().toLowerCase();
     if (q.replace(/\s/g, "") === trigger.display.toLowerCase().replace(/\s/g,"" ) || q === trigger.marker_id.toLowerCase()) row.classList.add("highlight-row");
-    for (const [value, style] of [[roles[trigger.role] || trigger.role,""], [trigger.display,"code"], [trigger.time.toFixed(4),"numeric"], [trigger.marker_id,"marker"]]) {
+    for (const [value, style] of [[roles[trigger.role] || trigger.role,""], [trigger.display,"code"],
+      ...(multipart ? [[trigger.eeg_part || "", ""]] : []), [trigger.time.toFixed(4),"numeric"], [trigger.source_marker_id || trigger.marker_id,"marker"]]) {
       const cell = document.createElement("td"); cell.className = style; cell.textContent = value;
       if (style === "numeric") { cell.title = `Copy ${trigger.time.toFixed(4)} seconds`; cell.style.cursor = "pointer"; cell.addEventListener("click", () => copy(trigger.time.toFixed(4))); }
       body.append(row); row.append(cell);
@@ -349,7 +356,7 @@ function selectTrial(trial, update = true) {
   state.selected = trial.id; state.marker = null;
   $("audio-error").hidden = true; configurePlayback(trial);
   $("trial-content").hidden = false; $("event-content").hidden = true;
-  $("phase").textContent = `${trial.kind.toUpperCase()} / ${state.session.recording}`;
+  $("phase").textContent = `${trial.kind.toUpperCase()} / ${state.session.recording}${trial.eeg_part_label ? ` / ${trial.eeg_part_label}` : ""}`;
   $("trial-title").textContent = `${trial.kind === "main" ? "Trial" : "Practice"} ${String(trial.number).padStart(3,"0")}`;
   $("picture").src = trial.image; $("picture").alt = trial.scene;
   $("scene").textContent = trial.scene;
@@ -364,11 +371,15 @@ function selectTrial(trial, update = true) {
   else { const p = document.createElement("p"); p.className = "empty"; p.textContent = "Practice: no trial triggers were recorded."; $("trigger-table").append(p); }
   $("condition").textContent = trial.condition;
   $("image-set").textContent = trial.image_set == null ? "Practice" : `${trial.image_set} / set ${trial.stimulus_set}`;
-  $("stimulus-onset").textContent = seconds(trial.start); $("trial-end").textContent = seconds(trial.end);
-  $("praat-wav-path").textContent = state.session.praat_files?.wav || "";
-  $("praat-grid-path").textContent = state.session.praat_files?.textgrid || "";
-  $("selection-notice").hidden = trial.kind !== "practice";
-  $("selection-notice").textContent = "Practice picture from the sequential experiment table. No EEG onset timestamp assigned.";
+  $("stimulus-onset").textContent = seconds(trial.start);
+  $("trial-end").textContent = trial.recording_interrupted ? `${seconds(trial.end_in_eeg_part)} (${trial.end_eeg_part})` : seconds(trial.end);
+  const praat = praatFilesFor(trial);
+  $("praat-wav-path").textContent = praat.wav || "";
+  $("praat-grid-path").textContent = praat.textgrid || "";
+  $("selection-notice").hidden = trial.kind !== "practice" && !trial.recording_interrupted;
+  $("selection-notice").textContent = trial.recording_interrupted
+    ? `EEG interruption: this trial starts in ${trial.eeg_part} and ends in ${trial.end_eeg_part}.`
+    : "Practice picture from the sequential experiment table. No EEG onset timestamp assigned.";
   updateReviewControl();
   updateAnnotations();
   if (update) updateLocation(trial.id);
@@ -464,7 +475,7 @@ async function loadSession(sessionId, desiredTrial = null) {
     state.saveErrors = {}; state.query = ""; state.reviewFilter = "all"; $("search").value = ""; $("review-filter").value = "all";
     document.title = `${state.session.recording} | Trial Reference`;
     $("session-name").textContent = `${state.session.recording} / list ${state.session.list}`;
-    $("recording-info").textContent = `${state.session.recording} / ${state.session.sample_rate.toLocaleString()} Hz`;
+    $("recording-info").textContent = `${state.session.recording} / ${state.session.sample_rate.toLocaleString()} Hz${state.session.eeg_parts ? ` / ${state.session.eeg_parts.length} EEG parts` : ""}`;
     $("main-count").textContent = state.session.validation.main_trials; $("practice-count").textContent = state.session.validation.practice_trials;
     $("validation-status").textContent = `${state.session.validation.matched_triggers} EEG triggers matched / ${state.session.validation.main_trials} main trials`;
     let saved; try { saved = localStorage.getItem(`trial-reference-${state.session.session_id}`) || localStorage.getItem(`trial-reference-${state.session.recording}`); } catch {}

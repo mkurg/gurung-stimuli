@@ -40,6 +40,28 @@ test("trial sidebar fills the remaining viewport without covering the footer", (
   assert.equal(run("trialSidebarHeight(600, 700, 1600)"), 0);
 });
 
+test("multipart trials select their own Praat files without changing the session", () => {
+  const {run} = app();
+  run(`state.session = {praat_files: {wav: "first.wav", textgrid: "first.TextGrid", parts: [
+    {id: "203i", wav: "first.wav", textgrid: "first.TextGrid"},
+    {id: "203ipt2", wav: "second.wav", textgrid: "second.TextGrid"}]}};`);
+  assert.equal(run('praatFilesFor({eeg_part: "203ipt2"}).textgrid'), "second.TextGrid");
+  assert.equal(run('praatFilesFor({eeg_part: "203i"}).wav'), "first.wav");
+  assert.equal(run('praatFilesFor({}).textgrid'), "first.TextGrid");
+});
+
+test("multipart annotations display the source TextGrid of the selected trial", () => {
+  const {run, elements} = app();
+  run(`state.selected = "main-014";
+    state.annotations = {state: "ready", filename: "203i (2 TextGrids)", saved_at_utc: "2026-10-28T10:00:00Z",
+      trials: {"main-014": {transcription: "second part", textgrid_filename: "203ipt2_annotations.TextGrid",
+        textgrid_path: "second.TextGrid", textgrid_saved_at_utc: "2026-10-28T09:00:00Z"}},
+      unassigned_onsets: [], unassigned_transcriptions: []};
+    updateAnnotations();`);
+  assert.equal(elements.get("textgrid-name").textContent, "203ipt2_annotations.TextGrid");
+  assert.equal(elements.get("textgrid-name").title, "second.TextGrid");
+});
+
 test("renders all legacy tilde-e pairs as e with tilde above", () => {
   const {run} = app();
   assert.equal(run('transcriptionText("phr\\u02Dcesi \\u02Dce \\u02Dce")'), "phr\u1EBDsi \u1EBD \u1EBD");

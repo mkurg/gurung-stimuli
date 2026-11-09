@@ -63,6 +63,59 @@ class ReferenceTests(unittest.TestCase):
         self.assertEqual(len(linked), 8)
         self.assertEqual(reconciliation, {})
 
+    def retained_closed_rest_fixture(self):
+        markers, logged = self.split_recording_fixture()
+        for row, time in zip(logged, [100, 220, 300, 420, *range(440, 448)]):
+            row["core_time"] = str(time)
+        logged[4]["label"] = "isolated_trial001_target_onset"
+        first_trial = markers[0]["onset_seconds"]
+        rest = [{"type": "Stimulus", "description": "S150", "marker_id": f"Rest{i}",
+                 "onset_seconds": time, "position_1based": round(time * 10000) + 1}
+                for i, time in enumerate((first_trial - 140, first_trial - 20))]
+        return rest + markers, logged
+
+    def test_unrecorded_open_rest_pair_retains_closed_rest_and_trial_times(self):
+        markers, logged = self.retained_closed_rest_fixture()
+        before = copy.deepcopy((markers, logged))
+        reconciliation = {}
+        linked = match_trigger_sequence(markers, logged, reconciliation)
+        self.assertEqual([row["log_index"] for row in linked[:3]], [3, 4, 5])
+        self.assertEqual([row["label"] for row in linked[:2]], ["rest_eyes_closed_start", "rest_eyes_closed_finish"])
+        self.assertEqual([row["time"] for row in linked], [row["onset_seconds"] for row in markers])
+        self.assertEqual(len(reconciliation["unrecorded_initial_rest"]), 2)
+        self.assertLess(reconciliation["retained_rest_timing_check"]["max_interval_error_seconds"], 1e-8)
+        self.assertEqual((markers, logged), before)
+
+    def test_identical_rest_codes_need_correct_relative_timing_not_a_suffix_guess(self):
+        markers, logged = self.retained_closed_rest_fixture()
+        for marker in markers[2:]:
+            marker["onset_seconds"] += 200
+        reconciliation = {}
+        with self.assertRaisesRegex(ValueError, "Retained rest timing does not match"):
+            match_trigger_sequence(markers, logged, reconciliation)
+        self.assertEqual(reconciliation, {})
+
+    def test_retained_rest_check_is_independent_of_absolute_clock_offset(self):
+        markers, logged = self.retained_closed_rest_fixture()
+        for row in logged:
+            row["core_time"] = str(float(row["core_time"]) + 5000)
+        linked = match_trigger_sequence(markers, logged)
+        self.assertEqual(linked[2]["time"], markers[2]["onset_seconds"])
+
+    def test_retained_rest_requires_finite_ordered_log_timestamps(self):
+        for bad in (None, "nan", "infinity", "not a time", "500"):
+            markers, logged = self.retained_closed_rest_fixture()
+            logged[2]["core_time"] = bad
+            with self.subTest(time=bad), self.assertRaisesRegex(ValueError, "Cannot validate retained rest timing"):
+                match_trigger_sequence(markers, logged)
+
+    def test_two_missing_markers_cannot_be_trial_markers(self):
+        markers, logged = self.retained_closed_rest_fixture()
+        markers = markers[2:]
+        logged = logged[2:]
+        with self.assertRaisesRegex(ValueError, "counts disagree"):
+            match_trigger_sequence(markers, logged)
+
     def test_sequence_requires_matching_count(self):
         with self.assertRaisesRegex(ValueError, "counts disagree"):
             match_trigger_sequence([], [{"serial_sent": "1"}])

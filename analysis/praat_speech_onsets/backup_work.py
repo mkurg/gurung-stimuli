@@ -1,6 +1,7 @@
 """Capture saved annotation work, or reconnect it on another device."""
 
 import argparse
+import copy
 import hashlib
 import json
 import re
@@ -79,6 +80,51 @@ def decisions(database, session_id):
     return unsuitable, flags["ergative"], flags["need_help"]
 
 
+def map_saved_grids(annotations, session, paths):
+    local = copy.deepcopy(session)
+    if local.get("eeg_parts"):
+        for part in local["eeg_parts"]:
+            part["textgrid"] = str(paths[part["id"]])
+    return annotations.AnnotationReader(next(iter(paths.values())), local).read()
+
+
+def capture_grids(annotations, server, config, session, directory):
+    parts = session.get("eeg_parts") or [{"id": session["recording"], "textgrid": config["textgrid"], "wav": config["stimtrak_wav"]}]
+    saved, records = {}, []
+    for part in parts:
+        path = Path(part["textgrid"])
+        payload = stable_bytes(path)
+        name = f"{part['id']}_annotations.TextGrid"
+        saved[part["id"]] = directory / name
+        saved[part["id"]].write_bytes(payload)
+        records.append({"eeg_part": part["id"], "textgrid": name, "annotation_sha256": sha256(payload),
+                        "stimtrak_wav_sha256": server.file_hash(part["wav"])})
+    mapped = map_saved_grids(annotations, session, saved)
+    if mapped["state"] != "ready":
+        raise ValueError(f"Invalid saved annotations for {session['recording']}: {mapped.get('message')}")
+    if session.get("eeg_parts"):
+        originals = {part["id"]: Path(part["textgrid"]) for part in parts}
+        for source, record in zip(mapped["parts"], records):
+            if source["eeg_part"] != record["eeg_part"] or source["sha256"] != record["annotation_sha256"]:
+                raise ValueError("Saved multipart annotation checksum mismatch.")
+            path = originals[source["eeg_part"]]
+            source.update(path=str(path), filename=path.name,
+                          saved_at_utc=datetime.fromtimestamp(path.stat().st_mtime, timezone.utc).isoformat())
+        sources = {part["eeg_part"]: part for part in mapped["parts"]}
+        for trial in mapped["trials"].values():
+            source = sources[trial["eeg_part"]]
+            trial.update(textgrid_path=source["path"], textgrid_filename=source["filename"],
+                         textgrid_saved_at_utc=source["saved_at_utc"])
+        mapped["saved_at_utc"] = max(part["saved_at_utc"] for part in mapped["parts"])
+    else:
+        if mapped["sha256"] != records[0]["annotation_sha256"]:
+            raise ValueError("Saved annotation checksum mismatch.")
+        path = Path(config["textgrid"])
+        mapped.update(path=str(path), filename=path.name,
+                      saved_at_utc=datetime.fromtimestamp(path.stat().st_mtime, timezone.utc).isoformat())
+    return mapped, records
+
+
 def capture(source, recordings_root, output):
     source, recordings_root, output = (Path(p).resolve() for p in (source, recordings_root, output))
     if output.exists():
@@ -113,17 +159,14 @@ def capture(source, recordings_root, output):
             if sid != original["session_id"] or [s["sha256"] for s in session["sources"]] != [s["sha256"] for s in original["sources"]]:
                 raise ValueError(f"Source identity changed since import: {recording}")
         relative_config = {key: Path(config[key]).resolve().relative_to(recordings_root).as_posix() for key in PATH_KEYS}
+        if config.get("parts"):
+            relative_config["parts"] = [{key: Path(part[key]).resolve().relative_to(recordings_root).as_posix()
+                                         for key in ("vhdr", "stimtrak_wav", "textgrid")} for part in config["parts"]]
         relative = Path("recordings") / recording
         directory = output / relative
         directory.mkdir(parents=True)
-        payload = stable_bytes(config["textgrid"])
-        grid_name = f"{recording}_annotations.TextGrid"
-        (directory / grid_name).write_bytes(payload)
-        mapped = annotations.AnnotationReader(directory / grid_name, session).read()
-        if mapped["state"] != "ready" or mapped["sha256"] != sha256(payload):
-            raise ValueError(f"Invalid saved annotations for {recording}: {mapped.get('message')}")
-        mapped.update(path=str(config["textgrid"]), filename=Path(config["textgrid"]).name,
-                      saved_at_utc=datetime.fromtimestamp(Path(config["textgrid"]).stat().st_mtime, timezone.utc).isoformat())
+        mapped, annotation_parts = capture_grids(annotations, server, config, session, directory)
+        grid_name = annotation_parts[0]["textgrid"]
         flags = decisions(database, sid)
         (directory / "session.json").write_bytes(json_bytes(session))
         (directory / "paths.json").write_bytes(json_bytes(relative_config))
@@ -156,10 +199,12 @@ def capture(source, recordings_root, output):
         entry = {"recording": recording, "session_id": sid, "directory": relative.as_posix(),
                  "textgrid": grid_name, "paths": relative_config, "main_trials": len(main),
                  "transcribed_trials": sum(bool(mapped["trials"][t["id"]]["transcription"].strip()) for t in main),
-                 "eligible_counts": counts, "annotation_sha256": sha256(payload),
+                 "eligible_counts": counts, "annotation_sha256": mapped["sha256"],
                  "stimtrak_wav_sha256": server.file_hash(config["stimtrak_wav"]),
                  "unassigned_onsets": len(mapped["unassigned_onsets"]),
                  "unassigned_transcriptions": len(mapped["unassigned_transcriptions"])}
+        if config.get("parts"):
+            entry["annotation_parts"] = annotation_parts
         entries.append(entry)
         print(f"Captured {recording}: {entry['transcribed_trials']} transcribed; {counts}")
     with closing(sqlite3.connect(database)) as db:
@@ -209,6 +254,9 @@ def restore(backup, recordings_root, workspace=ROOT, python=sys.executable, praa
     for entry in index["recordings"]:
         directory = checked_join(backup, entry["directory"])
         config = {key: str(checked_join(recordings_root, entry["paths"][key])) for key in PATH_KEYS}
+        if entry["paths"].get("parts"):
+            config["parts"] = [{key: str(checked_join(recordings_root, part[key]))
+                                for key in ("vhdr", "stimtrak_wav", "textgrid")} for part in entry["paths"]["parts"]]
         config.update(experiment_dir=str(experiment), lucide=str(viewer / "vendor" / "lucide" / "lucide.min.js"))
         try:
             session, _ = server.build_session(config)
@@ -221,11 +269,28 @@ def restore(backup, recordings_root, workspace=ROOT, python=sys.executable, praa
             raise ValueError(f"Source logs or stimulus tables differ: {entry['recording']}")
         if server.file_hash(config["stimtrak_wav"]) != entry["stimtrak_wav_sha256"]:
             raise ValueError(f"Different StimTrak WAV: {entry['recording']}")
-        grid_path = checked_join(directory, entry["textgrid"])
-        mapped = annotations.AnnotationReader(grid_path, session).read()
+        if session.get("eeg_parts"):
+            records = entry.get("annotation_parts", [])
+            if [p["eeg_part"] for p in records] != [p["id"] for p in session["eeg_parts"]]:
+                raise ValueError(f"Different EEG parts: {entry['recording']}")
+            grids = {}
+            for part, record in zip(session["eeg_parts"], records):
+                if server.file_hash(part["wav"]) != record["stimtrak_wav_sha256"]:
+                    raise ValueError(f"Different StimTrak WAV: {part['id']}")
+                path = checked_join(directory, record["textgrid"])
+                if sha256(path.read_bytes()) != record["annotation_sha256"]:
+                    raise ValueError(f"Different saved annotations: {part['id']}")
+                grids[part["id"]] = path
+                writes[Path(part["textgrid"])] = path.read_bytes()
+        else:
+            grid_path = checked_join(directory, entry["textgrid"])
+            grids = {session["recording"]: grid_path}
+            writes[Path(config["textgrid"])] = grid_path.read_bytes()
+        mapped = map_saved_grids(annotations, session, grids)
         if mapped["state"] != "ready":
             raise ValueError(mapped["message"])
-        writes[Path(config["textgrid"])] = grid_path.read_bytes()
+        if mapped["sha256"] != entry["annotation_sha256"]:
+            raise ValueError(f"Different saved annotation mapping: {entry['recording']}")
         registered = viewer / "recordings" / entry["session_id"][:20]
         writes[registered / "config.json"] = json_bytes(config)
         for name in ("registration.json", "provenance.json", "extraction_result.json"):

@@ -84,7 +84,8 @@ def suitability_csv(session, decisions, ergative=None, need_help=None):
     columns = ["session_id", "recording", "participant", "experiment_list", "phase", "trial_number", "trial_id",
                "item_trigger", "condition", "stimulus_onset_eeg_s", "trial_end_eeg_s", "psychopy_trial_wav",
                "unsuitable", "decision_saved", "updated_at_utc", "ergative", "ergative_decision_saved",
-               "ergative_updated_at_utc", "need_help", "need_help_decision_saved", "need_help_updated_at_utc"]
+               "ergative_updated_at_utc", "need_help", "need_help_decision_saved", "need_help_updated_at_utc",
+               "eeg_part", "trial_end_eeg_part", "trial_end_in_eeg_part_s", "recording_interrupted"]
     writer = csv.DictWriter(output, fieldnames=columns)
     writer.writeheader()
     for trial in session["trials"]:
@@ -102,5 +103,8 @@ def suitability_csv(session, decisions, ergative=None, need_help=None):
             "ergative_updated_at_utc": erg.get("updated_at_utc", ""),
             "need_help": int(help_flag.get("marked", False)), "need_help_decision_saved": int(bool(help_flag)),
             "need_help_updated_at_utc": help_flag.get("updated_at_utc", ""),
+            "eeg_part": trial.get("eeg_part", ""), "trial_end_eeg_part": trial.get("end_eeg_part", ""),
+            "trial_end_in_eeg_part_s": trial.get("end_in_eeg_part", trial["end"]),
+            "recording_interrupted": int(trial.get("recording_interrupted", False)),
         })
     return output.getvalue().encode("utf-8-sig")

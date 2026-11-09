@@ -30,8 +30,12 @@ back up the workflow folder, database, recording configs and annotation snapshot
 If the EEG file starts after the complete initial eyes-open/eyes-closed rest block,
 the importer accepts the four missing `S 150` log entries only when their labels
 are exactly the initial rest start/finish sequence and every remaining EEG trigger
-matches the sent log in order. Missing trial markers, partial rest blocks and other
-mismatches still stop the import. The unmatched rest entries are retained in the
+matches the sent log in order. It also accepts a missing complete initial eyes-open
+pair when the retained eyes-closed pair matches the logged intervals to trial 001
+within 50 ms. This interval comparison resolves identical `S 150` codes without
+changing EEG times or estimating a playback offset. Missing trial markers,
+incomplete pairs, missing timing evidence and other mismatches still stop the
+import. The unmatched rest entries are retained in the
 manifest and provenance without invented EEG times. EEG samples and all trial times
 remain unchanged. Recover the initial rest from its separate original recording,
 not from the later EEG file.
@@ -39,6 +43,30 @@ not from the later EEG file.
 For a split header such as `172ipt2.vhdr`, the working files are
 `Desktop/EEG recs/172i/172ipt2.wav` and `172ipt2_annotations.TextGrid` in the same
 folder. The viewer retains the actual source name `172ipt2`.
+
+## A Task Split Across Two EEG Files
+
+For a recording such as `203i.vhdr` followed by `203ipt2.vhdr`, keep both original
+file sets. Extract each AUX channel separately. The working pairs are
+`203i.wav` / `203i_annotations.TextGrid` and
+`203ipt2.wav` / `203ipt2_annotations.TextGrid`, all in `Desktop/EEG recs/203i/`.
+
+Register one configuration with an explicitly ordered `parts` array. Each part
+contains its own absolute `vhdr`, `stimtrak_wav` and `textgrid` paths. The top-level
+paths identify the first part; `audio_dir` and `experiment_dir` identify the
+shared PsychoPy session and stimulus folder. Use `import_recording.register`
+under `recording_library.import_lock` after preparing and validating both pairs.
+The ordinary single-header import form does not infer multiple recording parts.
+
+The combined trigger-code sequence must match the sent log. The viewer keeps
+each part's original clock, watches both TextGrids and switches the displayed
+Praat filename with the selected trial. SOL is always onset minus S 200 within
+one part. A trial crossing the interruption displays a warning; no gap duration
+or cross-part latency is invented. For 203i this is trial 013: its S 200 is in the
+first part and its S 202 is in the second. Trials 014–120 use the second pair.
+Save annotations in the corresponding TextGrid. The combined analysis export
+includes the source part, grid hash and interruption flag, and counts the
+recording once. Backup/restore preserves both grids under the one recording.
 
 ## An Unreadable Short Trial WAV
 

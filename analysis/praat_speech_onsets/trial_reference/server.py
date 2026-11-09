@@ -5,6 +5,7 @@ import csv
 import hashlib
 import io
 import json
+import math
 import mimetypes
 import os
 import re
@@ -46,11 +47,12 @@ def match_trigger_sequence(markers, logged, reconciliation=None):
     if len(recorded) != len(sent):
         initial_rest_labels = ("rest_eyes_open_start", "rest_eyes_open_finish",
                                "rest_eyes_closed_start", "rest_eyes_closed_finish")
-        # A restarted EEG file may omit the complete pre-task rest block, never trial markers.
-        if (recorded and len(sent) - len(recorded) == 4
+        missing_count = len(sent) - len(recorded)
+        # Only complete initial rest pairs may be absent; missing trial markers still fail.
+        if (recorded and missing_count in (2, 4)
                 and tuple(row.get("label") for row in sent[:4]) == initial_rest_labels
                 and all(row.get("trigger_code") == "150" for row in sent[:4])):
-            missing_rest, sent = sent[:4], sent[4:]
+            missing_rest, sent = sent[:missing_count], sent[missing_count:]
         else:
             raise ValueError(f"Trigger counts disagree: EEG {len(recorded)}, sent log {len(sent)}. No mapping made.")
     linked = []
@@ -63,6 +65,30 @@ def match_trigger_sequence(markers, logged, reconciliation=None):
             "time": marker["onset_seconds"], "sample_1based": marker["position_1based"],
             "label": row["label"], "log_index": int(row["trigger_index"]),
         })
+        if "eeg_part" in marker:
+            linked[-1].update(eeg_part=marker["eeg_part"], part_index=marker["part_index"],
+                              source_marker_id=marker["source_marker_id"])
+    rest_timing_check = None
+    if len(missing_rest) == 2:
+        # All rest codes are S150, so code order alone cannot identify the retained pair.
+        if (len(linked) < 3 or [row["code"] for row in linked[:3]] != [150, 150, 200]
+                or sent[2].get("label") != "isolated_trial001_target_onset"):
+            raise ValueError("Missing initial rest pair cannot be reconciled with retained eyes-closed markers and trial 001. No mapping made.")
+        try:
+            log_times = [float(row["core_time"]) for row in sent[:3]]
+            eeg_times = [row["time"] for row in linked[:3]]
+            if (not all(math.isfinite(value) for value in log_times + eeg_times)
+                    or not log_times[0] < log_times[1] < log_times[2]
+                    or not eeg_times[0] < eeg_times[1] < eeg_times[2]):
+                raise ValueError("Non-finite or unordered timestamps")
+        except (KeyError, TypeError, ValueError) as error:
+            raise ValueError("Cannot validate retained rest timing against the log. No mapping made.") from error
+        errors = [abs((eeg_times[2] - eeg_times[i]) - (log_times[2] - log_times[i])) for i in range(2)]
+        if max(errors) > .05:
+            raise ValueError("Retained rest timing does not match the eyes-closed log intervals to trial 001 (50 ms tolerance). No mapping made.")
+        rest_timing_check = {"anchor_log_index": int(sent[2]["trigger_index"]),
+                             "max_interval_error_seconds": max(errors), "tolerance_seconds": .05,
+                             "method": "Relative rest-to-first-trial intervals only; no EEG timestamps shifted."}
     if missing_rest and reconciliation is not None:
         reconciliation.update({
             "method": "exact_sequence_after_unrecorded_initial_rest",
@@ -74,6 +100,8 @@ def match_trigger_sequence(markers, logged, reconciliation=None):
                                         for row in missing_rest],
             "timing": "All mapped times are original EEG sample times. No timestamps were assigned to missing rest markers; no offset was applied.",
         })
+        if rest_timing_check is not None:
+            reconciliation["retained_rest_timing_check"] = rest_timing_check
     return linked
 
 
@@ -191,8 +219,8 @@ def attach_full_playback(trials, segment_rows, full_path, padding=3):
     return result
 
 
-def build_session(config):
-    vhdr, audio_dir, experiment = (Path(config[key]).resolve() for key in ("vhdr", "audio_dir", "experiment_dir"))
+def read_eeg_part(config):
+    vhdr = Path(config["vhdr"]).resolve()
     header = read_brainvision_ini(vhdr)
     common = header["Common Infos"]
     sfreq = 1e6 / float(common["SamplingInterval"])
@@ -210,13 +238,46 @@ def build_session(config):
     if remainder or count != sample_count:
         raise ValueError("StimTrak WAV sample count differs from the original EEG recording.")
     marker_file = linked_file(vhdr, common["MarkerFile"])
+    if linked_file(marker_file, read_brainvision_ini(marker_file)["Common Infos"]["DataFile"]) != data_file:
+        raise ValueError("EEG header and marker file point to different data files.")
     markers = read_markers(marker_file, count, int(common["NumberOfChannels"]), sfreq)
+    return {"id": vhdr.stem, "vhdr": str(vhdr), "marker_file": str(marker_file),
+            "wav": str(Path(config["stimtrak_wav"]).resolve()), "textgrid": config.get("textgrid"),
+            "sample_rate": sfreq, "sample_count": count, "duration": count / sfreq, "markers": markers}
+
+
+def build_session(config):
+    vhdr, audio_dir, experiment = (Path(config[key]).resolve() for key in ("vhdr", "audio_dir", "experiment_dir"))
+    part_configs = config.get("parts")
+    if part_configs is not None and (not isinstance(part_configs, list) or len(part_configs) < 2):
+        raise ValueError("A multipart recording requires at least two explicitly ordered EEG parts.")
+    eeg_parts = [read_eeg_part(part) for part in (part_configs or [config])]
+    multipart = part_configs is not None
+    if multipart:
+        if any(Path(config[key]).resolve() != Path(part_configs[0][key]).resolve()
+               for key in ("vhdr", "stimtrak_wav", "textgrid")):
+            raise ValueError("Primary EEG paths must identify the first recording part.")
+        names = [part["id"] for part in eeg_parts]
+        if len(set(names)) != len(names) or any(not re.fullmatch(r"[A-Za-z0-9_-]+", name) for name in names):
+            raise ValueError("EEG parts require distinct safe recording names.")
+        if len({part["sample_rate"] for part in eeg_parts}) != 1:
+            raise ValueError("EEG parts have different sampling rates; no resampling is performed.")
+    markers, sources = [], []
+    for index, part in enumerate(eeg_parts):
+        part["label"] = f"Part {index + 1}"
+        if multipart:
+            for marker in part["markers"]:
+                marker.update(eeg_part=part["id"], part_index=index, source_marker_id=marker["marker_id"])
+                marker["marker_id"] = f"{part['id']}:{marker['source_marker_id']}"
+        markers.extend(part["markers"])
+        sources.extend([Path(part["vhdr"]), Path(part["marker_file"])])
+    sfreq = eeg_parts[0]["sample_rate"]
     log_path = audio_dir / "eeg_triggers.csv"
     logged = rows(log_path)
     reconciliation = {}
     triggers = match_trigger_sequence(markers, logged, reconciliation)
     assets = {}
-    sources = [vhdr, marker_file, log_path]
+    sources.append(log_path)
 
     def asset(path, prefix):
         path = path.resolve()
@@ -283,7 +344,8 @@ def build_session(config):
         if int(condition["condition_trigger"]) != group["condition"]["code"]:
             raise ValueError(f"Condition trigger disagrees with picture table for trial {number}.")
         ordered = [group[role] for role in ("target_onset", "condition", "item", "end")]
-        if any(b["time"] <= a["time"] for a, b in zip(ordered, ordered[1:])):
+        if any((b.get("part_index", 0), b["time"]) <= (a.get("part_index", 0), a["time"])
+               for a, b in zip(ordered, ordered[1:])):
             raise ValueError(f"Trigger order invalid for trial {number}.")
         picture = (experiment / condition["target_image"]).resolve()
         trials.append({
@@ -296,6 +358,16 @@ def build_session(config):
             "triggers": ordered, "start": ordered[0]["time"], "end": ordered[-1]["time"],
             "item": item,
         })
+        if multipart:
+            first, last = ordered[0], ordered[-1]
+            owner = eeg_parts[first["part_index"]]
+            interrupted = first["eeg_part"] != last["eeg_part"]
+            trials[-1].update(eeg_part=owner["id"], eeg_part_label=owner["label"],
+                              end_eeg_part=last["eeg_part"], end_in_eeg_part=last["time"],
+                              recording_interrupted=interrupted)
+            if interrupted:
+                trials[-1].update(end=None, annotation_end=owner["duration"],
+                    recording_warning="This trial crosses an EEG recording interruption. SOL is available only for an onset saved in the same EEG part as S 200; no cross-part time is reconstructed.")
 
     practice_path = experiment / "Conds" / "isolated_practice.csv"
     sources.append(practice_path)
@@ -317,6 +389,8 @@ def build_session(config):
             "audio": asset(wav, "audio"), "audio_filename": wav.name, "audio_path": str(wav),
             "triggers": [], "start": None, "end": None, "item": None,
         })
+        if multipart:
+            trials[-1].update(eeg_part=eeg_parts[0]["id"], eeg_part_label=eeg_parts[0]["label"])
     for trigger in triggers:
         trigger.setdefault("role", "session")
         trigger.setdefault("trial_id", None)
@@ -329,12 +403,14 @@ def build_session(config):
     sources.extend([segments_path, full_path])
     source_records = [{"path": str(path), "sha256": file_hash(path)} for path in sources]
     # Content identity keeps decisions distinct while allowing recordings to be relocated.
-    identity = [source_records[index]["sha256"] for index in (0, 1, 2, len(source_records) - 1)]
+    identity = [source["sha256"] for source in source_records[:2 * len(eeg_parts) + 1]] + [source_records[-1]["sha256"]]
     session_id = hashlib.sha256(json.dumps(identity).encode()).hexdigest()
     return {
         "participant": participant, "list": list_number, "recording": vhdr.stem,
         "session_id": session_id,
-        "sample_rate": sfreq, "duration": count / sfreq, "trials": trials, "triggers": triggers,
+        "sample_rate": sfreq, "duration": sum(part["duration"] for part in eeg_parts), "trials": trials, "triggers": triggers,
+        **({"eeg_parts": [{key: value for key, value in part.items() if key != "markers"} for part in eeg_parts],
+            "timebase": "Separate original EEG timelines; duration is recorded data only, not elapsed time across interruptions."} if multipart else {}),
         "full_recording": full_recording,
         "trigger_reconciliation": reconciliation,
         "validation": {"matched_triggers": len(triggers), "main_trials": len(grouped),
@@ -520,10 +596,13 @@ def handler_class(session, assets, config, store, annotation_reader=None, librar
                     self.send_json({"error": str(error)}, status=404, head=head)
                     return
             if path == "/api/session":
+                praat_files = {"wav": active["config"].get("stimtrak_wav"), "textgrid": active["config"].get("textgrid")}
+                if current.get("eeg_parts"):
+                    praat_files["parts"] = [{key: part[key] for key in ("id", "label", "wav", "textgrid")} for part in current["eeg_parts"]]
                 self.send_json(dict(current, suitability=store.read(current["session_id"]),
                                     ergative=store.read_flags(current["session_id"], "ergative"),
                                     need_help=store.read_flags(current["session_id"], "need_help"),
-                                    praat_files={"wav": active["config"].get("stimtrak_wav"), "textgrid": active["config"].get("textgrid")}), head=head)
+                                    praat_files=praat_files), head=head)
                 return
             if path == "/api/annotations":
                 self.send_json(reader.read(), head=head)

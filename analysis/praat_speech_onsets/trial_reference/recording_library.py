@@ -129,6 +129,10 @@ class RecordingLibrary:
                     provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
                     if file_hash(config["stimtrak_wav"]) != provenance["stimtrak_wav"]["sha256"]:
                         raise ValueError("StimTrak WAV changed since import. Use the unchanged extraction.")
+                    if session.get("eeg_parts"):
+                        expected = {item["eeg_part"]: item["sha256"] for item in provenance.get("stimtrak_wavs", [])}
+                        if any(expected.get(part["id"]) != file_hash(part["wav"]) for part in session["eeg_parts"]):
+                            raise ValueError("A multipart StimTrak WAV changed or has no verified hash.")
                 loaded = bundle(session, assets, config, self.snapshot_root)
                 self.loaded[session_id] = loaded
                 self.errors.pop(session_id, None)
